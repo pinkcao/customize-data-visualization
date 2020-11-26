@@ -36,10 +36,10 @@
 
 <script>
 export default {
-  name: "testComponentA",
+  name: 'testComponentA',
   data() {
     return {
-      name: "compA",
+      name: 'compA',
       active: false,
       ifshow: false,
       width: 100,
@@ -51,30 +51,30 @@ export default {
       resizable: true,
       index: 0,
       mode: 'design'
-    };
+    }
   },
   computed: {
-    parentScaleX: function () {
-      if(this.mode == 'design') {
-        return this.$store.state.parentScale;
+    parentScaleX: function() {
+      if (this.mode == 'design') {
+        return this.$store.state.parentScale
       } else {
-        return 1;
+        return 1
       }
       // return this.$store.state.parentScaleX;
     },
-    parentScaleY: function () {
-      if(this.mode == 'design') {
-        return this.$store.state.parentScale;
+    parentScaleY: function() {
+      if (this.mode == 'design') {
+        return this.$store.state.parentScale
       } else {
-        return 1;
+        return 1
       }
     },
-    parentW: function () {
-      return this.$store.state.parentW;
+    parentW: function() {
+      return this.$store.state.parentW
     },
-    parentH: function () {
-      return this.$store.state.parentH;
-    },
+    parentH: function() {
+      return this.$store.state.parentH
+    }
   },
 
   created() {},
@@ -83,31 +83,29 @@ export default {
   },
   methods: {
     resize(newRect) {
-      this.width = newRect.width;
-      this.height = newRect.height;
-      this.top = newRect.top;
-      this.left = newRect.left;
+      this.width = newRect.width
+      this.height = newRect.height
+      this.top = newRect.top
+      this.left = newRect.left
       let propertyObj = {
         index: this.index,
         width: this.width,
         height: this.height,
         top: this.top,
         left: this.left
-      };
-      this.$store.commit('adjustComponent', propertyObj);
-      console.log('width:', this.width);
-      console.log('height:', this.height);
-      console.log('top:', this.top);
-      console.log('left', this.left);
-      
+      }
+      this.$store.commit('adjustComponent', propertyObj)
+      console.log('width:', this.width)
+      console.log('height:', this.height)
+      console.log('top:', this.top)
+      console.log('left', this.left)
     },
     onDeactivated() {
-      console.log("deactivated" + this.index);
+      console.log('deactivated' + this.index)
     },
-    activate() {},
-  },
-};
+    activate() {}
+  }
+}
 </script>
 
-<style>
-</style>
+<style></style>

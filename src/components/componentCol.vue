@@ -6,23 +6,11 @@
     </div>
     <!-- component-col-el-tab相当于wrapper,它可以解决无法覆盖ui组件的问题 -->
     <div class="component-col-el-tab" style="height: calc(100vh - 80px)">
-      <el-tabs
-        tab-position="left"
-        style="width: 100%; height: calc(100vh - 80px)"
-      >
+      <el-tabs tab-position="left" style="width: 100%; height: calc(100vh - 80px)">
         <el-tab-pane v-for="(data, index) in tabpanedata" :key="index">
-          <span slot="label"
-            ><i :style="iconstyle" :class="data.classname"></i
-          ></span>
-          <div
-            v-for="(data2, index2) in data.showData"
-            :key="index2"
-            class="collapse-panel"
-          >
-            <div
-              class="collapse-panel-header"
-              @click="data2.vshow = !data2.vshow"
-            >
+          <span slot="label"><i :style="iconstyle" :class="data.classname"></i></span>
+          <div v-for="(data2, index2) in data.showData" :key="index2" class="collapse-panel">
+            <div class="collapse-panel-header" @click="data2.vshow = !data2.vshow">
               <span style="font-size: 12px; margin-left: 20px">
                 {{ data2.text }}
               </span>
@@ -32,13 +20,7 @@
               <div v-show="data2.vshow">
                 <div class="collapse-panel-main">
                   <div class="collapse-panel-main-content">
-                    <div
-                      style="
-                        height: 500px;
-                        margin: 5px;
-                        background-color: aliceblue;
-                      "
-                    ></div>
+                    <div style="height: 500px; margin: 5px; background-color: aliceblue"></div>
                   </div>
                 </div>
               </div>
@@ -52,12 +34,12 @@
 
 <script>
 export default {
-  name: "componentCol",
+  name: 'componentCol',
   data() {
     return {
-      name: "组件列",
-      testData: "forDragTest",
-      testSonData: "",
+      name: '组件列',
+      testData: 'forDragTest',
+      testSonData: '',
       /*
           classname:icon图标名称，通过修改classname修改图标，查看el-icon可知具体classname，如果需要添加可以到阿里的icon库
           重新添加打包发布icon库
@@ -67,38 +49,38 @@ export default {
           */
       tabpanedata: [
         {
-          classname: "el-icon-date",
+          classname: 'el-icon-date',
           showData: [
             {
               vshow: true,
-              text: "ofctesttext1",
-              componentdetail: [],
+              text: 'ofctesttext1',
+              componentdetail: []
             },
             {
               vshow: false,
-              text: "ofctesttext2",
-              componentdetail: [],
-            },
-          ],
+              text: 'ofctesttext2',
+              componentdetail: []
+            }
+          ]
         },
         {
-          classname: "el-icon-camera",
+          classname: 'el-icon-camera',
           showData: [
             {
               vshow: false,
-              text: "ofctesttext3",
-              componentdetail: [],
+              text: 'ofctesttext3',
+              componentdetail: []
             },
             {
               vshow: false,
-              text: "ofctesttext4",
-              componentdetail: [],
-            },
-          ],
-        },
+              text: 'ofctesttext4',
+              componentdetail: []
+            }
+          ]
+        }
       ],
-      iconstyle: "color:aliceblue;",
-    };
+      iconstyle: 'color:aliceblue;'
+    }
   },
   computed: {},
 
@@ -107,19 +89,19 @@ export default {
 
   methods: {
     dragstarttest() {
-      console.log("dragstarts");
+      console.log('dragstarts')
       // this.$emit('receiveDataFromSon',this.name);
-      this.$store.commit("changeComponentNameToCanvas", this.name);
+      this.$store.commit('changeComponentNameToCanvas', this.name)
       /*
           将数据更新至vuex，全局保存，不然要写的组件传值实在是太多太多了。
           */
       // console.log(this.$store.state.componentNameToCanvas);
     },
     dragendtest() {
-      console.log("dragends");
-    },
-  },
-};
+      console.log('dragends')
+    }
+  }
+}
 </script>
 
 <style lang="less">

@@ -1,27 +1,27 @@
-import Vue from "vue";
-import Router from "vue-router";
-import basePage from "../views/basePage.vue";
-import preview from "../views/preview.vue"
+import Vue from 'vue'
+import Router from 'vue-router'
+import basePage from '../views/basePage.vue'
+import preview from '../views/preview.vue'
 
-Vue.use(Router);
+Vue.use(Router)
 
 export default new Router({
   routes: [
     {
-      path: "/",
-      name: "TestPage",
+      path: '/',
+      name: 'TestPage',
       // component: TestPage
-      redirect: "/basePage"
+      redirect: '/basePage'
     },
     {
-      path: "/basePage",
-      name: "basePage",
+      path: '/basePage',
+      name: 'basePage',
       component: basePage
     },
     {
-      path: "/preview",
-      name: "preview",
+      path: '/preview',
+      name: 'preview',
       component: preview
     }
   ]
-});
+})

@@ -8,17 +8,17 @@
 
 <script>
 export default {
-  name: "graphCol",
+  name: 'graphCol',
   data() {
-    return {};
+    return {}
   },
   computed: {},
 
   created() {},
   mounted() {},
 
-  methods: {},
-};
+  methods: {}
+}
 </script>
 
 <style scoped lang="less">

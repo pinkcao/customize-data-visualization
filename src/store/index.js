@@ -1,16 +1,16 @@
-import Vue from "vue";
-import Vuex from "vuex";
+import Vue from 'vue'
+import Vuex from 'vuex'
 
-Vue.use(Vuex);
+Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
     isLogin: false,
-    componentNameToCanvas: "",
-    componentUid: "",
+    componentNameToCanvas: '',
+    componentUid: '',
     componentList: [
       {
-        name: "compA",
+        name: 'compA',
         width: 200,
         height: 150,
         top: 10,
@@ -23,7 +23,7 @@ export default new Vuex.Store({
         index: 0
       },
       {
-        name: "compA",
+        name: 'compA',
         width: 100,
         height: 150,
         top: 500,
@@ -38,29 +38,29 @@ export default new Vuex.Store({
     ],
     //修正canvas规模、鼠标倍率
     parentScale: 0.35,
-    parentW: 1536,//这个调的时候记得+px
+    parentW: 1536, //这个调的时候记得+px
     parentH: 864,
-    position: "absolute"
+    position: 'absolute'
   },
   mutations: {
     changeLogin(state, isOK) {
-      state.isLogin = isOK;
+      state.isLogin = isOK
     },
 
     changeComponentNameToCanvas(state, compName) {
-      state.componentNameToCanvas = compName;
+      state.componentNameToCanvas = compName
     },
 
     changeComponentUid(state, uid) {
-      state.componentUid = uid;
+      state.componentUid = uid
     },
     adjustComponent(state, propertyObj) {
       for (let i = 0; i < state.componentList.length; i++) {
         if (propertyObj.index == state.componentList[i].index) {
-          state.componentList[i].width = propertyObj.width;
-          state.componentList[i].height = propertyObj.height;
-          state.componentList[i].top = propertyObj.top;
-          state.componentList[i].left = propertyObj.left;
+          state.componentList[i].width = propertyObj.width
+          state.componentList[i].height = propertyObj.height
+          state.componentList[i].top = propertyObj.top
+          state.componentList[i].left = propertyObj.left
         }
       }
     }
@@ -68,10 +68,10 @@ export default new Vuex.Store({
 
   getters: {
     getIsLogin(state) {
-      return state.isLogin;
+      return state.isLogin
     }
   },
 
   actions: {},
   modules: {}
-});
+})

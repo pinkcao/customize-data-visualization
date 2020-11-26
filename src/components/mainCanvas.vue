@@ -1,23 +1,17 @@
 <template>
-  <div
-    ref="target"
-    class="main-canvas-background"
-    :style="canvasStyle"
-    @drop="droptest"
-  >
-  </div>
+  <div ref="target" class="main-canvas-background" :style="canvasStyle" @drop="droptest"></div>
 </template>
 
 <script>
-import testComponentA from "./testComponentA.vue";
-import { mount } from "vue-mount";
-import testStyle from "../API/testStyle.js";
+import testComponentA from './testComponentA.vue'
+import { mount } from 'vue-mount'
+import testStyle from '../API/testStyle.js'
 
 export default {
   components: {
     // testComponentA,
   },
-  name: "mainCanvas",
+  name: 'mainCanvas',
   data() {
     return {
       // canvasStyle: {
@@ -26,32 +20,32 @@ export default {
       //   transform: "scale(0.3) translate(0px,0px)",
       //   position: "absolute",
       // },
-    };
+    }
   },
   computed: {
-    componentList: function () {
-      return this.$store.state.componentList;
+    componentList: function() {
+      return this.$store.state.componentList
     },
     canvasStyle: function() {
       // let width = this.$store.state.parentW;
       // let height =  this.$store.state.parentH;
       // let position = this.$store.state.position;
-      let parentScale = this.$store.state.parentScale;
+      let parentScale = this.$store.state.parentScale
       // let transform = `scale(${parentScale}) translate(0px, 0px)`;
       let result = {
         width: this.$store.state.parentW + 'px',
         height: this.$store.state.parentH + 'px',
         position: this.$store.state.position,
-        transform: `scale(${parentScale}) translate(0px, 0px)`,
-      };
-      console.log(result.transform);
+        transform: `scale(${parentScale}) translate(0px, 0px)`
+      }
+      console.log(result.transform)
       return result
     }
   },
-  props: ["componentName"],
+  props: ['componentName'],
   created() {},
   mounted() {
-    this.mountTest();
+    this.mountTest()
     console.log(window.screen.height)
     console.log(window.screen.width)
   },
@@ -61,46 +55,46 @@ export default {
         有object drop时则将获取其componentName，并将其输入至vuex，再传到这，根据对应值挂载。
         */
     droptest() {
-      if (this.$store.state.componentNameToCanvas == "组件列") {
-        let that = this;
+      if (this.$store.state.componentNameToCanvas == '组件列') {
+        let that = this
         mount(testComponentA, {
           target: this.$refs.target,
-          mode: "append",
+          mode: 'append',
           props: {
-            testProps: 123,
+            testProps: 123
           },
           data: {
             comstyle: testStyle.data().comstyle,
-            name: "compA",
+            name: 'compA',
             uid: that.comcount,
-            ifshow: true,
+            ifshow: true
           },
           on: {
             receiveDataFromSon(data) {
               // that.dataFromSon = data;
-              that.getMessage(data);
-            },
-          },
-        });
+              that.getMessage(data)
+            }
+          }
+        })
 
         this.mountTestData.push({
           comstyle: testStyle.data().comstyle,
-          name: "compA",
+          name: 'compA',
           uid: that.comcount,
-          ifshow: true,
-        });
+          ifshow: true
+        })
       }
-      this.$store.commit("changeComponentNameToCanvas", "");
+      this.$store.commit('changeComponentNameToCanvas', '')
     },
 
     mountTest() {
-      let currentData = this.componentList;
-      let that = this;
+      let currentData = this.componentList
+      let that = this
       for (let i = 0; i < currentData.length; i++) {
-        if (currentData[i].name == "compA") {
+        if (currentData[i].name == 'compA') {
           mount(testComponentA, {
             target: this.$refs.target,
-            mode: "append",
+            mode: 'append',
             props: {},
             data: {
               index: currentData[i].index,
@@ -115,16 +109,16 @@ export default {
               resizable: currentData[i].resizable,
               parentLimitation: currentData[i].parentLimitation,
               active: currentData[i].active,
-              $store: this.$store,
+              $store: this.$store
               //重新挂载后无法访问到全局的this.$store,需要对$store重定向
             },
-            on: {},
-          });
+            on: {}
+          })
         }
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>
 
 <style scoped>

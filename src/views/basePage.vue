@@ -39,30 +39,18 @@
         </el-aside>
         <el-aside width="auto">
           <div ref="compCol" class="transition-box-comp">
-            <componentCol
-              :divData="divData"
-              @receiveDataFromSon="getMessage"
-            ></componentCol>
+            <componentCol :divData="divData" @receiveDataFromSon="getMessage"></componentCol>
           </div>
         </el-aside>
         <el-main>
-          <div
-            @dragenter="dragovertest2"
-            @dragover="allowdrag"
-            @click="clicktest"
-            class="main-panel-wp"
-          >
+          <div @dragenter="dragovertest2" @dragover="allowdrag" @click="clicktest" class="main-panel-wp">
             <div class="canvas-main">
               <main-canvas> </main-canvas>
             </div>
           </div>
         </el-main>
         <el-aside width="auto">
-          <div
-            ref="pageCol"
-            :componentName="componentName"
-            class="transition-box-page"
-          >
+          <div ref="pageCol" :componentName="componentName" class="transition-box-page">
             <pageSet> </pageSet>
           </div>
         </el-aside>
@@ -72,26 +60,26 @@
 </template>
 
 <script>
-import echarts from "echarts";
-import * as THREE from "three";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader";
+import echarts from 'echarts'
+import * as THREE from 'three'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader'
 // import { FXAAShader } from "three/examples/jsm/shaders/FXAAShader.js";
-import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer.js";
-import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
-import { OutlinePass } from "three/examples/jsm/postprocessing/OutlinePass.js";
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js'
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
+import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass.js'
 // import { CopyShader } from "three/examples/jsm/shaders/CopyShader.js";
 // import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass.js";
-import Stats from "three/examples/jsm/libs/stats.module.js";
-import dat from "three/examples/js/libs/dat.gui.min.js";
-import componentCol from "../components/componentCol.vue";
-import testComponentA from "../components/testComponentA.vue";
-import { mount } from "vue-mount";
+import Stats from 'three/examples/jsm/libs/stats.module.js'
+import dat from 'three/examples/js/libs/dat.gui.min.js'
+import componentCol from '../components/componentCol.vue'
+import testComponentA from '../components/testComponentA.vue'
+import { mount } from 'vue-mount'
 // import mocktest from "../API/mockTest.js";
-import graphCol from "../components/graphCol.vue";
+import graphCol from '../components/graphCol.vue'
 // import testStyle from "../API/testStyle.js";
-import pageSet from "../components/pageSet.vue";
-import mainCanvas from "../components/mainCanvas.vue";
+import pageSet from '../components/pageSet.vue'
+import mainCanvas from '../components/mainCanvas.vue'
 
 export default {
   components: {
@@ -99,9 +87,9 @@ export default {
     // testComponentA,
     graphCol,
     pageSet,
-    mainCanvas,
+    mainCanvas
   },
-  name: "basePage",
+  name: 'basePage',
   data() {
     return {
       /*
@@ -132,18 +120,18 @@ export default {
       pageColActive: true,
 
       divData: {},
-      dataFromSon: "",
+      dataFromSon: '',
       // ShaderPass:new THREE.ShaderPass( THREE.FXAAShader ),
       /*
           div参数
           */
 
-      componentsfullwidth: "250px",
-      componentsemptywidth: "0px",
-      pagefullwidth: "350px",
-      pageemptywidth: "0px",
-      graphfullwidth: "200px",
-      graphemptywidth: "0px",
+      componentsfullwidth: '250px',
+      componentsemptywidth: '0px',
+      pagefullwidth: '350px',
+      pageemptywidth: '0px',
+      graphfullwidth: '200px',
+      graphemptywidth: '0px',
 
       // iconstyle:{
       //   color:'aliceblue',
@@ -152,33 +140,32 @@ export default {
       //   'justify-content':center,
       //   'margin-top':'7px',
       // },
-      iconstyle:
-        "color:aliceblue;display:flex;align-items: center;justify-content: center;margin-top: 7px",
-      componentName: "",
+      iconstyle: 'color:aliceblue;display:flex;align-items: center;justify-content: center;margin-top: 7px',
+      componentName: '',
       mountTestData: [
         {
           comstyle: {
-            width: "80px",
-            height: "80px",
-            position: "absolute",
+            width: '80px',
+            height: '80px',
+            position: 'absolute'
             // left:'500px',
             // top:'50px',
           },
-          name: "compA",
-          uid: "compA_1",
-          ifshow: true,
+          name: 'compA',
+          uid: 'compA_1',
+          ifshow: true
         },
         {
           comstyle: {
-            width: "90px",
-            height: "90px",
-            position: "absolute",
+            width: '90px',
+            height: '90px',
+            position: 'absolute'
           },
-          name: "compA",
-          uid: "compA_2",
-          ifshow: true,
-        },
-      ],
+          name: 'compA',
+          uid: 'compA_2',
+          ifshow: true
+        }
+      ]
       // ,{
       //   comstyle:{
       //     width:'100px',
@@ -189,32 +176,32 @@ export default {
       //   uid:'compA_003',
       //   ifshow:true,
       // }],
-    };
+    }
   },
   computed: {
-    comcount: function () {
-      return "comp_" + (this.mountTestData.length + 1);
+    comcount: function() {
+      return 'comp_' + (this.mountTestData.length + 1)
     },
-    graphisshown: function () {
+    graphisshown: function() {
       return {
-        "icon-box-left": this.graphColActive,
-        "icon-box-left-hide": !this.graphColActive,
-      };
+        'icon-box-left': this.graphColActive,
+        'icon-box-left-hide': !this.graphColActive
+      }
     },
 
-    compisshown: function () {
+    compisshown: function() {
       return {
-        "icon-box-left": this.compColActive,
-        "icon-box-left-hide": !this.compColActive,
-      };
+        'icon-box-left': this.compColActive,
+        'icon-box-left-hide': !this.compColActive
+      }
     },
 
-    pageisshown: function () {
+    pageisshown: function() {
       return {
-        "icon-box-left": this.pageColActive,
-        "icon-box-left-hide": !this.pageColActive,
-      };
-    },
+        'icon-box-left': this.pageColActive,
+        'icon-box-left-hide': !this.pageColActive
+      }
+    }
   },
 
   beforeCreate() {},
@@ -224,9 +211,9 @@ export default {
     /*
         初始化width保证立即响应
         */
-    this.$refs.graphCol.style.width = this.graphfullwidth;
-    this.$refs.compCol.style.width = this.componentsfullwidth;
-    this.$refs.pageCol.style.width = this.pagefullwidth;
+    this.$refs.graphCol.style.width = this.graphfullwidth
+    this.$refs.compCol.style.width = this.componentsfullwidth
+    this.$refs.pageCol.style.width = this.pagefullwidth
     // this.mountTest();
   },
 
@@ -237,66 +224,64 @@ export default {
     graphclicktest() {
       // console.log(this.$refs.graphCol.style.width);
       if (this.$refs.graphCol.style.width !== this.graphfullwidth) {
-        this.$refs.graphCol.style.width = this.graphfullwidth;
-        this.graphColActive = true;
+        this.$refs.graphCol.style.width = this.graphfullwidth
+        this.graphColActive = true
       } else {
-        this.$refs.graphCol.style.width = this.graphemptywidth;
-        this.graphColActive = false;
+        this.$refs.graphCol.style.width = this.graphemptywidth
+        this.graphColActive = false
       }
     },
 
     compclicktest() {
       if (this.$refs.compCol.style.width !== this.componentsfullwidth) {
-        this.$refs.compCol.style.width = this.componentsfullwidth;
-        this.compColActive = true;
+        this.$refs.compCol.style.width = this.componentsfullwidth
+        this.compColActive = true
       } else {
-        this.$refs.compCol.style.width = this.componentsemptywidth;
-        this.compColActive = false;
+        this.$refs.compCol.style.width = this.componentsemptywidth
+        this.compColActive = false
       }
     },
 
     pageclicktest() {
       if (this.$refs.pageCol.style.width !== this.pagefullwidth) {
-        this.$refs.pageCol.style.width = this.pagefullwidth;
-        this.pageColActive = true;
+        this.$refs.pageCol.style.width = this.pagefullwidth
+        this.pageColActive = true
       } else {
-        this.$refs.pageCol.style.width = this.pageemptywidth;
-        this.pageColActive = false;
+        this.$refs.pageCol.style.width = this.pageemptywidth
+        this.pageColActive = false
       }
     },
 
     allowdrag(event) {
-      event.preventDefault();
+      event.preventDefault()
     },
 
     dragstarttest(event) {
-      console.log("dragstarts");
-      this.originX = event.clientX;
-      this.originY = event.clientY;
+      console.log('dragstarts')
+      this.originX = event.clientX
+      this.originY = event.clientY
       // console.log(this.originX);
       // console.log(this.originY);
     },
     dragendtest(event) {
-      console.log("dragends");
-      var desX = event.clientX - this.originX;
-      var desY = event.clientY - this.originY;
-      console.log(desX);
-      console.log(desY);
+      console.log('dragends')
+      var desX = event.clientX - this.originX
+      var desY = event.clientY - this.originY
+      console.log(desX)
+      console.log(desY)
       /*
           拖拽元素计算坐标
           */
-      event.currentTarget.style.left =
-        event.currentTarget.getBoundingClientRect().left + desX + "px";
-      event.currentTarget.style.top =
-        event.currentTarget.getBoundingClientRect().top + desY + "px";
+      event.currentTarget.style.left = event.currentTarget.getBoundingClientRect().left + desX + 'px'
+      event.currentTarget.style.top = event.currentTarget.getBoundingClientRect().top + desY + 'px'
     },
 
     showDivData(event) {
-      console.log(event.currentTarget.getBoundingClientRect());
-      this.divData.right = event.currentTarget.getBoundingClientRect().right;
-      this.divData.left = event.currentTarget.getBoundingClientRect().left;
-      this.divData.top = event.currentTarget.getBoundingClientRect().top;
-      this.divData.bottom = event.currentTarget.getBoundingClientRect().bottom;
+      console.log(event.currentTarget.getBoundingClientRect())
+      this.divData.right = event.currentTarget.getBoundingClientRect().right
+      this.divData.left = event.currentTarget.getBoundingClientRect().left
+      this.divData.top = event.currentTarget.getBoundingClientRect().top
+      this.divData.bottom = event.currentTarget.getBoundingClientRect().bottom
       // console.log(this.divData);
     },
 
@@ -304,10 +289,10 @@ export default {
         这个方法需要分离一下
         */
     getMessage(data) {
-      this.dataFromSon = data;
+      this.dataFromSon = data
       for (let i = 0; i < this.mountTestData.length; i++) {
         if (this.mountTestData[i].uid == this.dataFromSon) {
-          this.mountTestData.splice(i, 1);
+          this.mountTestData.splice(i, 1)
         }
       }
     },
@@ -320,27 +305,27 @@ export default {
         2.根据组件列表在新界面进行挂载
         */
     mountTest() {
-      let currentData = this.mountTestData;
-      let that = this;
+      let currentData = this.mountTestData
+      let that = this
       for (let i = 0; i < currentData.length; i++) {
-        if (currentData[i].name == "compA") {
+        if (currentData[i].name == 'compA') {
           mount(testComponentA, {
             target: this.$refs.target,
-            mode: "append",
+            mode: 'append',
             props: {},
             data: {
               comstyle: currentData[i].comstyle,
               uid: currentData[i].uid,
               target: this.$refs.target,
-              ifshow: currentData[i].ifshow,
+              ifshow: currentData[i].ifshow
             },
             on: {
               receiveDataFromSon(data) {
                 // that.dataFromSon = data;
-                that.getMessage(data);
-              },
-            },
-          });
+                that.getMessage(data)
+              }
+            }
+          })
           // const testComponentA2 = mount(testComponentA, {
           //   target: this.$refs.target,
           //   mode: "append",
@@ -456,322 +441,314 @@ export default {
     dragovertest2() {},
 
     dragtest(event) {
-      event.currentTarget.style.left = event.clientX + "px";
-      event.currentTarget.style.top = event.clientY + "px";
-      console.log("dragging");
+      event.currentTarget.style.left = event.clientX + 'px'
+      event.currentTarget.style.top = event.clientY + 'px'
+      console.log('dragging')
     },
 
     clicktest() {},
 
     init() {
-      this.initcamera();
-      this.initScene();
-      this.initLight();
-      this.initRenderer();
-      this.initControls();
+      this.initcamera()
+      this.initScene()
+      this.initLight()
+      this.initRenderer()
+      this.initControls()
       // this.initGeometry();
       /*
           这个loader可以再封装，不过是从外部接数据可能需要再想想
           */
-      this.initloader(0, 0, 0);
-      this.initComposer();
-      this.initStats();
-      this.initGui();
+      this.initloader(0, 0, 0)
+      this.initComposer()
+      this.initStats()
+      this.initGui()
       // this.initEcharts();
 
       // this.effectFXAA = new ShaderPass(THREE.FXAAShader );
       // this.effectFXAA.uniforms[ 'resolution' ].value.set( 1 / window.innerWidth, 1 / window.innerHeight );
       // this.effectFXAA.renderToScreen = true;
       // this.composer.addPass( this.effectFXAA );
-      window.addEventListener("click", this.onMouseClick, false); //这里是选中box的监听
-      window.addEventListener("resize", this.onWindowResize, false); //这里是resize整个窗口的监听
+      window.addEventListener('click', this.onMouseClick, false) //这里是选中box的监听
+      window.addEventListener('resize', this.onWindowResize, false) //这里是resize整个窗口的监听
     },
 
     initcamera() {
-      this.camera = new THREE.PerspectiveCamera(
-        65,
-        window.innerWidth / window.innerHeight,
-        0.1,
-        10000
-      );
-      this.camera.position.set(0, 500, 1000);
+      this.camera = new THREE.PerspectiveCamera(65, window.innerWidth / window.innerHeight, 0.1, 10000)
+      this.camera.position.set(0, 500, 1000)
     },
 
     initScene() {
-      this.scene = new THREE.Scene();
+      this.scene = new THREE.Scene()
     },
     initLight() {
-      var directionalLight = new THREE.DirectionalLight(0xffffff, 0.3); //模拟远处类似太阳的光源
-      directionalLight.color.setHSL(0.1, 1, 0.95);
-      directionalLight.position.set(0, 200, 0).normalize();
-      this.scene.add(directionalLight);
+      var directionalLight = new THREE.DirectionalLight(0xffffff, 0.3) //模拟远处类似太阳的光源
+      directionalLight.color.setHSL(0.1, 1, 0.95)
+      directionalLight.position.set(0, 200, 0).normalize()
+      this.scene.add(directionalLight)
 
-      var ambient = new THREE.AmbientLight(0xffffff, 1); //AmbientLight,影响整个场景的光源
-      ambient.position.set(0, 0, 0);
-      this.scene.add(ambient);
+      var ambient = new THREE.AmbientLight(0xffffff, 1) //AmbientLight,影响整个场景的光源
+      ambient.position.set(0, 0, 0)
+      this.scene.add(ambient)
     },
     initRenderer() {
       this.renderer = new THREE.WebGLRenderer({
-        antialias: true,
-      });
-      this.renderer.shadowMap.enabled = true;
-      this.renderer.setSize(window.innerWidth - 15, window.innerHeight - 20);
-      this.renderer.setClearColor(0xffaaaa, 1.0);
-      document.body.appendChild(this.renderer.domElement);
+        antialias: true
+      })
+      this.renderer.shadowMap.enabled = true
+      this.renderer.setSize(window.innerWidth - 15, window.innerHeight - 20)
+      this.renderer.setClearColor(0xffaaaa, 1.0)
+      document.body.appendChild(this.renderer.domElement)
     },
     initControls() {
-      this.controls = new OrbitControls(this.camera, this.renderer.domElement);
-      this.controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
-      this.controls.dampingFactor = 0.2; //惯性旋转，默认0.25
+      this.controls = new OrbitControls(this.camera, this.renderer.domElement)
+      this.controls.enableDamping = true // an animation loop is required when either damping or auto-rotation are enabled
+      this.controls.dampingFactor = 0.2 //惯性旋转，默认0.25
 
-      this.controls.screenSpacePanning = false;
+      this.controls.screenSpacePanning = false
 
-      this.controls.minDistance = 1;
-      this.controls.maxDistance = 1500;
+      this.controls.minDistance = 1
+      this.controls.maxDistance = 1500
 
-      this.controls.maxPolarAngle = Math.PI / 2;
+      this.controls.maxPolarAngle = Math.PI / 2
       //控制垂直旋转的角度
     },
     initGeometry() {
-      let geometry = new THREE.BoxGeometry(50, 50, 50);
-      let material = new THREE.MeshNormalMaterial();
-      this.mesh = new THREE.Mesh(geometry, material);
-      this.scene.add(this.mesh);
+      let geometry = new THREE.BoxGeometry(50, 50, 50)
+      let material = new THREE.MeshNormalMaterial()
+      this.mesh = new THREE.Mesh(geometry, material)
+      this.scene.add(this.mesh)
     },
     initloader(x, y, z) {
-      this.loader = new FBXLoader();
+      this.loader = new FBXLoader()
       this.loader.load(
-        "/static/testbox3.FBX",
-        (object) => {
-          object.scale.multiplyScalar(1); // 缩放模型大小
-          object.position.set(x, y, z);
-          this.scene.add(object);
+        '/static/testbox3.FBX',
+        object => {
+          object.scale.multiplyScalar(1) // 缩放模型大小
+          object.position.set(x, y, z)
+          this.scene.add(object)
         },
         onprogress,
-        function (err) {
-          console.log(err);
+        function(err) {
+          console.log(err)
         }
-      );
+      )
     },
     initComposer() {
-      this.composer = new EffectComposer(this.renderer);
-      var renderPass = new RenderPass(this.scene, this.camera);
-      this.composer.addPass(renderPass);
+      this.composer = new EffectComposer(this.renderer)
+      var renderPass = new RenderPass(this.scene, this.camera)
+      this.composer.addPass(renderPass)
       this.outlinePass = new OutlinePass(
         new THREE.Vector2(window.innerWidth, window.innerHeight),
         this.scene,
         this.camera
-      );
-      this.outlinePass.edgeStrength = 5; //包围线浓度
-      this.outlinePass.edgeGlow = 2; //边缘线范围
-      this.outlinePass.edgeThickness = 2; //边缘线浓度
-      this.outlinePass.pulsePeriod = 2; //包围线闪烁频率
-      this.outlinePass.visibleEdgeColor.set("#00ffff"); //包围线颜色
-      this.outlinePass.hiddenEdgeColor.set("#190a05"); //被遮挡的边界线颜色
-      this.outlinePass.renderToScreen = true;
-      this.composer.addPass(this.outlinePass);
+      )
+      this.outlinePass.edgeStrength = 5 //包围线浓度
+      this.outlinePass.edgeGlow = 2 //边缘线范围
+      this.outlinePass.edgeThickness = 2 //边缘线浓度
+      this.outlinePass.pulsePeriod = 2 //包围线闪烁频率
+      this.outlinePass.visibleEdgeColor.set('#00ffff') //包围线颜色
+      this.outlinePass.hiddenEdgeColor.set('#190a05') //被遮挡的边界线颜色
+      this.outlinePass.renderToScreen = true
+      this.composer.addPass(this.outlinePass)
       /*
           可以加抗锯齿，但由于一些未知的原因没加成
           */
     },
 
     initStats() {
-      this.stats = new Stats();
-      this.stats.domElement.style.position = "absolute";
-      this.stats.domElement.style.left = "0px";
-      this.stats.domElement.style.top = "0px";
-      console.log(this.stats);
-      document.body.appendChild(this.stats.domElement);
+      this.stats = new Stats()
+      this.stats.domElement.style.position = 'absolute'
+      this.stats.domElement.style.left = '0px'
+      this.stats.domElement.style.top = '0px'
+      console.log(this.stats)
+      document.body.appendChild(this.stats.domElement)
     },
 
     initGui() {
-      this.options = new (function () {
-        this.name = "";
-        this.ID = "";
-      })();
-      var gui = new dat.GUI();
-      gui.domElement.style =
-        "position:absolute;top:10px;right:0px;height:600px";
-      gui.add(this.options, "name").name("名称：").listen();
-      gui.add(this.options, "ID").name("ID：").listen();
+      this.options = new (function() {
+        this.name = ''
+        this.ID = ''
+      })()
+      var gui = new dat.GUI()
+      gui.domElement.style = 'position:absolute;top:10px;right:0px;height:600px'
+      gui
+        .add(this.options, 'name')
+        .name('名称：')
+        .listen()
+      gui
+        .add(this.options, 'ID')
+        .name('ID：')
+        .listen()
       // gui.add(options, 'test3').name("test3：").listen();
       // gui.add(options, 'test4').name("test4：").listen();//全部listen，可能性能开销有点大?
     },
 
     initEcharts() {
-      let lineChart = echarts.init(document.getElementById("main"));
+      let lineChart = echarts.init(document.getElementById('main'))
       let lineoption = {
         title: {
-          text: "堆叠区域图",
+          text: '堆叠区域图'
         },
         tooltip: {
-          trigger: "axis",
+          trigger: 'axis',
           axisPointer: {
-            type: "cross",
+            type: 'cross',
             label: {
-              backgroundColor: "#6a7985",
-            },
-          },
+              backgroundColor: '#6a7985'
+            }
+          }
         },
         legend: {
-          data: ["邮件营销", "联盟广告", "视频广告", "直接访问", "搜索引擎"],
+          data: ['邮件营销', '联盟广告', '视频广告', '直接访问', '搜索引擎']
         },
         toolbox: {
           feature: {
-            saveAsImage: {},
-          },
+            saveAsImage: {}
+          }
         },
         grid: {
-          left: "3%",
-          right: "4%",
-          bottom: "3%",
-          containLabel: true,
+          left: '3%',
+          right: '4%',
+          bottom: '3%',
+          containLabel: true
         },
         xAxis: [
           {
-            type: "category",
+            type: 'category',
             boundaryGap: false,
-            data: ["周一", "周二", "周三", "周四", "周五", "周六", "周日"],
-          },
+            data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+          }
         ],
         yAxis: [
           {
-            type: "value",
-          },
+            type: 'value'
+          }
         ],
         series: [
           {
-            name: "邮件营销",
-            type: "line",
-            stack: "总量",
+            name: '邮件营销',
+            type: 'line',
+            stack: '总量',
             areaStyle: {},
-            data: [120, 132, 101, 134, 90, 230, 210],
+            data: [120, 132, 101, 134, 90, 230, 210]
           },
           {
-            name: "联盟广告",
-            type: "line",
-            stack: "总量",
+            name: '联盟广告',
+            type: 'line',
+            stack: '总量',
             areaStyle: {},
-            data: [220, 182, 191, 234, 290, 330, 310],
+            data: [220, 182, 191, 234, 290, 330, 310]
           },
           {
-            name: "视频广告",
-            type: "line",
-            stack: "总量",
+            name: '视频广告',
+            type: 'line',
+            stack: '总量',
             areaStyle: {},
-            data: [150, 232, 201, 154, 190, 330, 410],
+            data: [150, 232, 201, 154, 190, 330, 410]
           },
           {
-            name: "直接访问",
-            type: "line",
-            stack: "总量",
+            name: '直接访问',
+            type: 'line',
+            stack: '总量',
             areaStyle: {},
-            data: [320, 332, 301, 334, 390, 330, 320],
+            data: [320, 332, 301, 334, 390, 330, 320]
           },
           {
-            name: "搜索引擎",
-            type: "line",
-            stack: "总量",
+            name: '搜索引擎',
+            type: 'line',
+            stack: '总量',
             label: {
               normal: {
                 show: true,
-                position: "top",
-              },
+                position: 'top'
+              }
             },
             areaStyle: {},
-            data: [820, 932, 901, 934, 1290, 1330, 1320],
-          },
-        ],
-      };
+            data: [820, 932, 901, 934, 1290, 1330, 1320]
+          }
+        ]
+      }
 
-      lineChart.setOption(lineoption);
+      lineChart.setOption(lineoption)
 
-      let tempscene = this.scene;
-      lineChart.on("finished", function () {
-        var infoEchart = new THREE.TextureLoader().load(lineChart.getDataURL());
+      let tempscene = this.scene
+      lineChart.on('finished', function() {
+        var infoEchart = new THREE.TextureLoader().load(lineChart.getDataURL())
 
         var infoEchartMaterial = new THREE.MeshBasicMaterial({
           transparent: true,
           map: infoEchart,
-          side: THREE.DoubleSide,
-        });
+          side: THREE.DoubleSide
+        })
 
-        var linechartPlane = new THREE.Mesh(
-          new THREE.PlaneGeometry(600, 400),
-          infoEchartMaterial
-        );
-        linechartPlane.position.set(-600, 400, 0);
-        console.log(tempscene);
-        tempscene.add(linechartPlane);
-      });
-      console.log(this.scene);
+        var linechartPlane = new THREE.Mesh(new THREE.PlaneGeometry(600, 400), infoEchartMaterial)
+        linechartPlane.position.set(-600, 400, 0)
+        console.log(tempscene)
+        tempscene.add(linechartPlane)
+      })
+      console.log(this.scene)
     },
 
     update() {
-      this.controls.update();
-      this.stats.update();
+      this.controls.update()
+      this.stats.update()
     },
 
     animate() {
-      requestAnimationFrame(this.animate);
-      this.render();
-      this.composer.render();
-      this.update();
+      requestAnimationFrame(this.animate)
+      this.render()
+      this.composer.render()
+      this.update()
       // console.log(this.camera);
     },
 
     render() {
-      this.renderer.render(this.scene, this.camera);
+      this.renderer.render(this.scene, this.camera)
     },
 
     onWindowResize() {
-      this.camera.aspect = window.innerWidth / window.innerHeight;
-      this.camera.updateProjectionMatrix();
+      this.camera.aspect = window.innerWidth / window.innerHeight
+      this.camera.updateProjectionMatrix()
 
-      this.renderer.setSize(window.innerWidth - 15, window.innerHeight - 20);
+      this.renderer.setSize(window.innerWidth - 15, window.innerHeight - 20)
 
-      this.render();
+      this.render()
     },
 
     onMouseClick(event) {
-      this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-      this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+      this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1
+      this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1
 
-      this.raycaster.setFromCamera(this.mouse, this.camera);
+      this.raycaster.setFromCamera(this.mouse, this.camera)
 
-      var intersects = this.raycaster.intersectObjects(
-        this.scene.children,
-        true
-      );
+      var intersects = this.raycaster.intersectObjects(this.scene.children, true)
 
       if (intersects.length > 0) {
-        console.log(intersects);
+        console.log(intersects)
         /*
             这段是找box的算法
             */
         for (var i = 0; i < intersects.length; i++) {
           if (intersects[i].object.parent.parent != null) {
-            if (
-              intersects[i].object.parent.parent.name.substr(0, 4) == "cbox"
-            ) {
-              this.options.name = intersects[i].object.parent.parent.name;
-              this.options.ID = intersects[i].object.parent.parent.ID;
-              this.selectedObjects.pop();
-              this.selectedObjects.push(intersects[i].object.parent.parent);
-              console.log(this.outlinePass);
-              this.outlinePass.selectedObjects = this.selectedObjects; //给选中的线条和物体加发光特效
-              break;
+            if (intersects[i].object.parent.parent.name.substr(0, 4) == 'cbox') {
+              this.options.name = intersects[i].object.parent.parent.name
+              this.options.ID = intersects[i].object.parent.parent.ID
+              this.selectedObjects.pop()
+              this.selectedObjects.push(intersects[i].object.parent.parent)
+              console.log(this.outlinePass)
+              this.outlinePass.selectedObjects = this.selectedObjects //给选中的线条和物体加发光特效
+              break
             }
           }
         }
       }
     },
-    routeToPreview(){
-      this.$router.push({path: '/preview'});
-      console.log('testbut');
+    routeToPreview() {
+      this.$router.push({ path: '/preview' })
+      console.log('testbut')
     }
-  },
-};
+  }
+}
 </script>
 
 <style lang="less">

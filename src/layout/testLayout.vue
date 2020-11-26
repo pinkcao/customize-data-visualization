@@ -11,8 +11,8 @@
 
 <script>
 export default {
-  name: "testLayout",
-};
+  name: 'testLayout'
+}
 </script>
 
 <style scoped>

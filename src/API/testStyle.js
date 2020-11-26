@@ -1,14 +1,13 @@
 export default {
-  data () {
+  data() {
     return {
-      comstyle:{
-        width:'80px',
-        height:'80px',
-        position:'absolute',
+      comstyle: {
+        width: '80px',
+        height: '80px',
+        position: 'absolute'
         // left:'500px',
         // top:'50px',
-      },
+      }
     }
-  },
-
+  }
 }

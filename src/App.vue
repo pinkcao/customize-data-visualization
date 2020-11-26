@@ -1,11 +1,11 @@
 <template>
   <div id="app">
-    <router-view/>
+    <router-view />
   </div>
 </template>
 
 <script>
-  // Vue.component('component-line',{})
+// Vue.component('component-line',{})
 
 export default {
   name: 'App'

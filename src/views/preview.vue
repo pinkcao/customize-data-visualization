@@ -1,47 +1,45 @@
 <template>
   <div ref="preview">
-    <el-button style="float: right" type="primary" @click="returnToBase"
-      >返回</el-button
-    >
+    <el-button style="float: right" type="primary" @click="returnToBase">返回</el-button>
   </div>
 </template>
 
 <script>
-import testComponentA from "../components/testComponentA";
-import { mount } from "vue-mount";
+import testComponentA from '../components/testComponentA'
+import { mount } from 'vue-mount'
 
 export default {
   components: {
     // testComponentA,
   },
-  name: "mainCanvas",
+  name: 'mainCanvas',
   data() {
-    return {};
+    return {}
   },
   computed: {
-    componentList: function () {
-      return this.$store.state.componentList;
-    },
+    componentList: function() {
+      return this.$store.state.componentList
+    }
   },
-  props: ["componentName"],
+  props: ['componentName'],
   created() {},
   mounted() {
-    this.mountTest();
+    this.mountTest()
   },
 
   methods: {
     returnToBase() {
-      this.$router.push({ path: "/basePage" });
+      this.$router.push({ path: '/basePage' })
     },
     mountTest() {
-      let currentData = this.componentList;
-      let that = this;
-      console.log(this.$store.state.parentScaleX);
+      let currentData = this.componentList
+      let that = this
+      console.log(this.$store.state.parentScaleX)
       for (let i = 0; i < currentData.length; i++) {
-        if (currentData[i].name == "compA") {
+        if (currentData[i].name == 'compA') {
           mount(testComponentA, {
             target: that.$refs.preview,
-            mode: "append",
+            mode: 'append',
             props: {},
             data: {
               index: currentData[i].index,
@@ -57,20 +55,19 @@ export default {
               //   resizable: false,
               draggable: true,
               resizable: false,
-              mode: "preview",
+              mode: 'preview',
               //   parentLimitation: currentData[i].parentLimitation,
               active: false,
-              $store: this.$store,
+              $store: this.$store
               //重新挂载后无法访问到全局的this.$store,需要对$store重定向
             },
-            on: {},
-          });
+            on: {}
+          })
         }
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>
 
-<style>
-</style>
+<style></style>

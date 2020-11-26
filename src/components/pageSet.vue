@@ -8,27 +8,24 @@
 </template>
 
 <script>
-import { maker } from "@form-create/element-ui";
+import { maker } from '@form-create/element-ui'
 
 export default {
-  name: "pageSet",
+  name: 'pageSet',
   data() {
     return {
       fApi: {},
       model: {},
       //表单生成规则
-      rule: [
-        maker.input("商品名称", "goods_name"),
-        maker.date("创建时间", "created_at"),
-      ],
+      rule: [maker.input('商品名称', 'goods_name'), maker.date('创建时间', 'created_at')],
       //组件参数配置
       option: {
         //表单提交事件
-        onSubmit: function (formData) {
-          alert(JSON.stringify(formData));
-        },
-      },
-    };
+        onSubmit: function(formData) {
+          alert(JSON.stringify(formData))
+        }
+      }
+    }
   },
   computed: {},
 
@@ -37,8 +34,8 @@ export default {
     // this.model = this.fApi.model();
   },
 
-  methods: {},
-};
+  methods: {}
+}
 </script>
 
 <style lang="less">
