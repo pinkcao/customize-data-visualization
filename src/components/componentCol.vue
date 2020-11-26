@@ -4,7 +4,8 @@
     <div class="title-box-comp">
       <span style="color: #b3c0d1; font-size: 12px">组件库</span>
     </div>
-    <div style="height: calc(100vh - 80px)">
+    <!-- component-col-el-tab相当于wrapper,它可以解决无法覆盖ui组件的问题 -->
+    <div class="component-col-el-tab" style="height: calc(100vh - 80px)">
       <el-tabs
         tab-position="left"
         style="width: 100%; height: calc(100vh - 80px)"
@@ -42,16 +43,6 @@
                 </div>
               </div>
             </el-collapse-transition>
-
-            <!-- <div v-for = "(data2,index2) in data.showData" :key="index2" style="width: 100%;height: 20px;background-color: #42B983;" @click="data2.vshow =! data2.vshow">
-              </div>
-              <div>
-                <el-collapse-transition>
-                  <div v-show="data2.vshow">
-                    <div style="width: 150px;height: 50px;background-color: #D3DCE6;"></div>
-                  </div>
-                </el-collapse-transition>
-              </div> -->
           </div>
         </el-tab-pane>
       </el-tabs>
@@ -126,7 +117,6 @@ export default {
     },
     dragendtest() {
       console.log("dragends");
-      // console.log(event.clientX,event.clientY);
     },
   },
 };
@@ -145,12 +135,12 @@ export default {
   align-items: center;
   justify-content: space-between;
 }
-.el-tabs__nav.is-left {
-  background-color: #191c21;
+.component-col-el-tab .el-tabs__content {
+  overflow-y: scroll;
   height: 100%;
 }
-.el-tabs__content {
-  overflow-y: scroll;
+.component-col-el-tab .el-tabs__nav.is-left {
+  background-color: #191c21;
   height: 100%;
 }
 ::-webkit-scrollbar {
@@ -171,7 +161,7 @@ export default {
   border-radius: 10px;
   // background: #EDEDED;
 }
-.el-tabs--left .el-tabs__header.is-left {
+.component-col-el-tab .el-tabs--left .el-tabs__header.is-left {
   margin-right: 0px;
 }
 

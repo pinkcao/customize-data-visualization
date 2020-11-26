@@ -5,7 +5,6 @@
     :style="canvasStyle"
     @drop="droptest"
   >
-    <test-component-a style="display: none"></test-component-a>
   </div>
 </template>
 
@@ -16,55 +15,52 @@ import testStyle from "../API/testStyle.js";
 
 export default {
   components: {
-    testComponentA,
+    // testComponentA,
   },
   name: "mainCanvas",
   data() {
     return {
-      canvasStyle: {
-        width: "1920px",
-        height: "1080px",
-        transform: "scale(0.3) translate(0px,0px)",
-        position: "absolute",
-      },
+      // canvasStyle: {
+      //   width: "1920px",
+      //   height: "1080px",
+      //   transform: "scale(0.3) translate(0px,0px)",
+      //   position: "absolute",
+      // },
     };
   },
   computed: {
-    // compcount: function() {
-    // 	return 'comp_'+(this.mountTestData.length+1);
-    // },
     componentList: function () {
       return this.$store.state.componentList;
     },
+    canvasStyle: function() {
+      // let width = this.$store.state.parentW;
+      // let height =  this.$store.state.parentH;
+      // let position = this.$store.state.position;
+      let parentScale = this.$store.state.parentScale;
+      // let transform = `scale(${parentScale}) translate(0px, 0px)`;
+      let result = {
+        width: this.$store.state.parentW + 'px',
+        height: this.$store.state.parentH + 'px',
+        position: this.$store.state.position,
+        transform: `scale(${parentScale}) translate(0px, 0px)`,
+      };
+      console.log(result.transform);
+      return result
+    }
   },
   props: ["componentName"],
   created() {},
   mounted() {
     this.mountTest();
+    console.log(window.screen.height)
+    console.log(window.screen.width)
   },
 
   methods: {
     /*
-        检测全局点击，有点击需要判断当前点击的事物，并进行相应操作。
-        */
-    // showcount(event){
-    //   console.log(this.compcount);
-    //   let tempUid = this.$store.state.componentUid ;
-    //   for(let i = 0 ; i < this.mountTestData.length ; i++){
-    //     if(this.mountTestData[i].uid == tempUid){
-    //       this.mountTestData.splice(i,1);
-    //       break;
-    //     }
-    //   }
-    //   this.$store.state.componentUid = '';
-    // },
-
-    /*
         有object drop时则将获取其componentName，并将其输入至vuex，再传到这，根据对应值挂载。
         */
     droptest() {
-      // console.log("drops");
-      // console.log(this.dataFromSon);
       if (this.$store.state.componentNameToCanvas == "组件列") {
         let that = this;
         mount(testComponentA, {
@@ -119,7 +115,7 @@ export default {
               resizable: currentData[i].resizable,
               parentLimitation: currentData[i].parentLimitation,
               active: currentData[i].active,
-              $store: that.$store,
+              $store: this.$store,
               //重新挂载后无法访问到全局的this.$store,需要对$store重定向
             },
             on: {},

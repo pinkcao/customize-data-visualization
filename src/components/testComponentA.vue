@@ -56,7 +56,7 @@ export default {
   computed: {
     parentScaleX: function () {
       if(this.mode == 'design') {
-        return this.$store.state.parentScaleX;
+        return this.$store.state.parentScale;
       } else {
         return 1;
       }
@@ -64,7 +64,7 @@ export default {
     },
     parentScaleY: function () {
       if(this.mode == 'design') {
-        return this.$store.state.parentScaleY;
+        return this.$store.state.parentScale;
       } else {
         return 1;
       }
@@ -79,7 +79,7 @@ export default {
 
   created() {},
   mounted() {
-    console.log(this.index);
+    // console.log(this.index);
   },
   methods: {
     resize(newRect) {
@@ -87,45 +87,24 @@ export default {
       this.height = newRect.height;
       this.top = newRect.top;
       this.left = newRect.left;
-      console.log(this.width);
-      console.log(this.width);
+      let propertyObj = {
+        index: this.index,
+        width: this.width,
+        height: this.height,
+        top: this.top,
+        left: this.left
+      };
+      this.$store.commit('adjustComponent', propertyObj);
+      console.log('width:', this.width);
+      console.log('height:', this.height);
+      console.log('top:', this.top);
+      console.log('left', this.left);
+      
     },
     onDeactivated() {
       console.log("deactivated" + this.index);
     },
     activate() {},
-    
-
-    // // showData(event) {
-    // //   console.log("我被点了");
-    // //   // this.$emit('receiveDataFromSon',this.uid);
-    // //   this.$store.commit('changeComponentUid', this.uid);
-    // //   this.ifshow = false;
-    // // },
-    // dragstarttest(event) {
-    //   // console.log("dragstarts");
-    //   this.offsetX = event.clientX - event.currentTarget.getBoundingClientRect().left;
-    //   this.offsetY = event.clientY - event.currentTarget.getBoundingClientRect().top;
-    //   console.log(event.clientY - event.currentTarget.getBoundingClientRect().top);
-
-    //   // console.log(this.notices);
-    //   // console.log(this.testProps);
-    // },
-
-    // /*
-    // 在dragend操作结束时，可以是直接调用api更新数据库中的组件数组，或者是通过子组件传值给父组件，父组件接收如组件名等，
-    // 在组件列表中进行更新，并保存到数据库，当然可能保存过于频繁，所以每x分钟进行一次保存，或是在预览时进行一次保存
-    // 组件名用于标识是哪个组件，但每个组件需要有一个uid标识在画布上到底是哪个元素避免冲突。
-    // */
-    // dragendtest(event) {
-    //   console.log("dragends");
-    //   // console.log(event.clientX-this.offsetX+'px');
-    //   event.currentTarget.style.left = event.clientX - this.offsetX + 'px';
-    //   event.currentTarget.style.top = event.clientY - this.offsetY + 'px';
-    //   console.log(event.currentTarget.style.left);
-    //   console.log(event.currentTarget.getBoundingClientRect());
-
-    // },
   },
 };
 </script>
