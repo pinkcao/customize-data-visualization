@@ -11,8 +11,8 @@ export default new Vuex.Store({
     componentList: [
       {
         name: 'compA',
-        width: 200,
-        height: 150,
+        width: 800,
+        height: 600,
         top: 10,
         left: 10,
         draggable: true,
@@ -21,11 +21,12 @@ export default new Vuex.Store({
         active: false,
         ifshow: false,
         index: 0
+        // preventActiveBehavior:
       },
       {
         name: 'compA',
-        width: 100,
-        height: 150,
+        width: 300,
+        height: 300,
         top: 500,
         left: 500,
         draggable: true,

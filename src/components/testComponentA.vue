@@ -13,6 +13,7 @@
   <div>
     <vue-drag-resize
       :isActive="active"
+      :preventActiveBehavior="preventActiveBehavior"
       :w="width"
       :h="height"
       :x="left"
@@ -29,31 +30,65 @@
       @activated="activate"
       @deactivated="onDeactivated"
     >
-      <div style="background-color: #772553; width: 100%; height: 100%"></div>
+      <!-- <div :style="currentStyle"> -->
+      <div style="background-color: #ffffff; width: 100%; height: 100%">
+        <v-chart
+          v-if="flag"
+          :text="'测试标题'"
+          :subtext="'测试副标题'"
+          :titlevis="true"
+          :dataSource="dataSource"
+          ref="child"
+        ></v-chart>
+      </div>
     </vue-drag-resize>
   </div>
 </template>
 
 <script>
+import echarts from 'echarts'
+import vChart from './charts/chart.vue'
+
 export default {
   name: 'testComponentA',
+  components: {
+    vChart
+  },
   data() {
     return {
+      //这些相当于是基础设置属性
+      preventActiveBehavior: false,
       name: 'compA',
       active: false,
       ifshow: false,
-      width: 100,
-      height: 100,
+      width: 500,
+      height: 500,
       top: 100,
       left: 100,
       parentLimitation: true,
       draggable: true,
       resizable: true,
       index: 0,
-      mode: 'design'
+      mode: 'design',
+      flag: false,
+      dataSource: [
+        ['department', '2018', '2019', '2020', '2021', '2022'],
+        ['finance', 43.3, 85.8, 93.7, 55.4, 66.7],
+        ['humanResource', 83.1, 73.4, 55.1, 77.3, 26.4],
+        ['sales', 86.4, 65.2, 82.5, 41.5, 57.6],
+        ['product', 72.4, 53.9, 39.1, 14.8, 25.9],
+        ['qualityAssurance', 55.1, 66.5, 46.8, 34.8, 66.4]
+      ]
     }
   },
   computed: {
+    currentStyle: function() {
+      return {
+        width: this.width,
+        height: this.height
+        // 'background-color': '#ffffff'
+      }
+    },
     parentScaleX: function() {
       if (this.mode == 'design') {
         return this.$store.state.parentScale
@@ -80,6 +115,7 @@ export default {
   created() {},
   mounted() {
     // console.log(this.index);
+    this.flag = true
   },
   methods: {
     resize(newRect) {
@@ -95,10 +131,11 @@ export default {
         left: this.left
       }
       this.$store.commit('adjustComponent', propertyObj)
-      console.log('width:', this.width)
-      console.log('height:', this.height)
-      console.log('top:', this.top)
-      console.log('left', this.left)
+      this.$refs.child.chartResize()
+      // console.log('width:', this.width)
+      // console.log('height:', this.height)
+      // console.log('top:', this.top)
+      // console.log('left', this.left)
     },
     onDeactivated() {
       console.log('deactivated' + this.index)
