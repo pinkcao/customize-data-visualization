@@ -108,6 +108,7 @@ export default {
               draggable: currentData[i].draggable,
               resizable: currentData[i].resizable,
               parentLimitation: currentData[i].parentLimitation,
+              dataSource: currentData[i].dataSource,
               active: currentData[i].active,
               $store: this.$store
               //重新挂载后无法访问到全局的this.$store,需要对$store重定向

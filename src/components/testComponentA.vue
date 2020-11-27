@@ -34,8 +34,8 @@
       <div style="background-color: #ffffff; width: 100%; height: 100%">
         <v-chart
           v-if="flag"
-          :text="'测试标题'"
-          :subtext="'测试副标题'"
+          :chartTitle="'测试标题'"
+          :chartSubTitle="'测试副标题'"
           :titlevis="true"
           :dataSource="dataSource"
           ref="child"

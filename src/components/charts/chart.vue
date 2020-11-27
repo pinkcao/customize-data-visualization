@@ -2,7 +2,7 @@
   <div class="flex-box is-vertical">
     <div class="toolbar">
       <!-- 图表种类按钮，控制当前显示的是哪种类型的图表 -->
-      <el-popover title="图表种类" trigger="hover">
+      <!-- <el-popover title="图表种类" trigger="hover">
         <div>
           <el-radio-group v-model="ctype" @change="typeChange">
             <el-row>
@@ -13,9 +13,9 @@
           </el-radio-group>
         </div>
         <el-button slot="reference">图表种类</el-button>
-      </el-popover>
+      </el-popover> -->
       <!-- 统计分组列表，如果传入未经处理的数据，选择根据对应的列进行聚类生成图表 -->
-      <el-popover v-if="rawdata != ''" title="统计分组" trigger="hover">
+      <!-- <el-popover v-if="rawdata != ''" title="统计分组" trigger="hover">
         <div>
           <el-radio-group v-model="groupId" @change="groupChange">
             <el-row>
@@ -26,11 +26,11 @@
           </el-radio-group>
         </div>
         <el-button slot="reference">分组统计</el-button>
-      </el-popover>
+      </el-popover> -->
       <!-- 控制图表一些组件的显示与隐藏 -->
-      <el-popover width="200" title="显示设置" trigger="hover">
+      <!-- <el-popover width="200" title="显示设置" trigger="hover">
         <div style="display: flex; flex-direction: column">
-          <div :style="'margin-top: 10px'">
+          <div :style="popoverDivStyle">
             <el-row>
               <el-col :span="12">
                 <span>标题</span>
@@ -40,7 +40,7 @@
               </el-col>
             </el-row>
           </div>
-          <div :style="'margin-top: 10px'">
+          <div :style="popoverDivStyle">
             <el-row>
               <el-col :span="12">
                 <span>图例组件</span>
@@ -50,7 +50,7 @@
               </el-col>
             </el-row>
           </div>
-          <div :style="'margin-top: 10px'">
+          <div :style="popoverDivStyle">
             <el-row>
               <el-col :span="12">
                 <span>缩放组件</span>
@@ -62,6 +62,62 @@
           </div>
         </div>
         <el-button slot="reference">显示</el-button>
+      </el-popover> -->
+
+      <el-popover width="200" title="设置" trigger="hover">
+        <div style="display: flex; flex-direction: column">
+          <el-input v-model="currentChartTitle" placeholder="标题" @change="initChart"></el-input>
+          <el-input v-model="currentChartSubTitle" placeholder="副标题" @change="initChart"></el-input>
+          <div>
+            <el-radio-group v-model="ctype" @change="typeChange">
+              <el-row>
+                <el-col :span="12" v-for="(item, index) in supportedArr" :key="index">
+                  <el-radio :style="'margin-top: 10px'" :label="item.value"> {{ item.type }} </el-radio>
+                </el-col>
+              </el-row>
+            </el-radio-group>
+          </div>
+          <div :style="popoverDivStyle">
+            <el-row>
+              <el-col :span="12">
+                <span>标题</span>
+              </el-col>
+              <el-col :span="12">
+                <el-switch v-model="titlevisible" @change="onChangeTitle"></el-switch>
+              </el-col>
+            </el-row>
+          </div>
+          <div :style="popoverDivStyle">
+            <el-row>
+              <el-col :span="12">
+                <span>图例组件</span>
+              </el-col>
+              <el-col :span="12">
+                <el-switch v-model="legendvisible" @change="onChangeLegend"></el-switch>
+              </el-col>
+            </el-row>
+          </div>
+          <div :style="popoverDivStyle">
+            <el-row>
+              <el-col :span="12">
+                <span>缩放组件</span>
+              </el-col>
+              <el-col :span="12">
+                <el-switch v-model="zoomvisible" @change="onChangeZoom"></el-switch>
+              </el-col>
+            </el-row>
+          </div>
+        </div>
+        <div v-if="rawdata != ''">
+          <el-radio-group v-model="groupId" @change="groupChange">
+            <el-row>
+              <el-col :span="12" v-for="(item, index) in columnDict" :key="index">
+                <el-radio :label="index"> {{ item }} </el-radio>
+              </el-col>
+            </el-row>
+          </el-radio-group>
+        </div>
+        <el-button slot="reference" icon="el-icon-setting" size="mini" circle></el-button>
       </el-popover>
     </div>
     <div ref="chart" :style="chartStyle"></div>
@@ -109,11 +165,11 @@ export default {
       type: String,
       default: 'bar'
     },
-    text: {
+    chartTitle: {
       type: String,
       default: ''
     },
-    subtext: {
+    chartSubTitle: {
       type: String,
       default: ''
     },
@@ -171,8 +227,13 @@ export default {
       processedArr: null,
       //统计分组的类别
       columnDict: [],
+      currentChartTitle: '',
+      currentChartSubTitle: '',
       radio: 1,
-      groupId: 0
+      groupId: 0,
+      popoverDivStyle: {
+        'margin-top': '10px'
+      }
     }
   },
   computed: {
@@ -250,6 +311,7 @@ export default {
     }
   },
   mounted() {
+    this.initCurrentTitle()
     this.initColumnDict()
     this.countArr(4)
     this.getSupportedArr()
@@ -308,11 +370,16 @@ export default {
     //初始化标题组件的内容
     initTitle(param) {
       return {
-        text: this.text,
-        subtext: this.subtext,
+        text: this.currentChartTitle,
+        subtext: this.currentChartSubTitle,
         left: 'center',
         show: param
       }
+    },
+    //初始化当前标题
+    initCurrentTitle() {
+      this.currentChartTitle = this.chartTitle
+      this.currentChartSubTitle = this.chartSubTitle
     },
     //初始化tooltip
     initTooltip(param) {
@@ -504,6 +571,11 @@ export default {
   height: 50px;
   /* background-color: antiquewhite; */
   display: flex;
+  flex-direction: row-reverse;
   align-items: center;
+}
+.toolbar .el-popover {
+  margin-left: auto;
+  margin-right: 50px;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div ref="preview">
-    <el-button style="float: right" type="primary" @click="returnToBase">返回</el-button>
+    <el-button style="float: right" icon="el-icon-close" @click="returnToBase" circle></el-button>
   </div>
 </template>
 
@@ -52,6 +52,7 @@ export default {
               name: currentData[i].name,
               parentLimitation: false,
               preventActiveBehavior: true,
+              dataSource: currentData[i].dataSource,
               //   draggable: false,
               //   resizable: false,
               draggable: false,
