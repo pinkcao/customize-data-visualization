@@ -66,6 +66,7 @@
 
       <el-popover width="200" title="设置" trigger="hover">
         <div style="display: flex; flex-direction: column">
+          <!-- 这里只是方便临时改标题，实际上不传值到后端 -->
           <el-input v-model="currentChartTitle" placeholder="标题" @change="initChart"></el-input>
           <el-input v-model="currentChartSubTitle" placeholder="副标题" @change="initChart"></el-input>
           <div>

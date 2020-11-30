@@ -73,7 +73,7 @@ import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass.js'
 import Stats from 'three/examples/jsm/libs/stats.module.js'
 import dat from 'three/examples/js/libs/dat.gui.min.js'
 import componentCol from '../components/componentCol.vue'
-import testComponentA from '../components/testComponentA.vue'
+import testComponentA from '../components/graphs/testComponentA.vue'
 import { mount } from 'vue-mount'
 // import mocktest from "../API/mockTest.js";
 import graphCol from '../components/graphCol.vue'
@@ -326,23 +326,6 @@ export default {
               }
             }
           })
-          // const testComponentA2 = mount(testComponentA, {
-          //   target: this.$refs.target,
-          //   mode: "append",
-          //   props: {},
-          //   data: {
-          //     comstyle: currentData[i].comstyle,
-          //     uid: currentData[i].uid,
-          //     target: this.$refs.target,
-          //     ifshow: currentData[i].ifshow,
-          //   },
-          //   on: {
-          //     receiveDataFromSon(data, vm, mnt) {
-          //       // that.dataFromSon = data;
-          //       that.getMessage(data);
-          //     },
-          //   },
-          // });
         }
       }
     },

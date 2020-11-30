@@ -15,12 +15,31 @@
                 {{ data2.text }}
               </span>
             </div>
-            <el-collapse-transition
-              ><!-- 用于过渡效果的组件 -->
+            <!-- 用于过渡效果的组件 -->
+            <el-collapse-transition>
               <div v-show="data2.vshow">
                 <div class="collapse-panel-main">
                   <div class="collapse-panel-main-content">
-                    <div style="height: 500px; margin: 5px; background-color: aliceblue"></div>
+                    <div
+                      style="
+                        width: 100%;
+                        height: 90px;
+                        background-color: #557788;
+                        margin: 2px;
+                        display: flex;
+                        flex-direction: column;
+                      "
+                      v-for="(data3, index3) in data2.componentdetail"
+                      :key="index3"
+                      draggable="true"
+                    >
+                      <div style="width: 100%; height: 20px; background-color: #212326">
+                        <span style="color: #dddddd">{{ data3.title }}</span>
+                      </div>
+                      <div style="flex: 1">
+                        <el-image style="width: 100%; height: 70px" :src="data3.picurl" :fit="'fill'"></el-image>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -54,12 +73,33 @@ export default {
             {
               vshow: true,
               text: 'ofctesttext1',
-              componentdetail: []
+              componentdetail: [
+                {
+                  title: '组件a',
+                  picurl: require('../assets/柱状图组件.png')
+                },
+                {
+                  title: '组件b'
+                },
+                {
+                  title: '组件c'
+                }
+              ]
             },
             {
               vshow: false,
               text: 'ofctesttext2',
-              componentdetail: []
+              componentdetail: [
+                {
+                  title: '组件d'
+                },
+                {
+                  title: '组件e'
+                },
+                {
+                  title: '组件f'
+                }
+              ]
             }
           ]
         },
@@ -69,12 +109,20 @@ export default {
             {
               vshow: false,
               text: 'ofctesttext3',
-              componentdetail: []
+              componentdetail: [
+                {
+                  title: '组件g'
+                }
+              ]
             },
             {
               vshow: false,
               text: 'ofctesttext4',
-              componentdetail: []
+              componentdetail: [
+                {
+                  title: '组件h'
+                }
+              ]
             }
           ]
         }
@@ -166,5 +214,7 @@ export default {
 
 .collapse-panel-main-content {
   width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 </style>

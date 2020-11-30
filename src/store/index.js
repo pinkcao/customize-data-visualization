@@ -11,6 +11,8 @@ export default new Vuex.Store({
     componentList: [
       {
         name: 'compA',
+        title: 'title',
+        subTitle: 'subtitle',
         width: 800,
         height: 600,
         top: 10,
@@ -19,7 +21,7 @@ export default new Vuex.Store({
         resizable: true,
         parentLimitation: true,
         active: false,
-        ifshow: false,
+        ifshow: true,
         index: 0,
         dataSource: [
           ['department', '2018', '2019', '2020', '2021', '2022'],
@@ -33,6 +35,8 @@ export default new Vuex.Store({
       },
       {
         name: 'compA',
+        title: 'title',
+        subTitle: 'subtitle',
         width: 300,
         height: 300,
         top: 500,
@@ -41,7 +45,7 @@ export default new Vuex.Store({
         resizable: true,
         parentLimitation: true,
         active: false,
-        ifshow: false,
+        ifshow: true,
         index: 1,
         dataSource: [
           ['department', '2018', '2019', '2020', '2021'],

@@ -5,7 +5,9 @@
 </template>
 
 <script>
-import testComponentA from '../components/testComponentA'
+// import testComponentA from '../components/graphs/testComponentA'
+//通过该方法传字符串获取组件，使组件名与组件对应
+import { getComponent } from '../components/graphs/comMap.js'
 import { mount } from 'vue-mount'
 
 export default {
@@ -34,38 +36,38 @@ export default {
     mountTest() {
       let currentData = this.componentList
       let that = this
-      console.log(this.$store.state.parentScaleX)
       for (let i = 0; i < currentData.length; i++) {
-        if (currentData[i].name == 'compA') {
-          mount(testComponentA, {
-            target: that.$refs.preview,
-            mode: 'append',
-            props: {},
-            data: {
-              index: currentData[i].index,
-              target: this.$refs.target,
-              ifshow: currentData[i].ifshow,
-              width: currentData[i].width,
-              height: currentData[i].height,
-              top: currentData[i].top,
-              left: currentData[i].left,
-              name: currentData[i].name,
-              parentLimitation: false,
-              preventActiveBehavior: true,
-              dataSource: currentData[i].dataSource,
-              //   draggable: false,
-              //   resizable: false,
-              draggable: false,
-              resizable: false,
-              mode: 'preview',
-              //   parentLimitation: currentData[i].parentLimitation,
-              active: false,
-              $store: this.$store
-              //重新挂载后无法访问到全局的this.$store,需要对$store重定向
-            },
-            on: {}
-          })
-        }
+        // if (currentData[i].name == 'compA') {
+        mount(getComponent(currentData[i].name), {
+          target: that.$refs.preview,
+          mode: 'append',
+          props: {},
+          data: {
+            index: currentData[i].index,
+            target: this.$refs.target,
+            ifshow: currentData[i].ifshow,
+            width: currentData[i].width,
+            height: currentData[i].height,
+            top: currentData[i].top,
+            left: currentData[i].left,
+            name: currentData[i].name,
+            parentLimitation: false,
+            preventActiveBehavior: true,
+            dataSource: currentData[i].dataSource,
+            title: currentData[i].title,
+            subTitle: currentData[i].subTitle,
+            //   draggable: false,
+            //   resizable: false,
+            draggable: false,
+            resizable: false,
+            mode: 'preview',
+            active: false,
+            $store: this.$store
+            //重新挂载后无法访问到全局的this.$store,需要对$store重定向
+          },
+          on: {}
+        })
+        // }
       }
     }
   }

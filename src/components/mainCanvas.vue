@@ -3,33 +3,22 @@
 </template>
 
 <script>
-import testComponentA from './testComponentA.vue'
+// import testComponentA from './graphs/testComponentA.vue'
+import { getComponent } from './graphs/comMap.js'
 import { mount } from 'vue-mount'
 import testStyle from '../API/testStyle.js'
 
 export default {
-  components: {
-    // testComponentA,
-  },
+  components: {},
   name: 'mainCanvas',
   data() {
-    return {
-      // canvasStyle: {
-      //   width: "1920px",
-      //   height: "1080px",
-      //   transform: "scale(0.3) translate(0px,0px)",
-      //   position: "absolute",
-      // },
-    }
+    return {}
   },
   computed: {
     componentList: function() {
       return this.$store.state.componentList
     },
     canvasStyle: function() {
-      // let width = this.$store.state.parentW;
-      // let height =  this.$store.state.parentH;
-      // let position = this.$store.state.position;
       let parentScale = this.$store.state.parentScale
       // let transform = `scale(${parentScale}) translate(0px, 0px)`;
       let result = {
@@ -57,7 +46,7 @@ export default {
     droptest() {
       if (this.$store.state.componentNameToCanvas == '组件列') {
         let that = this
-        mount(testComponentA, {
+        mount(getComponent('compA'), {
           target: this.$refs.target,
           mode: 'append',
           props: {
@@ -91,31 +80,33 @@ export default {
       let currentData = this.componentList
       let that = this
       for (let i = 0; i < currentData.length; i++) {
-        if (currentData[i].name == 'compA') {
-          mount(testComponentA, {
-            target: this.$refs.target,
-            mode: 'append',
-            props: {},
-            data: {
-              index: currentData[i].index,
-              target: that.$refs.target,
-              ifshow: currentData[i].ifshow,
-              width: currentData[i].width,
-              height: currentData[i].height,
-              top: currentData[i].top,
-              left: currentData[i].left,
-              name: currentData[i].name,
-              draggable: currentData[i].draggable,
-              resizable: currentData[i].resizable,
-              parentLimitation: currentData[i].parentLimitation,
-              dataSource: currentData[i].dataSource,
-              active: currentData[i].active,
-              $store: this.$store
-              //重新挂载后无法访问到全局的this.$store,需要对$store重定向
-            },
-            on: {}
-          })
-        }
+        // if (currentData[i].name == 'compA') {
+        mount(getComponent(currentData[i].name), {
+          target: this.$refs.target,
+          mode: 'append',
+          props: {},
+          data: {
+            index: currentData[i].index,
+            target: that.$refs.target,
+            ifshow: currentData[i].ifshow,
+            width: currentData[i].width,
+            height: currentData[i].height,
+            top: currentData[i].top,
+            left: currentData[i].left,
+            name: currentData[i].name,
+            draggable: currentData[i].draggable,
+            resizable: currentData[i].resizable,
+            parentLimitation: currentData[i].parentLimitation,
+            dataSource: currentData[i].dataSource,
+            active: currentData[i].active,
+            title: currentData[i].title,
+            subTitle: currentData[i].subTitle,
+            $store: this.$store
+            //重新挂载后无法访问到全局的this.$store,需要对$store重定向
+          },
+          on: {}
+        })
+        // }
       }
     }
   }

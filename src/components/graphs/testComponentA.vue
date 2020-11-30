@@ -10,7 +10,7 @@
 
     </div>
   </div> -->
-  <div>
+  <div v-if="ifshow">
     <vue-drag-resize
       :isActive="active"
       :preventActiveBehavior="preventActiveBehavior"
@@ -34,8 +34,8 @@
       <div style="background-color: #ffffff; width: 100%; height: 100%">
         <v-chart
           v-if="flag"
-          :chartTitle="'测试标题'"
-          :chartSubTitle="'测试副标题'"
+          :chartTitle="title"
+          :chartSubTitle="subTitle"
           :titlevis="true"
           :dataSource="dataSource"
           ref="child"
@@ -47,7 +47,7 @@
 
 <script>
 import echarts from 'echarts'
-import vChart from './charts/chart.vue'
+import vChart from '../charts/chart.vue'
 
 export default {
   name: 'testComponentA',
@@ -57,6 +57,7 @@ export default {
   data() {
     return {
       //这些相当于是基础设置属性
+      //如果挂载时未重新设定那么就取默认值
       preventActiveBehavior: false,
       name: 'compA',
       active: false,
@@ -71,6 +72,8 @@ export default {
       index: 0,
       mode: 'design',
       flag: false,
+      title: '',
+      subTitle: '',
       dataSource: [
         ['department', '2018', '2019', '2020', '2021', '2022'],
         ['finance', 43.3, 85.8, 93.7, 55.4, 66.7],
