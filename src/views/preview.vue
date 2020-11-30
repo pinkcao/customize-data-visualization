@@ -1,6 +1,9 @@
 <template>
   <div ref="preview">
     <el-button style="float: right" icon="el-icon-close" @click="returnToBase" circle></el-button>
+    <!-- <div v-if="testflag" style="width: 100px; height: 100px; background-color: #ff0000"></div> -->
+    <!-- <el-button type="primary" @click="testif">测试按钮</el-button>
+    <test ref="test"></test> -->
   </div>
 </template>
 
@@ -9,14 +12,18 @@
 //通过该方法传字符串获取组件，使组件名与组件对应
 import { getComponent } from '../components/graphs/comMap.js'
 import { mount } from 'vue-mount'
+// import test from '../components/test.vue'
 
 export default {
   components: {
     // testComponentA,
+    // test
   },
   name: 'mainCanvas',
   data() {
-    return {}
+    return {
+      // testflag: true
+    }
   },
   computed: {
     componentList: function() {
@@ -30,6 +37,10 @@ export default {
   },
 
   methods: {
+    // testif() {
+    //   // this.testflag = !this.testflag
+    //   this.$refs.test.changeFlag()
+    // },
     returnToBase() {
       this.$router.push({ path: '/basePage' })
     },

@@ -3,7 +3,6 @@
 </template>
 
 <script>
-// import testComponentA from './graphs/testComponentA.vue'
 import { getComponent } from './graphs/comMap.js'
 import { mount } from 'vue-mount'
 import testStyle from '../API/testStyle.js'
@@ -44,35 +43,62 @@ export default {
         有object drop时则将获取其componentName，并将其输入至vuex，再传到这，根据对应值挂载。
         */
     droptest() {
-      if (this.$store.state.componentNameToCanvas == '组件列') {
-        let that = this
-        mount(getComponent('compA'), {
-          target: this.$refs.target,
-          mode: 'append',
-          props: {
-            testProps: 123
-          },
-          data: {
-            comstyle: testStyle.data().comstyle,
-            name: 'compA',
-            uid: that.comcount,
-            ifshow: true
-          },
-          on: {
-            receiveDataFromSon(data) {
-              // that.dataFromSon = data;
-              that.getMessage(data)
-            }
-          }
-        })
-
-        this.mountTestData.push({
-          comstyle: testStyle.data().comstyle,
-          name: 'compA',
-          uid: that.comcount,
-          ifshow: true
-        })
+      // if (this.$store.state.componentNameToCanvas == 'compA') {
+      console.log('有东西drop了')
+      let that = this
+      let testObj = {
+        ifshow: true,
+        name: this.$store.state.componentNameToCanvas,
+        width: 300,
+        height: 300,
+        top: 10,
+        left: 10,
+        draggable: true,
+        resizable: true,
+        parentLimitation: true,
+        active: false,
+        title: 'xxx',
+        subTitle: 'yyy',
+        mode: 'design',
+        $store: this.$store,
+        dataSource: [
+          ['department', '2018', '2019'],
+          ['finance', 43.3, 85.8],
+          ['humanResource', 83.1, 73.4],
+          ['sales', 86.4, 65.2],
+          ['product', 72.4, 53.9],
+          ['qualityAssurance', 55.1, 66.5]
+        ]
       }
+      mount(getComponent(this.$store.state.componentNameToCanvas), {
+        target: this.$refs.target,
+        mode: 'append',
+        props: {},
+        data: testObj,
+        // data: {
+        //   index: 10,
+        //   // target: that.$refs.target,
+        //   ifshow: true,
+        //   name: this.$store.state.componentNameToCanvas,
+        //   draggable: true,
+        //   resizable: true,
+        //   parentLimitation: true,
+        //   active: false,
+        //   title: 'xxx',
+        //   subTitle: 'yyy',
+        //   mode: 'design',
+        //   $store: this.$store
+        // },
+        on: {}
+      })
+      // this.mountTestData.push({
+      //   comstyle: testStyle.data().comstyle,
+      //   name: 'compA',
+      //   uid: that.comcount,
+      //   ifshow: true
+      // })
+      // }
+      this.$store.commit('appendComponent', testObj)
       this.$store.commit('changeComponentNameToCanvas', '')
     },
 

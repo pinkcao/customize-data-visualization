@@ -32,6 +32,7 @@
                       v-for="(data3, index3) in data2.componentdetail"
                       :key="index3"
                       draggable="true"
+                      @dragstart="dragstarttest(data3.name)"
                     >
                       <div style="width: 100%; height: 20px; background-color: #212326">
                         <span style="color: #dddddd">{{ data3.title }}</span>
@@ -76,10 +77,12 @@ export default {
               componentdetail: [
                 {
                   title: '组件a',
+                  name: 'compA',
                   picurl: require('../assets/柱状图组件.png')
                 },
                 {
-                  title: '组件b'
+                  title: '组件b',
+                  name: 'compB'
                 },
                 {
                   title: '组件c'
@@ -136,10 +139,13 @@ export default {
   mounted() {},
 
   methods: {
-    dragstarttest() {
-      console.log('dragstarts')
+    dragstarttest(name) {
+      // console.log('dragstarts')
       // this.$emit('receiveDataFromSon',this.name);
-      this.$store.commit('changeComponentNameToCanvas', this.name)
+      // this.$store.commit('changeComponentNameToCanvas', this.name)
+      // console.log(event)
+      this.$store.commit('changeComponentNameToCanvas', name)
+      console.log(this.$store.state.componentNameToCanvas)
       /*
           将数据更新至vuex，全局保存，不然要写的组件传值实在是太多太多了。
           */

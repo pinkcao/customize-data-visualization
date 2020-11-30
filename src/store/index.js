@@ -21,7 +21,7 @@ export default new Vuex.Store({
         resizable: true,
         parentLimitation: true,
         active: false,
-        ifshow: true,
+        ifshow: false,
         index: 0,
         dataSource: [
           ['department', '2018', '2019', '2020', '2021', '2022'],
@@ -31,7 +31,6 @@ export default new Vuex.Store({
           ['product', 72.4, 53.9, 39.1, 14.8, 25.9],
           ['qualityAssurance', 55.1, 66.5, 46.8, 34.8, 66.4]
         ]
-        // preventActiveBehavior:
       },
       {
         name: 'compA',
@@ -84,6 +83,11 @@ export default new Vuex.Store({
           state.componentList[i].left = propertyObj.left
         }
       }
+    },
+    appendComponent(state, properties) {
+      properties.index = state.componentList.length
+      state.componentList.push(properties)
+      console.log(properties)
     }
   },
 
