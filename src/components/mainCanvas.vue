@@ -6,6 +6,7 @@
 import { getComponent } from './graphs/comMap.js'
 import { mount } from 'vue-mount'
 import testStyle from '../API/testStyle.js'
+import url from '../mock/mockAPI.js'
 
 export default {
   components: {},
@@ -33,9 +34,62 @@ export default {
   props: ['componentName'],
   created() {},
   mounted() {
+    let tempname = this.$store.state.componentNameToCanvas
+    let testObj = {
+      ifshow: true,
+      name: tempname,
+      width: 300,
+      height: 300,
+      top: 10,
+      left: 10,
+      draggable: true,
+      resizable: true,
+      parentLimitation: true,
+      active: false,
+      title: 'xxx',
+      subTitle: 'yyy',
+      mode: 'design',
+      dataSource: [
+        ['department', '2018', '2019'],
+        ['finance', 43.3, 85.8],
+        ['humanResource', 83.1, 73.4],
+        ['sales', 86.4, 65.2],
+        ['product', 72.4, 53.9],
+        ['qualityAssurance', 55.1, 66.5]
+      ]
+    }
     this.mountTest()
-    console.log(window.screen.height)
-    console.log(window.screen.width)
+    this.$axios({
+      url: url.getComponentList,
+      method: 'post',
+      data: {
+        ifshow: true,
+        name: this.$store.state.componentNameToCanvas,
+        width: 300,
+        height: 300,
+        top: 10,
+        left: 10,
+        draggable: true,
+        resizable: true,
+        parentLimitation: true,
+        active: false,
+        title: 'xxx',
+        subTitle: 'yyy',
+        dataSource: [
+          ['department', '2018', '2019'],
+          ['finance', 43.3, 85.8],
+          ['humanResource', 83.1, 73.4],
+          ['sales', 86.4, 65.2],
+          ['product', 72.4, 53.9],
+          ['qualityAssurance', 55.1, 66.5]
+        ]
+      }
+    }).then(res => {
+      // this.tabpanedata = res.data.resultSet
+      console.log(res.data.resultSet)
+    })
+    // console.log(window.screen.height)
+    // console.log(window.screen.width)
   },
 
   methods: {
@@ -75,29 +129,8 @@ export default {
         mode: 'append',
         props: {},
         data: testObj,
-        // data: {
-        //   index: 10,
-        //   // target: that.$refs.target,
-        //   ifshow: true,
-        //   name: this.$store.state.componentNameToCanvas,
-        //   draggable: true,
-        //   resizable: true,
-        //   parentLimitation: true,
-        //   active: false,
-        //   title: 'xxx',
-        //   subTitle: 'yyy',
-        //   mode: 'design',
-        //   $store: this.$store
-        // },
         on: {}
       })
-      // this.mountTestData.push({
-      //   comstyle: testStyle.data().comstyle,
-      //   name: 'compA',
-      //   uid: that.comcount,
-      //   ifshow: true
-      // })
-      // }
       this.$store.commit('appendComponent', testObj)
       this.$store.commit('changeComponentNameToCanvas', '')
     },

@@ -1,77 +1,145 @@
 import Mock from 'mockjs'
 import url from './mockAPI.js'
 
+const componentTabData = [
+  {
+    classname: 'el-icon-date',
+    showData: [
+      {
+        vshow: true,
+        text: 'ofctesttext1',
+        componentdetail: [
+          {
+            title: '组件a',
+            name: 'compA',
+            picurl: require('../assets/柱状图组件.png')
+          },
+          {
+            title: '组件b',
+            name: 'compB'
+          }
+        ]
+      },
+      {
+        vshow: false,
+        text: 'ofctesttext2',
+        componentdetail: [
+          {
+            title: '组件d',
+            name: 'compD'
+          },
+          {
+            title: '组件e',
+            name: 'compE'
+          },
+          {
+            title: '组件f',
+            name: 'compF'
+          }
+        ]
+      }
+    ]
+  },
+  {
+    classname: 'el-icon-camera',
+    showData: [
+      {
+        vshow: false,
+        text: 'ofctesttext3',
+        componentdetail: [
+          {
+            title: '组件g',
+            name: 'compG'
+          }
+        ]
+      },
+      {
+        vshow: false,
+        text: 'ofctesttext4',
+        componentdetail: [
+          {
+            title: '组件h',
+            name: 'compH'
+          }
+        ]
+      }
+    ]
+  }
+]
+
+const componentList = [
+  {
+    name: 'compA',
+    title: 'title',
+    subTitle: 'subtitle',
+    width: 800,
+    height: 600,
+    top: 10,
+    left: 10,
+    draggable: true,
+    resizable: true,
+    parentLimitation: true,
+    active: false,
+    ifshow: false,
+    index: 0,
+    dataSource: [
+      ['department', '2018', '2019', '2020', '2021', '2022'],
+      ['finance', 43.3, 85.8, 93.7, 55.4, 66.7],
+      ['humanResource', 83.1, 73.4, 55.1, 77.3, 26.4],
+      ['sales', 86.4, 65.2, 82.5, 41.5, 57.6],
+      ['product', 72.4, 53.9, 39.1, 14.8, 25.9],
+      ['qualityAssurance', 55.1, 66.5, 46.8, 34.8, 66.4]
+    ]
+  },
+  {
+    name: 'compA',
+    title: 'title',
+    subTitle: 'subtitle',
+    width: 300,
+    height: 300,
+    top: 500,
+    left: 500,
+    draggable: true,
+    resizable: true,
+    parentLimitation: true,
+    active: false,
+    ifshow: true,
+    index: 1,
+    dataSource: [
+      ['department', '2018', '2019', '2020', '2021'],
+      ['finance', 43.3, 85.8, 93.7, 55.4],
+      ['humanResource', 83.1, 73.4, 55.1, 77.3],
+      ['sales', 86.4, 65.2, 82.5, 41.5],
+      ['product', 72.4, 53.9, 39.1, 14.8],
+      ['qualityAssurance', 55.1, 66.5, 46.8, 34.8]
+    ]
+  }
+]
+
+console.log('mock服务加载')
+
 export default {
   tabData: Mock.mock(url.tabData, 'post', () => {
-    console.log('mock服务加载')
     return {
       status: 200,
       message: '获取成功',
-      resultSet: [
-        {
-          classname: 'el-icon-date',
-          showData: [
-            {
-              vshow: true,
-              text: 'ofctesttext1',
-              componentdetail: [
-                {
-                  title: '组件a',
-                  name: 'compA',
-                  picurl: require('../assets/柱状图组件.png')
-                },
-                {
-                  title: '组件b',
-                  name: 'compB'
-                }
-              ]
-            },
-            {
-              vshow: false,
-              text: 'ofctesttext2',
-              componentdetail: [
-                {
-                  title: '组件d',
-                  name: 'compD'
-                },
-                {
-                  title: '组件e',
-                  name: 'compE'
-                },
-                {
-                  title: '组件f',
-                  name: 'compF'
-                }
-              ]
-            }
-          ]
-        },
-        {
-          classname: 'el-icon-camera',
-          showData: [
-            {
-              vshow: false,
-              text: 'ofctesttext3',
-              componentdetail: [
-                {
-                  title: '组件g',
-                  name: 'compG'
-                }
-              ]
-            },
-            {
-              vshow: false,
-              text: 'ofctesttext4',
-              componentdetail: [
-                {
-                  title: '组件h',
-                  name: 'compH'
-                }
-              ]
-            }
-          ]
-        }
-      ]
+      resultSet: componentTabData
+    }
+  }),
+  getComponentList: Mock.mock(url.getComponentList, 'post', () => {
+    return {
+      status: 200,
+      message: '获取成功',
+      resultSet: componentList
+    }
+  }),
+  appendComponentList: Mock.mock(url.appendComponentList, 'post', newComp => {
+    componentList.push(JSON.parse(newComp.body))
+    componentList[componentList.length - 1].index = componentList.length - 1
+    return {
+      status: 200,
+      message: '获取成功',
+      resultSet: componentList
     }
   })
 }

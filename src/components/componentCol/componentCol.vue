@@ -54,6 +54,7 @@
 
 <script>
 import url from '../../mock/mockAPI.js'
+// import { getTabPaneData } from './compColAPI.js'
 
 export default {
   name: 'componentCol',
@@ -70,96 +71,25 @@ export default {
 
   created() {},
   mounted() {
-    // Mock.mock('api/get/user', 'post', () => {
-    //   return {
-    //     status: 200,
-    //     message: '获取成功',
-    //     resultSet: [
-    //       {
-    //         classname: 'el-icon-date',
-    //         showData: [
-    //           {
-    //             vshow: true,
-    //             text: 'ofctesttext1',
-    //             componentdetail: [
-    //               {
-    //                 title: '组件a',
-    //                 name: 'compA',
-    //                 picurl: require('../../assets/柱状图组件.png')
-    //               },
-    //               {
-    //                 title: '组件b',
-    //                 name: 'compB'
-    //               },
-    //               {
-    //                 title: '组件c'
-    //               }
-    //             ]
-    //           },
-    //           {
-    //             vshow: false,
-    //             text: 'ofctesttext2',
-    //             componentdetail: [
-    //               {
-    //                 title: '组件d'
-    //               },
-    //               {
-    //                 title: '组件e'
-    //               },
-    //               {
-    //                 title: '组件f'
-    //               }
-    //             ]
-    //           }
-    //         ]
-    //       },
-    //       {
-    //         classname: 'el-icon-camera',
-    //         showData: [
-    //           {
-    //             vshow: false,
-    //             text: 'ofctesttext3',
-    //             componentdetail: [
-    //               {
-    //                 title: '组件g'
-    //               }
-    //             ]
-    //           },
-    //           {
-    //             vshow: false,
-    //             text: 'ofctesttext4',
-    //             componentdetail: [
-    //               {
-    //                 title: '组件h'
-    //               }
-    //             ]
-    //           }
-    //         ]
-    //       }
-    //     ]
-    //   }
-    // })
-    // console.log(url.tabData)
-    this.$axios({
-      url: url.tabData,
-      method: 'post',
-      params: {}
-    }).then(res => {
-      this.tabpanedata = res.data.resultSet
-      console.log(res.data.resultSet)
-    })
+    this.getTabPaneData()
   },
 
   methods: {
+    getTabPaneData() {
+      this.$axios({
+        url: url.tabData,
+        method: 'post',
+        params: {}
+      }).then(res => {
+        this.tabpanedata = res.data.resultSet
+        console.log(res.data.resultSet)
+      })
+    },
     dragstarttest(name) {
-      // console.log('dragstarts')
-      // this.$emit('receiveDataFromSon',this.name);
-      // this.$store.commit('changeComponentNameToCanvas', this.name)
-      // console.log(event)
       this.$store.commit('changeComponentNameToCanvas', name)
       console.log(this.$store.state.componentNameToCanvas)
       /*
-          将数据更新至vuex，全局保存，不然要写的组件传值实在是太多太多了。
+          将数据更新至vuex，全局保存，不然要写的组件传值实在是过于麻烦。
           */
       // console.log(this.$store.state.componentNameToCanvas);
     },
