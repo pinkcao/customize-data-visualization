@@ -72,7 +72,8 @@ import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass.js'
 // import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass.js";
 import Stats from 'three/examples/jsm/libs/stats.module.js'
 import dat from 'three/examples/js/libs/dat.gui.min.js'
-import componentCol from '../components/componentCol.vue'
+// import componentCol from '../components/componentCol/componentCol.vue'
+import componentCol from '../components/componentCol/componentCol.vue'
 import testComponentA from '../components/graphs/testComponentA.vue'
 import { mount } from 'vue-mount'
 // import mocktest from "../API/mockTest.js";
@@ -80,6 +81,7 @@ import graphCol from '../components/graphCol.vue'
 // import testStyle from "../API/testStyle.js";
 import pageSet from '../components/pageSet.vue'
 import mainCanvas from '../components/mainCanvas.vue'
+import mockData from '../mock/mockData.js'
 
 export default {
   components: {
@@ -211,6 +213,7 @@ export default {
     /*
         初始化width保证立即响应
         */
+    // const tabData = mockData.tabData
     this.$refs.graphCol.style.width = this.graphfullwidth
     this.$refs.compCol.style.width = this.componentsfullwidth
     this.$refs.pageCol.style.width = this.pagefullwidth

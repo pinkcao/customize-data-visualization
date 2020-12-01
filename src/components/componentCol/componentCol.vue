@@ -53,6 +53,8 @@
 </template>
 
 <script>
+import url from '../../mock/mockAPI.js'
+
 export default {
   name: 'componentCol',
   data() {
@@ -60,83 +62,93 @@ export default {
       name: '组件列',
       testData: 'forDragTest',
       testSonData: '',
-      /*
-          classname:icon图标名称，通过修改classname修改图标，查看el-icon可知具体classname，如果需要添加可以到阿里的icon库
-          重新添加打包发布icon库
-          vshow:控制子组件位置是否显示，点击将使值取反，即控制打开关闭
-          text:设置该header的名称
-          components:组件库，应该有对应的图片名称、组件名、样式class，图片应被裁剪
-          */
-      tabpanedata: [
-        {
-          classname: 'el-icon-date',
-          showData: [
-            {
-              vshow: true,
-              text: 'ofctesttext1',
-              componentdetail: [
-                {
-                  title: '组件a',
-                  name: 'compA',
-                  picurl: require('../assets/柱状图组件.png')
-                },
-                {
-                  title: '组件b',
-                  name: 'compB'
-                },
-                {
-                  title: '组件c'
-                }
-              ]
-            },
-            {
-              vshow: false,
-              text: 'ofctesttext2',
-              componentdetail: [
-                {
-                  title: '组件d'
-                },
-                {
-                  title: '组件e'
-                },
-                {
-                  title: '组件f'
-                }
-              ]
-            }
-          ]
-        },
-        {
-          classname: 'el-icon-camera',
-          showData: [
-            {
-              vshow: false,
-              text: 'ofctesttext3',
-              componentdetail: [
-                {
-                  title: '组件g'
-                }
-              ]
-            },
-            {
-              vshow: false,
-              text: 'ofctesttext4',
-              componentdetail: [
-                {
-                  title: '组件h'
-                }
-              ]
-            }
-          ]
-        }
-      ],
+      tabpanedata: [],
       iconstyle: 'color:aliceblue;'
     }
   },
   computed: {},
 
   created() {},
-  mounted() {},
+  mounted() {
+    // Mock.mock('api/get/user', 'post', () => {
+    //   return {
+    //     status: 200,
+    //     message: '获取成功',
+    //     resultSet: [
+    //       {
+    //         classname: 'el-icon-date',
+    //         showData: [
+    //           {
+    //             vshow: true,
+    //             text: 'ofctesttext1',
+    //             componentdetail: [
+    //               {
+    //                 title: '组件a',
+    //                 name: 'compA',
+    //                 picurl: require('../../assets/柱状图组件.png')
+    //               },
+    //               {
+    //                 title: '组件b',
+    //                 name: 'compB'
+    //               },
+    //               {
+    //                 title: '组件c'
+    //               }
+    //             ]
+    //           },
+    //           {
+    //             vshow: false,
+    //             text: 'ofctesttext2',
+    //             componentdetail: [
+    //               {
+    //                 title: '组件d'
+    //               },
+    //               {
+    //                 title: '组件e'
+    //               },
+    //               {
+    //                 title: '组件f'
+    //               }
+    //             ]
+    //           }
+    //         ]
+    //       },
+    //       {
+    //         classname: 'el-icon-camera',
+    //         showData: [
+    //           {
+    //             vshow: false,
+    //             text: 'ofctesttext3',
+    //             componentdetail: [
+    //               {
+    //                 title: '组件g'
+    //               }
+    //             ]
+    //           },
+    //           {
+    //             vshow: false,
+    //             text: 'ofctesttext4',
+    //             componentdetail: [
+    //               {
+    //                 title: '组件h'
+    //               }
+    //             ]
+    //           }
+    //         ]
+    //       }
+    //     ]
+    //   }
+    // })
+    // console.log(url.tabData)
+    this.$axios({
+      url: url.tabData,
+      method: 'post',
+      params: {}
+    }).then(res => {
+      this.tabpanedata = res.data.resultSet
+      console.log(res.data.resultSet)
+    })
+  },
 
   methods: {
     dragstarttest(name) {

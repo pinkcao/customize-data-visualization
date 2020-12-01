@@ -16,7 +16,7 @@ import VueDragResize from 'vue-drag-resize'
 
 Vue.use(ElementUI)
 Vue.use(formCreate)
-Vue.prototype.axios = axios
+Vue.prototype.$axios = axios
 Vue.use(VueAxios, axios)
 Vue.config.productionTip = false
 Vue.use(less)
