@@ -12,6 +12,7 @@
 //通过该方法传字符串获取组件，使组件名与组件对应
 import { getComponent } from '../components/graphs/comMap.js'
 import { mount } from 'vue-mount'
+import url from '../mock/mockAPI.js'
 // import test from '../components/test.vue'
 
 export default {
@@ -23,17 +24,18 @@ export default {
   data() {
     return {
       // testflag: true
+      componentList: []
     }
   },
   computed: {
-    componentList: function() {
-      return this.$store.state.componentList
-    }
+    // componentList: function() {
+    //   return this.$store.state.componentList
+    // }
   },
   props: ['componentName'],
   created() {},
   mounted() {
-    this.mountTest()
+    this.getComponentList()
   },
 
   methods: {
@@ -43,6 +45,16 @@ export default {
     // },
     returnToBase() {
       this.$router.push({ path: '/basePage' })
+    },
+    getComponentList() {
+      this.$axios({
+        url: url.getComponentList,
+        method: 'post',
+        data: {}
+      }).then(res => {
+        this.componentList = res.data.resultSet
+        this.mountTest()
+      })
     },
     mountTest() {
       let currentData = this.componentList

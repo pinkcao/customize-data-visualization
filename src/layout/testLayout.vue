@@ -12,6 +12,20 @@
 <script>
 export default {
   name: 'testLayout'
+  // created: function() {
+  //   let that = this
+  //   document.onkeydown = function(e) {
+  //     let key = window.event.keyCode
+  //     if (key == 8) {
+  //       that.KeyUpSpace()
+  //     }
+  //   }
+  // },
+  // methods: {
+  //   KeyUpSpace() {
+  //     console.log('backspace')
+  //   }
+  // }
 }
 </script>
 

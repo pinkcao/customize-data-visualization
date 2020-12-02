@@ -1,5 +1,6 @@
 import Mock from 'mockjs'
 import url from './mockAPI.js'
+import axios from 'axios'
 
 const componentTabData = [
   {
@@ -141,5 +142,35 @@ export default {
       message: '获取成功',
       resultSet: componentList
     }
+  }),
+  adjustComponentList: Mock.mock(url.adjustComponent, 'post', params => {
+    // console.log(JSON.parse(params.body))
+    let propertyObj = JSON.parse(params.body)
+    for (let i = 0; i < componentList.length; i++) {
+      if (propertyObj.index == componentList[i].index) {
+        componentList[i].width = propertyObj.width
+        componentList[i].height = propertyObj.height
+        componentList[i].top = propertyObj.top
+        componentList[i].left = propertyObj.left
+      }
+    }
+    return {
+      status: 200,
+      message: '更新成功',
+      resultSet: componentList
+    }
   })
+  // getComponentListPromise: Mock.mock(url.getComponentListPromise, 'post', () => {
+  //   return new Promise(function(resolve, reject) {
+  //     this.$axios({
+  //       url: url.getComponentListPromise,
+  //       method: 'post',
+  //       data: {}
+  //     }).then(res => {
+  //       if (res.status === 200) {
+  //         resolve(res.resultSet)
+  //       }
+  //     })
+  //   })
+  // })
 }

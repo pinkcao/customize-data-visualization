@@ -18,8 +18,10 @@
       :h="height"
       :x="left"
       :y="top"
-      v-on:resizing="resize"
-      v-on:dragging="resize"
+      @resizing="resize"
+      @dragging="resize"
+      @resizestop="updateComponentList"
+      @dragstop="updateComponentList"
       :parentScaleX="parentScaleX"
       :parentScaleY="parentScaleY"
       :parentW="parentW"
@@ -29,6 +31,7 @@
       :isResizable="resizable"
       @activated="activate"
       @deactivated="onDeactivated"
+      ref="testref"
     >
       <!-- <div :style="currentStyle"> -->
       <div style="background-color: #ffffff; width: 100%; height: 100%">
@@ -48,6 +51,7 @@
 <script>
 import echarts from 'echarts'
 import vChart from '../charts/chart.vue'
+import url from '../../mock/mockAPI.js'
 
 export default {
   name: 'testComponentA',
@@ -118,9 +122,28 @@ export default {
   created() {},
   mounted() {
     // console.log(this.index);
+    // console.log(document.hasFocus())
     this.flag = true
   },
   methods: {
+    updateComponentList() {
+      this.$axios({
+        url: url.adjustComponent,
+        method: 'post',
+        data: {
+          index: this.index,
+          width: this.width,
+          height: this.height,
+          top: this.top,
+          left: this.left
+        }
+      }).then(res => {
+        console.log(res)
+      })
+    },
+    testDelete() {
+      console.log('deleted')
+    },
     resize(newRect) {
       this.width = newRect.width
       this.height = newRect.height
@@ -133,7 +156,7 @@ export default {
         top: this.top,
         left: this.left
       }
-      this.$store.commit('adjustComponent', propertyObj)
+      // this.$store.commit('adjustComponent', propertyObj)
       this.$refs.child.chartResize()
       // console.log('width:', this.width)
       // console.log('height:', this.height)
@@ -141,9 +164,17 @@ export default {
       // console.log('left', this.left)
     },
     onDeactivated() {
-      console.log('deactivated' + this.index)
+      // console.log('deactivated' + this.index)
+      // this.$refs.testref.blur()
+      // console.log(document.hasFocus())
     },
-    activate() {}
+    activate() {
+      // this.$refs.testref.focus()
+      // console.log(document.hasFocus())
+    }
+    // testKeyDown(event) {
+    //   console.log(event)
+    // }
   }
 }
 </script>
