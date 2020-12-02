@@ -118,6 +118,10 @@
             </el-row>
           </el-radio-group>
         </div>
+        <div v-if="ctype == 'pie' && dataColumns > 1">
+          <h4>每行数量</h4>
+          <el-slider v-model="col" :min="1" :max="dataColumns" @change="onAfterChange"></el-slider>
+        </div>
         <el-button slot="reference" icon="el-icon-setting" size="mini" circle></el-button>
       </el-popover>
     </div>
