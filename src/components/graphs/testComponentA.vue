@@ -1,15 +1,4 @@
 <template>
-  <!--   <div
-  v-if="ifshow"
-  :style="comstyle"
-  draggable="true"
-  @click="showData"
-  @dragstart="dragstarttest"
-  @dragend="dragendtest">
-    <div  style="width: 100%;height: 100%;background-color: #333333;">
-
-    </div>
-  </div> -->
   <div v-if="ifshow">
     <vue-drag-resize
       :isActive="active"
@@ -33,7 +22,7 @@
       @deactivated="onDeactivated"
       ref="testref"
     >
-      <!-- <div :style="currentStyle"> -->
+      <!-- <el-button type="danger" icon="el-icon-delete" circle></el-button> -->
       <div style="background-color: #ffffff; width: 100%; height: 100%">
         <v-chart
           v-if="flag"

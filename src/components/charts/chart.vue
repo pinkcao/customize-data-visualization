@@ -573,7 +573,7 @@ export default {
 }
 .toolbar {
   width: 100%;
-  height: 50px;
+  height: 35px;
   /* background-color: antiquewhite; */
   display: flex;
   flex-direction: row-reverse;
