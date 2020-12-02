@@ -77,9 +77,9 @@ import componentCol from '../components/componentCol/componentCol.vue'
 import testComponentA from '../components/graphs/testComponentA.vue'
 import { mount } from 'vue-mount'
 // import mocktest from "../API/mockTest.js";
-import graphCol from '../components/graphCol.vue'
+import graphCol from '../components/graphCol/graphCol.vue'
 // import testStyle from "../API/testStyle.js";
-import pageSet from '../components/pageSet.vue'
+import pageSet from '../components/pageSet/pageSet.vue'
 import mainCanvas from '../components/mainCanvas.vue'
 import mockData from '../mock/mockData.js'
 
