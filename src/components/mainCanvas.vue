@@ -63,64 +63,9 @@ export default {
       })
     },
     appendComponentList() {
-      let that = this
-      let testObj = {
-        index: this.componentList.length,
-        ifshow: true,
-        name: this.$store.state.componentNameToCanvas,
-        width: 300,
-        height: 300,
-        top: 10,
-        left: 10,
-        draggable: true,
-        resizable: true,
-        parentLimitation: true,
-        active: false,
-        title: 'xxx',
-        subTitle: 'yyy',
-        mode: 'design',
-        $store: this.$store,
-        dataSource: [
-          ['department', '2018', '2019'],
-          ['finance', 43.3, 85.8],
-          ['humanResource', 83.1, 73.4],
-          ['sales', 86.4, 65.2],
-          ['product', 72.4, 53.9],
-          ['qualityAssurance', 55.1, 66.5]
-        ]
-      }
-      this.objList.push(
-        new Mount(getComponent(this.$store.state.componentNameToCanvas), {
-          target: this.$refs.target,
-          mode: 'append',
-          props: {},
-          data: testObj,
-          on: {
-            updateActiveStatus(...args) {
-              let params = {
-                index: args[0],
-                componentList: that.componentList
-              }
-              that.$store.commit('updateActiveComponent', params)
-              let tempActiveComponent = that.$store.state.componentActive
-              for (let i = 0; i < tempActiveComponent.length; i++) {
-                for (let j = 0; j < that.objList.length; j++) {
-                  if (that.componentList[j].index == i) {
-                    that.objList[j].set({
-                      data: { active: tempActiveComponent[i].active }
-                    })
-                  }
-                }
-              }
-            }
-          }
-        })
-      )
-      this.objList[this.objList.length - 1].mount()
-      this.$axios({
-        url: url.appendComponentList,
-        method: 'post',
-        data: {
+      if (this.$store.state.componentNameToCanvas != '') {
+        let that = this
+        let testObj = {
           index: this.componentList.length,
           ifshow: true,
           name: this.$store.state.componentNameToCanvas,
@@ -134,6 +79,8 @@ export default {
           active: false,
           title: 'xxx',
           subTitle: 'yyy',
+          mode: 'design',
+          $store: this.$store,
           dataSource: [
             ['department', '2018', '2019'],
             ['finance', 43.3, 85.8],
@@ -143,11 +90,81 @@ export default {
             ['qualityAssurance', 55.1, 66.5]
           ]
         }
-      }).then(res => {
-        this.componentList = res.data.resultSet
-        this.$store.commit('initActiveComponent', this.componentList)
-      })
-      this.$store.commit('changeComponentNameToCanvas', '')
+        this.objList.push(
+          new Mount(getComponent(this.$store.state.componentNameToCanvas), {
+            target: this.$refs.target,
+            mode: 'append',
+            props: {},
+            data: testObj,
+            on: {
+              updateActiveStatus(...args) {
+                let params = {
+                  index: args[0],
+                  componentList: that.componentList
+                }
+                that.$store.commit('updateActiveComponent', params)
+                let tempActiveComponent = that.$store.state.componentActive
+                for (let i = 0; i < tempActiveComponent.length; i++) {
+                  for (let j = 0; j < that.objList.length; j++) {
+                    if (that.componentList[j].index == i) {
+                      that.objList[j].set({
+                        data: { active: tempActiveComponent[i].active }
+                      })
+                    }
+                  }
+                }
+              },
+              destroyComponent(...args) {
+                let index = args[0]
+                that
+                  .$axios({
+                    url: url.spliceComponentList,
+                    method: 'post',
+                    data: {
+                      index: index
+                    }
+                  })
+                  .then(res => {
+                    that.componentList = res.data.resultSet
+                    console.log(that.componentList)
+                  })
+              }
+            }
+          })
+        )
+        this.objList[this.objList.length - 1].mount()
+        this.$axios({
+          url: url.appendComponentList,
+          method: 'post',
+          data: {
+            index: this.componentList.length,
+            ifshow: true,
+            name: this.$store.state.componentNameToCanvas,
+            width: 300,
+            height: 300,
+            top: 10,
+            left: 10,
+            draggable: true,
+            resizable: true,
+            parentLimitation: true,
+            active: false,
+            title: 'xxx',
+            subTitle: 'yyy',
+            dataSource: [
+              ['department', '2018', '2019'],
+              ['finance', 43.3, 85.8],
+              ['humanResource', 83.1, 73.4],
+              ['sales', 86.4, 65.2],
+              ['product', 72.4, 53.9],
+              ['qualityAssurance', 55.1, 66.5]
+            ]
+          }
+        }).then(res => {
+          this.componentList = res.data.resultSet
+          this.$store.commit('initActiveComponent', this.componentList)
+        })
+        this.$store.commit('changeComponentNameToCanvas', '')
+      }
     },
 
     mountComponent() {
@@ -178,8 +195,8 @@ export default {
               $store: this.$store
               //重新挂载后无法访问到全局的this.$store,需要对$store重定向
             },
-            //绑的事件侦听器，用于侦听当前的active情况
             on: {
+              //绑的事件侦听器，用于侦听当前的active情况
               updateActiveStatus(...args) {
                 let params = {
                   index: args[0],
@@ -199,6 +216,7 @@ export default {
                   }
                 }
               },
+              //调用销毁方法，只是逻辑删除，并且如果需要可以再次mount，对象存在了objList中
               destroyComponent(...args) {
                 let index = args[0]
                 that
@@ -221,9 +239,6 @@ export default {
       }
       //初始化activeComponent列表，用此列表维护每个组件的active值
       this.$store.commit('initActiveComponent', this.componentList)
-      console.log(this.$store.state.componentActive)
-      console.log(this.objList[0])
-      console.log(this.objList[1])
     },
     testconsole() {
       console.log('what the hell?')
