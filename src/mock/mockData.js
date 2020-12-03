@@ -159,6 +159,21 @@ export default {
       message: '更新成功',
       resultSet: componentList
     }
+  }),
+  //只是将其可见性设为否
+  spliceComponentList: Mock.mock(url.spliceComponentList, 'post', params => {
+    let index = JSON.parse(params.body).index
+    console.log(index)
+    for (let i = 0; i < componentList.length; i++) {
+      if (componentList[i].index == index) {
+        componentList[i].ifshow = false
+      }
+    }
+    return {
+      status: 200,
+      message: '删除成功',
+      resultSet: componentList
+    }
   })
   // getComponentListPromise: Mock.mock(url.getComponentListPromise, 'post', () => {
   //   return new Promise(function(resolve, reject) {

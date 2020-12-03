@@ -1,5 +1,5 @@
 <template>
-  <div v-if="ifshow" ref="testref" @keydown.enter="testEnter" tabindex="0">
+  <div v-if="ifshow" ref="testref" @keydown.delete="destroyComponent" tabindex="0">
     <vue-drag-resize
       :isActive="active"
       :preventActiveBehavior="preventActiveBehavior"
@@ -82,15 +82,10 @@ export default {
     // }
   },
   computed: {
-    // active: function() {
-    //   console.log(this.$store.state.componentList[this.index].active)
-    //   return this.$store.state.componentList[this.index].active
-    // },
     currentStyle: function() {
       return {
         width: this.width,
         height: this.height
-        // 'background-color': '#ffffff'
       }
     },
     parentScaleX: function() {
@@ -118,8 +113,6 @@ export default {
 
   created() {},
   mounted() {
-    // console.log(this.index);
-    // console.log(document.hasFocus())
     this.flag = true
   },
   methods: {
@@ -138,12 +131,10 @@ export default {
         // console.log(res)
       })
     },
-    testDelete() {
-      console.log('deleted')
-    },
-    testEnter() {
-      console.log('enter pressed')
-      console.log(document.activeElement)
+    destroyComponent() {
+      console.log('delete down')
+      this.ifshow = false
+      this.$emit('destroyComponent', this.index)
     },
     resize(newRect) {
       this.width = newRect.width
