@@ -1,10 +1,16 @@
 <template>
-  <div ref="target" class="main-canvas-background" :style="canvasStyle" @drop="droptest"></div>
+  <div
+    @click="cancelFocus"
+    ref="target"
+    class="main-canvas-background"
+    :style="canvasStyle"
+    @drop="appendComponentList"
+  ></div>
 </template>
 
 <script>
 import { getComponent } from './graphs/comMap.js'
-import { mount } from 'vue-mount'
+import Mount from 'vue-mount'
 import { destroy } from 'vue-mount'
 import url from '../mock/mockAPI.js'
 
@@ -18,16 +24,8 @@ export default {
     }
   },
   computed: {
-    // componentList: function() {
-    //   return this.$store.state.componentList
-    // },
-    // componentList: function() {
-    //   console.log(this.getComponentList())
-    //   return this.getComponentList()
-    // },
     canvasStyle: function() {
       let parentScale = this.$store.state.parentScale
-      // let transform = `scale(${parentScale}) translate(0px, 0px)`;
       let result = {
         width: this.$store.state.parentW + 'px',
         height: this.$store.state.parentH + 'px',
@@ -43,49 +41,52 @@ export default {
   mounted() {
     // console.log(this.getComponentList())
     this.getComponentList()
-    // this.mountTest()
-    // this.fetchData()
   },
 
   methods: {
-    // async fetchData() {
-    //   await mockData.getComponentListPromise().then(response => {
-    //     console.log(response)
-    //     // if (response.code == 200) {
-    //     //   this.loadDataList()
-    //     // }
+    cancelFocus(event) {
+      if (event.target == this.$refs.target) {
+        this.$store.commit('setActiveComponentFalse')
+        for (let i = 0; i < this.objList.length; i++) {
+          this.objList[i].set({
+            data: { active: false }
+          })
+        }
+      }
+    },
+    // appendComponentList() {
+    //   let that = this
+    //   this.$axios({
+    //     url: url.appendComponentList,
+    //     method: 'post',
+    //     data: {
+    //       index: that.componentList.length,
+    //       ifshow: true,
+    //       name: this.$store.state.componentNameToCanvas,
+    //       width: 300,
+    //       height: 300,
+    //       top: 10,
+    //       left: 10,
+    //       draggable: true,
+    //       resizable: true,
+    //       parentLimitation: true,
+    //       active: false,
+    //       title: 'xxx',
+    //       subTitle: 'yyy',
+    //       dataSource: [
+    //         ['department', '2018', '2019'],
+    //         ['finance', 43.3, 85.8],
+    //         ['humanResource', 83.1, 73.4],
+    //         ['sales', 86.4, 65.2],
+    //         ['product', 72.4, 53.9],
+    //         ['qualityAssurance', 55.1, 66.5]
+    //       ]
+    //     }
+    //   }).then(res => {
+    //     this.componentList = res.data.resultSet
+    //     this.$store.commit('initActiveComponent', this.componentList)
     //   })
     // },
-    appendComponentList() {
-      this.$axios({
-        url: url.appendComponentList,
-        method: 'post',
-        data: {
-          ifshow: true,
-          name: this.$store.state.componentNameToCanvas,
-          width: 300,
-          height: 300,
-          top: 10,
-          left: 10,
-          draggable: true,
-          resizable: true,
-          parentLimitation: true,
-          active: false,
-          title: 'xxx',
-          subTitle: 'yyy',
-          dataSource: [
-            ['department', '2018', '2019'],
-            ['finance', 43.3, 85.8],
-            ['humanResource', 83.1, 73.4],
-            ['sales', 86.4, 65.2],
-            ['product', 72.4, 53.9],
-            ['qualityAssurance', 55.1, 66.5]
-          ]
-        }
-      }).then(res => {
-        return res.data.resultSet
-      })
-    },
     getComponentList() {
       this.$axios({
         url: url.getComponentList,
@@ -93,17 +94,22 @@ export default {
         data: {}
       }).then(res => {
         this.componentList = res.data.resultSet
-        this.mountTest()
-        // console.log(res.data.resultSet)
-        // result = res.data.resultSet
-        // return res.data.resultSet
+        this.mountComponent()
       })
     },
-    droptest() {
-      // if (this.$store.state.componentNameToCanvas == 'compA') {
-      console.log('有东西drop了')
+    // updateComponentList() {
+    //   this.$axios({
+    //     url: url.getComponentList,
+    //     method: 'post',
+    //     data: {}
+    //   }).then(res => {
+    //     this.componentList = res.data.resultSet
+    //   })
+    // },
+    appendComponentList() {
       let that = this
       let testObj = {
+        index: this.componentList.length,
         ifshow: true,
         name: this.$store.state.componentNameToCanvas,
         width: 300,
@@ -127,17 +133,39 @@ export default {
           ['qualityAssurance', 55.1, 66.5]
         ]
       }
-      mount(getComponent(this.$store.state.componentNameToCanvas), {
-        target: this.$refs.target,
-        mode: 'append',
-        props: {},
-        data: testObj,
-        on: {}
-      })
+      this.objList.push(
+        new Mount(getComponent(this.$store.state.componentNameToCanvas), {
+          target: this.$refs.target,
+          mode: 'append',
+          props: {},
+          data: testObj,
+          on: {
+            updateActiveStatus(...args) {
+              let params = {
+                index: args[0],
+                componentList: that.componentList
+              }
+              that.$store.commit('updateActiveComponent', params)
+              let tempActiveComponent = that.$store.state.componentActive
+              for (let i = 0; i < tempActiveComponent.length; i++) {
+                for (let j = 0; j < that.objList.length; j++) {
+                  if (that.componentList[j].index == i) {
+                    that.objList[j].set({
+                      data: { active: tempActiveComponent[i].active }
+                    })
+                  }
+                }
+              }
+            }
+          }
+        })
+      )
+      this.objList[this.objList.length - 1].mount()
       this.$axios({
         url: url.appendComponentList,
         method: 'post',
         data: {
+          index: this.componentList.length,
           ifshow: true,
           name: this.$store.state.componentNameToCanvas,
           width: 300,
@@ -160,23 +188,25 @@ export default {
           ]
         }
       }).then(res => {
-        console.log(res.data.resultSet)
-        return res.data.resultSet
+        // console.log(res.data.resultSet)
+        // return res.data.resultSet
+        this.componentList = res.data.resultSet
+        this.$store.commit('initActiveComponent', this.componentList)
       })
       // this.$store.commit('appendComponent', testObj)
       this.$store.commit('changeComponentNameToCanvas', '')
     },
 
-    mountTest() {
+    mountComponent() {
       let currentData = this.componentList
       let that = this
       for (let i = 0; i < currentData.length; i++) {
         // if (currentData[i].name == 'compA') {
         this.objList.push(
-          mount(getComponent(currentData[i].name), {
+          new Mount(getComponent(currentData[i].name), {
             target: this.$refs.target,
             mode: 'append',
-            props: {},
+            props: { active: false },
             data: {
               index: currentData[i].index,
               target: that.$refs.target,
@@ -190,30 +220,43 @@ export default {
               resizable: currentData[i].resizable,
               parentLimitation: currentData[i].parentLimitation,
               dataSource: currentData[i].dataSource,
-              active: currentData[i].active,
+              // active: currentData[i].active,
               title: currentData[i].title,
               subTitle: currentData[i].subTitle,
               $store: this.$store
               //重新挂载后无法访问到全局的this.$store,需要对$store重定向
             },
+            //绑的事件侦听器，用于侦听当前的active情况
             on: {
-              // 'mount:mount'(vm) {
-              //   that.testconsole()
-              //   console.log('mount:mount')
-              //   console.log(vm.index)
-              // }
+              updateActiveStatus(...args) {
+                let params = {
+                  index: args[0],
+                  componentList: that.componentList
+                }
+                that.$store.commit('updateActiveComponent', params)
+                // console.log(that.$store.state.componentActive)
+                let tempActiveComponent = that.$store.state.componentActive
+                for (let i = 0; i < tempActiveComponent.length; i++) {
+                  for (let j = 0; j < that.objList.length; j++) {
+                    if (that.componentList[j].index == i) {
+                      // console.log(tempActiveComponent[i].active)
+                      that.objList[j].set({
+                        data: { active: tempActiveComponent[i].active }
+                      })
+                    }
+                  }
+                }
+              }
             }
           })
         )
+        this.objList[i].mount()
       }
-      // console.log(this.objList[0])
-      // console.log(this.objList[1])
-      // this.objList[1].destroy()
-      // let obj2 = this.objList[1]
-      // obj2.destroy()
-      // this.objList[0].destroy()
-      // this.objList[1].destroy()
-      // console.log(this.objList[1])
+      //初始化activeComponent列表，用此列表维护每个组件的active值
+      this.$store.commit('initActiveComponent', this.componentList)
+      console.log(this.$store.state.componentActive)
+      console.log(this.objList[0])
+      console.log(this.objList[1])
     },
     testconsole() {
       console.log('what the hell?')

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="ifshow">
+  <div v-if="ifshow" ref="testref" @keydown.enter="testEnter" tabindex="0">
     <vue-drag-resize
       :isActive="active"
       :preventActiveBehavior="preventActiveBehavior"
@@ -20,7 +20,6 @@
       :isResizable="resizable"
       @activated="activate"
       @deactivated="onDeactivated"
-      ref="testref"
     >
       <!-- <el-button type="danger" icon="el-icon-delete" circle></el-button> -->
       <div style="background-color: #ffffff; width: 100%; height: 100%">
@@ -77,7 +76,16 @@ export default {
       ]
     }
   },
+  props: {
+    // active: {
+    //   default: false
+    // }
+  },
   computed: {
+    // active: function() {
+    //   console.log(this.$store.state.componentList[this.index].active)
+    //   return this.$store.state.componentList[this.index].active
+    // },
     currentStyle: function() {
       return {
         width: this.width,
@@ -127,11 +135,15 @@ export default {
           left: this.left
         }
       }).then(res => {
-        console.log(res)
+        // console.log(res)
       })
     },
     testDelete() {
       console.log('deleted')
+    },
+    testEnter() {
+      console.log('enter pressed')
+      console.log(document.activeElement)
     },
     resize(newRect) {
       this.width = newRect.width
@@ -145,25 +157,16 @@ export default {
         top: this.top,
         left: this.left
       }
-      // this.$store.commit('adjustComponent', propertyObj)
       this.$refs.child.chartResize()
-      // console.log('width:', this.width)
-      // console.log('height:', this.height)
-      // console.log('top:', this.top)
-      // console.log('left', this.left)
     },
     onDeactivated() {
-      // console.log('deactivated' + this.index)
-      // this.$refs.testref.blur()
-      // console.log(document.hasFocus())
+      this.$refs.testref.blur()
     },
     activate() {
-      // this.$refs.testref.focus()
-      // console.log(document.hasFocus())
+      this.$emit('updateActiveStatus', this.index)
+      // console.log(this.index, this.active)
+      this.$refs.testref.focus()
     }
-    // testKeyDown(event) {
-    //   console.log(event)
-    // }
   }
 }
 </script>

@@ -82,7 +82,7 @@ export default {
         params: {}
       }).then(res => {
         this.tabpanedata = res.data.resultSet
-        console.log(res.data.resultSet)
+        // console.log(res.data.resultSet)
       })
     },
     dragstarttest(name) {
