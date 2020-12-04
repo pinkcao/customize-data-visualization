@@ -7,7 +7,7 @@
       <vuedraggable style="width: 100%; display: flex; justify-content: center" v-model="componentList">
         <transition-group>
           <div v-for="item in componentList" v-show="item.ifshow" :key="item.zindex" class="item">
-            index:{{ item.index }}z-index:{{ item.zindex }}
+            componentIndex:{{ item.index }}
           </div>
         </transition-group>
       </vuedraggable>
