@@ -82,6 +82,7 @@ import graphCol from '../components/graphCol/graphCol.vue'
 import pageSet from '../components/pageSet/pageSet.vue'
 import mainCanvas from '../components/mainCanvas.vue'
 import mockData from '../mock/mockData.js'
+import url from '../mock/mockAPI.js'
 
 export default {
   components: {
@@ -217,6 +218,13 @@ export default {
     this.$refs.graphCol.style.width = this.graphfullwidth
     this.$refs.compCol.style.width = this.componentsfullwidth
     this.$refs.pageCol.style.width = this.pagefullwidth
+    this.$axios({
+      url: url.getComponentList,
+      method: 'post',
+      data: {}
+    }).then(res => {
+      this.$store.commit('initComponentList', res.data.resultSet)
+    })
     // this.mountTest();
   },
 

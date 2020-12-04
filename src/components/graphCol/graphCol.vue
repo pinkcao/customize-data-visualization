@@ -3,10 +3,16 @@
     <div class="title-box-graph">
       <span style="color: #b3c0d1; font-size: 12px">图层</span>
     </div>
-    <div style="width: 100%">
-      <vuedraggable style="width: 100%; display: flex; justify-content: center" v-model="list">
+    <div style="width: 100%: scroll-y: auto">
+      <vuedraggable
+        @change="testChange"
+        style="width: 100%; display: flex; justify-content: center"
+        v-model="componentList"
+      >
         <transition-group>
-          <div v-for="item in list" :key="item" class="item">test{{ item }}</div>
+          <div v-for="item in componentList" v-show="item.ifshow" :key="item.zindex" class="item">
+            index:{{ item.index }}z-index:{{ item.zindex }}
+          </div>
         </transition-group>
       </vuedraggable>
     </div>
@@ -15,6 +21,7 @@
 
 <script>
 import vuedraggable from 'vuedraggable'
+import url from '../../mock/mockAPI.js'
 
 export default {
   name: 'graphCol',
@@ -23,15 +30,48 @@ export default {
   },
   data() {
     return {
-      list: [1, 2, 3, 4, 5]
+      // componentList: [],
+      // list: [1, 2, 3, 4, 5]
     }
   },
-  computed: {},
+  computed: {
+    // componentList: function() {
+    //   return this.$store.state.componentList
+    // }
+    componentList: {
+      get() {
+        return this.$store.state.componentList
+      },
+      set(value) {
+        console.log(value)
+        this.$store.commit('updateAllZindexAsc', value)
+        // this.$store.commit('updateAllZindexDsc', value)
+      }
+    }
+  },
 
   created() {},
-  mounted() {},
+  mounted() {
+    // this.getComponentList()
+    console.log(this.componentList)
+  },
 
-  methods: {}
+  methods: {
+    testChange(event) {
+      console.log(event)
+      console.log(this.componentList)
+    },
+    getComponentList() {
+      this.$axios({
+        url: url.getComponentList,
+        method: 'post',
+        data: {}
+      }).then(res => {
+        console.log(res.data.resultSet)
+        this.componentList = res.data.resultSet
+      })
+    }
+  }
 }
 </script>
 
@@ -40,9 +80,8 @@ export default {
 // @width: 200px;
 
 .title-box-graph {
-  padding: @titleboxpadding;
   width: 100%;
-  height: 30px - @titleboxpadding - @titleboxpadding;
+  height: 30px;
   background-color: #333b45;
   display: flex;
   align-items: center;
@@ -58,5 +97,6 @@ span {
   height: 80px;
   background-color: #775500;
   color: #ffffff;
+  margin-top: 2px;
 }
 </style>

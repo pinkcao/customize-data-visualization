@@ -83,6 +83,7 @@ const componentList = [
     active: false,
     ifshow: true,
     index: 0,
+    zindex: 0,
     dataSource: [
       ['department', '2018', '2019', '2020', '2021', '2022'],
       ['finance', 43.3, 85.8, 93.7, 55.4, 66.7],
@@ -106,6 +107,7 @@ const componentList = [
     active: false,
     ifshow: true,
     index: 1,
+    zindex: 1,
     dataSource: [
       ['department', '2018', '2019', '2020', '2021'],
       ['finance', 43.3, 85.8, 93.7, 55.4],
@@ -139,7 +141,7 @@ export default {
     componentList[componentList.length - 1].index = componentList.length - 1
     return {
       status: 200,
-      message: '获取成功',
+      message: '添加成功',
       resultSet: componentList
     }
   }),
@@ -172,6 +174,19 @@ export default {
     return {
       status: 200,
       message: '删除成功',
+      resultSet: componentList
+    }
+  }),
+  updateZindexComponentList: Mock.mock(url.updateZindexComponentList, 'post', params => {
+    let currentComponentList = JSON.parse(params.body)
+    for (let i = 0; i < currentComponentList.length; i++) {
+      componentList[i] = currentComponentList[i]
+    }
+    // componentList = currentComponentList
+    // console.log(currentComponentList)
+    return {
+      status: 200,
+      message: '修改z-index成功',
       resultSet: componentList
     }
   })

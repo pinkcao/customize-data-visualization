@@ -7,6 +7,7 @@
       :h="height"
       :x="left"
       :y="top"
+      :z="zindex"
       @resizing="resize"
       @dragging="resize"
       @resizestop="updateComponentList"
@@ -62,6 +63,7 @@ export default {
       draggable: true,
       resizable: true,
       index: 0,
+      zindex: 0,
       mode: 'design',
       flag: false,
       title: '',
@@ -128,8 +130,17 @@ export default {
           left: this.left
         }
       }).then(res => {
+        this.$store.commit('initComponentList', res.data.resultSet)
         // console.log(res)
       })
+      // let propertyObj = {
+      //   index: this.index,
+      //   width: this.width,
+      //   height: this.height,
+      //   top: this.top,
+      //   left: this.left
+      // }
+      // this.$store.commit('adjustComponent', propertyObj)
     },
     destroyComponent() {
       console.log('delete down')

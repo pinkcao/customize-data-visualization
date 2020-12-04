@@ -23,7 +23,36 @@ export default {
       objList: []
     }
   },
+  watch: {
+    '$store.state.componentList': function(newval) {
+      console.log(newval)
+      let compList = newval
+      for (let i = 0; i < this.objList.length; i++) {
+        for (let j = 0; j < compList.length; j++) {
+          console.log(this.objList[i].component_instance.index, compList[j].index)
+          if (this.objList[i].component_instance.index == compList[j].index) {
+            this.objList[i].set({
+              data: { zindex: compList[j].zindex }
+            })
+          }
+        }
+      }
+    }
+  },
   computed: {
+    // currentComponentList: function() {
+    //   console.log(this.$store.state.componentList)
+    //   return this.$store.state.componentList
+    // },
+    currentComponentList: {
+      get() {
+        return this.$store.state.componentList
+      },
+      set(val) {
+        console.log(val)
+        this.componentList = val
+      }
+    },
     canvasStyle: function() {
       let parentScale = this.$store.state.parentScale
       let result = {
@@ -42,6 +71,10 @@ export default {
     this.getComponentList()
   },
   methods: {
+    //赋值当前componentList为vuex中componentList
+    // syncComponentList() {
+    //   this.componentList = this.currentComponentList
+    // },
     cancelFocus(event) {
       if (event.target == this.$refs.target) {
         this.$store.commit('setActiveComponentFalse')
@@ -67,6 +100,7 @@ export default {
         let that = this
         let testObj = {
           index: this.componentList.length,
+          zindex: this.componentList.length,
           ifshow: true,
           name: this.$store.state.componentNameToCanvas,
           width: 300,
@@ -97,6 +131,7 @@ export default {
             props: {},
             data: testObj,
             on: {
+              //active状态不需要更新至数据库，因为最终active状态一定是false，仅在vuex中实时更新active状态并更改objList中对象的active状态
               updateActiveStatus(...args) {
                 let params = {
                   index: args[0],
@@ -125,6 +160,7 @@ export default {
                     }
                   })
                   .then(res => {
+                    that.$store.commit('initComponentList', res.data.resultSet)
                     that.componentList = res.data.resultSet
                     console.log(that.componentList)
                   })
@@ -138,6 +174,7 @@ export default {
           method: 'post',
           data: {
             index: this.componentList.length,
+            zindex: this.componentList.length,
             ifshow: true,
             name: this.$store.state.componentNameToCanvas,
             width: 300,
@@ -161,6 +198,7 @@ export default {
           }
         }).then(res => {
           this.componentList = res.data.resultSet
+          this.$store.commit('initComponentList', this.componentList)
           this.$store.commit('initActiveComponent', this.componentList)
         })
         this.$store.commit('changeComponentNameToCanvas', '')
@@ -178,6 +216,7 @@ export default {
             props: { active: false },
             data: {
               index: currentData[i].index,
+              zindex: currentData[i].index,
               target: that.$refs.target,
               ifshow: currentData[i].ifshow,
               width: currentData[i].width,
@@ -229,6 +268,7 @@ export default {
                   })
                   .then(res => {
                     that.componentList = res.data.resultSet
+                    that.$store.commit('initComponentList', res.data.resultSet)
                     console.log(that.componentList)
                   })
               }

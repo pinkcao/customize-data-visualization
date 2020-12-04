@@ -67,6 +67,7 @@ export default {
           props: {},
           data: {
             index: currentData[i].index,
+            zindex: currentData[i].zindex,
             target: this.$refs.target,
             ifshow: currentData[i].ifshow,
             width: currentData[i].width,
