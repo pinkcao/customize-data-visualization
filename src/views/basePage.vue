@@ -72,13 +72,9 @@ import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass.js'
 // import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass.js";
 import Stats from 'three/examples/jsm/libs/stats.module.js'
 import dat from 'three/examples/js/libs/dat.gui.min.js'
-// import componentCol from '../components/componentCol/componentCol.vue'
 import componentCol from '../components/componentCol/componentCol.vue'
 import testComponentA from '../components/graphs/testComponentA.vue'
-import { mount } from 'vue-mount'
-// import mocktest from "../API/mockTest.js";
 import graphCol from '../components/graphCol/graphCol.vue'
-// import testStyle from "../API/testStyle.js";
 import pageSet from '../components/pageSet/pageSet.vue'
 import mainCanvas from '../components/mainCanvas.vue'
 import mockData from '../mock/mockData.js'
@@ -87,7 +83,6 @@ import url from '../mock/mockAPI.js'
 export default {
   components: {
     componentCol,
-    // testComponentA,
     graphCol,
     pageSet,
     mainCanvas
@@ -124,10 +119,9 @@ export default {
 
       divData: {},
       dataFromSon: '',
-      // ShaderPass:new THREE.ShaderPass( THREE.FXAAShader ),
       /*
-          div参数
-          */
+        div参数
+      */
 
       componentsfullwidth: '250px',
       componentsemptywidth: '0px',
@@ -135,56 +129,11 @@ export default {
       pageemptywidth: '0px',
       graphfullwidth: '200px',
       graphemptywidth: '0px',
-
-      // iconstyle:{
-      //   color:'aliceblue',
-      //   display:'flex',
-      //   'align-items':center,
-      //   'justify-content':center,
-      //   'margin-top':'7px',
-      // },
       iconstyle: 'color:aliceblue;display:flex;align-items: center;justify-content: center;margin-top: 7px',
-      componentName: '',
-      mountTestData: [
-        {
-          comstyle: {
-            width: '80px',
-            height: '80px',
-            position: 'absolute'
-            // left:'500px',
-            // top:'50px',
-          },
-          name: 'compA',
-          uid: 'compA_1',
-          ifshow: true
-        },
-        {
-          comstyle: {
-            width: '90px',
-            height: '90px',
-            position: 'absolute'
-          },
-          name: 'compA',
-          uid: 'compA_2',
-          ifshow: true
-        }
-      ]
-      // ,{
-      //   comstyle:{
-      //     width:'100px',
-      //     height:'100px',
-      //     position:'absolute',
-      //   },
-      //   name:'compA',
-      //   uid:'compA_003',
-      //   ifshow:true,
-      // }],
+      componentName: ''
     }
   },
   computed: {
-    comcount: function() {
-      return 'comp_' + (this.mountTestData.length + 1)
-    },
     graphisshown: function() {
       return {
         'icon-box-left': this.graphColActive,
@@ -210,11 +159,9 @@ export default {
   beforeCreate() {},
   created() {},
   mounted() {
-    // console.log(this.$store.state.isLogin);
     /*
-        初始化width保证立即响应
-        */
-    // const tabData = mockData.tabData
+      初始化width保证立即响应
+    */
     this.$refs.graphCol.style.width = this.graphfullwidth
     this.$refs.compCol.style.width = this.componentsfullwidth
     this.$refs.pageCol.style.width = this.pagefullwidth
@@ -225,15 +172,13 @@ export default {
     }).then(res => {
       this.$store.commit('initComponentList', res.data.resultSet)
     })
-    // this.mountTest();
   },
 
   methods: {
     /*
-        用于transition三个区块
-        */
+      用于transition三个区块
+    */
     graphclicktest() {
-      // console.log(this.$refs.graphCol.style.width);
       if (this.$refs.graphCol.style.width !== this.graphfullwidth) {
         this.$refs.graphCol.style.width = this.graphfullwidth
         this.graphColActive = true
@@ -266,182 +211,6 @@ export default {
     allowdrag(event) {
       event.preventDefault()
     },
-
-    dragstarttest(event) {
-      console.log('dragstarts')
-      this.originX = event.clientX
-      this.originY = event.clientY
-      // console.log(this.originX);
-      // console.log(this.originY);
-    },
-    dragendtest(event) {
-      console.log('dragends')
-      var desX = event.clientX - this.originX
-      var desY = event.clientY - this.originY
-      console.log(desX)
-      console.log(desY)
-      /*
-          拖拽元素计算坐标
-          */
-      event.currentTarget.style.left = event.currentTarget.getBoundingClientRect().left + desX + 'px'
-      event.currentTarget.style.top = event.currentTarget.getBoundingClientRect().top + desY + 'px'
-    },
-
-    showDivData(event) {
-      console.log(event.currentTarget.getBoundingClientRect())
-      this.divData.right = event.currentTarget.getBoundingClientRect().right
-      this.divData.left = event.currentTarget.getBoundingClientRect().left
-      this.divData.top = event.currentTarget.getBoundingClientRect().top
-      this.divData.bottom = event.currentTarget.getBoundingClientRect().bottom
-      // console.log(this.divData);
-    },
-
-    /*
-        这个方法需要分离一下
-        */
-    getMessage(data) {
-      this.dataFromSon = data
-      for (let i = 0; i < this.mountTestData.length; i++) {
-        if (this.mountTestData[i].uid == this.dataFromSon) {
-          this.mountTestData.splice(i, 1)
-        }
-      }
-    },
-
-    /*
-        初始化在中心画布挂载进行测试
-        测试成功表明在引入相应的组件后可以直接进行挂载
-        流程：
-        1.从数据库读取组件列表，import对应的组件
-        2.根据组件列表在新界面进行挂载
-        */
-    mountTest() {
-      let currentData = this.mountTestData
-      let that = this
-      for (let i = 0; i < currentData.length; i++) {
-        if (currentData[i].name == 'compA') {
-          mount(testComponentA, {
-            target: this.$refs.target,
-            mode: 'append',
-            props: {},
-            data: {
-              comstyle: currentData[i].comstyle,
-              uid: currentData[i].uid,
-              target: this.$refs.target,
-              ifshow: currentData[i].ifshow
-            },
-            on: {
-              receiveDataFromSon(data) {
-                // that.dataFromSon = data;
-                that.getMessage(data)
-              }
-            }
-          })
-        }
-      }
-    },
-
-    /*
-          在这里维护组件数组，应当有一套初始化数据。并且设置好组件的唯一名称，根据该名称进行组件的删除与修改
-          */
-
-    /*
-          假设这个结构是这样的，加载时应该是挂载到一个全新的结点（新建了标签页），循环挂载数组中的组件
-          可先通过判断组件数组中的组件名或是其他方式确定需要的组件是什么，再import，添加components？
-          [{
-            comstyle:{
-              width:'',
-              height:'',
-              position:'absolute',
-                            不得不这样传，dataV应该也是这么做的，因为无法修改class内部样式，并且大概只要传缩放以及宽高坐标即可。
-                            组件的宽高的缩放也按比例来。
-            },
-
-            name:'',用于标识是哪个组件，方便挂载，当然也可能是一个component中根据属性的不同而产生不同的形状变化啥的，比如
-                    柱状图→饼图这种，这种情况下name就不那么需要了，comstyle需要对应的数据结构对应起来，hashmap应该就行
-            uid:'',相当于自增主键，数组中组件的唯一标识符，子组件通过传该值给父组件修改组件数组，修改完成后调用destroy方法？大概
-                    z-index大概也是在此处完成传入传出。
-          },{
-
-          },{
-
-          }]
-          */
-
-    //判断成功则挂载到中心区域
-    /*
-            这个可能是需要hashmap这种数据结构将其一一对应起来，在选择组件列表时所选择的大概率是个图像然后进行拖拽
-            图像有其图像名，可能是图像的uuid，可以是通过数据库也可以是通过后端的数据结构或是前端写个二维数组直接把
-            图像和组件对应起来，对应完成后将其更新在组件数组中并更新至中央画布。
-            */
-
-    // droptest(event){
-
-    // }
-    // droptest(event){
-    //   // console.log("drops");
-    //   // console.log(this.dataFromSon);
-    //   if(this.dataFromSon == "组件列"){
-    //   let that = this;
-    //     const testComponentA2 = mount(testComponentA, {
-    //       target: this.$refs.target,
-    //       mode:"append",
-    //       props: {
-    //       	testProps: 123,
-    //         /*
-    //         传给子组件的值、字符串、方法、对象
-    //         */
-    //       },
-    //       data: {
-    //           // comstyle:{
-    //           //   width:'80px',
-    //           //   height:'80px',
-    //           //   position:'absolute',
-    //           //   left:'500px',
-    //           //   top:'50px',
-    //           // },
-    //           comstyle:testStyle.data().comstyle,
-    //           name:'compA',
-    //           uid:that.comcount,
-    //           ifshow:true,
-    //           },
-    //       on:{
-    //           'receiveDataFromSon'(data,vm,mnt){
-    //             // that.dataFromSon = data;
-    //             that.getMessage(data);
-    //           }
-    //         }
-    //     });
-
-    //     this.mountTestData.push(
-    //     {
-    //       // comstyle:{
-    //       //   width:'80px',
-    //       //   height:'80px',
-    //       //   position:'absolute',
-    //       //   left:'500px',
-    //       //   top:'50px',
-    //       // },
-    //       comstyle:testStyle.data().comstyle,
-    //       name:'compA',
-    //       uid:that.comcount,
-    //       ifshow:true,
-    //     }
-    //     );
-    //   }
-    //   this.dataFromSon = '';
-    // },
-
-    dragovertest2() {},
-
-    dragtest(event) {
-      event.currentTarget.style.left = event.clientX + 'px'
-      event.currentTarget.style.top = event.clientY + 'px'
-      console.log('dragging')
-    },
-
-    clicktest() {},
-
     init() {
       this.initcamera()
       this.initScene()
@@ -450,14 +219,13 @@ export default {
       this.initControls()
       // this.initGeometry();
       /*
-          这个loader可以再封装，不过是从外部接数据可能需要再想想
-          */
+        这个loader可以再封装，不过是从外部接数据可能需要再想想
+      */
       this.initloader(0, 0, 0)
       this.initComposer()
       this.initStats()
       this.initGui()
       // this.initEcharts();
-
       // this.effectFXAA = new ShaderPass(THREE.FXAAShader );
       // this.effectFXAA.uniforms[ 'resolution' ].value.set( 1 / window.innerWidth, 1 / window.innerHeight );
       // this.effectFXAA.renderToScreen = true;

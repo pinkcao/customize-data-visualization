@@ -1,9 +1,6 @@
 <template>
   <div ref="preview">
     <el-button style="float: right" icon="el-icon-close" @click="returnToBase" circle></el-button>
-    <!-- <div v-if="testflag" style="width: 100px; height: 100px; background-color: #ff0000"></div> -->
-    <!-- <el-button type="primary" @click="testif">测试按钮</el-button>
-    <test ref="test"></test> -->
   </div>
 </template>
 
@@ -11,27 +8,20 @@
 // import testComponentA from '../components/graphs/testComponentA'
 //通过该方法传字符串获取组件，使组件名与组件对应
 import { getComponent } from '../components/graphs/comMap.js'
+//由于在预览界面不会对子组件再进行操作，因此仅只引入mount方法，不保存整个Mount对象
 import { mount } from 'vue-mount'
 import url from '../mock/mockAPI.js'
 // import test from '../components/test.vue'
 
 export default {
-  components: {
-    // testComponentA,
-    // test
-  },
+  components: {},
   name: 'mainCanvas',
   data() {
     return {
-      // testflag: true
       componentList: []
     }
   },
-  computed: {
-    // componentList: function() {
-    //   return this.$store.state.componentList
-    // }
-  },
+  computed: {},
   props: ['componentName'],
   created() {},
   mounted() {
@@ -39,10 +29,6 @@ export default {
   },
 
   methods: {
-    // testif() {
-    //   // this.testflag = !this.testflag
-    //   this.$refs.test.changeFlag()
-    // },
     returnToBase() {
       this.$router.push({ path: '/basePage' })
     },
@@ -60,7 +46,6 @@ export default {
       let currentData = this.componentList
       let that = this
       for (let i = 0; i < currentData.length; i++) {
-        // if (currentData[i].name == 'compA') {
         mount(getComponent(currentData[i].name), {
           target: that.$refs.preview,
           mode: 'append',
@@ -80,8 +65,6 @@ export default {
             dataSource: currentData[i].dataSource,
             title: currentData[i].title,
             subTitle: currentData[i].subTitle,
-            //   draggable: false,
-            //   resizable: false,
             draggable: false,
             resizable: false,
             mode: 'preview',
@@ -91,7 +74,6 @@ export default {
           },
           on: {}
         })
-        // }
       }
     }
   }

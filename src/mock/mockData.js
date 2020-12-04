@@ -1,7 +1,7 @@
 import Mock from 'mockjs'
 import url from './mockAPI.js'
-import axios from 'axios'
 
+//默认初始tabdata
 const componentTabData = [
   {
     classname: 'el-icon-date',
@@ -67,7 +67,7 @@ const componentTabData = [
     ]
   }
 ]
-
+//默认初始挂载组件
 const componentList = [
   {
     name: 'compA',
@@ -122,13 +122,15 @@ const componentList = [
 console.log('mock服务加载')
 
 export default {
-  tabData: Mock.mock(url.tabData, 'post', () => {
+  //获取组件列的tabData
+  getComTabData: Mock.mock(url.getComTabData, 'post', () => {
     return {
       status: 200,
       message: '获取成功',
       resultSet: componentTabData
     }
   }),
+  //获取当前componentList
   getComponentList: Mock.mock(url.getComponentList, 'post', () => {
     return {
       status: 200,
@@ -136,6 +138,7 @@ export default {
       resultSet: componentList
     }
   }),
+  //添加组件并设置其index值为当前数组长度
   appendComponentList: Mock.mock(url.appendComponentList, 'post', newComp => {
     componentList.push(JSON.parse(newComp.body))
     componentList[componentList.length - 1].index = componentList.length - 1
@@ -145,6 +148,7 @@ export default {
       resultSet: componentList
     }
   }),
+  //每当组件进行缩放、位移进行调用，更新当前组件的的属性
   adjustComponentList: Mock.mock(url.adjustComponent, 'post', params => {
     // console.log(JSON.parse(params.body))
     let propertyObj = JSON.parse(params.body)
@@ -154,6 +158,7 @@ export default {
         componentList[i].height = propertyObj.height
         componentList[i].top = propertyObj.top
         componentList[i].left = propertyObj.left
+        break
       }
     }
     return {
@@ -162,7 +167,7 @@ export default {
       resultSet: componentList
     }
   }),
-  //只是将其可见性设为否
+  //删除组件，只是将其可见性设为否
   spliceComponentList: Mock.mock(url.spliceComponentList, 'post', params => {
     let index = JSON.parse(params.body).index
     console.log(index)
@@ -177,13 +182,13 @@ export default {
       resultSet: componentList
     }
   }),
+  //更新所有组件的z-index值使其与设计界面z-index值相等
+  //实际上这里是直接复制了传入的componentList
   updateZindexComponentList: Mock.mock(url.updateZindexComponentList, 'post', params => {
     let currentComponentList = JSON.parse(params.body)
     for (let i = 0; i < currentComponentList.length; i++) {
       componentList[i] = currentComponentList[i]
     }
-    // componentList = currentComponentList
-    // console.log(currentComponentList)
     return {
       status: 200,
       message: '修改z-index成功',

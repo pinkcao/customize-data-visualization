@@ -4,11 +4,7 @@
       <span style="color: #b3c0d1; font-size: 12px">图层</span>
     </div>
     <div style="width: 100%: scroll-y: auto">
-      <vuedraggable
-        @change="testChange"
-        style="width: 100%; display: flex; justify-content: center"
-        v-model="componentList"
-      >
+      <vuedraggable style="width: 100%; display: flex; justify-content: center" v-model="componentList">
         <transition-group>
           <div v-for="item in componentList" v-show="item.ifshow" :key="item.zindex" class="item">
             index:{{ item.index }}z-index:{{ item.zindex }}
@@ -29,15 +25,10 @@ export default {
     vuedraggable
   },
   data() {
-    return {
-      // componentList: [],
-      // list: [1, 2, 3, 4, 5]
-    }
+    return {}
   },
   computed: {
-    // componentList: function() {
-    //   return this.$store.state.componentList
-    // }
+    //当前的componentList
     componentList: {
       get() {
         return this.$store.state.componentList
@@ -52,32 +43,15 @@ export default {
 
   created() {},
   mounted() {
-    // this.getComponentList()
     console.log(this.componentList)
   },
 
-  methods: {
-    testChange(event) {
-      console.log(event)
-      console.log(this.componentList)
-    },
-    getComponentList() {
-      this.$axios({
-        url: url.getComponentList,
-        method: 'post',
-        data: {}
-      }).then(res => {
-        console.log(res.data.resultSet)
-        this.componentList = res.data.resultSet
-      })
-    }
-  }
+  methods: {}
 }
 </script>
 
 <style scoped lang="less">
 @titleboxpadding: 10px;
-// @width: 200px;
 
 .title-box-graph {
   width: 100%;

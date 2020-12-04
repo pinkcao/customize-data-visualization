@@ -22,7 +22,6 @@
       @activated="activate"
       @deactivated="onDeactivated"
     >
-      <!-- <el-button type="danger" icon="el-icon-delete" circle></el-button> -->
       <div style="background-color: #ffffff; width: 100%; height: 100%">
         <v-chart
           v-if="flag"
@@ -78,26 +77,17 @@ export default {
       ]
     }
   },
-  props: {
-    // active: {
-    //   default: false
-    // }
-  },
+  props: {},
   computed: {
-    currentStyle: function() {
-      return {
-        width: this.width,
-        height: this.height
-      }
-    },
+    //X缩放比
     parentScaleX: function() {
       if (this.mode == 'design') {
         return this.$store.state.parentScale
       } else {
         return 1
       }
-      // return this.$store.state.parentScaleX;
     },
+    //Y缩放比
     parentScaleY: function() {
       if (this.mode == 'design') {
         return this.$store.state.parentScale
@@ -105,9 +95,11 @@ export default {
         return 1
       }
     },
+    //父元素宽
     parentW: function() {
       return this.$store.state.parentW
     },
+    //父元素高
     parentH: function() {
       return this.$store.state.parentH
     }
@@ -131,16 +123,7 @@ export default {
         }
       }).then(res => {
         this.$store.commit('initComponentList', res.data.resultSet)
-        // console.log(res)
       })
-      // let propertyObj = {
-      //   index: this.index,
-      //   width: this.width,
-      //   height: this.height,
-      //   top: this.top,
-      //   left: this.left
-      // }
-      // this.$store.commit('adjustComponent', propertyObj)
     },
     destroyComponent() {
       console.log('delete down')
@@ -166,7 +149,6 @@ export default {
     },
     activate() {
       this.$emit('updateActiveStatus', this.index)
-      // console.log(this.index, this.active)
       this.$refs.testref.focus()
     }
   }

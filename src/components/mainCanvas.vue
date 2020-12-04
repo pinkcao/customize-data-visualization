@@ -24,12 +24,13 @@ export default {
     }
   },
   watch: {
+    //监听vuex中的componentList属性，如果有更改则覆盖当前objList的z-index值
     '$store.state.componentList': function(newval) {
       console.log(newval)
       let compList = newval
       for (let i = 0; i < this.objList.length; i++) {
         for (let j = 0; j < compList.length; j++) {
-          console.log(this.objList[i].component_instance.index, compList[j].index)
+          //必须是this.objList[i].component_instance获取当前VueComponent实体
           if (this.objList[i].component_instance.index == compList[j].index) {
             this.objList[i].set({
               data: { zindex: compList[j].zindex }
@@ -44,15 +45,15 @@ export default {
     //   console.log(this.$store.state.componentList)
     //   return this.$store.state.componentList
     // },
-    currentComponentList: {
-      get() {
-        return this.$store.state.componentList
-      },
-      set(val) {
-        console.log(val)
-        this.componentList = val
-      }
-    },
+    // currentComponentList: {
+    //   get() {
+    //     return this.$store.state.componentList
+    //   },
+    //   set(val) {
+    //     console.log(val)
+    //     this.componentList = val
+    //   }
+    // },
     canvasStyle: function() {
       let parentScale = this.$store.state.parentScale
       let result = {
@@ -172,6 +173,7 @@ export default {
         this.$axios({
           url: url.appendComponentList,
           method: 'post',
+          //不用testobj是因为在testObj中重定向了store，会造成"Converting circular structure to JSON"的问题
           data: {
             index: this.componentList.length,
             zindex: this.componentList.length,
@@ -204,16 +206,18 @@ export default {
         this.$store.commit('changeComponentNameToCanvas', '')
       }
     },
-
+    //把初始所有在组件列表的组件挂载在当前div上
     mountComponent() {
       let currentData = this.componentList
       let that = this
       for (let i = 0; i < currentData.length; i++) {
         this.objList.push(
           new Mount(getComponent(currentData[i].name), {
+            //挂载的目标
             target: this.$refs.target,
+            //挂载的方式，因为是n个组件，所以是用加的方式
             mode: 'append',
-            props: { active: false },
+            // props: { active: false },
             data: {
               index: currentData[i].index,
               zindex: currentData[i].index,

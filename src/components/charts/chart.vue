@@ -232,7 +232,9 @@ export default {
       processedArr: null,
       //统计分组的类别
       columnDict: [],
+      //当前图表的标题
       currentChartTitle: '',
+      //当前图表的副标题
       currentChartSubTitle: '',
       radio: 1,
       groupId: 0,
@@ -324,12 +326,8 @@ export default {
     window.addEventListener('resize', () => {
       this.currentChart.resize()
     })
-    // console.log(this.rawdata)
   },
   methods: {
-    // alertShow() {
-    //   console.log('shown')
-    // },
     confirmChange(value) {
       console.log(value)
     },

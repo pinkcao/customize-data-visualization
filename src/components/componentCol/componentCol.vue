@@ -54,7 +54,6 @@
 
 <script>
 import url from '../../mock/mockAPI.js'
-// import { getTabPaneData } from './compColAPI.js'
 
 export default {
   name: 'componentCol',
@@ -75,23 +74,22 @@ export default {
   },
 
   methods: {
+    //获取TabPaneData
     getTabPaneData() {
       this.$axios({
-        url: url.tabData,
+        url: url.getComTabData,
         method: 'post',
         params: {}
       }).then(res => {
         this.tabpanedata = res.data.resultSet
-        // console.log(res.data.resultSet)
       })
     },
     dragstarttest(name) {
       this.$store.commit('changeComponentNameToCanvas', name)
       console.log(this.$store.state.componentNameToCanvas)
       /*
-          将数据更新至vuex，全局保存，不然要写的组件传值实在是过于麻烦。
-          */
-      // console.log(this.$store.state.componentNameToCanvas);
+        将拖拽元素name更新至vuex，全局保存。
+      */
     },
     dragendtest() {
       console.log('dragends')

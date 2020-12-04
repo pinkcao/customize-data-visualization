@@ -7,7 +7,6 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    isLogin: false,
     componentNameToCanvas: '',
     componentUid: '',
     componentActive: [],
@@ -19,17 +18,13 @@ export default new Vuex.Store({
     position: 'absolute'
   },
   mutations: {
-    changeLogin(state, isOK) {
-      state.isLogin = isOK
-    },
-
     changeComponentNameToCanvas(state, compName) {
       state.componentNameToCanvas = compName
     },
-
     changeComponentUid(state, uid) {
       state.componentUid = uid
     },
+    //这两个方法以备不时之需，目前不需要
     // adjustComponent(state, propertyObj) {
     //   for (let i = 0; i < state.componentList.length; i++) {
     //     if (propertyObj.index == state.componentList[i].index) {
@@ -73,7 +68,7 @@ export default new Vuex.Store({
         state.componentActive[i].active = false
       }
     },
-    //传入排序后数组，给排序后数组的z-index重排序，显示在上层的z-index小
+    //传入排序后数组，给排序后数组的z-index重排序，升序
     updateAllZindexAsc(state, componentList) {
       state.componentList = componentList
       for (let i = 0; i < state.componentList.length; i++) {
@@ -87,6 +82,7 @@ export default new Vuex.Store({
         console.log(res.data.resultSet)
       })
     },
+    //传入排序后数组，给排序后数组的z-index重排序，降序
     updateAllZindexDsc(state, componentList) {
       state.componentList = componentList
       for (let i = 0; i < state.componentList.length; i++) {
@@ -102,11 +98,7 @@ export default new Vuex.Store({
     }
   },
 
-  getters: {
-    getIsLogin(state) {
-      return state.isLogin
-    }
-  },
+  getters: {},
 
   actions: {},
   modules: {}

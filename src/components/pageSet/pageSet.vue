@@ -1,8 +1,5 @@
 <template>
   <div>
-    <!--    <form-create ref="fc" v-model="fApi" :rule="rule" :option="option">
-
-    </form-create> -->
     <div class="title-box-page">页面设置</div>
   </div>
 </template>
@@ -30,9 +27,7 @@ export default {
   computed: {},
 
   created() {},
-  mounted() {
-    // this.model = this.fApi.model();
-  },
+  mounted() {},
 
   methods: {}
 }
