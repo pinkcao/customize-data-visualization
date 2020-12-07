@@ -26,7 +26,7 @@ export default {
   watch: {
     //监听vuex中的componentList属性，如果有更改则覆盖当前objList的z-index值
     '$store.state.componentList': function(newval) {
-      console.log(newval)
+      // console.log(newval)
       let compList = newval
       for (let i = 0; i < this.objList.length; i++) {
         for (let j = 0; j < compList.length; j++) {
@@ -57,8 +57,8 @@ export default {
     canvasStyle: function() {
       let parentScale = this.$store.state.parentScale
       let result = {
-        width: this.$store.state.parentW + 'px',
-        height: this.$store.state.parentH + 'px',
+        width: this.$store.state.colDef[0].value + 'px',
+        height: this.$store.state.colDef[1].value + 'px',
         position: this.$store.state.position,
         transform: `scale(${parentScale}) translate(0px, 0px)`
       }

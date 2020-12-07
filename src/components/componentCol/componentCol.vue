@@ -54,6 +54,7 @@
 
 <script>
 import url from '../../mock/mockAPI.js'
+// import { getTabPaneData } from './compColAPI.js'
 
 export default {
   name: 'componentCol',
@@ -76,6 +77,9 @@ export default {
   methods: {
     //获取TabPaneData
     getTabPaneData() {
+      // this.tabpanedata = getTabPaneData()
+      // console.log('test')
+      // console.log(this.tabpanedata)
       this.$axios({
         url: url.getComTabData,
         method: 'post',

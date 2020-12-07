@@ -13,9 +13,25 @@ export default new Vuex.Store({
     componentList: [],
     //修正canvas规模、鼠标倍率
     parentScale: 0.35,
+    parentScaleX: 0.35,
+    parentScaleY: 0.35,
     parentW: 1536, //这个调的时候记得+px
     parentH: 864,
-    position: 'absolute'
+    position: 'absolute',
+    colDef: [
+      {
+        index: 0,
+        title: '页面宽度: ',
+        type: 'inputNumber',
+        value: 1536
+      },
+      {
+        index: 1,
+        title: '页面高度: ',
+        type: 'inputNumber',
+        value: 864
+      }
+    ]
   },
   mutations: {
     changeComponentNameToCanvas(state, compName) {
@@ -43,7 +59,7 @@ export default new Vuex.Store({
     //初始化组件列表
     initComponentList(state, componentList) {
       state.componentList = componentList
-      console.log(state.componentList)
+      // console.log(state.componentList)
     },
     //初始化活跃组件列表
     initActiveComponent(state, componentList) {
@@ -95,6 +111,15 @@ export default new Vuex.Store({
       }).then(res => {
         console.log(res.data.resultSet)
       })
+    },
+    updatePageValue(state, data) {
+      for (let i = 0; i < state.colDef.length; i++) {
+        if (state.colDef[i].index == data.index) {
+          state.colDef[i].value = data.value
+          // console.log(state.colDef[i].value)
+          break
+        }
+      }
     }
   },
 

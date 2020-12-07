@@ -39,11 +39,11 @@
         </el-aside>
         <el-aside width="auto">
           <div ref="compCol" class="transition-box-comp">
-            <componentCol :divData="divData" @receiveDataFromSon="getMessage"></componentCol>
+            <componentCol :divData="divData"></componentCol>
           </div>
         </el-aside>
         <el-main>
-          <div @dragenter="dragovertest2" @dragover="allowdrag" @click="clicktest" class="main-panel-wp">
+          <div @dragover="allowdrag" class="main-panel-wp">
             <div class="canvas-main">
               <main-canvas> </main-canvas>
             </div>

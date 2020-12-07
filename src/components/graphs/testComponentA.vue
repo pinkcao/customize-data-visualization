@@ -82,7 +82,7 @@ export default {
     //X缩放比
     parentScaleX: function() {
       if (this.mode == 'design') {
-        return this.$store.state.parentScale
+        return this.$store.state.parentScaleX
       } else {
         return 1
       }
@@ -90,18 +90,18 @@ export default {
     //Y缩放比
     parentScaleY: function() {
       if (this.mode == 'design') {
-        return this.$store.state.parentScale
+        return this.$store.state.parentScaleY
       } else {
         return 1
       }
     },
     //父元素宽
     parentW: function() {
-      return this.$store.state.parentW
+      return this.$store.state.colDef[0].value
     },
     //父元素高
     parentH: function() {
-      return this.$store.state.parentH
+      return this.$store.state.colDef[1].value
     }
   },
 

@@ -1,6 +1,20 @@
 <template>
-  <div>
+  <div style="">
     <div class="title-box-page">页面设置</div>
+    <div class="page-set-container">
+      <div class="form-sub-item" v-for="item in colDef" :key="item.index">
+        <span style="font-size: 13px">{{ item.title }}</span>
+        <el-input-number
+          v-if="item.type == 'inputNumber'"
+          style="border-radius: 0px"
+          controls-position="right"
+          :label="item.title"
+          size="mini"
+          v-model="item.value"
+          @change="onChange(item.index)"
+        ></el-input-number>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -11,25 +25,47 @@ export default {
   name: 'pageSet',
   data() {
     return {
-      fApi: {},
-      model: {},
-      //表单生成规则
-      rule: [maker.input('商品名称', 'goods_name'), maker.date('创建时间', 'created_at')],
-      //组件参数配置
-      option: {
-        //表单提交事件
-        onSubmit: function(formData) {
-          alert(JSON.stringify(formData))
-        }
-      }
+      colDef: []
+      // colDef: [
+      //   {
+      //     index: 0,
+      //     title: '页面宽度: ',
+      //     type: 'inputNumber',
+      //     value: 1536
+      //   },
+      //   {
+      //     index: 1,
+      //     title: '页面高度: ',
+      //     type: 'inputNumber',
+      //     value: 864
+      //   }
+      // ]
     }
   },
   computed: {},
 
   created() {},
-  mounted() {},
+  mounted() {
+    this.initCol()
+  },
 
-  methods: {}
+  methods: {
+    initCol() {
+      this.colDef = this.$store.state.colDef
+    },
+    onChange(index) {
+      // console.log(index)
+      for (let i = 0; i < this.colDef.length; i++) {
+        if (this.colDef[i].index == index) {
+          let data = {
+            index: index,
+            value: this.colDef[i].value
+          }
+          this.$store.commit('updatePageValue', data)
+        }
+      }
+    }
+  }
 }
 </script>
 
@@ -42,5 +78,33 @@ export default {
   text-align: center;
   font-size: 12px;
   line-height: 30px;
+}
+
+.page-set-container {
+  float: left;
+  margin: 10px;
+  color: #aaaaaa;
+}
+
+.el-input-number__decrease {
+  border-radius: 0px;
+}
+
+.page-set-container .el-input-number.is-controls-right .el-input-number__decrease {
+  border-radius: 0px;
+}
+
+.page-set-container .el-input-number.is-controls-right .el-input-number__increase {
+  border-radius: 0px;
+}
+
+.form-sub-item {
+  margin: 5px;
+}
+
+.page-set-container input {
+  background-color: #222222;
+  border-radius: 0px;
+  border: 1px solid #333333;
 }
 </style>
