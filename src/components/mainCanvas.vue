@@ -295,9 +295,10 @@ export default {
 /*设置坐标原点为0 0,不然transform所使用坐标系是从div正中位置 即50 50出发*/
 .main-canvas-background {
   background-color: #0e2a43;
+  /* background-color: #333333; */
   transform-origin: 0 0;
-  top: 60px;
-  left: 60px;
+  /* top: 60px; */
+  /* left: 60px; */
   /* position: absolute; */
 }
 </style>

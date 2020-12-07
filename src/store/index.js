@@ -12,9 +12,9 @@ export default new Vuex.Store({
     componentActive: [],
     componentList: [],
     //修正canvas规模、鼠标倍率
-    parentScale: 0.35,
-    parentScaleX: 0.35,
-    parentScaleY: 0.35,
+    parentScale: 0.45,
+    parentScaleX: 0.45,
+    parentScaleY: 0.45,
     parentW: 1536, //这个调的时候记得+px
     parentH: 864,
     position: 'absolute',
@@ -112,6 +112,7 @@ export default new Vuex.Store({
         console.log(res.data.resultSet)
       })
     },
+    //更新当前页的宽与高
     updatePageValue(state, data) {
       for (let i = 0; i < state.colDef.length; i++) {
         if (state.colDef[i].index == data.index) {
@@ -120,6 +121,17 @@ export default new Vuex.Store({
           break
         }
       }
+    },
+    updateParentScale(state, data) {
+      console.log(data)
+      let currentWidth = state.parentW
+      for (let i = 0; i < data.length; i++) {
+        currentWidth = currentWidth - data[i]
+      }
+      let newScale = currentWidth / state.parentW
+      state.parentScale = newScale
+      state.parentScaleX = newScale
+      state.parentScaleY = newScale
     }
   },
 

@@ -17,7 +17,7 @@
 
         <!-- right button set -->
         <div class="head-box-right">
-          <div title="帮助" class="icon-box-right">
+          <div title="帮助" class="icon-box-right" @click="routeToColorTest">
             <i :style="iconstyle" class="el-icon-s-order"></i>
           </div>
           <div title="发布" class="icon-box-right">
@@ -79,6 +79,7 @@ import pageSet from '../components/pageSet/pageSet.vue'
 import mainCanvas from '../components/mainCanvas.vue'
 import mockData from '../mock/mockData.js'
 import url from '../mock/mockAPI.js'
+import { Col } from 'element-ui'
 
 export default {
   components: {
@@ -175,6 +176,35 @@ export default {
   },
 
   methods: {
+    updateColData() {
+      // let ColData = [
+      //   {
+      //     graphColActive: this.graphColActive == true ? 1 : 0,
+      //     graphColWidth: this.graphfullwidth
+      //   },
+      //   {
+      //     compColActive: this.compColActive == true ? 1 : 0,
+      //     compColWidth: this.componentsfullwidth
+      //   },
+      //   {
+      //     pageColActive: this.pageColActive == true ? 1 : 0,
+      //     pageColWidth: this.pagefullwidth
+      //   }
+      // ]
+      let ColData = []
+      //el-main的padding-left+padding-right
+      ColData.push(40)
+      if (this.graphColActive == true) {
+        ColData.push(parseInt(this.graphfullwidth.substring(0, this.graphfullwidth.length - 2)))
+      }
+      if (this.compColActive == true) {
+        ColData.push(parseInt(this.componentsfullwidth.substring(0, this.componentsfullwidth.length - 2)))
+      }
+      if (this.pageColActive == true) {
+        ColData.push(parseInt(this.pagefullwidth.substring(0, this.pagefullwidth.length - 2)))
+      }
+      this.$store.commit('updateParentScale', ColData)
+    },
     /*
       用于transition三个区块
     */
@@ -186,6 +216,8 @@ export default {
         this.$refs.graphCol.style.width = this.graphemptywidth
         this.graphColActive = false
       }
+      this.updateColData()
+      // console.log(this.getColData())
     },
 
     compclicktest() {
@@ -196,6 +228,7 @@ export default {
         this.$refs.compCol.style.width = this.componentsemptywidth
         this.compColActive = false
       }
+      this.updateColData()
     },
 
     pageclicktest() {
@@ -206,6 +239,7 @@ export default {
         this.$refs.pageCol.style.width = this.pageemptywidth
         this.pageColActive = false
       }
+      this.updateColData()
     },
 
     allowdrag(event) {
@@ -507,7 +541,9 @@ export default {
     },
     routeToPreview() {
       this.$router.push({ path: '/preview' })
-      console.log('testbut')
+    },
+    routeToColorTest() {
+      this.$router.push({ path: '/colorTest' })
     }
   }
 }

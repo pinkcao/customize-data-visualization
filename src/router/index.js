@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import basePage from '../views/basePage.vue'
 import preview from '../views/preview.vue'
+import colorTest from '../views/colorTest.vue'
 
 Vue.use(Router)
 
@@ -22,6 +23,11 @@ export default new Router({
       path: '/preview',
       name: 'preview',
       component: preview
+    },
+    {
+      path: '/colorTest',
+      name: 'colorTest',
+      component: colorTest
     }
   ]
 })
