@@ -5,9 +5,7 @@
     class="main-canvas-background"
     :style="canvasStyle"
     @drop="appendComponentList"
-  >
-    <el-button type="primary" size="medium" @click="testChange"></el-button>
-  </div>
+  ></div>
 </template>
 
 <script>
@@ -74,19 +72,6 @@ export default {
     this.getComponentList()
   },
   methods: {
-    testChange() {
-      let data = [
-        ['department', '2018', '2019'],
-        ['finance', 43.3, 85.8],
-        ['humanResource', 83.1, 73.4],
-        ['sales', 86.4, 65.2],
-        ['product', 72.4, 53.9],
-        ['qualityAssurance', 55.1, 66.5]
-      ]
-      this.objList[0].set({
-        data: { dataSource: data }
-      })
-    },
     cancelFocus(event) {
       if (event.target == this.$refs.target) {
         this.$store.commit('setActiveComponentFalse')
@@ -176,6 +161,34 @@ export default {
                     that.componentList = res.data.resultSet
                     console.log(that.componentList)
                   })
+              }
+            },
+            watch: {
+              '$store.state.componentList': {
+                deep: true,
+                handler(newVal, oldval, vm, mnt) {
+                  // console.log(mnt.component_instance.index)
+                  if (that.$store.state.activeComponentIndex == mnt.component_instance.index) {
+                    for (let i = 0; i < newVal.length; i++) {
+                      if (newVal[i].index == mnt.component_instance.index) {
+                        mnt.component_instance.dataSource = newVal[i].dataSource
+                        that
+                          .$axios({
+                            url: url.updateDataSourceComponentList,
+                            method: 'post',
+                            data: {
+                              index: mnt.component_instance.index,
+                              dataSource: newVal[i].dataSource
+                            }
+                          })
+                          .then(res => {
+                            console.log(res.data.status)
+                          })
+                        break
+                      }
+                    }
+                  }
+                }
               }
             }
           })
