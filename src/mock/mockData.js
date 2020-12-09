@@ -202,6 +202,22 @@ export default {
       message: '修改z-index成功',
       resultSet: componentList
     }
+  }),
+  updateDataSourceComponentList: Mock.mock(url.updateDataSourceComponentList, 'post', params => {
+    let args = JSON.parse(params.body)
+    let index = args.index
+    let dataSource = args.dataSource
+    for (let i = 0; i < componentList.length; i++) {
+      if (componentList[i].index == index) {
+        componentList[i].dataSource = dataSource
+      }
+    }
+    console.log(componentList)
+    return {
+      status: 200,
+      message: '修改静态JSON数据成功',
+      resultSet: componentList
+    }
   })
   // getComponentListPromise: Mock.mock(url.getComponentListPromise, 'post', () => {
   //   return new Promise(function(resolve, reject) {

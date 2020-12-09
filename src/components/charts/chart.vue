@@ -191,7 +191,6 @@ export default {
       if (this.dataSource.length == 0) {
         return 1
       } else {
-        console.log('xxxxxxxxxxxxxxxxxxx')
         return this.dataSource[0].length - 1
       }
     },
@@ -204,7 +203,6 @@ export default {
     },
     //饼图经过特殊适配,用于调整多个饼图在图中显示的位置,其他则直接返回当前选中的图表类型
     series: function() {
-      console.log('wtf???????????????')
       if (this.rawdata == '') {
         let col = this.col //显示列数
         let row = Math.ceil(this.dataColumns / col) //根据列数计算的显示行数
@@ -233,7 +231,6 @@ export default {
             result[i] = { type: chartType }
           }
         }
-        console.log(result)
         return result
       } else {
         return this.rawseries

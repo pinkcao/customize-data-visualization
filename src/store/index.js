@@ -13,6 +13,7 @@ export default new Vuex.Store({
     componentList: [],
     pageAndComponentFlag: true,
     activeComponentIndex: -1,
+    currentComponentDataSource: [],
     //修正canvas规模、鼠标倍率
     parentScale: 0.45,
     parentScaleX: 0.45,
@@ -58,6 +59,15 @@ export default new Vuex.Store({
     //   state.componentList.push(properties)
     //   console.log(properties)
     // },
+    updateDataSource(state, dataSource) {
+      for (let i = 0; i < state.componentList.length; i++) {
+        if (state.componentList[i].index == state.activeComponentIndex) {
+          state.componentList[i].dataSource = dataSource
+          console.log(state.componentList)
+          // break
+        }
+      }
+    },
     //初始化组件列表
     initComponentList(state, componentList) {
       state.componentList = componentList
@@ -66,7 +76,6 @@ export default new Vuex.Store({
     //初始化活跃组件列表
     initActiveComponent(state, componentList) {
       for (let i = 0; i < componentList.length; i++) {
-        // state.componentActive.push({ active: componentList[i].active })
         state.componentActive[componentList[i].index] = { active: componentList[i].active }
       }
     },
@@ -81,7 +90,13 @@ export default new Vuex.Store({
       state.componentActive[index].active = true
       state.pageAndComponentFlag = false
       state.activeComponentIndex = index
-      // console.log('更新了')
+      for (let i = 0; i < componentList.length; i++) {
+        if (componentList[i].index == index) {
+          state.currentComponentDataSource = componentList[i].dataSource
+        }
+      }
+      // console.log(state.currentComponentDataSource)
+      // console.log(state.activeComponentIndex)
     },
     //设置所有组件为不活跃
     setActiveComponentFalse(state) {

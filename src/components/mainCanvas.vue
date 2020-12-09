@@ -28,7 +28,7 @@ export default {
   watch: {
     //监听vuex中的componentList属性，如果有更改则覆盖当前objList的z-index值
     '$store.state.componentList': function(newval) {
-      // console.log(newval)
+      console.log(newval)
       let compList = newval
       for (let i = 0; i < this.objList.length; i++) {
         for (let j = 0; j < compList.length; j++) {
@@ -286,6 +286,34 @@ export default {
                     that.$store.commit('initComponentList', res.data.resultSet)
                     console.log(that.componentList)
                   })
+              }
+            },
+            watch: {
+              '$store.state.componentList': {
+                deep: true,
+                handler(newVal, oldval, vm, mnt) {
+                  // console.log(mnt.component_instance.index)
+                  if (that.$store.state.activeComponentIndex == mnt.component_instance.index) {
+                    for (let i = 0; i < newVal.length; i++) {
+                      if (newVal[i].index == mnt.component_instance.index) {
+                        mnt.component_instance.dataSource = newVal[i].dataSource
+                        that
+                          .$axios({
+                            url: url.updateDataSourceComponentList,
+                            method: 'post',
+                            data: {
+                              index: mnt.component_instance.index,
+                              dataSource: newVal[i].dataSource
+                            }
+                          })
+                          .then(res => {
+                            console.log(res.data.status)
+                          })
+                        break
+                      }
+                    }
+                  }
+                }
               }
             }
           })

@@ -77,7 +77,22 @@ export default {
       ]
     }
   },
+  //watch需要写在vue-mount里
   watch: {
+    // '$store.state.componentList': function(newval) {
+    //   console.log(newval)
+    // }
+    // '$store.state.componentList': function(newval) {
+    //   console.log(newval)
+    //   if (this.$store.state.activeComponentIndex == this.index) {
+    //     for (let i = 0; i < newVal.length; i++) {
+    //       if (newVal[i].index == this.index) {
+    //         this.dataSource = newVal[i].dataSource
+    //         break
+    //       }
+    //     }
+    //   }
+    // }
     //数据源变化时图表重新初始化
     // dataSource(val) {
     //   console.log(val)
