@@ -92,6 +92,14 @@ const componentList = [
       ['product', 72.4, 53.9, 39.1, 14.8, 25.9],
       ['qualityAssurance', 55.1, 66.5, 46.8, 34.8, 66.4]
     ]
+    // dataSource: [
+    //   ['department', '2018'],
+    //   ['finance', 43.3],
+    //   ['humanResource', 83.1],
+    //   ['sales', 86.4],
+    //   ['product', 72.4],
+    //   ['qualityAssurance', 55.1]
+    // ]
   },
   {
     name: 'compA',

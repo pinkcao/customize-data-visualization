@@ -42,7 +42,7 @@ import vChart from '../charts/chart.vue'
 import url from '../../mock/mockAPI.js'
 
 export default {
-  name: 'testComponentA',
+  name: 'graphComponent',
   components: {
     vChart
   },
@@ -68,14 +68,36 @@ export default {
       title: '',
       subTitle: '',
       dataSource: [
-        ['department', '2018', '2019', '2020', '2021', '2022'],
-        ['finance', 43.3, 85.8, 93.7, 55.4, 66.7],
-        ['humanResource', 83.1, 73.4, 55.1, 77.3, 26.4],
-        ['sales', 86.4, 65.2, 82.5, 41.5, 57.6],
-        ['product', 72.4, 53.9, 39.1, 14.8, 25.9],
-        ['qualityAssurance', 55.1, 66.5, 46.8, 34.8, 66.4]
+        ['department', '2018'],
+        ['finance', 43.3],
+        ['humanResource', 83.1],
+        ['sales', 86.4],
+        ['product', 72.4],
+        ['qualityAssurance', 55.1]
       ]
     }
+  },
+  watch: {
+    //数据源变化时图表重新初始化
+    // dataSource(val) {
+    //   console.log(val)
+    //   console.log(this.$refs.child)
+    //   // console.log(this.$refs.child.dataSource)
+    //   //如果child已经挂载好有实例了
+    //   if (this.$refs.child) {
+    //     console.log(this.dataSource)
+    //     // this.$refs.child.dataSource = this.dataSource
+    //     console.log(this.$refs.child.dataSource)
+    //     console.log(this.$refs.child.series)
+    //     this.$refs.child.updateChart()
+    //   }
+    //   deep: true
+    //   // this.$refs.child.initChart()
+    //   // console.log('dataSource变了')
+    // }
+    // '$refs.child.series': function(newVal) {
+    //   console.log('大家好，我不知道我为什么被调用了')
+    // }
   },
   props: {},
   computed: {

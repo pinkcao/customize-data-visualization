@@ -1,5 +1,5 @@
 <template>
-  <div style="">
+  <div style="width: 100%；height: 100%">
     <div class="title-box-page">页面设置</div>
     <div class="page-set-container">
       <div class="form-sub-item" v-for="item in colDef" :key="item.index">
@@ -19,27 +19,11 @@
 </template>
 
 <script>
-import { maker } from '@form-create/element-ui'
-
 export default {
   name: 'pageSet',
   data() {
     return {
       colDef: []
-      // colDef: [
-      //   {
-      //     index: 0,
-      //     title: '页面宽度: ',
-      //     type: 'inputNumber',
-      //     value: 1536
-      //   },
-      //   {
-      //     index: 1,
-      //     title: '页面高度: ',
-      //     type: 'inputNumber',
-      //     value: 864
-      //   }
-      // ]
     }
   },
   computed: {},

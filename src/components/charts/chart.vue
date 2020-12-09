@@ -1,69 +1,6 @@
 <template>
   <div class="flex-box is-vertical">
     <div class="toolbar">
-      <!-- 图表种类按钮，控制当前显示的是哪种类型的图表 -->
-      <!-- <el-popover title="图表种类" trigger="hover">
-        <div>
-          <el-radio-group v-model="ctype" @change="typeChange">
-            <el-row>
-              <el-col :span="12" v-for="(item, index) in supportedArr" :key="index">
-                <el-radio :label="item.value"> {{ item.type }} </el-radio>
-              </el-col>
-            </el-row>
-          </el-radio-group>
-        </div>
-        <el-button slot="reference">图表种类</el-button>
-      </el-popover> -->
-      <!-- 统计分组列表，如果传入未经处理的数据，选择根据对应的列进行聚类生成图表 -->
-      <!-- <el-popover v-if="rawdata != ''" title="统计分组" trigger="hover">
-        <div>
-          <el-radio-group v-model="groupId" @change="groupChange">
-            <el-row>
-              <el-col :span="12" v-for="(item, index) in columnDict" :key="index">
-                <el-radio :label="index"> {{ item }} </el-radio>
-              </el-col>
-            </el-row>
-          </el-radio-group>
-        </div>
-        <el-button slot="reference">分组统计</el-button>
-      </el-popover> -->
-      <!-- 控制图表一些组件的显示与隐藏 -->
-      <!-- <el-popover width="200" title="显示设置" trigger="hover">
-        <div style="display: flex; flex-direction: column">
-          <div :style="popoverDivStyle">
-            <el-row>
-              <el-col :span="12">
-                <span>标题</span>
-              </el-col>
-              <el-col :span="12">
-                <el-switch v-model="titlevisible" @change="onChangeTitle"></el-switch>
-              </el-col>
-            </el-row>
-          </div>
-          <div :style="popoverDivStyle">
-            <el-row>
-              <el-col :span="12">
-                <span>图例组件</span>
-              </el-col>
-              <el-col :span="12">
-                <el-switch v-model="legendvisible" @change="onChangeLegend"></el-switch>
-              </el-col>
-            </el-row>
-          </div>
-          <div :style="popoverDivStyle">
-            <el-row>
-              <el-col :span="12">
-                <span>缩放组件</span>
-              </el-col>
-              <el-col :span="12">
-                <el-switch v-model="zoomvisible" @change="onChangeZoom"></el-switch>
-              </el-col>
-            </el-row>
-          </div>
-        </div>
-        <el-button slot="reference">显示</el-button>
-      </el-popover> -->
-
       <el-popover width="200" title="设置" trigger="hover">
         <div style="display: flex; flex-direction: column">
           <!-- 这里只是方便临时改标题，实际上不传值到后端 -->
@@ -133,7 +70,6 @@
 <script>
 import echarts from 'echarts'
 import { loadSchema, loadSupportedType } from './chart'
-// import { Change, System } from '@icon-park/vue'
 
 export default {
   name: 'v-chart',
@@ -243,12 +179,19 @@ export default {
       }
     }
   },
+  watch: {
+    dataSource: function(newVal) {
+      console.log(newVal)
+      this.updateChart()
+    }
+  },
   computed: {
     //获取当前数据的列数(用于设置series)
     dataColumns: function() {
       if (this.dataSource.length == 0) {
         return 1
       } else {
+        console.log('xxxxxxxxxxxxxxxxxxx')
         return this.dataSource[0].length - 1
       }
     },
@@ -261,6 +204,7 @@ export default {
     },
     //饼图经过特殊适配,用于调整多个饼图在图中显示的位置,其他则直接返回当前选中的图表类型
     series: function() {
+      console.log('wtf???????????????')
       if (this.rawdata == '') {
         let col = this.col //显示列数
         let row = Math.ceil(this.dataColumns / col) //根据列数计算的显示行数
@@ -271,10 +215,10 @@ export default {
         let chartType = this.ctype
         let offsetX = 100 / col / 2 //基础x轴偏移量
         let offsetY = 100 / row / 2 //基础y轴偏移量
-        let count = this.dataColumns //获取当前数据的列数
+        // let count = this.dataColumns //获取当前数据的列数
         let result = [] //series结果集
         if (chartType == 'pie') {
-          for (let i = 0; i < count; i++) {
+          for (let i = 0; i < this.dataColumns; i++) {
             result[i] = {
               type: chartType,
               radius: r,
@@ -284,10 +228,12 @@ export default {
             }
           }
         } else {
-          for (let i = 0; i < count; i++) {
+          for (let i = 0; i < this.dataColumns; i++) {
+            // console.log(this.dataColumns)
             result[i] = { type: chartType }
           }
         }
+        console.log(result)
         return result
       } else {
         return this.rawseries
@@ -538,6 +484,35 @@ export default {
     //初始化统计分组列表,用下标作为搜索时的key
     initColumnDict() {
       this.columnDict = this.rawdata[0]
+    },
+    updateChart() {
+      // console.log(this.series)
+      console.log('大家好，我被调用了')
+      console.log(this.initDataSource(this.schema.dataSource))
+      console.log(this.series)
+      this.currentChart.clear()
+      this.schema = this.initSchema()
+      let option = {
+        title: this.initTitle(this.titlevisible),
+        tooltip: this.initTooltip(this.schema.tooltip),
+        legend: {
+          bottom: '0',
+          show: this.legendvisible
+        },
+        xAxis: {
+          type: 'category',
+          axisLabel: this.interval,
+          show: this.initAxis(this.schema.showAxis)
+        },
+        yAxis: {
+          show: this.initAxis(this.schema.showAxis)
+        },
+        dataZoom: this.initDataZoom(this.zoomvisible),
+        dataset: this.initDataSource(this.schema.dataSource),
+        color: this.color,
+        series: this.series
+      }
+      this.currentChart.setOption(option)
     }
   }
 }

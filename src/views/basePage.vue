@@ -51,7 +51,8 @@
         </el-main>
         <el-aside width="auto">
           <div ref="pageCol" :componentName="componentName" class="transition-box-page">
-            <pageSet> </pageSet>
+            <pageSet v-show="pageAndComponentFlag"> </pageSet>
+            <component-set v-show="!pageAndComponentFlag"></component-set>
           </div>
         </el-aside>
       </el-container>
@@ -73,22 +74,31 @@ import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass.js'
 import Stats from 'three/examples/jsm/libs/stats.module.js'
 import dat from 'three/examples/js/libs/dat.gui.min.js'
 import componentCol from '../components/componentCol/componentCol.vue'
-import testComponentA from '../components/graphs/testComponentA.vue'
 import graphCol from '../components/graphCol/graphCol.vue'
 import pageSet from '../components/pageSet/pageSet.vue'
+import componentSet from '../components/componentSet/componentSet.vue'
 import mainCanvas from '../components/mainCanvas.vue'
 import mockData from '../mock/mockData.js'
 import url from '../mock/mockAPI.js'
-import { Col } from 'element-ui'
 
 export default {
   components: {
     componentCol,
     graphCol,
     pageSet,
-    mainCanvas
+    mainCanvas,
+    componentSet
   },
   name: 'basePage',
+  watch: {
+    // '$store.state.componentActive': {
+    //   handler(newval) {
+    //     console.log(newval)
+    //   },
+    //   deep: true,
+    //   immediate: true
+    // }
+  },
   data() {
     return {
       /*
@@ -123,7 +133,7 @@ export default {
       /*
         div参数
       */
-
+      // pageAndComponentFlag: true,
       componentsfullwidth: '250px',
       componentsemptywidth: '0px',
       pagefullwidth: '350px',
@@ -135,6 +145,20 @@ export default {
     }
   },
   computed: {
+    pageAndComponentFlag: function() {
+      // let activeArr = this.$store.state.componentActive
+      // let flag = false
+      // for (let i = 0; i < activeArr.length; i++) {
+      //   if (activeArr[i].active == true) {
+      //     flag = true
+      //     break
+      //   }
+      // }
+      // console.log(flag)
+      // return flag
+      return this.$store.state.pageAndComponentFlag
+    },
+
     graphisshown: function() {
       return {
         'icon-box-left': this.graphColActive,
@@ -177,20 +201,6 @@ export default {
 
   methods: {
     updateColData() {
-      // let ColData = [
-      //   {
-      //     graphColActive: this.graphColActive == true ? 1 : 0,
-      //     graphColWidth: this.graphfullwidth
-      //   },
-      //   {
-      //     compColActive: this.compColActive == true ? 1 : 0,
-      //     compColWidth: this.componentsfullwidth
-      //   },
-      //   {
-      //     pageColActive: this.pageColActive == true ? 1 : 0,
-      //     pageColWidth: this.pagefullwidth
-      //   }
-      // ]
       let ColData = []
       //el-main的padding-left+padding-right
       ColData.push(40)

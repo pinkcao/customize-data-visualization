@@ -11,6 +11,8 @@ export default new Vuex.Store({
     componentUid: '',
     componentActive: [],
     componentList: [],
+    pageAndComponentFlag: true,
+    activeComponentIndex: -1,
     //修正canvas规模、鼠标倍率
     parentScale: 0.45,
     parentScaleX: 0.45,
@@ -77,12 +79,17 @@ export default new Vuex.Store({
         state.componentActive[componentList[i].index] = { active: false }
       }
       state.componentActive[index].active = true
+      state.pageAndComponentFlag = false
+      state.activeComponentIndex = index
+      // console.log('更新了')
     },
     //设置所有组件为不活跃
     setActiveComponentFalse(state) {
       for (let i = 0; i < state.componentActive.length; i++) {
         state.componentActive[i].active = false
       }
+      state.pageAndComponentFlag = true
+      state.activeComponentIndex = -1
     },
     //传入排序后数组，给排序后数组的z-index重排序，升序
     updateAllZindexAsc(state, componentList) {

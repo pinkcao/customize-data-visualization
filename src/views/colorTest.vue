@@ -2,17 +2,20 @@
   <div>
     <el-button style="float: right" icon="el-icon-close" @click="returnToBase" circle></el-button>
     <div style="display: flex; flex-direction: row; flex-wrap: wrap">
-      <div class="testbox" v-for="(item, index) in colorSet" :style="item[0]" :key="index" @click="test(item)">
+      <!-- <div class="testbox" v-for="(item, index) in colorSet" :style="item[0]" :key="index" @click="test(item)">
         <span style="font-size: 16px" :style="item[1]">测试色彩测试色彩</span>
-      </div>
+      </div> -->
+      <div ref="chart"></div>
     </div>
   </div>
 </template>
 
 <script>
+import echarts from 'echarts'
+
 export default {
   components: {},
-  name: 'mainCanvas',
+  name: 'colorTest',
   data() {
     return {
       colorSet: []
@@ -22,10 +25,7 @@ export default {
   created() {
     this.generateColorSet(28)
   },
-  mounted() {
-    // console.log(this.$refs.colorTest.style.backgroundColor)
-    // this.$refs.colorTest.style.backgroundColor = 'rgb(0 ,0 ,0)'
-  },
+  mounted() {},
 
   methods: {
     test(value) {
@@ -52,6 +52,40 @@ export default {
       }
       // console.log(colorSet[0])
       this.colorSet = colorSet
+    },
+    initChart() {
+      this.currentChart = echarts.init(this.$refs.chart)
+      let option = {
+        legend: {
+          bottom: '0',
+          show: true
+        },
+        xAxis: {
+          type: 'category',
+          //强制显示所有label
+          axisLabel: 0,
+          show: true
+        },
+        yAxis: {
+          show: true
+        },
+        //提供一份二维数组或是对象数组数据
+        // dataset: this.initDataSource(this.schema.dataSource),
+        dataset: {
+          source: [
+            ['department', '2018', '2019', '2020', '2021', '2022'],
+            ['finance', 43.3, 85.8, 93.7, 55.4, 66.7],
+            ['humanResource', 83.1, 73.4, 55.1, 77.3, 26.4],
+            ['sales', 86.4, 65.2, 82.5, 41.5, 57.6],
+            ['product', 72.4, 53.9, 39.1, 14.8, 25.9],
+            ['qualityAssurance', 55.1, 66.5, 46.8, 34.8, 66.4]
+          ]
+        },
+        series: {
+          type: 'bar'
+        }
+      }
+      this.currentChart.setOption(option)
     }
   }
 }
