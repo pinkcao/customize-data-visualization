@@ -40,8 +40,10 @@
 import echarts from 'echarts'
 import vChart from '../charts/chart.vue'
 import url from '../../mock/mockAPI.js'
+import componentsDef from './componentsDef.js'
 
 export default {
+  extends: componentsDef,
   name: 'graphComponent',
   components: {
     vChart
@@ -68,79 +70,17 @@ export default {
       title: '',
       subTitle: '',
       dataSource: [
-        ['department', '2018'],
-        ['finance', 43.3],
-        ['humanResource', 83.1],
-        ['sales', 86.4],
-        ['product', 72.4],
-        ['qualityAssurance', 55.1]
+        ['department', '2018', '2019'],
+        ['finance', 43.3, 85.8],
+        ['humanResource', 83.1, 73.4],
+        ['sales', 86.4, 65.2],
+        ['product', 72.4, 53.9],
+        ['qualityAssurance', 55.1, 66.5]
       ]
     }
   },
-  //watch需要写在vue-mount里
-  watch: {
-    // '$store.state.componentList': function(newval) {
-    //   console.log(newval)
-    // }
-    // '$store.state.componentList': function(newval) {
-    //   console.log(newval)
-    //   if (this.$store.state.activeComponentIndex == this.index) {
-    //     for (let i = 0; i < newVal.length; i++) {
-    //       if (newVal[i].index == this.index) {
-    //         this.dataSource = newVal[i].dataSource
-    //         break
-    //       }
-    //     }
-    //   }
-    // }
-    //数据源变化时图表重新初始化
-    // dataSource(val) {
-    //   console.log(val)
-    //   console.log(this.$refs.child)
-    //   // console.log(this.$refs.child.dataSource)
-    //   //如果child已经挂载好有实例了
-    //   if (this.$refs.child) {
-    //     console.log(this.dataSource)
-    //     // this.$refs.child.dataSource = this.dataSource
-    //     console.log(this.$refs.child.dataSource)
-    //     console.log(this.$refs.child.series)
-    //     this.$refs.child.updateChart()
-    //   }
-    //   deep: true
-    //   // this.$refs.child.initChart()
-    //   // console.log('dataSource变了')
-    // }
-    // '$refs.child.series': function(newVal) {
-    //   console.log('大家好，我不知道我为什么被调用了')
-    // }
-  },
+  //watch需要写在父元素的vue-mount里
   props: {},
-  computed: {
-    //X缩放比
-    parentScaleX: function() {
-      if (this.mode == 'design') {
-        return this.$store.state.parentScaleX
-      } else {
-        return 1
-      }
-    },
-    //Y缩放比
-    parentScaleY: function() {
-      if (this.mode == 'design') {
-        return this.$store.state.parentScaleY
-      } else {
-        return 1
-      }
-    },
-    //父元素宽
-    parentW: function() {
-      return this.$store.state.colDef[0].value
-    },
-    //父元素高
-    parentH: function() {
-      return this.$store.state.colDef[1].value
-    }
-  },
 
   created() {},
   mounted() {
@@ -163,7 +103,7 @@ export default {
       })
     },
     destroyComponent() {
-      console.log('delete down')
+      // console.log('delete down')
       this.ifshow = false
       this.$emit('destroyComponent', this.index)
     },
@@ -172,13 +112,6 @@ export default {
       this.height = newRect.height
       this.top = newRect.top
       this.left = newRect.left
-      let propertyObj = {
-        index: this.index,
-        width: this.width,
-        height: this.height,
-        top: this.top,
-        left: this.left
-      }
       this.$refs.child.chartResize()
     },
     onDeactivated() {

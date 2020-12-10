@@ -41,19 +41,6 @@ export default {
     }
   },
   computed: {
-    // currentComponentList: function() {
-    //   console.log(this.$store.state.componentList)
-    //   return this.$store.state.componentList
-    // },
-    // currentComponentList: {
-    //   get() {
-    //     return this.$store.state.componentList
-    //   },
-    //   set(val) {
-    //     console.log(val)
-    //     this.componentList = val
-    //   }
-    // },
     canvasStyle: function() {
       let parentScale = this.$store.state.parentScale
       let result = {
@@ -111,15 +98,7 @@ export default {
           title: 'xxx',
           subTitle: 'yyy',
           mode: 'design',
-          $store: this.$store,
-          dataSource: [
-            ['department', '2018', '2019'],
-            ['finance', 43.3, 85.8],
-            ['humanResource', 83.1, 73.4],
-            ['sales', 86.4, 65.2],
-            ['product', 72.4, 53.9],
-            ['qualityAssurance', 55.1, 66.5]
-          ]
+          $store: this.$store
         }
         this.objList.push(
           new Mount(getComponent(this.$store.state.componentNameToCanvas), {
@@ -213,14 +192,7 @@ export default {
             active: false,
             title: 'xxx',
             subTitle: 'yyy',
-            dataSource: [
-              ['department', '2018', '2019'],
-              ['finance', 43.3, 85.8],
-              ['humanResource', 83.1, 73.4],
-              ['sales', 86.4, 65.2],
-              ['product', 72.4, 53.9],
-              ['qualityAssurance', 55.1, 66.5]
-            ]
+            dataSource: this.objList[this.objList.length - 1].component_instance.dataSource
           }
         }).then(res => {
           this.componentList = res.data.resultSet
