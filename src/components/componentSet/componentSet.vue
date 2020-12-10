@@ -2,8 +2,48 @@
   <div style="width: 100%；height: 100%">
     <div class="title-box-page">组件设置</div>
     <div class="page-set-container">
-      <div v-if="flag && currentComponent.dataSource">
-        <span style="font-size: 13px; float: left; margin-bottom: 5px">静态JSON数据:</span>
+      <div class="form-sub-item" v-if="flag">
+        <span :style="spanStyle">组件宽度: </span>
+        <el-input-number
+          :style="inputNumberStyle"
+          controls-position="right"
+          size="mini"
+          v-model="componentWidth"
+          @change="componentBaseStausOnChange"
+        ></el-input-number>
+      </div>
+      <div class="form-sub-item" v-if="flag">
+        <span :style="spanStyle">组件高度: </span>
+        <el-input-number
+          :style="inputNumberStyle"
+          controls-position="right"
+          size="mini"
+          v-model="componentHeight"
+          @change="componentBaseStausOnChange"
+        ></el-input-number>
+      </div>
+      <div class="form-sub-item" v-if="flag">
+        <span :style="spanStyle">左侧距离: </span>
+        <el-input-number
+          :style="inputNumberStyle"
+          controls-position="right"
+          size="mini"
+          v-model="componentLeft"
+          @change="componentBaseStausOnChange"
+        ></el-input-number>
+      </div>
+      <div class="form-sub-item" v-if="flag">
+        <span :style="spanStyle">上方距离: </span>
+        <el-input-number
+          :style="inputNumberStyle"
+          controls-position="right"
+          size="mini"
+          v-model="componentTop"
+          @change="componentBaseStausOnChange"
+        ></el-input-number>
+      </div>
+      <div class="form-sub-item" v-if="flag && currentComponent">
+        <span :style="spanStyle">静态JSON数据:</span>
         <el-input
           type="textarea"
           placeholder="请输入内容"
@@ -17,6 +57,8 @@
 </template>
 
 <script>
+import { setSpanStyle } from '../../commonStyle/setColStyle/setColStyle.js'
+
 export default {
   name: 'componentSet',
   data() {
@@ -24,7 +66,19 @@ export default {
       // colDef: []
       flag: false,
       currentComponent: null,
-      componentDataSource: ''
+      componentDataSource: '',
+      // componentBaseStatus: [
+      //   { componentWidth: -1 },
+      //   { componentHeight: -1 },
+      //   { componentLeft: -1 },
+      //   { componentTop: -1 }
+      // ],
+      componentWidth: -1,
+      componentHeight: -1,
+      componentLeft: -1,
+      componentTop: -1,
+      inputNumberStyle: { 'border-radius': '0px' },
+      spanStyle: setSpanStyle
     }
   },
   computed: {
@@ -37,9 +91,18 @@ export default {
   },
   watch: {
     '$store.state.currentComponent': function(newval) {
+      console.log(newval)
+      // console.log(newval.dataSource)
       this.currentComponent = newval
-      // this.currentComponent.dataSource = null
-      this.componentDataSource = JSON.stringify(newval.dataSource)
+      this.componentDataSource = JSON.stringify(this.currentComponent.dataSource)
+      // this.componentBaseStatus.componentWidth = this.currentComponent.width
+      // this.componentBaseStatus.componentHeight = this.currentComponent.height
+      // this.componentBaseStatus.componentLeft = this.currentComponent.left
+      // this.componentBaseStatus.componentTop = this.currentComponent.top
+      this.componentWidth = this.currentComponent.width
+      this.componentHeight = this.currentComponent.height
+      this.componentLeft = this.currentComponent.left
+      this.componentTop = this.currentComponent.top
       this.flag = true
       // console.log('testtext')
     }
@@ -52,10 +115,10 @@ export default {
 
   methods: {
     textareaOnChange() {
-      // console.log(JSON.parse('{"name":"jack"}'))
-      // console.log(JSON.stringify(JSON.parse(this.componentDataSource)))
       this.$store.commit('updateDataSource', JSON.parse(this.componentDataSource))
-      // return JSON.parse(this.componentDataSource)
+    },
+    componentBaseStausOnChange() {
+      console.log('111')
     }
   }
 }
@@ -78,6 +141,8 @@ export default {
   color: #eeeeee;
   width: 90%;
   height: 50%;
+  display: flex;
+  flex-direction: column;
 }
 
 .page-set-container .el-textarea__inner {

@@ -3,7 +3,7 @@
     <div class="title-box-page">页面设置</div>
     <div class="page-set-container">
       <div class="form-sub-item" v-for="item in colDef" :key="item.index">
-        <span style="font-size: 13px">{{ item.title }}</span>
+        <span :style="spanStyle">{{ item.title }}</span>
         <el-input-number
           v-if="item.type == 'inputNumber'"
           style="border-radius: 0px"
@@ -19,11 +19,14 @@
 </template>
 
 <script>
+import { setSpanStyle } from '../../commonStyle/setColStyle/setColStyle.js'
+
 export default {
   name: 'pageSet',
   data() {
     return {
-      colDef: []
+      colDef: [],
+      spanStyle: setSpanStyle
     }
   },
   computed: {},

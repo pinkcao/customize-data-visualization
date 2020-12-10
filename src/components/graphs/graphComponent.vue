@@ -87,11 +87,6 @@ export default {
     this.flag = true
   },
   methods: {
-    destroyComponent() {
-      // console.log('delete down')
-      this.ifshow = false
-      this.$emit('destroyComponent', this.index)
-    },
     resize(newRect) {
       this.width = newRect.width
       this.height = newRect.height
