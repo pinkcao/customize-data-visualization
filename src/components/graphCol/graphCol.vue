@@ -70,7 +70,7 @@ span {
 .item {
   width: 100%;
   height: 80px;
-  background-color: #775500;
+  background-color: #2c075c;
   color: #ffffff;
   margin-top: 2px;
 }
