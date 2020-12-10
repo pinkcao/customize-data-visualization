@@ -84,6 +84,7 @@ export default {
 
 .form-sub-item {
   margin: 5px;
+  float: left;
 }
 
 .page-set-container input {

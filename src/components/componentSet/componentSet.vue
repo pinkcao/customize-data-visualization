@@ -2,14 +2,16 @@
   <div style="width: 100%；height: 100%">
     <div class="title-box-page">组件设置</div>
     <div class="page-set-container">
-      <span style="font-size: 13px; float:left; margin-bottom: 5px">静态JSON数据:</span>
-      <el-input
-        type="textarea"
-        placeholder="请输入内容"
-        v-model="componentTextArea"
-        @change="textareaOnChange"
-        rows="10"
-      ></el-input>
+      <div v-if="flag && currentComponent.dataSource">
+        <span style="font-size: 13px; float: left; margin-bottom: 5px">静态JSON数据:</span>
+        <el-input
+          type="textarea"
+          placeholder="请输入内容"
+          v-model="componentDataSource"
+          @change="textareaOnChange"
+          rows="10"
+        ></el-input>
+      </div>
     </div>
   </div>
 </template>
@@ -20,7 +22,9 @@ export default {
   data() {
     return {
       // colDef: []
-      componentTextArea: ''
+      flag: false,
+      currentComponent: null,
+      componentDataSource: ''
     }
   },
   computed: {
@@ -33,7 +37,10 @@ export default {
   },
   watch: {
     '$store.state.currentComponent': function(newval) {
-      this.componentTextArea = JSON.stringify(newval.dataSource)
+      this.currentComponent = newval
+      // this.currentComponent.dataSource = null
+      this.componentDataSource = JSON.stringify(newval.dataSource)
+      this.flag = true
       // console.log('testtext')
     }
   },
@@ -46,9 +53,9 @@ export default {
   methods: {
     textareaOnChange() {
       // console.log(JSON.parse('{"name":"jack"}'))
-      // console.log(JSON.stringify(JSON.parse(this.componentTextArea)))
-      this.$store.commit('updateDataSource', JSON.parse(this.componentTextArea))
-      // return JSON.parse(this.componentTextArea)
+      // console.log(JSON.stringify(JSON.parse(this.componentDataSource)))
+      this.$store.commit('updateDataSource', JSON.parse(this.componentDataSource))
+      // return JSON.parse(this.componentDataSource)
     }
   }
 }
@@ -78,6 +85,8 @@ export default {
   border: 0px;
   background-color: #122334;
   color: #eeeeee;
+  display: flex;
+  flex-direction: column;
 }
 
 .page-set-container .el-textarea {

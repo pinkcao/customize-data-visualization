@@ -181,7 +181,8 @@ export default {
   },
   watch: {
     dataSource: function(newVal) {
-      console.log(newVal)
+      // console.log('那我问一下，为什么我被点击之后也会更新dataSource?')
+      // console.log('那我透露一下，这里被调用是因为你上面父元素在被点击时就会莫名触发resizestop dragstop,导致一直更新')
       this.updateChart()
     }
   },
@@ -483,10 +484,6 @@ export default {
       this.columnDict = this.rawdata[0]
     },
     updateChart() {
-      // console.log(this.series)
-      console.log('大家好，我被调用了')
-      console.log(this.initDataSource(this.schema.dataSource))
-      console.log(this.series)
       this.currentChart.clear()
       this.schema = this.initSchema()
       let option = {

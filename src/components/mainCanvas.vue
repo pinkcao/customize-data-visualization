@@ -274,6 +274,7 @@ export default {
               }
             },
             watch: {
+              //当vuex的componentList更新后，更新该组件的dataSource值，并提交至后端
               '$store.state.componentList': {
                 deep: true,
                 handler(newVal, oldval, vm, mnt) {
@@ -292,7 +293,7 @@ export default {
                             }
                           })
                           .then(res => {
-                            console.log(res.data.status)
+                            // console.log(res.data.status)
                           })
                         break
                       }

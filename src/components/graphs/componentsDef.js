@@ -1,3 +1,5 @@
+import url from '../../mock/mockAPI.js'
+
 export default {
   data() {
     return {
