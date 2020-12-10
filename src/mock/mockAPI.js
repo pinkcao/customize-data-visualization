@@ -5,5 +5,5 @@ export default {
   adjustComponent: 'http://localhost:8080/api/componentList/adjust',
   spliceComponentList: 'http://localhost:8080/api/componentList/splice',
   updateZindexComponentList: 'http://localhost:8080/api/componentList/paste',
-  updateDataSourceComponentList: 'http://localhost:8080/api/componentList/updateDataSource'
+  updateComponentBasicStatus: 'http://localhost:8080/api/componentList/updateComponent'
 }

@@ -151,17 +151,27 @@ export default {
                     for (let i = 0; i < newVal.length; i++) {
                       if (newVal[i].index == mnt.component_instance.index) {
                         mnt.component_instance.dataSource = newVal[i].dataSource
+                        mnt.component_instance.width = newVal[i].width
+                        mnt.component_instance.height = newVal[i].height
+                        mnt.component_instance.left = newVal[i].left
+                        mnt.component_instance.top = newVal[i].top
                         that
                           .$axios({
-                            url: url.updateDataSourceComponentList,
+                            url: url.updateComponentBasicStatus,
                             method: 'post',
                             data: {
                               index: mnt.component_instance.index,
-                              dataSource: newVal[i].dataSource
+                              dataSource: newVal[i].dataSource,
+                              width: newVal[i].width,
+                              height: newVal[i].height,
+                              left: newVal[i].left,
+                              top: newVal[i].top
                             }
                           })
                           .then(res => {
-                            console.log(res.data.status)
+                            if (res.data.status == 200) {
+                              mnt.component_instance.chartResize()
+                            }
                           })
                         break
                       }
@@ -283,17 +293,27 @@ export default {
                     for (let i = 0; i < newVal.length; i++) {
                       if (newVal[i].index == mnt.component_instance.index) {
                         mnt.component_instance.dataSource = newVal[i].dataSource
+                        mnt.component_instance.width = newVal[i].width
+                        mnt.component_instance.height = newVal[i].height
+                        mnt.component_instance.left = newVal[i].left
+                        mnt.component_instance.top = newVal[i].top
                         that
                           .$axios({
-                            url: url.updateDataSourceComponentList,
+                            url: url.updateComponentBasicStatus,
                             method: 'post',
                             data: {
                               index: mnt.component_instance.index,
-                              dataSource: newVal[i].dataSource
+                              dataSource: newVal[i].dataSource,
+                              width: newVal[i].width,
+                              height: newVal[i].height,
+                              left: newVal[i].left,
+                              top: newVal[i].top
                             }
                           })
                           .then(res => {
-                            // console.log(res.data.status)
+                            if (res.data.status == 200) {
+                              mnt.component_instance.chartResize()
+                            }
                           })
                         break
                       }

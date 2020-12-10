@@ -203,19 +203,23 @@ export default {
       resultSet: componentList
     }
   }),
-  updateDataSourceComponentList: Mock.mock(url.updateDataSourceComponentList, 'post', params => {
+  updateComponentBasicStatus: Mock.mock(url.updateComponentBasicStatus, 'post', params => {
     let args = JSON.parse(params.body)
     let index = args.index
-    let dataSource = args.dataSource
+    // let dataSource = args.dataSource
     for (let i = 0; i < componentList.length; i++) {
       if (componentList[i].index == index) {
-        componentList[i].dataSource = dataSource
+        componentList[i].dataSource = args.dataSource
+        componentList[i].width = args.width
+        componentList[i].height = args.height
+        componentList[i].left = args.left
+        componentList[i].top = args.top
       }
     }
     console.log(componentList)
     return {
       status: 200,
-      message: '修改静态JSON数据成功',
+      message: '修改组件数据成功',
       resultSet: componentList
     }
   })

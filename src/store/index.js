@@ -63,8 +63,21 @@ export default new Vuex.Store({
       for (let i = 0; i < state.componentList.length; i++) {
         if (state.componentList[i].index == state.activeComponentIndex) {
           state.componentList[i].dataSource = dataSource
-          console.log(state.componentList)
-          // break
+          // console.log(state.componentList)
+          break
+        }
+      }
+    },
+
+    updateComponentStatus(state, currentComponentBaseStatus) {
+      for (let i = 0; i < state.componentList.length; i++) {
+        if (state.componentList[i].index == state.activeComponentIndex) {
+          state.componentList[i].width = currentComponentBaseStatus.width
+          state.componentList[i].height = currentComponentBaseStatus.height
+          state.componentList[i].left = currentComponentBaseStatus.left
+          state.componentList[i].top = currentComponentBaseStatus.top
+          console.log(state.componentList[i])
+          break
         }
       }
     },

@@ -9,7 +9,7 @@
           controls-position="right"
           size="mini"
           v-model="componentWidth"
-          @change="componentBaseStausOnChange"
+          @change="componentBaseStatusOnChange"
         ></el-input-number>
       </div>
       <div class="form-sub-item" v-if="flag">
@@ -19,7 +19,7 @@
           controls-position="right"
           size="mini"
           v-model="componentHeight"
-          @change="componentBaseStausOnChange"
+          @change="componentBaseStatusOnChange"
         ></el-input-number>
       </div>
       <div class="form-sub-item" v-if="flag">
@@ -29,7 +29,7 @@
           controls-position="right"
           size="mini"
           v-model="componentLeft"
-          @change="componentBaseStausOnChange"
+          @change="componentBaseStatusOnChange"
         ></el-input-number>
       </div>
       <div class="form-sub-item" v-if="flag">
@@ -39,7 +39,7 @@
           controls-position="right"
           size="mini"
           v-model="componentTop"
-          @change="componentBaseStausOnChange"
+          @change="componentBaseStatusOnChange"
         ></el-input-number>
       </div>
       <div class="form-sub-item" v-if="flag && currentComponent">
@@ -117,8 +117,16 @@ export default {
     textareaOnChange() {
       this.$store.commit('updateDataSource', JSON.parse(this.componentDataSource))
     },
-    componentBaseStausOnChange() {
-      console.log('111')
+    componentBaseStatusOnChange() {
+      let currentComponentBaseStatus = {
+        width: this.componentWidth,
+        height: this.componentHeight,
+        left: this.componentLeft,
+        top: this.componentTop
+      }
+      console.log(currentComponentBaseStatus)
+      this.$store.commit('updateComponentStatus', currentComponentBaseStatus)
+      // console.log('111')
     }
   }
 }

@@ -87,6 +87,9 @@ export default {
     this.flag = true
   },
   methods: {
+    chartResize() {
+      this.$refs.child.chartResize()
+    },
     resize(newRect) {
       this.width = newRect.width
       this.height = newRect.height
