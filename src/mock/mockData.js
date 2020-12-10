@@ -8,10 +8,10 @@ const componentTabData = [
     showData: [
       {
         vshow: true,
-        text: 'ofctesttext1',
+        text: '子组件库A',
         componentdetail: [
           {
-            title: '组件a',
+            title: '基础图表组件',
             name: 'compA',
             picurl: require('../assets/柱状图组件.png')
           },
@@ -23,7 +23,7 @@ const componentTabData = [
       },
       {
         vshow: false,
-        text: 'ofctesttext2',
+        text: '子组件库B',
         componentdetail: [
           {
             title: '组件d',
@@ -46,7 +46,7 @@ const componentTabData = [
     showData: [
       {
         vshow: false,
-        text: 'ofctesttext3',
+        text: '子组件库C',
         componentdetail: [
           {
             title: '组件g',
@@ -56,7 +56,7 @@ const componentTabData = [
       },
       {
         vshow: false,
-        text: 'ofctesttext4',
+        text: '子组件库D',
         componentdetail: [
           {
             title: '组件h',

@@ -13,7 +13,7 @@ export default new Vuex.Store({
     componentList: [],
     pageAndComponentFlag: true,
     activeComponentIndex: -1,
-    currentComponentDataSource: [],
+    currentComponent: [],
     //修正canvas规模、鼠标倍率
     parentScale: 0.45,
     parentScaleX: 0.45,
@@ -92,7 +92,7 @@ export default new Vuex.Store({
       state.activeComponentIndex = index
       for (let i = 0; i < componentList.length; i++) {
         if (componentList[i].index == index) {
-          state.currentComponentDataSource = componentList[i].dataSource
+          state.currentComponent = componentList[i]
         }
       }
       // console.log(state.currentComponentDataSource)

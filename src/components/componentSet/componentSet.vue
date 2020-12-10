@@ -32,8 +32,8 @@ export default {
     // }
   },
   watch: {
-    '$store.state.currentComponentDataSource': function(newval) {
-      this.componentTextArea = JSON.stringify(newval)
+    '$store.state.currentComponent': function(newval) {
+      this.componentTextArea = JSON.stringify(newval.dataSource)
       // console.log('testtext')
     }
   },

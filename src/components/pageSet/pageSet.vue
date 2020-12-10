@@ -67,7 +67,7 @@ export default {
 .page-set-container {
   float: left;
   margin: 10px;
-  color: #aaaaaa;
+  color: #dddddd;
 }
 
 .el-input-number__decrease {
