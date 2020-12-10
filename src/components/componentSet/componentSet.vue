@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import { setSpanStyle } from '../../commonStyle/setColStyle/setColStyle.js'
+import { setSpanStyle, setInputNumberStyle } from '../../commonStyle/setColStyle/setColStyle.js'
 
 export default {
   name: 'componentSet',
@@ -77,7 +77,7 @@ export default {
       componentHeight: -1,
       componentLeft: -1,
       componentTop: -1,
-      inputNumberStyle: { 'border-radius': '0px' },
+      inputNumberStyle: setInputNumberStyle,
       spanStyle: setSpanStyle
     }
   },

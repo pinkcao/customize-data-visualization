@@ -6,7 +6,7 @@
         <span :style="spanStyle">{{ item.title }}</span>
         <el-input-number
           v-if="item.type == 'inputNumber'"
-          style="border-radius: 0px"
+          :style="inputNumberStyle"
           controls-position="right"
           :label="item.title"
           size="mini"
@@ -19,14 +19,15 @@
 </template>
 
 <script>
-import { setSpanStyle } from '../../commonStyle/setColStyle/setColStyle.js'
+import { setSpanStyle, setInputNumberStyle } from '../../commonStyle/setColStyle/setColStyle.js'
 
 export default {
   name: 'pageSet',
   data() {
     return {
       colDef: [],
-      spanStyle: setSpanStyle
+      spanStyle: setSpanStyle,
+      inputNumberStyle: setInputNumberStyle
     }
   },
   computed: {},
