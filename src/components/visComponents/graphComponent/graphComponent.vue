@@ -38,9 +38,9 @@
 
 <script>
 import echarts from 'echarts'
-import vChart from '../charts/chart.vue'
-import url from '../../mock/mockAPI.js'
-import componentsDef from './componentsDef.js'
+import vChart from '@/common/commonComponents/charts/chart.vue'
+import url from '@/mock/mockAPI.js'
+import componentsDef from '../../componentsDef/componentsDef.js'
 
 export default {
   extends: componentsDef,

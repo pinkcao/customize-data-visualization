@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { setSpanStyle, setInputNumberStyle } from '../../commonStyle/setColStyle/setColStyle.js'
+import { setSpanStyle, setInputNumberStyle } from '@/common/commonStyle/setColStyle/setColStyle.js'
 
 export default {
   name: 'pageSet',

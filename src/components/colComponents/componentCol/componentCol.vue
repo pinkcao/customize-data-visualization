@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import url from '../../mock/mockAPI.js'
+import url from '@/mock/mockAPI.js'
 // import { getTabPaneData } from './compColAPI.js'
 
 export default {

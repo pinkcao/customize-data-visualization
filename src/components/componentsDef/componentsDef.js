@@ -1,4 +1,4 @@
-import url from '../../mock/mockAPI.js'
+import url from '@/mock/mockAPI.js'
 
 export default {
   data() {

@@ -30,57 +30,20 @@
 </template>
 
 <script>
-import url from '../../mock/mockAPI.js'
-import vMap from './map.vue'
-import componentsDef from './componentsDef'
-
 export default {
-  extends: componentsDef,
-  name: 'mapComponent',
-  components: {
-    vMap
-  },
+  name: 'titleText',
   data() {
     return {
-      //这些相当于是基础设置属性
-      //如果挂载时未重新设定那么就取默认值
-      preventActiveBehavior: false,
-      name: 'compB',
-      active: false,
-      ifshow: false,
-      width: 500,
-      height: 500,
-      top: 100,
-      left: 100,
-      parentLimitation: true,
-      draggable: true,
-      resizable: true,
-      index: 0,
-      zindex: 0,
-      mode: 'design',
-      flag: false,
-      title: '',
-      subTitle: '',
-      dataSource: []
+      name: 'compD'
     }
   },
-  props: {},
   computed: {},
 
   created() {},
-  mounted() {
-    this.flag = true
-  },
-  methods: {
-    onDeactivated() {
-      this.$refs.testref.blur()
-    },
-    activate() {
-      this.$emit('updateActiveStatus', this.index)
-      this.$refs.testref.focus()
-    }
-  }
+  mounted() {},
+
+  methods: {}
 }
 </script>
 
-<style></style>
+<style lang="less"></style>

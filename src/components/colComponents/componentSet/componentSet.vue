@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import { setSpanStyle, setInputNumberStyle } from '../../commonStyle/setColStyle/setColStyle.js'
+import { setSpanStyle, setInputNumberStyle } from '@/common/commonStyle/setColStyle/setColStyle.js'
 
 export default {
   name: 'componentSet',
@@ -85,9 +85,6 @@ export default {
     currentComponentIndex: function() {
       return this.$store.state.activeComponentIndex
     }
-    // currentComponentDataSource: function() {
-    //   return this.$store.state.currentComponentDataSource
-    // }
   },
   watch: {
     '$store.state.currentComponent': function(newval) {

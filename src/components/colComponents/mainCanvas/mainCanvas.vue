@@ -9,10 +9,10 @@
 </template>
 
 <script>
-import { getComponent } from './graphs/comMap.js'
+import { getComponent } from '@/components/visComponents/comMap.js'
 import Mount from 'vue-mount'
 import { destroy } from 'vue-mount'
-import url from '../mock/mockAPI.js'
+import url from '@/mock/mockAPI.js'
 
 export default {
   components: {},
@@ -146,7 +146,6 @@ export default {
               '$store.state.componentList': {
                 deep: true,
                 handler(newVal, oldval, vm, mnt) {
-                  // console.log(mnt.component_instance.index)
                   if (that.$store.state.activeComponentIndex == mnt.component_instance.index) {
                     for (let i = 0; i < newVal.length; i++) {
                       if (newVal[i].index == mnt.component_instance.index) {
@@ -223,7 +222,6 @@ export default {
             target: this.$refs.target,
             //挂载的方式，因为是n个组件，所以是用加的方式
             mode: 'append',
-            // props: { active: false },
             data: {
               index: currentData[i].index,
               zindex: currentData[i].index,
@@ -288,7 +286,6 @@ export default {
               '$store.state.componentList': {
                 deep: true,
                 handler(newVal, oldval, vm, mnt) {
-                  // console.log(mnt.component_instance.index)
                   if (that.$store.state.activeComponentIndex == mnt.component_instance.index) {
                     for (let i = 0; i < newVal.length; i++) {
                       if (newVal[i].index == mnt.component_instance.index) {
@@ -340,10 +337,6 @@ export default {
 /*设置坐标原点为0 0,不然transform所使用坐标系是从div正中位置 即50 50出发*/
 .main-canvas-background {
   background-color: #0e2a43;
-  /* background-color: #333333; */
   transform-origin: 0 0;
-  /* top: 60px; */
-  /* left: 60px; */
-  /* position: absolute; */
 }
 </style>

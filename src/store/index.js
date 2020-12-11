@@ -63,7 +63,6 @@ export default new Vuex.Store({
       for (let i = 0; i < state.componentList.length; i++) {
         if (state.componentList[i].index == state.activeComponentIndex) {
           state.componentList[i].dataSource = dataSource
-          // console.log(state.componentList)
           break
         }
       }
@@ -84,7 +83,6 @@ export default new Vuex.Store({
     //初始化组件列表
     initComponentList(state, componentList) {
       state.componentList = componentList
-      // console.log(state.componentList)
     },
     //初始化活跃组件列表
     initActiveComponent(state, componentList) {
@@ -94,7 +92,6 @@ export default new Vuex.Store({
     },
     //设置所有组件为不活跃，设置被选中组件为活跃
     updateActiveComponent(state, args) {
-      // console.log(args)
       let componentList = args.componentList
       let index = args.index
       for (let i = 0; i < componentList.length; i++) {
@@ -108,8 +105,6 @@ export default new Vuex.Store({
           state.currentComponent = componentList[i]
         }
       }
-      // console.log(state.currentComponentDataSource)
-      // console.log(state.activeComponentIndex)
     },
     //设置所有组件为不活跃
     setActiveComponentFalse(state) {
@@ -152,11 +147,11 @@ export default new Vuex.Store({
       for (let i = 0; i < state.colDef.length; i++) {
         if (state.colDef[i].index == data.index) {
           state.colDef[i].value = data.value
-          // console.log(state.colDef[i].value)
           break
         }
       }
     },
+    //更新当前页面规模
     updateParentScale(state, data) {
       console.log(data)
       let currentWidth = state.parentW
