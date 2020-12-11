@@ -67,12 +67,6 @@ export default {
       flag: false,
       currentComponent: null,
       componentDataSource: '',
-      // componentBaseStatus: [
-      //   { componentWidth: -1 },
-      //   { componentHeight: -1 },
-      //   { componentLeft: -1 },
-      //   { componentTop: -1 }
-      // ],
       componentWidth: -1,
       componentHeight: -1,
       componentLeft: -1,
@@ -92,10 +86,6 @@ export default {
       // console.log(newval.dataSource)
       this.currentComponent = newval
       this.componentDataSource = JSON.stringify(this.currentComponent.dataSource)
-      // this.componentBaseStatus.componentWidth = this.currentComponent.width
-      // this.componentBaseStatus.componentHeight = this.currentComponent.height
-      // this.componentBaseStatus.componentLeft = this.currentComponent.left
-      // this.componentBaseStatus.componentTop = this.currentComponent.top
       this.componentWidth = this.currentComponent.width
       this.componentHeight = this.currentComponent.height
       this.componentLeft = this.currentComponent.left

@@ -106,6 +106,14 @@ export default new Vuex.Store({
         }
       }
     },
+    //当每个组件的基础属性变化时被调用，更新当前组件，响应至componentSet
+    resizeUpdateActiveComponent(state) {
+      for (let i = 0; i < state.componentList.length; i++) {
+        if (state.componentList[i].index == state.activeComponentIndex) {
+          state.currentComponent = state.componentList[i]
+        }
+      }
+    },
     //设置所有组件为不活跃
     setActiveComponentFalse(state) {
       for (let i = 0; i < state.componentActive.length; i++) {
