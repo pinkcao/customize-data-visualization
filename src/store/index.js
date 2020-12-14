@@ -8,7 +8,6 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     componentNameToCanvas: '',
-    componentUid: '',
     componentActive: [],
     componentList: [],
     pageAndComponentFlag: true,
@@ -37,11 +36,9 @@ export default new Vuex.Store({
     ]
   },
   mutations: {
+    //获取当前组件的name
     changeComponentNameToCanvas(state, compName) {
       state.componentNameToCanvas = compName
-    },
-    changeComponentUid(state, uid) {
-      state.componentUid = uid
     },
     //这两个方法以备不时之需，目前不需要
     // adjustComponent(state, propertyObj) {
@@ -59,6 +56,7 @@ export default new Vuex.Store({
     //   state.componentList.push(properties)
     //   console.log(properties)
     // },
+    //仅更新数据源
     updateDataSource(state, dataSource) {
       for (let i = 0; i < state.componentList.length; i++) {
         if (state.componentList[i].index == state.activeComponentIndex) {
@@ -67,7 +65,7 @@ export default new Vuex.Store({
         }
       }
     },
-
+    //仅更新组件基础属性
     updateComponentStatus(state, currentComponentBaseStatus) {
       for (let i = 0; i < state.componentList.length; i++) {
         if (state.componentList[i].index == state.activeComponentIndex) {
@@ -92,17 +90,17 @@ export default new Vuex.Store({
     },
     //设置所有组件为不活跃，设置被选中组件为活跃
     updateActiveComponent(state, args) {
-      let componentList = args.componentList
+      // let componentList = args.componentList
       let index = args.index
-      for (let i = 0; i < componentList.length; i++) {
-        state.componentActive[componentList[i].index] = { active: false }
+      for (let i = 0; i < state.componentList.length; i++) {
+        state.componentActive[state.componentList[i].index] = { active: false }
       }
       state.componentActive[index].active = true
       state.pageAndComponentFlag = false
       state.activeComponentIndex = index
-      for (let i = 0; i < componentList.length; i++) {
-        if (componentList[i].index == index) {
-          state.currentComponent = componentList[i]
+      for (let i = 0; i < state.componentList.length; i++) {
+        if (state.componentList[i].index == index) {
+          state.currentComponent = state.componentList[i]
         }
       }
     },

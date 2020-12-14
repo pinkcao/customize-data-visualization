@@ -9,10 +9,10 @@
 </template>
 
 <script>
-import { getComponent } from '@/components/visComponents/comMap.js'
+import { getComponent } from '@components/visComponents/comMap.js'
 import Mount from 'vue-mount'
 import { destroy } from 'vue-mount'
-import url from '@/mock/mockAPI.js'
+import url from '@mock/mockAPI.js'
 
 export default {
   components: {},
@@ -110,8 +110,8 @@ export default {
               //active状态不需要更新至数据库，因为最终active状态一定是false，仅在vuex中实时更新active状态并更改objList中对象的active状态
               updateActiveStatus(...args) {
                 let params = {
-                  index: args[0],
-                  componentList: that.componentList
+                  index: args[0]
+                  // componentList: that.componentList
                 }
                 that.$store.commit('updateActiveComponent', params)
                 let tempActiveComponent = that.$store.state.componentActive
@@ -246,8 +246,8 @@ export default {
               //绑的事件侦听器，用于侦听当前的active情况
               updateActiveStatus(...args) {
                 let params = {
-                  index: args[0],
-                  componentList: that.componentList
+                  index: args[0]
+                  // componentList: that.componentList
                 }
                 that.$store.commit('updateActiveComponent', params)
                 // console.log(that.$store.state.componentActive)

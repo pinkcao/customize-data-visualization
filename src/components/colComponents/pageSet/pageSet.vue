@@ -2,6 +2,8 @@
   <div style="width: 100%；height: 100%">
     <div class="title-box-page">页面设置</div>
     <div class="page-set-container">
+      <!-- <el-tabs type="border-card">
+        <el-tab-pane label="基础设置"> -->
       <div class="form-sub-item" v-for="item in colDef" :key="item.index">
         <span :style="spanStyle">{{ item.title }}</span>
         <el-input-number
@@ -14,6 +16,9 @@
           @change="onChange(item.index)"
         ></el-input-number>
       </div>
+      <!-- </el-tab-pane>
+        <el-tab-pane label="我没想好"></el-tab-pane>
+      </el-tabs> -->
     </div>
   </div>
 </template>
@@ -38,9 +43,11 @@ export default {
   },
 
   methods: {
+    //初始化页面设置
     initCol() {
       this.colDef = this.$store.state.colDef
     },
+    //更新当前页面设置
     onChange(index) {
       // console.log(index)
       for (let i = 0; i < this.colDef.length; i++) {

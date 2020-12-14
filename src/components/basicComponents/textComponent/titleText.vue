@@ -30,7 +30,10 @@
 </template>
 
 <script>
+import componentsDef from '@components/componentsDef/componentsDef.js'
+
 export default {
+  extends: componentsDef,
   name: 'titleText',
   data() {
     return {

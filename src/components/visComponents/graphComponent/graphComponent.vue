@@ -39,8 +39,8 @@
 <script>
 import echarts from 'echarts'
 import vChart from '@/common/commonComponents/charts/chart.vue'
-import url from '@/mock/mockAPI.js'
-import componentsDef from '../../componentsDef/componentsDef.js'
+import url from '@mock/mockAPI.js'
+import componentsDef from '@components/componentsDef/componentsDef.js'
 
 export default {
   extends: componentsDef,
@@ -113,9 +113,11 @@ export default {
       this.left = newRect.left
       this.$refs.child.chartResize()
     },
+    //由active转至inactive
     onDeactivated() {
       this.$refs.testref.blur()
     },
+    //由inactive转至active
     activate() {
       this.$emit('updateActiveStatus', this.index)
       this.$refs.testref.focus()

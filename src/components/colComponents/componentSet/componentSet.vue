@@ -101,9 +101,11 @@ export default {
   },
 
   methods: {
+    //当值变化，将值转为json对象后传至vuex更新组件
     textareaOnChange() {
       this.$store.commit('updateDataSource', JSON.parse(this.componentDataSource))
     },
+    //基础属性变更时触发
     componentBaseStatusOnChange() {
       let currentComponentBaseStatus = {
         width: this.componentWidth,
@@ -111,9 +113,7 @@ export default {
         left: this.componentLeft,
         top: this.componentTop
       }
-      console.log(currentComponentBaseStatus)
       this.$store.commit('updateComponentStatus', currentComponentBaseStatus)
-      // console.log('111')
     }
   }
 }

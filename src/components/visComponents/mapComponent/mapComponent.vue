@@ -30,9 +30,9 @@
 </template>
 
 <script>
-import url from '@/mock/mockAPI.js'
+import url from '@mock/mockAPI.js'
 import vMap from './map.vue'
-import componentsDef from '../../componentsDef/componentsDef.js'
+import componentsDef from '@components/componentsDef/componentsDef.js'
 
 export default {
   extends: componentsDef,
