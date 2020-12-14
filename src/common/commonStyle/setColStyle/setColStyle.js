@@ -4,5 +4,6 @@ export const setSpanStyle = {
 }
 
 export const setInputNumberStyle = {
-  'border-radius': '0px'
+  'border-radius': '0px',
+  'margin-left': '10px'
 }

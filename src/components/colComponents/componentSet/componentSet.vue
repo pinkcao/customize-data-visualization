@@ -1,57 +1,63 @@
 <template>
   <div style="width: 100%；height: 100%">
-    <div class="title-box-page">组件设置</div>
-    <div class="page-set-container">
-      <div class="form-sub-item" v-if="flag">
-        <span :style="spanStyle">组件宽度: </span>
-        <el-input-number
-          :style="inputNumberStyle"
-          controls-position="right"
-          size="mini"
-          v-model="componentWidth"
-          @change="componentBaseStatusOnChange"
-        ></el-input-number>
-      </div>
-      <div class="form-sub-item" v-if="flag">
-        <span :style="spanStyle">组件高度: </span>
-        <el-input-number
-          :style="inputNumberStyle"
-          controls-position="right"
-          size="mini"
-          v-model="componentHeight"
-          @change="componentBaseStatusOnChange"
-        ></el-input-number>
-      </div>
-      <div class="form-sub-item" v-if="flag">
-        <span :style="spanStyle">左侧距离: </span>
-        <el-input-number
-          :style="inputNumberStyle"
-          controls-position="right"
-          size="mini"
-          v-model="componentLeft"
-          @change="componentBaseStatusOnChange"
-        ></el-input-number>
-      </div>
-      <div class="form-sub-item" v-if="flag">
-        <span :style="spanStyle">上方距离: </span>
-        <el-input-number
-          :style="inputNumberStyle"
-          controls-position="right"
-          size="mini"
-          v-model="componentTop"
-          @change="componentBaseStatusOnChange"
-        ></el-input-number>
-      </div>
-      <div class="form-sub-item" v-if="flag && currentComponent">
-        <span :style="spanStyle">静态JSON数据:</span>
-        <el-input
-          type="textarea"
-          placeholder="请输入内容"
-          v-model="componentDataSource"
-          @change="textareaOnChange"
-          rows="10"
-        ></el-input>
-      </div>
+    <div class="title-box-component">组件设置</div>
+    <div class="component-set-wrapper">
+      <el-tabs type="border-card">
+        <el-tab-pane label="基础属性">
+          <div class="form-sub-item" v-if="flag">
+            <span :style="spanStyle">组件宽度: </span>
+            <el-input-number
+              :style="inputNumberStyle"
+              controls-position="right"
+              size="mini"
+              v-model="componentWidth"
+              @change="componentBaseStatusOnChange"
+            ></el-input-number>
+          </div>
+          <div class="form-sub-item" v-if="flag">
+            <span :style="spanStyle">组件高度: </span>
+            <el-input-number
+              :style="inputNumberStyle"
+              controls-position="right"
+              size="mini"
+              v-model="componentHeight"
+              @change="componentBaseStatusOnChange"
+            ></el-input-number>
+          </div>
+          <div class="form-sub-item" v-if="flag">
+            <span :style="spanStyle">左侧距离: </span>
+            <el-input-number
+              :style="inputNumberStyle"
+              controls-position="right"
+              size="mini"
+              v-model="componentLeft"
+              @change="componentBaseStatusOnChange"
+            ></el-input-number>
+          </div>
+          <div class="form-sub-item" v-if="flag">
+            <span :style="spanStyle">上方距离: </span>
+            <el-input-number
+              :style="inputNumberStyle"
+              controls-position="right"
+              size="mini"
+              v-model="componentTop"
+              @change="componentBaseStatusOnChange"
+            ></el-input-number>
+          </div>
+        </el-tab-pane>
+        <el-tab-pane label="数据配置">
+          <div class="form-sub-item" v-if="flag && currentComponent">
+            <span :style="spanStyle">静态JSON数据:</span>
+            <el-input
+              type="textarea"
+              placeholder="请输入内容"
+              v-model="componentDataSource"
+              @change="textareaOnChange"
+              rows="10"
+            ></el-input>
+          </div>
+        </el-tab-pane>
+      </el-tabs>
     </div>
   </div>
 </template>
@@ -120,7 +126,30 @@ export default {
 </script>
 
 <style lang="less">
-.title-box-page {
+.component-set-wrapper {
+  width: 95%;
+}
+
+.component-set-wrapper .el-tabs--border-card {
+  border: 0px;
+  background-color: transparent;
+  border: 1px solid black;
+}
+
+.component-set-wrapper .el-tabs--border-card > .el-tabs__header .el-tabs__item {
+  border: 0px;
+}
+
+.component-set-wrapper .el-tabs--border-card > .el-tabs__header {
+  background-color: rgb(20, 20, 20);
+  border: 1px solid #222222;
+}
+
+.component-set-wrapper .el-tabs--border-card > .el-tabs__header .el-tabs__item.is-active {
+  background-color: #222222;
+}
+
+.title-box-component {
   width: 100%;
   height: 30px;
   background-color: #333b45;
@@ -130,17 +159,17 @@ export default {
   line-height: 30px;
 }
 
-.page-set-container {
+.component-set-wrapper {
   float: left;
   margin: 10px;
   color: #eeeeee;
-  width: 90%;
+  width: 100%;
   height: 50%;
   display: flex;
   flex-direction: column;
 }
 
-.page-set-container .el-textarea__inner {
+.component-set-wrapper .el-textarea__inner {
   border-radius: 0px;
   border: 0px;
   background-color: #122334;
@@ -149,7 +178,7 @@ export default {
   flex-direction: column;
 }
 
-.page-set-container .el-textarea {
+.component-set-wrapper .el-textarea {
   height: 100%;
 }
 
@@ -157,11 +186,11 @@ export default {
   border-radius: 0px;
 }
 
-.page-set-container .el-input-number.is-controls-right .el-input-number__decrease {
+.component-set-wrapper .el-input-number.is-controls-right .el-input-number__decrease {
   border-radius: 0px;
 }
 
-.page-set-container .el-input-number.is-controls-right .el-input-number__increase {
+.component-set-wrapper .el-input-number.is-controls-right .el-input-number__increase {
   border-radius: 0px;
 }
 
@@ -169,7 +198,7 @@ export default {
   margin: 5px;
 }
 
-.page-set-container input {
+.component-set-wrapper input {
   background-color: #222222;
   border-radius: 0px;
   border: 1px solid #333333;
