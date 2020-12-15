@@ -213,7 +213,8 @@ export default {
       if (this.pageColActive == true) {
         ColData.push(parseInt(this.pagefullwidth.substring(0, this.pagefullwidth.length - 2)))
       }
-      this.$store.commit('updateParentScale', ColData)
+      this.$store.commit('updateCurrentColWidth', ColData)
+      this.$store.commit('updateParentScale')
     },
     /*
       用于transition三个区块

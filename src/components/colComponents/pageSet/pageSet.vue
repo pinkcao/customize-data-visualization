@@ -103,6 +103,7 @@ export default {
             value: this.colDef[i].value
           }
           this.$store.commit('updatePageValue', data)
+          this.$store.commit('updateParentScale')
         }
       }
     },

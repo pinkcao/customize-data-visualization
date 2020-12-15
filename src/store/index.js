@@ -20,6 +20,7 @@ export default new Vuex.Store({
     parentW: 1536, //这个调的时候记得+px
     parentH: 864,
     position: 'absolute',
+    currentColWidth: 0,
     colDef: [
       {
         index: 0,
@@ -189,17 +190,31 @@ export default new Vuex.Store({
         }
       }
     },
-    //更新当前页面规模
-    updateParentScale(state, data) {
-      console.log(data)
-      let currentWidth = state.parentW
+    //更新当前页面规模,
+    updateCurrentColWidth(state, data) {
+      state.currentColWidth = 0
       for (let i = 0; i < data.length; i++) {
-        currentWidth = currentWidth - data[i]
+        state.currentColWidth += data[i]
       }
-      let newScale = currentWidth / state.parentW
+      // this.updateParentScale()
+    },
+    updateParentScale(state) {
+      let currentWidth = window.screen.width
+      currentWidth -= state.currentColWidth
+      let newScale = currentWidth / state.colDef[0].value
       state.parentScale = newScale
       state.parentScaleX = newScale
       state.parentScaleY = newScale
+      // state.currentColWidth = 0
+      // for (let i = 0; i < data.length; i++) {
+      //   currentWidth = currentWidth - data[i]
+      //   //currentColWidth用于在不调整整个页面布局，但显示页面宽高变化时进行页面的自适应变化
+      //   state.currentColWidth = state.currentColWidth + data[i]
+      // }
+      // let newScale = currentWidth / state.colDef[0].value
+      // state.parentScale = newScale
+      // state.parentScaleX = newScale
+      // state.parentScaleY = newScale
     }
   },
 
