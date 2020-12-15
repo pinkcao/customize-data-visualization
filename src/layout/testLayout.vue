@@ -1,6 +1,6 @@
 <template>
   <div class="main" id="testLayout">
-    <div class="main-route">
+    <div class="main-route" :style="overflowControl">
       <router-view></router-view>
     </div>
     <!--
@@ -11,7 +11,30 @@
 
 <script>
 export default {
-  name: 'testLayout'
+  name: 'testLayout',
+  data() {
+    return {}
+  },
+  computed: {
+    overflowControl: function() {
+      if (this.$store.state.allStretch == true) {
+        return {
+          overflow: 'hidden'
+        }
+      } else if (this.$store.state.xStretch == true) {
+        return {
+          'overflow-x': 'hidden'
+        }
+      } else if (this.$store.state.yStretch == true) {
+        return {
+          'overflow-y': 'hidden'
+        }
+      } else {
+        return {}
+      }
+    }
+    // stretchMethod: function () {}
+  }
 }
 </script>
 

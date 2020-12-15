@@ -140,7 +140,7 @@ export default {
       pageemptywidth: '0px',
       graphfullwidth: '200px',
       graphemptywidth: '0px',
-      iconstyle: 'color:aliceblue;display:flex;align-items: center;justify-content: center;margin-top: 7px',
+      iconstyle: 'color:aliceblue;',
       componentName: ''
     }
   },
@@ -631,6 +631,9 @@ body {
   // margin: 10px;
   margin-left: 10px;
   float: left;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .icon-box-left {
@@ -640,6 +643,9 @@ body {
   // margin: 10px;
   margin-left: 10px;
   float: left;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .icon-box-left-hide:hover {
@@ -659,6 +665,9 @@ body {
   margin-left: 10px;
   // margin: 10px;
   float: right;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .icon-box-right:hover {
@@ -672,6 +681,9 @@ body {
   float: left;
   height: 30px;
   width: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
 }
 
 .head-box-right {
@@ -680,6 +692,9 @@ body {
   float: right;
   height: 30px;
   width: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
 }
 
 .main-panel-wp {

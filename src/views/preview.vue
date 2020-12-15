@@ -1,6 +1,8 @@
 <template>
-  <div ref="preview">
-    <el-button style="float: right" icon="el-icon-close" @click="returnToBase" circle></el-button>
+  <div class="preview-wrapper" :style="currentStyle" ref="preview">
+    <div :style="buttonBoxStyle">
+      <el-button style="float: right" icon="el-icon-close" @click="returnToBase" circle></el-button>
+    </div>
   </div>
 </template>
 
@@ -18,17 +20,83 @@ export default {
   name: 'mainCanvas',
   data() {
     return {
-      componentList: []
+      componentList: [],
+      currentStyle: {}
     }
   },
-  computed: {},
+  computed: {
+    buttonBoxStyle: function() {
+      return {
+        position: 'absolute',
+        left: this.$store.state.colDef[0].value - 40 + 'px'
+      }
+    },
+    stretchMethod: function() {
+      if (this.$store.state.allStretch == true) {
+        return 'allStretch'
+      } else if (this.$store.state.xStretch == true) {
+        return 'xStretch'
+      } else if (this.$store.state.yStretch == true) {
+        return 'yStretch'
+      } else {
+        return 'noStretch'
+      }
+    }
+  },
   props: ['componentName'],
   created() {},
   mounted() {
+    this.resize()
     this.getComponentList()
+    window.addEventListener('resize', this.resize)
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.resize)
   },
 
   methods: {
+    resize() {
+      let designWindowWidth = this.$store.state.colDef[0].value
+      let designWindowHeight = this.$store.state.colDef[1].value
+
+      switch (this.stretchMethod) {
+        case 'allStretch':
+          this.currentStyle = {
+            width: designWindowWidth + 'px',
+            height: designWindowHeight + 'px',
+            transform: `scale(${document.documentElement.clientWidth / designWindowWidth}, 
+        ${document.documentElement.clientHeight / designWindowHeight}) translate(0px, 0px)`,
+            overflow: 'hidden'
+          }
+          break
+        case 'xStretch':
+          this.currentStyle = {
+            width: designWindowWidth + 'px',
+            height: designWindowHeight + 'px',
+            transform: `scale(${document.documentElement.clientWidth / designWindowWidth}, 
+        ${1}) translate(0px, 0px)`,
+            'overflow-x': 'hidden'
+          }
+          break
+        case 'yStretch':
+          this.currentStyle = {
+            width: designWindowWidth + 'px',
+            height: designWindowHeight + 'px',
+            transform: `scale(${1}, 
+        ${document.documentElement.clientHeight / designWindowHeight}) translate(0px, 0px)`,
+            'overflow-y': 'hidden'
+          }
+          break
+        case 'noStretch':
+          this.currentStyle = {
+            width: designWindowWidth + 'px',
+            height: designWindowHeight + 'px',
+            transform: `scale(${1}, 
+        ${1}) translate(0px, 0px)`
+          }
+          break
+      }
+    },
     returnToBase() {
       this.$router.push({ path: '/basePage' })
     },
@@ -80,4 +148,8 @@ export default {
 }
 </script>
 
-<style></style>
+<style>
+.preview-wrapper {
+  transform-origin: 0 0;
+}
+</style>

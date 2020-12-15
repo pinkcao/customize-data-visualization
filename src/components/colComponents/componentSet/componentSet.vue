@@ -126,10 +126,6 @@ export default {
 </script>
 
 <style lang="less">
-.component-set-wrapper {
-  width: 95%;
-}
-
 .component-set-wrapper .el-tabs--border-card {
   border: 0px;
   background-color: transparent;
@@ -163,8 +159,7 @@ export default {
   float: left;
   margin: 10px;
   color: #eeeeee;
-  width: 100%;
-  height: 50%;
+  width: 95%;
   display: flex;
   flex-direction: column;
 }

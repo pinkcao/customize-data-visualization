@@ -4,17 +4,37 @@
     <div class="page-set-wrapper">
       <el-tabs type="border-card">
         <el-tab-pane label="基础设置">
-          <div class="form-sub-item" v-for="item in colDef" :key="item.index">
-            <span :style="spanStyle">{{ item.title }}</span>
-            <el-input-number
-              v-if="item.type == 'inputNumber'"
-              :style="inputNumberStyle"
-              controls-position="right"
-              :label="item.title"
-              size="mini"
-              v-model="item.value"
-              @change="onChange(item.index)"
-            ></el-input-number>
+          <div class="flex-box">
+            <div class="form-sub-item" v-for="item in colDef" :key="item.index">
+              <span :style="spanStyle">{{ item.title }}</span>
+              <el-input-number
+                v-if="item.type == 'inputNumber'"
+                :style="inputNumberStyle"
+                controls-position="right"
+                :label="item.title"
+                size="mini"
+                v-model="item.value"
+                @change="onChange(item.index)"
+              ></el-input-number>
+            </div>
+            <div class="page-stretch">
+              <span style="margin: 5px; align-self: flex-start; font-size: 13px">缩放方式:</span>
+              <div class="page-stretch-button-set">
+                <div :class="allStretch" @click="updateStretch('allStretch')" title="全屏缩放">
+                  <i :style="iconstyle" class="el-icon-full-screen"></i>
+                </div>
+                <div :class="xStretch" @click="updateStretch('xStretch')" title="x轴缩放">
+                  <i :style="iconstyle" class="el-icon-caret-left"></i>
+                  <i :style="iconstyle" class="el-icon-caret-right"></i>
+                </div>
+                <div :class="yStretch" @click="updateStretch('yStretch')" title="y轴缩放">
+                  <i :style="iconstyle" class="el-icon-d-caret"></i>
+                </div>
+                <div :class="noStretch" @click="updateStretch('noStretch')" title="不缩放">
+                  <i :style="iconstyle" class="el-icon-monitor"></i>
+                </div>
+              </div>
+            </div>
           </div>
         </el-tab-pane>
         <el-tab-pane label="背景设置"></el-tab-pane>
@@ -32,10 +52,36 @@ export default {
     return {
       colDef: [],
       spanStyle: setSpanStyle,
-      inputNumberStyle: setInputNumberStyle
+      inputNumberStyle: setInputNumberStyle,
+      iconstyle: 'color:aliceblue'
     }
   },
-  computed: {},
+  computed: {
+    allStretch: function() {
+      return {
+        'stretch-button-show': this.$store.state.allStretch,
+        'stretch-button-hide': !this.$store.state.allStretch
+      }
+    },
+    xStretch: function() {
+      return {
+        'stretch-button-show': this.$store.state.xStretch,
+        'stretch-button-hide': !this.$store.state.xStretch
+      }
+    },
+    yStretch: function() {
+      return {
+        'stretch-button-show': this.$store.state.yStretch,
+        'stretch-button-hide': !this.$store.state.yStretch
+      }
+    },
+    noStretch: function() {
+      return {
+        'stretch-button-show': this.$store.state.noStretch,
+        'stretch-button-hide': !this.$store.state.noStretch
+      }
+    }
+  },
 
   created() {},
   mounted() {
@@ -59,12 +105,20 @@ export default {
           this.$store.commit('updatePageValue', data)
         }
       }
+    },
+    updateStretch(stretch) {
+      console.log(stretch)
+      this.$store.commit('updateStretch', stretch)
     }
   }
 }
 </script>
 
 <style lang="less">
+@selectedcolor: #2681ff;
+@notselectedcolor: #303640;
+@highlight: #101010;
+
 .page-set-wrapper {
   width: 95%;
 }
@@ -88,6 +142,22 @@ export default {
   background-color: #222222;
 }
 
+.page-stretch {
+  margin-top: 20px;
+  width: 100%;
+  height: 80px;
+  // background-color: rgb(139, 25, 25);
+  display: flex;
+  flex-direction: column;
+}
+
+.page-stretch-button-set {
+  width: 100%;
+  border: 1px solid black;
+  display: flex;
+  justify-content: space-around;
+}
+
 .title-box-page {
   width: 100%;
   height: 30px;
@@ -98,8 +168,12 @@ export default {
   line-height: 30px;
 }
 
+.flex-box {
+  display: flex;
+  flex-direction: column;
+}
+
 .page-set-wrapper {
-  float: left;
   margin: 10px;
   color: #dddddd;
 }
@@ -128,5 +202,33 @@ export default {
   background-color: #222222;
   border-radius: 0px;
   border: 1px solid #333333;
+}
+
+.stretch-button-show {
+  width: 40px;
+  height: 30px;
+  background-color: @selectedcolor;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.stretch-button-show:hover {
+  cursor: pointer;
+  background-color: @selectedcolor + @highlight;
+}
+
+.stretch-button-hide {
+  width: 40px;
+  height: 30px;
+  background-color: @notselectedcolor;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.stretch-button-hide:hover {
+  cursor: pointer;
+  background-color: @notselectedcolor + @highlight;
 }
 </style>

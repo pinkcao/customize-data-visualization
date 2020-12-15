@@ -33,7 +33,11 @@ export default new Vuex.Store({
         type: 'inputNumber',
         value: 864
       }
-    ]
+    ],
+    allStretch: true,
+    yStretch: false,
+    xStretch: false,
+    noStretch: false
   },
   mutations: {
     //获取当前组件的name
@@ -57,6 +61,34 @@ export default new Vuex.Store({
     //   console.log(properties)
     // },
     //仅更新数据源
+    updateStretch(state, stretch) {
+      switch (stretch) {
+        case 'allStretch':
+          state.allStretch = true
+          state.yStretch = false
+          state.xStretch = false
+          state.noStretch = false
+          break
+        case 'xStretch':
+          state.allStretch = false
+          state.yStretch = false
+          state.xStretch = true
+          state.noStretch = false
+          break
+        case 'yStretch':
+          state.allStretch = false
+          state.yStretch = true
+          state.xStretch = false
+          state.noStretch = false
+          break
+        case 'noStretch':
+          state.allStretch = false
+          state.yStretch = false
+          state.xStretch = false
+          state.noStretch = true
+          break
+      }
+    },
     updateDataSource(state, dataSource) {
       for (let i = 0; i < state.componentList.length; i++) {
         if (state.componentList[i].index == state.activeComponentIndex) {
