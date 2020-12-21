@@ -23,7 +23,7 @@
       @deactivated="onDeactivated"
     >
       <div style="background-color: #ffffff; width: 100%; height: 100%">
-        {{ dataSource }}
+        <span :style="titleStyle">{{ dataSource }}</span>
       </div>
     </vue-drag-resize>
   </div>
@@ -57,7 +57,13 @@ export default {
       dataSource: ''
     }
   },
-  computed: {},
+  computed: {
+    titleStyle: function() {
+      return {
+        'font-size': 0.8 * this.height + 'px'
+      }
+    }
+  },
 
   created() {},
   mounted() {

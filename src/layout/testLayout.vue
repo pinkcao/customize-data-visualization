@@ -38,7 +38,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .main {
   height: 100%;
 }
@@ -51,5 +51,11 @@ export default {
 .footer {
   background-color: #333333;
   height: 100px;
+}
+
+span {
+  border: 0px;
+  margin: 0px;
+  padding: 0px;
 }
 </style>
