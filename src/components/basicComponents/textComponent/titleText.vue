@@ -54,7 +54,7 @@ export default {
       flag: false,
       title: '',
       subTitle: '',
-      dataSource: ''
+      dataSource: '测试'
     }
   },
   computed: {

@@ -27,7 +27,8 @@ const componentTabData = [
         componentdetail: [
           {
             title: '组件d',
-            name: 'titleComponent'
+            name: 'titleComponent',
+            picurl: require('../assets/文字组件.png')
           },
           {
             title: '组件e',
