@@ -87,10 +87,6 @@ export default {
           zindex: this.componentList.length,
           ifshow: true,
           name: this.$store.state.componentNameToCanvas,
-          width: 300,
-          height: 300,
-          top: 10,
-          left: 10,
           draggable: true,
           resizable: true,
           parentLimitation: true,
@@ -168,7 +164,7 @@ export default {
                             }
                           })
                           .then(res => {
-                            if (res.data.status == 200) {
+                            if (res.data.status == 200 && mnt.component_instance == 'titleComponent') {
                               mnt.component_instance.chartResize()
                             }
                           })
@@ -308,7 +304,7 @@ export default {
                             }
                           })
                           .then(res => {
-                            if (res.data.status == 200) {
+                            if (res.data.status == 200 && mnt.component_instance.name == 'graphComponent') {
                               mnt.component_instance.chartResize()
                             }
                           })

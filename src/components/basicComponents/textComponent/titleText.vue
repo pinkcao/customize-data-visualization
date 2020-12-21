@@ -22,7 +22,9 @@
       @activated="activate"
       @deactivated="onDeactivated"
     >
-      <div style="background-color: #ffffff; width: 100%; height: 100%"></div>
+      <div style="background-color: #ffffff; width: 100%; height: 100%">
+        {{ dataSource }}
+      </div>
     </vue-drag-resize>
   </div>
 </template>
@@ -35,15 +37,43 @@ export default {
   name: 'titleText',
   data() {
     return {
-      name: 'titleComponent'
+      name: 'titleComponent',
+      preventActiveBehavior: false,
+      active: false,
+      ifshow: false,
+      width: 100,
+      height: 50,
+      top: 100,
+      left: 100,
+      parentLimitation: true,
+      draggable: true,
+      resizable: true,
+      index: 0,
+      zindex: 0,
+      mode: 'design',
+      flag: false,
+      title: '',
+      subTitle: '',
+      dataSource: ''
     }
   },
   computed: {},
 
   created() {},
-  mounted() {},
+  mounted() {
+    console.log(this.width)
+    console.log(this.height)
+  },
 
-  methods: {}
+  methods: {
+    onDeactivated() {
+      this.$refs.testref.blur()
+    },
+    activate() {
+      this.$emit('updateActiveStatus', this.index)
+      this.$refs.testref.focus()
+    }
+  }
 }
 </script>
 
