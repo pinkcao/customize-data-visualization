@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
-import url from '../mock/mockAPI.js'
+import url from '@mock/mockAPI.js'
 
 Vue.use(Vuex)
 
@@ -13,8 +13,9 @@ export default new Vuex.Store({
     pageAndComponentFlag: true,
     activeComponentIndex: -1,
     currentComponent: [],
-    //修正canvas规模、鼠标倍率
+    //修正canvas规模
     parentScale: 0.45,
+    //修正鼠标移动倍率
     parentScaleX: 0.45,
     parentScaleY: 0.45,
     parentW: 1536, //这个调的时候记得+px
@@ -199,6 +200,7 @@ export default new Vuex.Store({
       // this.updateParentScale()
     },
     updateParentScale(state) {
+      //使用当前屏幕的宽度来计算目前的画布所应有的Scale
       let currentWidth = window.screen.width
       currentWidth -= state.currentColWidth
       let newScale = currentWidth / state.colDef[0].value

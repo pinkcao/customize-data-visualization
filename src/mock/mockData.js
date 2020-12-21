@@ -12,12 +12,12 @@ const componentTabData = [
         componentdetail: [
           {
             title: '基础图表组件',
-            name: 'compA',
+            name: 'graphComponent',
             picurl: require('../assets/柱状图组件.png')
           },
           {
             title: '组件b',
-            name: 'compB'
+            name: 'mapComponent'
           }
         ]
       },
@@ -27,7 +27,7 @@ const componentTabData = [
         componentdetail: [
           {
             title: '组件d',
-            name: 'compD'
+            name: 'titleComponent'
           },
           {
             title: '组件e',
@@ -70,7 +70,7 @@ const componentTabData = [
 //默认初始挂载组件
 const componentList = [
   {
-    name: 'compA',
+    name: 'graphComponent',
     title: 'title',
     subTitle: 'subtitle',
     width: 400,
@@ -102,7 +102,7 @@ const componentList = [
     // ]
   },
   {
-    name: 'compA',
+    name: 'graphComponent',
     title: 'title',
     subTitle: 'subtitle',
     width: 300,

@@ -22,9 +22,7 @@
       @activated="activate"
       @deactivated="onDeactivated"
     >
-      <div style="background-color: #ffffff; width: 100%; height: 100%">
-        <v-map></v-map>
-      </div>
+      <div style="background-color: #ffffff; width: 100%; height: 100%"></div>
     </vue-drag-resize>
   </div>
 </template>
@@ -37,7 +35,7 @@ export default {
   name: 'titleText',
   data() {
     return {
-      name: 'compD'
+      name: 'titleComponent'
     }
   },
   computed: {},
