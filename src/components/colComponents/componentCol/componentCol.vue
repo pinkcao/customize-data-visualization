@@ -32,7 +32,7 @@
                       v-for="(data3, index3) in data2.componentdetail"
                       :key="index3"
                       draggable="true"
-                      @dragstart="dragstarttest(data3.name)"
+                      @dragstart="dragstarttest(data3.componentName)"
                     >
                       <div style="width: 100%; height: 20px; background-color: #212326">
                         <span style="color: #dddddd">{{ data3.title }}</span>

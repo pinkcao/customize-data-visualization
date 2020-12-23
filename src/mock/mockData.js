@@ -12,12 +12,12 @@ const componentTabData = [
         componentdetail: [
           {
             title: '基础图表组件',
-            name: 'graphComponent',
+            componentName: 'graphComponent',
             picurl: require('../assets/柱状图组件.png')
           },
           {
             title: '组件b',
-            name: 'mapComponent'
+            componentName: 'mapComponent'
           }
         ]
       },
@@ -27,16 +27,16 @@ const componentTabData = [
         componentdetail: [
           {
             title: '组件d',
-            name: 'titleComponent',
+            componentName: 'titleComponent',
             picurl: require('../assets/文字组件.png')
           },
           {
             title: '组件e',
-            name: 'compE'
+            componentName: 'compE'
           },
           {
             title: '组件f',
-            name: 'compF'
+            componentName: 'compF'
           }
         ]
       }
@@ -51,7 +51,7 @@ const componentTabData = [
         componentdetail: [
           {
             title: '组件g',
-            name: 'compG'
+            componentName: 'compG'
           }
         ]
       },
@@ -61,7 +61,7 @@ const componentTabData = [
         componentdetail: [
           {
             title: '组件h',
-            name: 'compH'
+            componentName: 'compH'
           }
         ]
       }
