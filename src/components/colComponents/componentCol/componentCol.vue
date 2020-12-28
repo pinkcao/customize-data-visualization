@@ -29,7 +29,7 @@
                         display: flex;
                         flex-direction: column;
                       "
-                      v-for="(data3, index3) in data2.componentdetail"
+                      v-for="(data3, index3) in data2.componentDetailList"
                       :key="index3"
                       draggable="true"
                       @dragstart="dragstarttest(data3.componentName)"
@@ -38,7 +38,12 @@
                         <span style="color: #dddddd">{{ data3.title }}</span>
                       </div>
                       <div style="flex: 1">
-                        <el-image style="width: 100%; height: 70px" :src="data3.picurl" :fit="'fill'"></el-image>
+                        <el-image
+                          v-if="getComponentTabDataFlag"
+                          style="width: 100%; height: 70px"
+                          :src="data3.picurl"
+                          :fit="'fill'"
+                        ></el-image>
                       </div>
                     </div>
                   </div>
@@ -64,7 +69,8 @@ export default {
       testData: 'forDragTest',
       testSonData: '',
       tabpanedata: [],
-      iconstyle: 'color:aliceblue;'
+      iconstyle: 'color:aliceblue;',
+      getComponentTabDataFlag: false
     }
   },
   computed: {},
@@ -72,17 +78,52 @@ export default {
   created() {},
   mounted() {
     this.getTabPaneData()
+    // this.$axios({
+    //   url: 'http://localhost:8080/testsql',
+    //   method: 'post',
+    //   params: {
+    //     sql: 'select * from componentdetail'
+    //   }
+    // }).then(res => {
+    //   console.log(res)
+    // })
   },
 
   methods: {
     //获取TabPaneData
     getTabPaneData() {
       this.$axios({
-        url: url.getComTabData,
+        // url: url.getComTabData,
+        url: 'http://localhost:8080/componentTabData/getAll',
         method: 'post',
         params: {}
       }).then(res => {
-        this.tabpanedata = res.data.resultSet
+        // console.log(res)
+        // this.tabpanedata = res.data.resultSet
+        // for (let i = 0; i < this.tabpanedata.length; i++) {
+        //   console.log(this.tabpanedata[i].showData)
+        //   for (let j = 0; j < this.tabpanedata[i].showData.length; j++) {
+        //     console.log(this.tabpanedata[i].showData[j])
+        //     for (let k = 0; k < this.tabpanedata[i].showData[j].componentDetailList.length; k++) {
+        //       console.log(url.basePicurl + this.tabpanedata[i].showData[j].componentDetailList[k].picurl)
+        //     }
+        //   }
+        // }
+        if (res.status == 200) {
+          for (let i = 0; i < res.data.length; i++) {
+            console.log(res.data[i].className)
+            for (let j = 0; j < res.data[i].showData.length; j++) {
+              // console.log(res.data[i].showData[j])
+              for (let k = 0; k < res.data[i].showData[j].componentDetailList.length; k++) {
+                // console.log(url.basePicurl + res.data[i].showData[j].componentDetailList[k].picurl)
+                res.data[i].showData[j].componentDetailList[k].picurl =
+                  url.basePicurl + res.data[i].showData[j].componentDetailList[k].picurl
+              }
+            }
+          }
+          this.tabpanedata = res.data
+          this.getComponentTabDataFlag = true
+        }
       })
     },
     dragstarttest(name) {

@@ -5,5 +5,6 @@ export default {
   adjustComponent: 'http://localhost:8080/api/componentList/adjust',
   spliceComponentList: 'http://localhost:8080/api/componentList/splice',
   updateZindexComponentList: 'http://localhost:8080/api/componentList/paste',
-  updateComponentBasicStatus: 'http://localhost:8080/api/componentList/updateComponent'
+  updateComponentBasicStatus: 'http://localhost:8080/api/componentList/updateComponent',
+  basePicurl: 'http://localhost:8080/componentImage/'
 }

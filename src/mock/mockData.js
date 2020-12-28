@@ -9,11 +9,11 @@ const componentTabData = [
       {
         vshow: true,
         text: '子组件库A',
-        componentdetail: [
+        componentDetailList: [
           {
             title: '基础图表组件',
             componentName: 'graphComponent',
-            picurl: require('../assets/柱状图组件.png')
+            picurl: '柱状图组件.png'
           },
           {
             title: '组件b',
@@ -24,11 +24,11 @@ const componentTabData = [
       {
         vshow: false,
         text: '子组件库B',
-        componentdetail: [
+        componentDetailList: [
           {
             title: '组件d',
             componentName: 'titleComponent',
-            picurl: require('../assets/文字组件.png')
+            picurl: '文字组件.png'
           },
           {
             title: '组件e',
@@ -48,7 +48,7 @@ const componentTabData = [
       {
         vshow: false,
         text: '子组件库C',
-        componentdetail: [
+        componentDetailList: [
           {
             title: '组件g',
             componentName: 'compG'
@@ -58,7 +58,7 @@ const componentTabData = [
       {
         vshow: false,
         text: '子组件库D',
-        componentdetail: [
+        componentDetailList: [
           {
             title: '组件h',
             componentName: 'compH'
