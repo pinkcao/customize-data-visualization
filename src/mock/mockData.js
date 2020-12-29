@@ -4,7 +4,7 @@ import url from './mockAPI.js'
 //默认初始tabdata
 const componentTabData = [
   {
-    classname: 'el-icon-date',
+    className: 'el-icon-date',
     showData: [
       {
         vshow: true,
@@ -43,7 +43,7 @@ const componentTabData = [
     ]
   },
   {
-    classname: 'el-icon-camera',
+    className: 'el-icon-camera',
     showData: [
       {
         vshow: false,
