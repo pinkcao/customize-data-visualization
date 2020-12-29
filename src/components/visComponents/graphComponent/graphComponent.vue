@@ -29,7 +29,6 @@
           :chartSubTitle="subTitle"
           :titlevis="true"
           :dataSource="dataSource"
-          :showAlllabel="true"
           ref="child"
         ></v-chart>
       </div>

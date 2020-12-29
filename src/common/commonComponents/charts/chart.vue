@@ -443,6 +443,10 @@ export default {
         let option = this.options
         this.currentChart.setOption(option)
       }
+      this.currentChart.on('click', function(params) {
+        console.log(params)
+        alert('hello?')
+      })
     },
     //resize方法
     chartResize() {

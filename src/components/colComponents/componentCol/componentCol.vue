@@ -8,7 +8,7 @@
     <div class="component-col-el-tab" style="height: calc(100vh - 80px)">
       <el-tabs tab-position="left" style="width: 100%; height: calc(100vh - 80px)">
         <el-tab-pane v-for="(data, index) in tabpanedata" :key="index">
-          <span slot="label"><i :style="iconstyle" :class="data.classname"></i></span>
+          <span slot="label"><i :style="iconstyle" :class="data.className"></i></span>
           <div v-for="(data2, index2) in data.showData" :key="index2" class="collapse-panel">
             <div class="collapse-panel-header" @click="data2.vshow = !data2.vshow">
               <span style="font-size: 12px; margin-left: 20px">
@@ -78,6 +78,7 @@ export default {
   created() {},
   mounted() {
     this.getTabPaneData()
+    //下面这段是测试传入sql语句，后端执行的代码
     // this.$axios({
     //   url: 'http://localhost:8080/testsql',
     //   method: 'post',
@@ -95,7 +96,7 @@ export default {
       this.$axios({
         // url: url.getComTabData,
         url: 'http://localhost:8080/componentTabData/getAll',
-        method: 'post',
+        method: 'get',
         params: {}
       }).then(res => {
         // console.log(res)
