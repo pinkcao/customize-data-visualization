@@ -197,6 +197,7 @@ export default {
     }).then(res => {
       this.$store.commit('initComponentList', res.data.resultSet)
     })
+    this.updateColData()
   },
 
   methods: {
