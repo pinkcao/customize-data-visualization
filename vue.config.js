@@ -10,5 +10,8 @@ module.exports = {
       .set('@components', resolve('src/components'))
       .set('@mock', resolve('src/mock'))
       .set('@public', resolve('public'))
+  },
+  devServer: {
+    port: 8085
   }
 }

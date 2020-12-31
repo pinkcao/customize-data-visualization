@@ -10,6 +10,8 @@
 </template>
 
 <script>
+import mockData from '../mock/mockData.js'
+
 export default {
   name: 'testLayout',
   data() {
@@ -39,12 +41,20 @@ export default {
 </script>
 
 <style>
+html,
+body {
+  margin: 0px;
+  padding: 0px;
+  border: 0px;
+}
+
 .main {
   height: 100%;
 }
 
 .main-route {
   /* background-color: #1C1F25; */
+  width: 100%;
   height: calc(100vh);
 }
 

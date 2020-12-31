@@ -78,7 +78,7 @@ import graphCol from '../components/colComponents/graphCol/graphCol.vue'
 import pageSet from '../components/colComponents/pageSet/pageSet.vue'
 import componentSet from '../components/colComponents/componentSet/componentSet.vue'
 import mainCanvas from '../components/colComponents/mainCanvas/mainCanvas.vue'
-import mockData from '../mock/mockData.js'
+// import mockData from '../mock/mockData.js'
 import url from '../mock/mockAPI.js'
 
 export default {

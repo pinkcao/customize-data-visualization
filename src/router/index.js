@@ -1,8 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import basePage from '../views/basePage.vue'
-import preview from '../views/preview.vue'
-import colorTest from '../views/colorTest.vue'
 
 Vue.use(Router)
 
@@ -10,24 +7,27 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'TestPage',
-      // component: TestPage
-      redirect: '/basePage'
+      redirect: '/login'
     },
     {
       path: '/basePage',
       name: 'basePage',
-      component: basePage
+      component: () => import(/* webpackChunkName: "basePage" */ '../views/basePage.vue')
     },
     {
       path: '/preview',
       name: 'preview',
-      component: preview
+      component: () => import(/* webpackChunkName: "preview" */ '../views/preview.vue')
     },
     {
       path: '/colorTest',
       name: 'colorTest',
-      component: colorTest
+      component: () => import(/* webpackChunkName: "colorTest" */ '../views/colorTest.vue')
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: () => import(/* webpackChunkName: "login" */ '../views/login.vue')
     }
   ]
 })
