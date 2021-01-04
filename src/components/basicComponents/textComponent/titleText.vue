@@ -23,7 +23,7 @@
       @deactivated="onDeactivated"
     >
       <div style="background-color: #ffffff; width: 100%; height: 100%">
-        <span :style="titleStyle">{{ dataSource }}</span>
+        <span :style="titleStyle">{{ dataSource.data }}</span>
       </div>
     </vue-drag-resize>
   </div>
@@ -54,7 +54,9 @@ export default {
       flag: false,
       title: '',
       subTitle: '',
-      dataSource: '测试'
+      dataSource: {
+        data: '测试'
+      }
     }
   },
   computed: {

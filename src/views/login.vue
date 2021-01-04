@@ -58,15 +58,17 @@ export default {
       // }).then(res => {
       //   console.log(res)
       // })
-      this.$axios({
-        url: 'http://localhost:8080/testfetchjson',
-        method: 'post',
-        data: {}
-      }).then(res => {
-        // console.log(res)
-        console.log(JSON.stringify(dataSource))
-        console.log(JSON.parse(res.data[0].textColumn))
-      })
+
+      //上方是测试json数据传入,下方是测试json数据传出
+
+      // this.$axios({
+      //   url: 'http://localhost:8080/testfetchjson',
+      //   method: 'post',
+      //   data: {}
+      // }).then(res => {
+      //   console.log(JSON.stringify(dataSource))
+      //   console.log(JSON.parse(res.data[0].textColumn))
+      // })
     },
     onSubmit() {
       let sha1 = require('js-sha1')
@@ -74,7 +76,7 @@ export default {
       //password = admin
       this.$axios({
         url: url.userLogin,
-        method: 'get',
+        method: 'post',
         data: {
           account: this.form.account,
           password: sha1(this.form.password)

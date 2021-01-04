@@ -28,7 +28,7 @@
           :chartTitle="title"
           :chartSubTitle="subTitle"
           :titlevis="true"
-          :dataSource="dataSource"
+          :dataSource="dataSource.data"
           ref="child"
         ></v-chart>
       </div>
@@ -69,14 +69,16 @@ export default {
       flag: false,
       title: '',
       subTitle: '',
-      dataSource: [
-        ['department', '2018', '2019'],
-        ['finance', 43.3, 85.8],
-        ['humanResource', 83.1, 73.4],
-        ['sales', 86.4, 65.2],
-        ['product', 72.4, 53.9],
-        ['qualityAssurance', 55.1, 66.5]
-      ]
+      dataSource: {
+        data: [
+          ['department', '2018', '2019'],
+          ['finance', 43.3, 85.8],
+          ['humanResource', 83.1, 73.4],
+          ['sales', 86.4, 65.2],
+          ['product', 72.4, 53.9],
+          ['qualityAssurance', 55.1, 66.5]
+        ]
+      }
     }
   },
   //watch需要写在父元素的vue-mount里

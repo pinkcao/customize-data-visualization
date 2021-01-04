@@ -94,13 +94,14 @@ export default {
     //获取TabPaneData
     getTabPaneData() {
       this.$axios({
-        // url: url.getComTabData,
-        url: 'http://localhost:8080/componentTabData/getAll',
-        method: 'get',
+        url: url.getComTabData,
+        // url: 'http://localhost:8080/componentTabData/getAll',
+        // method: 'get',
+        method: 'post',
         params: {}
       }).then(res => {
-        // console.log(res)
-        // this.tabpanedata = res.data.resultSet
+        console.log(res)
+        this.tabpanedata = res.data.resultSet
         // for (let i = 0; i < this.tabpanedata.length; i++) {
         //   console.log(this.tabpanedata[i].showData)
         //   for (let j = 0; j < this.tabpanedata[i].showData.length; j++) {
@@ -110,21 +111,21 @@ export default {
         //     }
         //   }
         // }
-        if (res.status == 200) {
-          for (let i = 0; i < res.data.length; i++) {
-            console.log(res.data[i].className)
-            for (let j = 0; j < res.data[i].showData.length; j++) {
-              // console.log(res.data[i].showData[j])
-              for (let k = 0; k < res.data[i].showData[j].componentDetailList.length; k++) {
-                // console.log(url.basePicurl + res.data[i].showData[j].componentDetailList[k].picurl)
-                res.data[i].showData[j].componentDetailList[k].picurl =
-                  url.basePicurl + res.data[i].showData[j].componentDetailList[k].picurl
-              }
-            }
-          }
-          this.tabpanedata = res.data
-          this.getComponentTabDataFlag = true
-        }
+        // if (res.status == 200) {
+        //   for (let i = 0; i < res.data.length; i++) {
+        //     console.log(res.data[i].className)
+        //     for (let j = 0; j < res.data[i].showData.length; j++) {
+        //       // console.log(res.data[i].showData[j])
+        //       for (let k = 0; k < res.data[i].showData[j].componentDetailList.length; k++) {
+        //         // console.log(url.basePicurl + res.data[i].showData[j].componentDetailList[k].picurl)
+        //         res.data[i].showData[j].componentDetailList[k].picurl =
+        //           url.basePicurl + res.data[i].showData[j].componentDetailList[k].picurl
+        //       }
+        //     }
+        //   }
+        //   this.tabpanedata = res.data
+        //   this.getComponentTabDataFlag = true
+        // }
       })
     },
     dragstarttest(name) {

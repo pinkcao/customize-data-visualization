@@ -10,7 +10,7 @@
               :style="inputNumberStyle"
               controls-position="right"
               size="mini"
-              v-model="componentWidth"
+              v-model="currentComponent.width"
               @change="componentBaseStatusOnChange"
             ></el-input-number>
           </div>
@@ -20,7 +20,7 @@
               :style="inputNumberStyle"
               controls-position="right"
               size="mini"
-              v-model="componentHeight"
+              v-model="currentComponent.height"
               @change="componentBaseStatusOnChange"
             ></el-input-number>
           </div>
@@ -30,7 +30,7 @@
               :style="inputNumberStyle"
               controls-position="right"
               size="mini"
-              v-model="componentLeft"
+              v-model="currentComponent.left"
               @change="componentBaseStatusOnChange"
             ></el-input-number>
           </div>
@@ -40,7 +40,7 @@
               :style="inputNumberStyle"
               controls-position="right"
               size="mini"
-              v-model="componentTop"
+              v-model="currentComponent.top"
               @change="componentBaseStatusOnChange"
             ></el-input-number>
           </div>
@@ -51,7 +51,7 @@
             <el-input
               type="textarea"
               placeholder="请输入内容"
-              v-model="componentDataSource"
+              v-model="componentDataSourceData"
               @change="textareaOnChange"
               rows="10"
             ></el-input>
@@ -72,11 +72,11 @@ export default {
       // colDef: []
       flag: false,
       currentComponent: null,
-      componentDataSource: '',
-      componentWidth: -1,
-      componentHeight: -1,
-      componentLeft: -1,
-      componentTop: -1,
+      componentDataSourceData: '',
+      // componentWidth: -1,
+      // componentHeight: -1,
+      // componentLeft: -1,
+      // componentTop: -1,
       inputNumberStyle: setInputNumberStyle,
       spanStyle: setSpanStyle
     }
@@ -91,11 +91,13 @@ export default {
       console.log(newval)
       // console.log(newval.dataSource)
       this.currentComponent = newval
-      this.componentDataSource = JSON.stringify(this.currentComponent.dataSource)
-      this.componentWidth = this.currentComponent.width
-      this.componentHeight = this.currentComponent.height
-      this.componentLeft = this.currentComponent.left
-      this.componentTop = this.currentComponent.top
+      this.componentDataSourceData = JSON.stringify(this.currentComponent.dataSource.data)
+      // this.currentComponent.dataSource.data = JSON.stringify(this.currentComponent.dataSource.data)
+      // this.componentDataSourceData = JSON.stringify(this.currentComponent.dataSource.data)
+      // this.componentWidth = this.currentComponent.width
+      // this.componentHeight = this.currentComponent.height
+      // this.componentLeft = this.currentComponent.left
+      // this.componentTop = this.currentComponent.top
       this.flag = true
       // console.log('testtext')
     }
@@ -109,15 +111,19 @@ export default {
   methods: {
     //当值变化，将值转为json对象后传至vuex更新组件
     textareaOnChange() {
-      this.$store.commit('updateDataSource', JSON.parse(this.componentDataSource))
+      this.currentComponent.dataSource.data = JSON.parse(this.componentDataSourceData)
+      // this.$store.commit('updateDataSource', JSON.parse(this.componentDataSource))
+      // console.log(this.currentComponent.dataSource)
+
+      this.$store.commit('updateDataSource', this.currentComponent.dataSource)
     },
     //基础属性变更时触发
     componentBaseStatusOnChange() {
       let currentComponentBaseStatus = {
-        width: this.componentWidth,
-        height: this.componentHeight,
-        left: this.componentLeft,
-        top: this.componentTop
+        width: this.currentComponent.width,
+        height: this.currentComponent.height,
+        left: this.currentComponent.left,
+        top: this.currentComponent.top
       }
       this.$store.commit('updateComponentStatus', currentComponentBaseStatus)
     }

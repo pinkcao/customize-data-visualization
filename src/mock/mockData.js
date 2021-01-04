@@ -88,14 +88,17 @@ const componentList = [
     ifshow: true,
     index: 0,
     zindex: 0,
-    dataSource: [
-      ['department', '2018', '2019', '2020', '2021', '2022'],
-      ['finance', 43.3, 85.8, 93.7, 55.4, 66.7],
-      ['humanResource', 83.1, 73.4, 55.1, 77.3, 26.4],
-      ['sales', 86.4, 65.2, 82.5, 41.5, 57.6],
-      ['product', 72.4, 53.9, 39.1, 14.8, 25.9],
-      ['qualityAssurance', 55.1, 66.5, 46.8, 34.8, 66.4]
-    ]
+    dataSource: {
+      data: [
+        ['department', '2018', '2019', '2020', '2021', '2022'],
+        ['finance', 43.3, 85.8, 93.7, 55.4, 66.7],
+        ['humanResource', 83.1, 73.4, 55.1, 77.3, 26.4],
+        ['sales', 86.4, 65.2, 82.5, 41.5, 57.6],
+        ['product', 72.4, 53.9, 39.1, 14.8, 25.9],
+        ['qualityAssurance', 55.1, 66.5, 46.8, 34.8, 66.4]
+      ]
+    }
+
     // dataSource: [
     //   ['department', '2018'],
     //   ['finance', 43.3],
@@ -120,14 +123,16 @@ const componentList = [
     ifshow: true,
     index: 1,
     zindex: 1,
-    dataSource: [
-      ['department', '2018', '2019', '2020', '2021'],
-      ['finance', 43.3, 85.8, 93.7, 55.4],
-      ['humanResource', 83.1, 73.4, 55.1, 77.3],
-      ['sales', 86.4, 65.2, 82.5, 41.5],
-      ['product', 72.4, 53.9, 39.1, 14.8],
-      ['qualityAssurance', 55.1, 66.5, 46.8, 34.8]
-    ]
+    dataSource: {
+      data: [
+        ['department', '2018', '2019', '2020', '2021'],
+        ['finance', 43.3, 85.8, 93.7, 55.4],
+        ['humanResource', 83.1, 73.4, 55.1, 77.3],
+        ['sales', 86.4, 65.2, 82.5, 41.5],
+        ['product', 72.4, 53.9, 39.1, 14.8],
+        ['qualityAssurance', 55.1, 66.5, 46.8, 34.8]
+      ]
+    }
   }
 ]
 
@@ -229,8 +234,6 @@ export default {
   }),
   userLogin: Mock.mock(url.userLogin, 'post', params => {
     let args = JSON.parse(params.body)
-    // console.log(args.password)
-    // console.log(user_password)
     if (args.account == user_account && args.password == user_password) {
       return true
     } else {
