@@ -55,14 +55,16 @@ export default {
       title: '',
       subTitle: '',
       dataSource: {
-        data: '测试'
+        data: '测试',
+        fontColor: '#409EFF'
       }
     }
   },
   computed: {
     titleStyle: function() {
       return {
-        'font-size': 0.8 * this.height + 'px'
+        'font-size': 0.8 * this.height + 'px',
+        color: this.dataSource.fontColor
       }
     }
   },

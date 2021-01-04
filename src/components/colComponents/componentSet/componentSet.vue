@@ -44,6 +44,19 @@
               @change="componentBaseStatusOnChange"
             ></el-input-number>
           </div>
+          <div class="form-sub-item" v-if="flag && currentComponent.dataSource.fontColor">
+            <span :style="spanStyle">字体颜色:</span>
+            <el-color-picker
+              :style="inputNumberStyle"
+              v-model="currentComponent.dataSource.fontColor"
+              @change="updateDataSource"
+            ></el-color-picker>
+            <!-- <el-input
+              placeholder="请输入内容"
+              v-model="currentComponent.dataSource.fontColor"
+              @change="updateDataSource"
+            ></el-input> -->
+          </div>
         </el-tab-pane>
         <el-tab-pane label="数据配置">
           <div class="form-sub-item" v-if="flag && currentComponent">
@@ -52,7 +65,7 @@
               type="textarea"
               placeholder="请输入内容"
               v-model="componentDataSourceData"
-              @change="textareaOnChange"
+              @change="updateDataSource"
               rows="10"
             ></el-input>
           </div>
@@ -89,28 +102,22 @@ export default {
   watch: {
     '$store.state.currentComponent': function(newval) {
       console.log(newval)
-      // console.log(newval.dataSource)
       this.currentComponent = newval
+      console.log(this.currentComponent.dataSource.fontColor)
       this.componentDataSourceData = JSON.stringify(this.currentComponent.dataSource.data)
-      // this.currentComponent.dataSource.data = JSON.stringify(this.currentComponent.dataSource.data)
-      // this.componentDataSourceData = JSON.stringify(this.currentComponent.dataSource.data)
-      // this.componentWidth = this.currentComponent.width
-      // this.componentHeight = this.currentComponent.height
-      // this.componentLeft = this.currentComponent.left
-      // this.componentTop = this.currentComponent.top
       this.flag = true
       // console.log('testtext')
     }
   },
   created() {},
   mounted() {
-    // this.textareaOnChange()
+    // this.updateDataSource()
     // this.initCol()
   },
 
   methods: {
     //当值变化，将值转为json对象后传至vuex更新组件
-    textareaOnChange() {
+    updateDataSource() {
       this.currentComponent.dataSource.data = JSON.parse(this.componentDataSourceData)
       // this.$store.commit('updateDataSource', JSON.parse(this.componentDataSource))
       // console.log(this.currentComponent.dataSource)
@@ -196,7 +203,7 @@ export default {
 }
 
 .form-sub-item {
-  margin: 5px;
+  margin: 10px;
 }
 
 .component-set-wrapper input {
