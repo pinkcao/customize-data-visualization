@@ -38,12 +38,7 @@
                         <span style="color: #dddddd">{{ data3.title }}</span>
                       </div>
                       <div style="flex: 1">
-                        <el-image
-                          v-if="getComponentTabDataFlag"
-                          style="width: 100%; height: 70px"
-                          :src="data3.picurl"
-                          :fit="'fill'"
-                        ></el-image>
+                        <el-image style="width: 100%; height: 70px" :src="data3.picurl" :fit="'fill'"></el-image>
                       </div>
                     </div>
                   </div>
@@ -102,15 +97,17 @@ export default {
       }).then(res => {
         console.log(res)
         this.tabpanedata = res.data.resultSet
-        // for (let i = 0; i < this.tabpanedata.length; i++) {
-        //   console.log(this.tabpanedata[i].showData)
-        //   for (let j = 0; j < this.tabpanedata[i].showData.length; j++) {
-        //     console.log(this.tabpanedata[i].showData[j])
-        //     for (let k = 0; k < this.tabpanedata[i].showData[j].componentDetailList.length; k++) {
-        //       console.log(url.basePicurl + this.tabpanedata[i].showData[j].componentDetailList[k].picurl)
-        //     }
-        //   }
-        // }
+        //无用block
+        for (let i = 0; i < this.tabpanedata.length; i++) {
+          console.log(this.tabpanedata[i].showData)
+          for (let j = 0; j < this.tabpanedata[i].showData.length; j++) {
+            console.log(this.tabpanedata[i].showData[j])
+            for (let k = 0; k < this.tabpanedata[i].showData[j].componentDetailList.length; k++) {
+              console.log(this.tabpanedata[i].showData[j].componentDetailList[k].picurl)
+            }
+          }
+        }
+
         // if (res.status == 200) {
         //   for (let i = 0; i < res.data.length; i++) {
         //     console.log(res.data[i].className)

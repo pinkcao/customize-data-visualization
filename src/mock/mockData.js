@@ -16,11 +16,12 @@ const componentTabData = [
           {
             title: '基础图表组件',
             componentName: 'graphComponent',
-            picurl: '柱状图组件.png'
+            picurl: require('@/assets/图表组件.png')
           },
           {
             title: '组件b',
-            componentName: 'mapComponent'
+            componentName: 'mapComponent',
+            picurl: require('@/assets/暂无.png')
           }
         ]
       },
@@ -31,15 +32,17 @@ const componentTabData = [
           {
             title: '组件d',
             componentName: 'titleComponent',
-            picurl: '文字组件.png'
+            picurl: require('@/assets/文字组件.png')
           },
           {
             title: '组件e',
-            componentName: 'compE'
+            componentName: 'compE',
+            picurl: require('@/assets/暂无.png')
           },
           {
             title: '组件f',
-            componentName: 'compF'
+            componentName: 'compF',
+            picurl: require('@/assets/暂无.png')
           }
         ]
       }
@@ -54,7 +57,8 @@ const componentTabData = [
         componentDetailList: [
           {
             title: '组件g',
-            componentName: 'compG'
+            componentName: 'compG',
+            picurl: require('@/assets/暂无.png')
           }
         ]
       },
@@ -64,7 +68,8 @@ const componentTabData = [
         componentDetailList: [
           {
             title: '组件h',
-            componentName: 'compH'
+            componentName: 'compH',
+            picurl: require('@/assets/暂无.png')
           }
         ]
       }
@@ -98,15 +103,6 @@ const componentList = [
         ['qualityAssurance', 55.1, 66.5, 46.8, 34.8, 66.4]
       ]
     }
-
-    // dataSource: [
-    //   ['department', '2018'],
-    //   ['finance', 43.3],
-    //   ['humanResource', 83.1],
-    //   ['sales', 86.4],
-    //   ['product', 72.4],
-    //   ['qualityAssurance', 55.1]
-    // ]
   },
   {
     name: 'graphComponent',

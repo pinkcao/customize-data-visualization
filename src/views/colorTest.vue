@@ -1,12 +1,13 @@
 <template>
   <div>
     <el-button style="float: right" icon="el-icon-close" @click="returnToBase" circle></el-button>
-    <div style="display: flex; flex-direction: row; flex-wrap: wrap">
+    <!-- <div style="display: flex; flex-direction: row; flex-wrap: wrap">
       <div class="testbox" v-for="(item, index) in colorSet" :style="item[0]" :key="index" @click="test(item)">
         <span style="font-size: 16px" :style="item[1]">测试色彩测试色彩</span>
       </div>
       <div ref="chart"></div>
-    </div>
+    </div> -->
+    <el-image :src="imgurl" :fit="'fill'"></el-image>
   </div>
 </template>
 
@@ -18,7 +19,8 @@ export default {
   name: 'colorTest',
   data() {
     return {
-      colorSet: []
+      colorSet: [],
+      imgurl: require('@/assets/图表组件.png')
     }
   },
   computed: {},
