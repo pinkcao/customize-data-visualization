@@ -60,6 +60,7 @@ export default {
   },
   methods: {
     cancelFocus(event) {
+      // console.log(event)
       if (event.target == this.$refs.target) {
         this.$store.commit('setActiveComponentFalse')
         for (let i = 0; i < this.objList.length; i++) {
@@ -79,7 +80,8 @@ export default {
         this.mountComponent()
       })
     },
-    appendComponentList() {
+    appendComponentList(event) {
+      console.log(event)
       if (this.$store.state.componentNameToCanvas != '') {
         let that = this
         let testObj = {
@@ -87,6 +89,8 @@ export default {
           zindex: this.componentList.length,
           ifshow: true,
           name: this.$store.state.componentNameToCanvas,
+          left: event.offsetX,
+          top: event.offsetY,
           draggable: true,
           resizable: true,
           parentLimitation: true,
@@ -178,6 +182,7 @@ export default {
           })
         )
         this.objList[this.objList.length - 1].mount()
+        console.log(this.objList[this.objList.length - 1])
         this.$axios({
           url: url.appendComponentList,
           method: 'post',
@@ -187,10 +192,10 @@ export default {
             zindex: this.componentList.length,
             ifshow: true,
             name: this.$store.state.componentNameToCanvas,
-            width: 300,
-            height: 300,
-            top: 10,
-            left: 10,
+            width: that.objList[this.objList.length - 1].component_instance.width,
+            height: that.objList[this.objList.length - 1].component_instance.height,
+            top: event.offsetY,
+            left: event.offsetX,
             draggable: true,
             resizable: true,
             parentLimitation: true,

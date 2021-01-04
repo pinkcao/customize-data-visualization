@@ -103,7 +103,6 @@ export default {
     '$store.state.currentComponent': function(newval) {
       console.log(newval)
       this.currentComponent = newval
-      console.log(this.currentComponent.dataSource.fontColor)
       this.componentDataSourceData = JSON.stringify(this.currentComponent.dataSource.data)
       this.flag = true
       // console.log('testtext')
