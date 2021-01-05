@@ -4,7 +4,7 @@
     <div class="title-box-comp">
       <span style="color: #b3c0d1; font-size: 12px">组件库</span>
     </div>
-    <!-- component-col-el-tab相当于wrapper,它可以解决无法覆盖ui组件的问题 -->
+    <!-- component-col-el-tab相当于wrapper,它可以解决无法覆盖ui组件样式的问题 -->
     <div class="component-col-el-tab" style="height: calc(100vh - 80px)">
       <el-tabs tab-position="left" style="width: 100%; height: calc(100vh - 80px)">
         <el-tab-pane v-for="(data, index) in tabpanedata" :key="index">

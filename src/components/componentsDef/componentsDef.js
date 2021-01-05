@@ -67,6 +67,9 @@ export default {
       return this.$store.state.colDef[1].value
     }
   },
+  mounted() {
+    console.log(this)
+  },
   methods: {
     //更新当前组件基础属性
     updateComponentList() {
@@ -95,6 +98,15 @@ export default {
       this.height = newRect.height
       this.top = newRect.top
       this.left = newRect.left
+    },
+    //由active转为inactive,失去焦点
+    onDeactivated() {
+      this.$refs.testref.blur()
+    },
+    //由inactive转至active,获得焦点
+    activate() {
+      this.$emit('updateActiveStatus', this.index)
+      this.$refs.testref.focus()
     }
   }
 }

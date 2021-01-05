@@ -41,6 +41,7 @@ export default {
     }
   },
   computed: {
+    //当前的画布样式
     canvasStyle: function() {
       let parentScale = this.$store.state.parentScale
       let result = {
@@ -59,6 +60,7 @@ export default {
     this.getComponentList()
   },
   methods: {
+    //取消所有焦点
     cancelFocus(event) {
       // console.log(event)
       if (event.target == this.$refs.target) {
@@ -70,6 +72,7 @@ export default {
         }
       }
     },
+    //获取组件列表，维护
     getComponentList() {
       this.$axios({
         url: url.getComponentList,
@@ -80,15 +83,20 @@ export default {
         this.mountComponent()
       })
     },
+    //增加组件至组件列表
     appendComponentList(event) {
-      console.log(event)
+      // console.log(event)
+      //判断当前拖拽组件是否为空
       if (this.$store.state.componentNameToCanvas != '') {
+        //保存当前this至that
         let that = this
+        //基础数据
         let testObj = {
           index: this.componentList.length,
           zindex: this.componentList.length,
           ifshow: true,
           name: this.$store.state.componentNameToCanvas,
+          //用于指向当前鼠标指针在canvas中的位置
           left: event.offsetX,
           top: event.offsetY,
           draggable: true,
@@ -100,6 +108,7 @@ export default {
           mode: 'design',
           $store: this.$store
         }
+        //push入objList，保存每个Mount对象，便于维护，并且通过objList中的对象直接影响每个组件
         this.objList.push(
           new Mount(getComponent(this.$store.state.componentNameToCanvas), {
             target: this.$refs.target,
@@ -107,6 +116,7 @@ export default {
             props: {},
             data: testObj,
             on: {
+              //更新active状态
               //active状态不需要更新至数据库，因为最终active状态一定是false，仅在vuex中实时更新active状态并更改objList中对象的active状态
               updateActiveStatus(...args) {
                 let params = {
@@ -125,6 +135,7 @@ export default {
                   }
                 }
               },
+              //删除当前组件
               destroyComponent(...args) {
                 let index = args[0]
                 that
@@ -143,6 +154,7 @@ export default {
               }
             },
             watch: {
+              //对于每个组件，均共同监视componentList，如果更新的componentIndex为自己的Index，那么更新数据源、基础属性并传至后端
               '$store.state.componentList': {
                 deep: true,
                 handler(newVal, oldval, vm, mnt) {
@@ -181,8 +193,10 @@ export default {
             }
           })
         )
+        //设置完Mount对象，将其挂载至target
         this.objList[this.objList.length - 1].mount()
         console.log(this.objList[this.objList.length - 1])
+        //挂载完毕后将其传至后端保存
         this.$axios({
           url: url.appendComponentList,
           method: 'post',
@@ -221,7 +235,7 @@ export default {
           new Mount(getComponent(currentData[i].name), {
             //挂载的目标
             target: this.$refs.target,
-            //挂载的方式，因为是n个组件，所以是用加的方式
+            //挂载的方式，因为是n个组件，所以append
             mode: 'append',
             data: {
               index: currentData[i].index,
@@ -326,9 +340,6 @@ export default {
       }
       //初始化activeComponent列表，用此列表维护每个组件的active值
       this.$store.commit('initActiveComponent', this.componentList)
-    },
-    testconsole() {
-      console.log('what the hell?')
     }
   }
 }

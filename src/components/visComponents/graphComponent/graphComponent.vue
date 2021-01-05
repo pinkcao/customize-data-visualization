@@ -114,15 +114,6 @@ export default {
       this.top = newRect.top
       this.left = newRect.left
       this.$refs.child.chartResize()
-    },
-    //由active转至inactive
-    onDeactivated() {
-      this.$refs.testref.blur()
-    },
-    //由inactive转至active
-    activate() {
-      this.$emit('updateActiveStatus', this.index)
-      this.$refs.testref.focus()
     }
   }
 }

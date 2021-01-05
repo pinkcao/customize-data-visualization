@@ -57,24 +57,28 @@ export default {
     }
   },
   computed: {
+    //全屏缩放
     allStretch: function() {
       return {
         'stretch-button-show': this.$store.state.allStretch,
         'stretch-button-hide': !this.$store.state.allStretch
       }
     },
+    //x轴缩放
     xStretch: function() {
       return {
         'stretch-button-show': this.$store.state.xStretch,
         'stretch-button-hide': !this.$store.state.xStretch
       }
     },
+    //y轴缩放
     yStretch: function() {
       return {
         'stretch-button-show': this.$store.state.yStretch,
         'stretch-button-hide': !this.$store.state.yStretch
       }
     },
+    //不缩放
     noStretch: function() {
       return {
         'stretch-button-show': this.$store.state.noStretch,
@@ -107,6 +111,7 @@ export default {
         }
       }
     },
+    //更新当前缩放模式至vuex
     updateStretch(stretch) {
       console.log(stretch)
       this.$store.commit('updateStretch', stretch)

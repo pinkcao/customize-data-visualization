@@ -75,15 +75,7 @@ export default {
     console.log(this.height)
   },
 
-  methods: {
-    onDeactivated() {
-      this.$refs.testref.blur()
-    },
-    activate() {
-      this.$emit('updateActiveStatus', this.index)
-      this.$refs.testref.focus()
-    }
-  }
+  methods: {}
 }
 </script>
 
