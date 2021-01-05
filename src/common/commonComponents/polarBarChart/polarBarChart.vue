@@ -7,7 +7,7 @@
 import echarts from 'echarts'
 
 export default {
-  name: 'v-funnel-chart',
+  name: 'v-polar-bar-chart',
   props: {
     width: {
       default: '100%'
@@ -15,7 +15,6 @@ export default {
     height: {
       default: '100%'
     },
-    //经过处理的数据源，可选数据格式，详见echarts dataset
     dataSource: {
       type: Array,
       default: () => []
@@ -92,9 +91,31 @@ export default {
         width: this.width,
         height: this.height
       }
+    },
+    dataRow: function() {
+      console.log([...this.dataSource[0]])
+      let tempArr = [...this.dataSource[0]]
+      tempArr.pop()
+      return tempArr
+    },
+    series: function() {
+      let tempSeries = []
+      for (let i = 1; i < this.dataSource.length; i++) {
+        let tempType = 'bar'
+        let tempData = [...this.dataSource[i]]
+        let name = tempData.pop()
+        tempSeries.push({
+          type: tempType,
+          data: tempData,
+          coordinateSystem: 'polar',
+          name: name
+        })
+      }
+      return tempSeries
     }
   },
   mounted() {
+    console.log(this.dataSource)
     this.currentChart = echarts.init(this.$refs.chart)
     this.initCurrentTitle()
     this.initChart()
@@ -182,8 +203,7 @@ export default {
     initChart() {
       this.currentChart = echarts.init(this.$refs.chart)
       let option = {
-        title: this.initTitle(this.titlevisible),
-        tooltip: this.initTooltip(true),
+        title: this.initTitle(true),
         // toolbox: {
         //   feature: {
         //     dataView: { readOnly: false },
@@ -195,57 +215,14 @@ export default {
           bottom: '0',
           show: this.legendvisible
         },
-        xAxis: {
+        angleAxis: {},
+        radiusAxis: {
           type: 'category',
-          //强制显示所有label
-          axisLabel: this.interval,
-          show: this.initAxis(false)
+          data: this.dataRow,
+          z: 10
         },
-        yAxis: {
-          show: this.initAxis(false)
-        },
-        dataZoom: this.initDataZoom(false),
-        color: this.color,
-        //对于每一列数据给予生成的图表类型
-        series: [
-          {
-            name: '漏斗图',
-            type: 'funnel',
-            left: '10%',
-            top: 60,
-            //x2: 80,
-            bottom: 60,
-            width: '80%',
-            // height: {totalHeight} - y - y2,
-            min: 0,
-            max: 100,
-            minSize: '0%',
-            maxSize: '100%',
-            sort: 'descending',
-            gap: 2,
-            label: {
-              show: true,
-              position: 'inside'
-            },
-            labelLine: {
-              length: 10,
-              lineStyle: {
-                width: 1,
-                type: 'solid'
-              }
-            },
-            itemStyle: {
-              borderColor: '#fff',
-              borderWidth: 1
-            },
-            emphasis: {
-              label: {
-                fontSize: 20
-              }
-            },
-            data: this.dataSource
-          }
-        ]
+        polar: {},
+        series: this.series
       }
       this.currentChart.setOption(option)
     },

@@ -11,22 +11,22 @@ const componentTabData = [
     showData: [
       {
         vshow: true,
-        text: '子组件库A',
+        text: '图表组件库',
         componentDetailList: [
           {
-            title: '基础图表组件',
+            title: '综合图表组件',
             componentName: 'graphComponent',
             picurl: require('@/assets/图表组件.png')
-          },
-          {
-            title: '组件b',
-            componentName: 'mapComponent',
-            picurl: require('@/assets/暂无.png')
           },
           {
             title: '漏斗图',
             componentName: 'funnelComponent',
             picurl: require('@/assets/漏斗图.png')
+          },
+          {
+            title: '极坐标柱状图',
+            componentName: 'polarBarComponent',
+            picurl: require('@/assets/极坐标柱状图.png')
           }
         ]
       },
