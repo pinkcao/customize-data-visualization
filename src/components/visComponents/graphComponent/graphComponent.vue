@@ -38,7 +38,7 @@
 
 <script>
 import echarts from 'echarts'
-import vChart from '@/common/commonComponents/charts/chart.vue'
+import vChart from '@/common/commonComponents/graphcharts/chart.vue'
 import url from '@mock/mockAPI.js'
 import componentsDef from '@components/componentsDef/componentsDef.js'
 
@@ -67,8 +67,8 @@ export default {
       zindex: 0,
       mode: 'design',
       flag: false,
-      title: '',
-      subTitle: '',
+      title: '综合图表',
+      subTitle: 'fake data',
       dataSource: {
         data: [
           ['department', '2018', '2019'],

@@ -22,6 +22,11 @@ const componentTabData = [
             title: '组件b',
             componentName: 'mapComponent',
             picurl: require('@/assets/暂无.png')
+          },
+          {
+            title: '漏斗图',
+            componentName: 'funnelComponent',
+            picurl: require('@/assets/漏斗图.png')
           }
         ]
       },

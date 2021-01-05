@@ -103,8 +103,6 @@ export default {
           resizable: true,
           parentLimitation: true,
           active: false,
-          title: 'xxx',
-          subTitle: 'yyy',
           mode: 'design',
           $store: this.$store
         }
@@ -214,8 +212,8 @@ export default {
             resizable: true,
             parentLimitation: true,
             active: false,
-            title: 'xxx',
-            subTitle: 'yyy',
+            title: that.objList[this.objList.length - 1].component_instance.title,
+            subTitle: that.objList[this.objList.length - 1].component_instance.subTitle,
             dataSource: this.objList[this.objList.length - 1].component_instance.dataSource
           }
         }).then(res => {
