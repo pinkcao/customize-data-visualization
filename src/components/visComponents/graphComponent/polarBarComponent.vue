@@ -31,6 +31,7 @@
           :opacity="style.opacity"
           :legendvis="style.legendvis"
           :titlevis="style.titlevis"
+          :mode="mode"
           ref="child"
         ></v-polar-bar-chart>
       </div>

@@ -56,6 +56,10 @@ export default {
     zoomvis: {
       type: Boolean,
       default: false
+    },
+    mode: {
+      type: String,
+      default: 'design'
     }
   },
   watch: {
@@ -72,7 +76,6 @@ export default {
       this.initChart()
     },
     chartTitle: function(newVal) {
-      console.log(3)
       this.initChart()
     },
     chartSubTitle: function(newVal) {

@@ -40,7 +40,11 @@ export default {
       //当前组件数据/数据源
       dataSource: [],
       //当前组件样式
-      style: {}
+      style: {
+        opacity: 1,
+        legendvis: true,
+        titlevis: true
+      }
     }
   },
   computed: {

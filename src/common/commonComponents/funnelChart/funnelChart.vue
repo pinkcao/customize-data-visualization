@@ -41,6 +41,8 @@ export default {
     window.addEventListener('resize', () => {
       this.currentChart.resize()
     })
+    // console.log(this.mode)
+    // console.log(this.silentStatus)
   },
   methods: {
     //初始化缩放组件
@@ -100,6 +102,7 @@ export default {
           show: this.legendvis
         },
         color: this.color,
+        silent: this.silentStatus,
         //对于每一列数据给予生成的图表类型
         series: [
           {

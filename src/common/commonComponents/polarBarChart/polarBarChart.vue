@@ -159,6 +159,7 @@ export default {
           data: this.dataRow,
           z: 10
         },
+        silent: this.silentStatus,
         itemStyle: {
           opacity: this.opacity
         },

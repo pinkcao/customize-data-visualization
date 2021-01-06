@@ -13,6 +13,8 @@
                 controls-position="right"
                 :label="item.title"
                 size="mini"
+                :min="0"
+                :step="10"
                 v-model="item.value"
                 @change="onChange(item.index)"
               ></el-input-number>
