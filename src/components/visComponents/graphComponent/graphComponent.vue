@@ -78,7 +78,8 @@ export default {
           ['product', 72.4, 53.9],
           ['qualityAssurance', 55.1, 66.5]
         ]
-      }
+      },
+      style: {}
     }
   },
   //watch需要写在父元素的vue-mount里

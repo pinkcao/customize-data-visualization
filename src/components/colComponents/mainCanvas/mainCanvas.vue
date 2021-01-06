@@ -164,6 +164,7 @@ export default {
                         mnt.component_instance.height = newVal[i].height
                         mnt.component_instance.left = newVal[i].left
                         mnt.component_instance.top = newVal[i].top
+                        mnt.component_instance.style = newVal[i].style
                         that
                           .$axios({
                             url: url.updateComponentBasicStatus,
@@ -174,7 +175,8 @@ export default {
                               width: newVal[i].width,
                               height: newVal[i].height,
                               left: newVal[i].left,
-                              top: newVal[i].top
+                              top: newVal[i].top,
+                              style: newVal[i].style
                             }
                           })
                           .then(res => {
@@ -214,7 +216,8 @@ export default {
             active: false,
             title: that.objList[this.objList.length - 1].component_instance.title,
             subTitle: that.objList[this.objList.length - 1].component_instance.subTitle,
-            dataSource: this.objList[this.objList.length - 1].component_instance.dataSource
+            dataSource: this.objList[this.objList.length - 1].component_instance.dataSource,
+            style: this.objList[this.objList.length - 1].component_instance.style
           }
         }).then(res => {
           this.componentList = res.data.resultSet
@@ -252,6 +255,7 @@ export default {
               // active: currentData[i].active,
               title: currentData[i].title,
               subTitle: currentData[i].subTitle,
+              style: currentData[i].style,
               $store: this.$store
               //重新挂载后无法访问到全局的this.$store,需要对$store重定向
             },
@@ -307,6 +311,7 @@ export default {
                         mnt.component_instance.height = newVal[i].height
                         mnt.component_instance.left = newVal[i].left
                         mnt.component_instance.top = newVal[i].top
+                        mnt.component_instance.style = newVal[i].style
                         that
                           .$axios({
                             url: url.updateComponentBasicStatus,
@@ -317,7 +322,8 @@ export default {
                               width: newVal[i].width,
                               height: newVal[i].height,
                               left: newVal[i].left,
-                              top: newVal[i].top
+                              top: newVal[i].top,
+                              style: newVal[i].style
                             }
                           })
                           .then(res => {

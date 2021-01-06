@@ -133,6 +133,7 @@ export default {
             dataSource: currentData[i].dataSource,
             title: currentData[i].title,
             subTitle: currentData[i].subTitle,
+            style: currentData[i].style,
             draggable: false,
             resizable: false,
             mode: 'preview',

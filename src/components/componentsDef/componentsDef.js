@@ -38,7 +38,9 @@ export default {
       //当前组件副标题
       subTitle: '',
       //当前组件数据/数据源
-      dataSource: []
+      dataSource: [],
+      //当前组件样式
+      style: {}
     }
   },
   computed: {

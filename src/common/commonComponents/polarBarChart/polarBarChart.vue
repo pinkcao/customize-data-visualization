@@ -36,10 +36,6 @@ export default {
         '#c4ccd3'
       ]
     },
-    type: {
-      type: String,
-      default: 'bar'
-    },
     chartTitle: {
       type: String,
       default: ''
@@ -115,7 +111,7 @@ export default {
     }
   },
   mounted() {
-    console.log(this.dataSource)
+    // console.log(this.dataSource)
     this.currentChart = echarts.init(this.$refs.chart)
     this.initCurrentTitle()
     this.initChart()
@@ -139,7 +135,6 @@ export default {
       this.zoomvisible = val
       this.initChart()
     },
-    //初始化获取图表的基础参数
     //初始化标题组件的内容
     initTitle(param) {
       return {
@@ -201,7 +196,6 @@ export default {
 
     //设置图表
     initChart() {
-      this.currentChart = echarts.init(this.$refs.chart)
       let option = {
         title: this.initTitle(true),
         // toolbox: {

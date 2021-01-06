@@ -37,10 +37,6 @@ export default {
         '#c4ccd3'
       ]
     },
-    type: {
-      type: String,
-      default: 'bar'
-    },
     chartTitle: {
       type: String,
       default: ''
@@ -180,7 +176,7 @@ export default {
 
     //设置图表
     initChart() {
-      this.currentChart = echarts.init(this.$refs.chart)
+      // this.currentChart = echarts.init(this.$refs.chart)
       let option = {
         title: this.initTitle(this.titlevisible),
         tooltip: this.initTooltip(true),

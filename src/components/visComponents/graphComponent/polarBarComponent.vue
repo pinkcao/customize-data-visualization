@@ -82,7 +82,8 @@ export default {
           [4, 5, 6, 7, 'legendB'],
           [5, 6, 7, 8, 'legendC']
         ]
-      }
+      },
+      style: {}
     }
   },
   //watch需要写在父元素的vue-mount里

@@ -44,12 +44,12 @@
               @change="componentBaseStatusOnChange"
             ></el-input-number>
           </div>
-          <div class="form-sub-item" v-if="flag && currentComponent.dataSource.fontColor">
+          <div class="form-sub-item" v-if="flag && currentComponent.style.fontColor">
             <span :style="spanStyle">字体颜色:</span>
             <el-color-picker
               :style="inputNumberStyle"
-              v-model="currentComponent.dataSource.fontColor"
-              @change="updateDataSource"
+              v-model="currentComponent.style.fontColor"
+              @change="updateStyle"
             ></el-color-picker>
             <!-- <el-input
               placeholder="请输入内容"
@@ -124,6 +124,9 @@ export default {
       // console.log(this.currentComponent.dataSource)
 
       this.$store.commit('updateDataSource', this.currentComponent.dataSource)
+    },
+    updateStyle() {
+      this.$store.commit('updateStyle', this.currentComponent.style)
     },
     //基础属性变更时触发
     componentBaseStatusOnChange() {

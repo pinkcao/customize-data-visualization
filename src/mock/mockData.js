@@ -107,7 +107,8 @@ const componentList = [
         ['product', 72.4, 53.9, 39.1, 14.8, 25.9],
         ['qualityAssurance', 55.1, 66.5, 46.8, 34.8, 66.4]
       ]
-    }
+    },
+    style: {}
   },
   {
     name: 'graphComponent',
@@ -133,7 +134,8 @@ const componentList = [
         ['product', 72.4, 53.9, 39.1, 14.8],
         ['qualityAssurance', 55.1, 66.5, 46.8, 34.8]
       ]
-    }
+    },
+    style: {}
   }
 ]
 
@@ -224,6 +226,7 @@ export default {
         componentList[i].height = args.height
         componentList[i].left = args.left
         componentList[i].top = args.top
+        componentList[i].style = args.style
       }
     }
     console.log(componentList)

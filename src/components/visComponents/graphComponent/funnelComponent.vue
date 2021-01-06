@@ -83,7 +83,8 @@ export default {
           { value: 80, name: '点击' },
           { value: 100, name: '展现' }
         ]
-      }
+      },
+      style: {}
     }
   },
   //watch需要写在父元素的vue-mount里

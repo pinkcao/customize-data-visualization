@@ -91,10 +91,20 @@ export default new Vuex.Store({
           break
       }
     },
+    //更新组件dataSource中内容
     updateDataSource(state, dataSource) {
       for (let i = 0; i < state.componentList.length; i++) {
         if (state.componentList[i].index == state.activeComponentIndex) {
           state.componentList[i].dataSource = dataSource
+          break
+        }
+      }
+    },
+    //更新当前组件style中内容
+    updateStyle(state, style) {
+      for (let i = 0; i < state.componentList.length; i++) {
+        if (state.componentList[i].index == state.activeComponentIndex) {
+          state.componentList[i].style = style
           break
         }
       }
