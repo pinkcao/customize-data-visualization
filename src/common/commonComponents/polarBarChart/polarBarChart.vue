@@ -5,16 +5,12 @@
 </template>
 <script>
 import echarts from 'echarts'
+import chartDef from '../chartDef.js'
 
 export default {
+  extends: chartDef,
   name: 'v-polar-bar-chart',
   props: {
-    width: {
-      default: '100%'
-    },
-    height: {
-      default: '100%'
-    },
     dataSource: {
       type: Array,
       default: () => []
@@ -36,23 +32,7 @@ export default {
         '#c4ccd3'
       ]
     },
-    chartTitle: {
-      type: String,
-      default: ''
-    },
-    chartSubTitle: {
-      type: String,
-      default: ''
-    },
     tooltip: {
-      type: Boolean,
-      default: true
-    },
-    legendvis: {
-      type: Boolean,
-      default: true
-    },
-    titlevis: {
       type: Boolean,
       default: true
     }
@@ -68,11 +48,7 @@ export default {
       //控制标题组件显示
       titlevisible: this.titlevis,
       //控制缩放组件显示
-      zoomvisible: this.zoomvis,
-      //当前图表的标题
-      currentChartTitle: '',
-      //当前图表的副标题
-      currentChartSubTitle: ''
+      zoomvisible: this.zoomvis
     }
   },
   watch: {
@@ -110,45 +86,8 @@ export default {
       return tempSeries
     }
   },
-  mounted() {
-    // console.log(this.dataSource)
-    this.currentChart = echarts.init(this.$refs.chart)
-    this.initCurrentTitle()
-    this.initChart()
-    window.addEventListener('resize', () => {
-      this.currentChart.resize()
-    })
-  },
+  mounted() {},
   methods: {
-    //控制图例组件是否显示
-    onChangeLegend(val) {
-      this.legendvisible = val
-      this.initChart()
-    },
-    //控制标题组件是否显示
-    onChangeTitle(val) {
-      this.titlevisible = val
-      this.initChart()
-    },
-    //控制缩放组件是否显示
-    onChangeZoom(val) {
-      this.zoomvisible = val
-      this.initChart()
-    },
-    //初始化标题组件的内容
-    initTitle(param) {
-      return {
-        text: this.currentChartTitle,
-        subtext: this.currentChartSubTitle,
-        left: 'center',
-        show: param
-      }
-    },
-    //初始化当前标题
-    initCurrentTitle() {
-      this.currentChartTitle = this.chartTitle
-      this.currentChartSubTitle = this.chartSubTitle
-    },
     //初始化tooltip
     initTooltip(param) {
       if (param == true) {
@@ -197,7 +136,12 @@ export default {
     //设置图表
     initChart() {
       let option = {
-        title: this.initTitle(true),
+        title: {
+          text: this.chartTitle,
+          subtext: this.chartSubTitle,
+          left: 'center',
+          show: this.titlevis
+        },
         // toolbox: {
         //   feature: {
         //     dataView: { readOnly: false },
@@ -207,13 +151,16 @@ export default {
         // },
         legend: {
           bottom: '0',
-          show: this.legendvisible
+          show: this.legendvis
         },
         angleAxis: {},
         radiusAxis: {
           type: 'category',
           data: this.dataRow,
           z: 10
+        },
+        itemStyle: {
+          opacity: this.opacity
         },
         polar: {},
         series: this.series

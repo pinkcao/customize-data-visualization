@@ -54,7 +54,6 @@
 
 <script>
 import url from '@mock/mockAPI.js'
-// import { getTabPaneData } from './compColAPI.js'
 
 export default {
   name: 'componentCol',
@@ -95,18 +94,18 @@ export default {
         method: 'post',
         params: {}
       }).then(res => {
-        console.log(res)
+        // console.log(res)
         this.tabpanedata = res.data.resultSet
         //无用block
-        for (let i = 0; i < this.tabpanedata.length; i++) {
-          console.log(this.tabpanedata[i].showData)
-          for (let j = 0; j < this.tabpanedata[i].showData.length; j++) {
-            console.log(this.tabpanedata[i].showData[j])
-            for (let k = 0; k < this.tabpanedata[i].showData[j].componentDetailList.length; k++) {
-              console.log(this.tabpanedata[i].showData[j].componentDetailList[k].picurl)
-            }
-          }
-        }
+        // for (let i = 0; i < this.tabpanedata.length; i++) {
+        //   console.log(this.tabpanedata[i].showData)
+        //   for (let j = 0; j < this.tabpanedata[i].showData.length; j++) {
+        //     console.log(this.tabpanedata[i].showData[j])
+        //     for (let k = 0; k < this.tabpanedata[i].showData[j].componentDetailList.length; k++) {
+        //       console.log(this.tabpanedata[i].showData[j].componentDetailList[k].picurl)
+        //     }
+        //   }
+        // }
 
         // if (res.status == 200) {
         //   for (let i = 0; i < res.data.length; i++) {

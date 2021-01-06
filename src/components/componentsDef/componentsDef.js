@@ -70,7 +70,7 @@ export default {
     }
   },
   mounted() {
-    console.log(this)
+    // console.log(this)
   },
   methods: {
     //更新当前组件基础属性

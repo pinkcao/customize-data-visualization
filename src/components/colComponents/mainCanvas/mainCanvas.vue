@@ -26,7 +26,7 @@ export default {
   watch: {
     //监听vuex中的componentList属性，如果有更改则覆盖当前objList的z-index值
     '$store.state.componentList': function(newval) {
-      console.log(newval)
+      // console.log(newval)
       let compList = newval
       for (let i = 0; i < this.objList.length; i++) {
         for (let j = 0; j < compList.length; j++) {
@@ -164,6 +164,8 @@ export default {
                         mnt.component_instance.height = newVal[i].height
                         mnt.component_instance.left = newVal[i].left
                         mnt.component_instance.top = newVal[i].top
+                        mnt.component_instance.title = newVal[i].title
+                        mnt.component_instance.subTitle = newVal[i].subTitle
                         mnt.component_instance.style = newVal[i].style
                         that
                           .$axios({
@@ -176,6 +178,8 @@ export default {
                               height: newVal[i].height,
                               left: newVal[i].left,
                               top: newVal[i].top,
+                              title: newVal[i].title,
+                              subTitle: newVal[i].subTitle,
                               style: newVal[i].style
                             }
                           })
@@ -252,6 +256,7 @@ export default {
               resizable: currentData[i].resizable,
               parentLimitation: currentData[i].parentLimitation,
               dataSource: currentData[i].dataSource,
+              mode: 'design',
               // active: currentData[i].active,
               title: currentData[i].title,
               subTitle: currentData[i].subTitle,
@@ -312,6 +317,8 @@ export default {
                         mnt.component_instance.left = newVal[i].left
                         mnt.component_instance.top = newVal[i].top
                         mnt.component_instance.style = newVal[i].style
+                        mnt.component_instance.title = newVal[i].title
+                        mnt.component_instance.subTitle = newVal[i].subTitle
                         that
                           .$axios({
                             url: url.updateComponentBasicStatus,
@@ -323,6 +330,8 @@ export default {
                               height: newVal[i].height,
                               left: newVal[i].left,
                               top: newVal[i].top,
+                              title: newVal[i].title,
+                              subTitle: newVal[i].subTitle,
                               style: newVal[i].style
                             }
                           })

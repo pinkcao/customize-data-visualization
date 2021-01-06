@@ -35,7 +35,6 @@ export default {
         return this.$store.state.componentList
       },
       set(value) {
-        console.log(value)
         this.$store.commit('updateAllZindexAsc', value)
         // this.$store.commit('updateAllZindexDsc', value)
       }
@@ -43,9 +42,7 @@ export default {
   },
 
   created() {},
-  mounted() {
-    console.log(this.componentList)
-  },
+  mounted() {},
 
   methods: {}
 }

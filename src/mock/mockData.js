@@ -227,6 +227,8 @@ export default {
         componentList[i].left = args.left
         componentList[i].top = args.top
         componentList[i].style = args.style
+        componentList[i].title = args.title
+        componentList[i].subTitle = args.subTitle
       }
     }
     console.log(componentList)

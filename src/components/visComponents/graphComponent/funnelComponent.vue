@@ -23,16 +23,14 @@
       @deactivated="onDeactivated"
     >
       <div style="background-color: #ffffff; width: 100%; height: 100%">
-        <!-- <v-funnel-chart>
-          v-if="flag" :chartTitle="title" :chartSubTitle="subTitle" :titlevis="true" :dataSource="dataSource.data"
-          ref="child" ></v-funnel-chart
-        > -->
         <v-funnel-chart
           v-if="flag"
           :chartTitle="title"
           :chartSubTitle="subTitle"
-          :titlevis="true"
           :dataSource="dataSource.data"
+          :opacity="style.opacity"
+          :legendvis="style.legendvis"
+          :titlevis="style.titlevis"
           ref="child"
         ></v-funnel-chart>
       </div>
@@ -84,7 +82,11 @@ export default {
           { value: 100, name: '展现' }
         ]
       },
-      style: {}
+      style: {
+        opacity: 1,
+        legendvis: true,
+        titlevis: true
+      }
     }
   },
   //watch需要写在父元素的vue-mount里

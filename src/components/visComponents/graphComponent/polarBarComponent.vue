@@ -23,16 +23,14 @@
       @deactivated="onDeactivated"
     >
       <div style="background-color: #ffffff; width: 100%; height: 100%">
-        <!-- <v-funnel-chart>
-          v-if="flag" :chartTitle="title" :chartSubTitle="subTitle" :titlevis="true" :dataSource="dataSource.data"
-          ref="child" ></v-funnel-chart
-        > -->
         <v-polar-bar-chart
           v-if="flag"
           :chartTitle="title"
           :chartSubTitle="subTitle"
-          :titlevis="true"
           :dataSource="dataSource.data"
+          :opacity="style.opacity"
+          :legendvis="style.legendvis"
+          :titlevis="style.titlevis"
           ref="child"
         ></v-polar-bar-chart>
       </div>
@@ -42,16 +40,15 @@
 
 <script>
 import echarts from 'echarts'
-// import vFunnelChart from '@/common/commonComponents/funnelChart/funnelChart.vue'
 import url from '@mock/mockAPI.js'
 import componentsDef from '@components/componentsDef/componentsDef.js'
 import vPolarBarChart from '@/common/commonComponents/polarBarChart/polarBarChart.vue'
+import { log } from 'three'
 
 export default {
   extends: componentsDef,
   name: 'polarBarComponent',
   components: {
-    // vFunnelChart
     vPolarBarChart
   },
   data() {
@@ -83,15 +80,26 @@ export default {
           [5, 6, 7, 8, 'legendC']
         ]
       },
-      style: {}
+      style: {
+        opacity: 1,
+        legendvis: true,
+        titlevis: true
+      }
     }
   },
   //watch需要写在父元素的vue-mount里
   props: {},
-
+  watch: {
+    title: function(newVal) {
+      console.log(newVal)
+    }
+  },
   created() {},
   mounted() {
-    console.log(this.dataSource.data)
+    // console.log(this.dataSource.data)
+    // console.log(true != null)
+    // console.log(false != null)
+    // console.log(undefined != null)
     this.flag = true
   },
   methods: {

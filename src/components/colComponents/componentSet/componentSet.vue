@@ -5,7 +5,9 @@
       <el-tabs type="border-card">
         <el-tab-pane label="基础属性">
           <div class="form-sub-item" v-if="flag">
-            <span :style="spanStyle">组件宽度: </span>
+            <div class="span-wrapper">
+              <span :style="spanStyle">组件宽度:</span>
+            </div>
             <el-input-number
               :style="inputNumberStyle"
               controls-position="right"
@@ -14,8 +16,11 @@
               @change="componentBaseStatusOnChange"
             ></el-input-number>
           </div>
+
           <div class="form-sub-item" v-if="flag">
-            <span :style="spanStyle">组件高度: </span>
+            <div class="span-wrapper">
+              <span :style="spanStyle">组件高度:</span>
+            </div>
             <el-input-number
               :style="inputNumberStyle"
               controls-position="right"
@@ -24,8 +29,11 @@
               @change="componentBaseStatusOnChange"
             ></el-input-number>
           </div>
+
           <div class="form-sub-item" v-if="flag">
-            <span :style="spanStyle">左侧距离: </span>
+            <div class="span-wrapper">
+              <span :style="spanStyle">左侧距离:</span>
+            </div>
             <el-input-number
               :style="inputNumberStyle"
               controls-position="right"
@@ -34,8 +42,11 @@
               @change="componentBaseStatusOnChange"
             ></el-input-number>
           </div>
+
           <div class="form-sub-item" v-if="flag">
-            <span :style="spanStyle">上方距离: </span>
+            <div class="span-wrapper">
+              <span :style="spanStyle">上方距离:</span>
+            </div>
             <el-input-number
               :style="inputNumberStyle"
               controls-position="right"
@@ -44,23 +55,13 @@
               @change="componentBaseStatusOnChange"
             ></el-input-number>
           </div>
-          <div class="form-sub-item" v-if="flag && currentComponent.style.fontColor">
-            <span :style="spanStyle">字体颜色:</span>
-            <el-color-picker
-              :style="inputNumberStyle"
-              v-model="currentComponent.style.fontColor"
-              @change="updateStyle"
-            ></el-color-picker>
-            <!-- <el-input
-              placeholder="请输入内容"
-              v-model="currentComponent.dataSource.fontColor"
-              @change="updateDataSource"
-            ></el-input> -->
-          </div>
         </el-tab-pane>
+
         <el-tab-pane label="数据配置">
           <div class="form-sub-item" v-if="flag && currentComponent">
-            <span :style="spanStyle">静态JSON数据:</span>
+            <div class="span-wrapper">
+              <span :style="spanStyle">当前数据:</span>
+            </div>
             <el-input
               type="textarea"
               placeholder="请输入内容"
@@ -70,13 +71,92 @@
             ></el-input>
           </div>
         </el-tab-pane>
+
+        <el-tab-pane label="样式设置">
+          <div class="form-sub-item" v-if="flag && currentComponent.style.opacity >= 0">
+            <div class="span-wrapper">
+              <span :style="spanStyle">透明度:</span>
+            </div>
+            <el-input-number
+              :style="inputNumberStyle"
+              controls-position="right"
+              size="mini"
+              v-model="currentComponent.style.opacity"
+              :precision="2"
+              :step="0.05"
+              :max="1"
+              :min="0"
+              @change="updateStyle"
+            ></el-input-number>
+          </div>
+
+          <div class="form-sub-item" v-if="flag && currentComponent.style.legendvis != null">
+            <div class="span-wrapper">
+              <span :style="spanStyle">图例显示:</span>
+            </div>
+            <el-switch
+              :style="inputNumberStyle"
+              size="mini"
+              v-model="currentComponent.style.legendvis"
+              @change="updateStyle"
+            ></el-switch>
+          </div>
+
+          <div class="form-sub-item" v-if="flag && currentComponent.style.titlevis != null">
+            <div class="span-wrapper">
+              <span :style="spanStyle">标题显示:</span>
+            </div>
+            <el-switch
+              :style="inputNumberStyle"
+              size="mini"
+              v-model="currentComponent.style.titlevis"
+              @change="updateStyle"
+            ></el-switch>
+          </div>
+
+          <div class="form-sub-item" v-if="flag && currentComponent.style.titlevis == true">
+            <div class="span-wrapper">
+              <span :style="spanStyle">标题:</span>
+            </div>
+            <el-input
+              :style="inputStyle"
+              style="width: 150px"
+              size="mini"
+              v-model="currentComponent.title"
+              @change="updateTitle"
+            ></el-input>
+          </div>
+
+          <div class="form-sub-item" v-if="flag && currentComponent.style.titlevis == true">
+            <div class="span-wrapper">
+              <span :style="spanStyle">副标题:</span>
+            </div>
+            <el-input
+              :style="inputStyle"
+              size="mini"
+              v-model="currentComponent.subTitle"
+              @change="updateSubTitle"
+            ></el-input>
+          </div>
+
+          <div class="form-sub-item" v-if="flag && currentComponent.style.fontColor">
+            <div class="span-wrapper">
+              <span :style="spanStyle">字体颜色:</span>
+            </div>
+            <el-color-picker
+              :style="inputNumberStyle"
+              v-model="currentComponent.style.fontColor"
+              @change="updateStyle"
+            ></el-color-picker>
+          </div>
+        </el-tab-pane>
       </el-tabs>
     </div>
   </div>
 </template>
 
 <script>
-import { setSpanStyle, setInputNumberStyle } from '@/common/commonStyle/setColStyle/setColStyle.js'
+import { setSpanStyle, setInputNumberStyle, setInputStyle } from '@/common/commonStyle/setColStyle/setColStyle.js'
 
 export default {
   name: 'componentSet',
@@ -91,7 +171,8 @@ export default {
       // componentLeft: -1,
       // componentTop: -1,
       inputNumberStyle: setInputNumberStyle,
-      spanStyle: setSpanStyle
+      spanStyle: setSpanStyle,
+      inputStyle: setInputStyle
     }
   },
   computed: {
@@ -102,7 +183,7 @@ export default {
   watch: {
     //默认不渲染，只有当vuex中的currentComponent被赋值后渲染
     '$store.state.currentComponent': function(newval) {
-      console.log(newval)
+      // console.log(newval)
       this.currentComponent = newval
       //由于往往是个json对象，所以将其转为JSON字符串，显示为静态JSON数据让用户直接可以修改
       this.componentDataSourceData = JSON.stringify(this.currentComponent.dataSource.data)
@@ -125,8 +206,17 @@ export default {
 
       this.$store.commit('updateDataSource', this.currentComponent.dataSource)
     },
+    //更新所有的样式
     updateStyle() {
       this.$store.commit('updateStyle', this.currentComponent.style)
+    },
+    //更新标题
+    updateTitle() {
+      this.$store.commit('updateTitle', this.currentComponent.title)
+    },
+    //更新副标题
+    updateSubTitle() {
+      this.$store.commit('updateSubTitle', this.currentComponent.subTitle)
     },
     //基础属性变更时触发
     componentBaseStatusOnChange() {
@@ -208,11 +298,17 @@ export default {
 
 .form-sub-item {
   margin: 10px;
+  display: flex;
+  flex-direction: row;
 }
 
 .component-set-wrapper input {
   background-color: #222222;
   border-radius: 0px;
   border: 1px solid #333333;
+}
+
+.span-wrapper {
+  width: 80px;
 }
 </style>

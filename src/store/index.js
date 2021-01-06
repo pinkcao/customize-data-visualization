@@ -109,6 +109,24 @@ export default new Vuex.Store({
         }
       }
     },
+    //更新当前组件标题
+    updateTitle(state, title) {
+      for (let i = 0; i < state.componentList.length; i++) {
+        if (state.componentList[i].index == state.activeComponentIndex) {
+          state.componentList[i].title = title
+          break
+        }
+      }
+    },
+    //更新当前组件副标题
+    updateSubTitle(state, subTitle) {
+      for (let i = 0; i < state.componentList.length; i++) {
+        if (state.componentList[i].index == state.activeComponentIndex) {
+          state.componentList[i].subTitle = subTitle
+          break
+        }
+      }
+    },
     //仅更新组件基础属性
     updateComponentStatus(state, currentComponentBaseStatus) {
       for (let i = 0; i < state.componentList.length; i++) {
@@ -117,7 +135,7 @@ export default new Vuex.Store({
           state.componentList[i].height = currentComponentBaseStatus.height
           state.componentList[i].left = currentComponentBaseStatus.left
           state.componentList[i].top = currentComponentBaseStatus.top
-          console.log(state.componentList[i])
+          // console.log(state.componentList[i])
           break
         }
       }
@@ -175,7 +193,7 @@ export default new Vuex.Store({
         method: 'post',
         data: componentList
       }).then(res => {
-        console.log(res.data.resultSet)
+        // console.log(res.data.resultSet)
       })
     },
     //传入排序后数组，给排序后数组的z-index重排序，降序
@@ -189,7 +207,7 @@ export default new Vuex.Store({
         method: 'post',
         data: componentList
       }).then(res => {
-        console.log(res.data.resultSet)
+        // console.log(res.data.resultSet)
       })
     },
     //更新当前页的宽与高
