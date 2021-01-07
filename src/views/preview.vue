@@ -204,8 +204,8 @@ export default {
             draggable: false,
             resizable: false,
             mode: 'preview',
-            active: false,
-            $store: this.$store
+            active: false
+            // $store: this.$store
             //重新挂载后无法访问到全局的this.$store,需要对$store重定向
           },
           on: {}

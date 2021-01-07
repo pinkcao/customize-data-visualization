@@ -97,20 +97,22 @@ export default {
   },
   methods: {
     updateComponentList() {
-      this.$axios({
-        url: this.$url.adjustComponent,
-        method: 'post',
-        data: {
-          index: this.index,
-          width: this.width,
-          height: this.height,
-          top: this.top,
-          left: this.left
-        }
-      }).then(res => {
-        this.$store.commit('initComponentList', res.data.resultSet)
-        this.$store.commit('resizeUpdateActiveComponent')
-      })
+      if (this.mode == 'design') {
+        this.$axios({
+          url: this.$url.adjustComponent,
+          method: 'post',
+          data: {
+            index: this.index,
+            width: this.width,
+            height: this.height,
+            top: this.top,
+            left: this.left
+          }
+        }).then(res => {
+          this.$store.commit('initComponentList', res.data.resultSet)
+          this.$store.commit('resizeUpdateActiveComponent')
+        })
+      }
     },
     chartResize() {
       this.$refs.child.chartResize()

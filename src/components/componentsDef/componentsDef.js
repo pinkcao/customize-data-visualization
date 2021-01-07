@@ -66,11 +66,17 @@ export default {
     },
     //父元素宽
     parentW: function() {
-      return this.$store.state.screenDef[0].value
+      if (this.mode == 'design') {
+        return this.$store.state.screenDef[0].value
+      } else {
+      }
     },
     //父元素高
     parentH: function() {
-      return this.$store.state.screenDef[1].value
+      if (this.mode == 'design') {
+        return this.$store.state.screenDef[1].value
+      } else {
+      }
     }
   },
   mounted() {
@@ -79,19 +85,21 @@ export default {
   methods: {
     //更新当前组件基础属性
     updateComponentList() {
-      this.$axios({
-        url: url.adjustComponent,
-        method: 'post',
-        data: {
-          index: this.index,
-          width: this.width,
-          height: this.height,
-          top: this.top,
-          left: this.left
-        }
-      }).then(res => {
-        this.$store.commit('initComponentList', res.data.resultSet)
-      })
+      if (this.mode == 'design') {
+        this.$axios({
+          url: url.adjustComponent,
+          method: 'post',
+          data: {
+            index: this.index,
+            width: this.width,
+            height: this.height,
+            top: this.top,
+            left: this.left
+          }
+        }).then(res => {
+          this.$store.commit('initComponentList', res.data.resultSet)
+        })
+      }
     },
     //销毁当前组件，实际不销毁，只是不渲染，组件仍在内存，在mainCanvas组件中的objList中存储，可以调用mount()方法再次挂载
     destroyComponent() {

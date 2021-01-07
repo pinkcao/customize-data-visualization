@@ -199,9 +199,11 @@ export default {
       data: {}
     }).then(res => {
       this.$store.commit('initComponentList', res.data.resultSet)
-      this.$nextTick(() => {
+      //不好意思，在下今天真的不想把所有要加载的东西全部都拉去dataBus里面汇总然后得出一个最终结果再根据这个结果取消loadingInstance了
+      //但1秒，上限了好吧，毕竟我mock里设置的是0.2-0.6s，正常也不会太久了吧.大概
+      setTimeout(() => {
         this.loadingInstance.close()
-      })
+      }, 1000)
     })
     // this.updateColData()
   },
