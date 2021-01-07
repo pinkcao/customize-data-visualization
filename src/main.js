@@ -10,17 +10,17 @@ import 'element-ui/lib/theme-chalk/index.css'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import less from 'less'
-import formCreate from '@form-create/element-ui'
 import store from './store'
 import VueDragResize from 'vue-drag-resize'
+import url from '@mock/mockAPI.js'
 
 Vue.use(ElementUI)
-Vue.use(formCreate)
 Vue.prototype.$axios = axios
 Vue.use(VueAxios, axios)
 Vue.config.productionTip = false
 Vue.use(less)
 Vue.component('vue-drag-resize', VueDragResize)
+Vue.prototype.$url = url
 
 // Vue.use(Vuex);
 

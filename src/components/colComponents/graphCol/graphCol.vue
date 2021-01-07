@@ -18,7 +18,6 @@
 
 <script>
 import vuedraggable from 'vuedraggable'
-import url from '@mock/mockAPI.js'
 
 export default {
   name: 'graphCol',

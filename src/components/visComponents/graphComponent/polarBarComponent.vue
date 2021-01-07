@@ -41,7 +41,6 @@
 
 <script>
 import echarts from 'echarts'
-import url from '@mock/mockAPI.js'
 import componentsDef from '@components/componentsDef/componentsDef.js'
 import vPolarBarChart from '@/common/commonComponents/polarBarChart/polarBarChart.vue'
 import { log } from 'three'
@@ -106,7 +105,7 @@ export default {
   methods: {
     updateComponentList() {
       this.$axios({
-        url: url.adjustComponent,
+        url: this.$url.adjustComponent,
         method: 'post',
         data: {
           index: this.index,

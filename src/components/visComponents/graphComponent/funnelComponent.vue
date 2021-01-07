@@ -41,8 +41,6 @@
 
 <script>
 import echarts from 'echarts'
-// import vFunnelChart from '@/common/commonComponents/funnelChart/funnelChart.vue'
-import url from '@mock/mockAPI.js'
 import componentsDef from '@components/componentsDef/componentsDef.js'
 import vFunnelChart from '@/common/commonComponents/funnelChart/funnelChart.vue'
 
@@ -100,7 +98,7 @@ export default {
   methods: {
     updateComponentList() {
       this.$axios({
-        url: url.adjustComponent,
+        url: this.$url.adjustComponent,
         method: 'post',
         data: {
           index: this.index,

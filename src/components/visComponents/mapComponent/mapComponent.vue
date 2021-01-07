@@ -30,7 +30,6 @@
 </template>
 
 <script>
-import url from '@mock/mockAPI.js'
 import vMap from './map.vue'
 import componentsDef from '@components/componentsDef/componentsDef.js'
 

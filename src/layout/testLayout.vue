@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import mockData from '../mock/mockData.js'
+import mockBus from '@mock/mockBus.js'
 
 export default {
   name: 'testLayout',

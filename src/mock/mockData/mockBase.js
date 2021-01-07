@@ -1,5 +1,5 @@
 import Mock from 'mockjs'
-import url from './mockAPI.js'
+import url from '@mock/mockAPI.js'
 
 const user_account = 'admin'
 const user_password = 'd033e22ae348aeb5660fc2140aec35850c4da997'
@@ -231,7 +231,7 @@ export default {
         componentList[i].subTitle = args.subTitle
       }
     }
-    console.log(componentList)
+    // console.log(componentList)
     return {
       status: 200,
       message: '修改组件数据成功',

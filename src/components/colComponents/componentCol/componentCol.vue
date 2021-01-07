@@ -53,8 +53,6 @@
 </template>
 
 <script>
-import url from '@mock/mockAPI.js'
-
 export default {
   name: 'componentCol',
   data() {
@@ -88,7 +86,7 @@ export default {
     //获取TabPaneData
     getTabPaneData() {
       this.$axios({
-        url: url.getComTabData,
+        url: this.$url.getComTabData,
         // url: 'http://localhost:8080/componentTabData/getAll',
         // method: 'get',
         method: 'post',

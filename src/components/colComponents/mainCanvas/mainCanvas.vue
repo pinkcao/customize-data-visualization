@@ -12,7 +12,7 @@
 import { getComponent } from '@components/visComponents/comMap.js'
 import Mount from 'vue-mount'
 import { destroy } from 'vue-mount'
-import url from '@mock/mockAPI.js'
+// import url from '@mock/mockAPI.js'
 
 export default {
   components: {},
@@ -75,7 +75,7 @@ export default {
     //获取组件列表，维护
     getComponentList() {
       this.$axios({
-        url: url.getComponentList,
+        url: this.$url.getComponentList,
         method: 'post',
         data: {}
       }).then(res => {
@@ -138,7 +138,7 @@ export default {
                 let index = args[0]
                 that
                   .$axios({
-                    url: url.spliceComponentList,
+                    url: that.$url.spliceComponentList,
                     method: 'post',
                     data: {
                       index: index
@@ -169,7 +169,7 @@ export default {
                         mnt.component_instance.style = newVal[i].style
                         that
                           .$axios({
-                            url: url.updateComponentBasicStatus,
+                            url: that.$url.updateComponentBasicStatus,
                             method: 'post',
                             data: {
                               index: mnt.component_instance.index,
@@ -202,7 +202,7 @@ export default {
         console.log(this.objList[this.objList.length - 1])
         //挂载完毕后将其传至后端保存
         this.$axios({
-          url: url.appendComponentList,
+          url: that.$url.appendComponentList,
           method: 'post',
           //不用testobj是因为在testObj中重定向了store，会造成"Converting circular structure to JSON"的问题
           data: {
@@ -290,7 +290,7 @@ export default {
                 let index = args[0]
                 that
                   .$axios({
-                    url: url.spliceComponentList,
+                    url: that.$url.spliceComponentList,
                     method: 'post',
                     data: {
                       index: index
@@ -321,7 +321,7 @@ export default {
                         mnt.component_instance.subTitle = newVal[i].subTitle
                         that
                           .$axios({
-                            url: url.updateComponentBasicStatus,
+                            url: that.$url.updateComponentBasicStatus,
                             method: 'post',
                             data: {
                               index: mnt.component_instance.index,
