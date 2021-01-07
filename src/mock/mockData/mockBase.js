@@ -1,6 +1,10 @@
 import Mock from 'mockjs'
 import url from '@mock/mockAPI.js'
 
+Mock.setup({
+  timeout: '200-600'
+})
+
 const user_account = 'admin'
 const user_password = 'd033e22ae348aeb5660fc2140aec35850c4da997'
 

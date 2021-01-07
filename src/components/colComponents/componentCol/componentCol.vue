@@ -94,6 +94,7 @@ export default {
       }).then(res => {
         // console.log(res)
         this.tabpanedata = res.data.resultSet
+
         //无用block
         // for (let i = 0; i < this.tabpanedata.length; i++) {
         //   console.log(this.tabpanedata[i].showData)

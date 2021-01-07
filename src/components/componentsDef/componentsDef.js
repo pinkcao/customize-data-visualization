@@ -66,11 +66,11 @@ export default {
     },
     //父元素宽
     parentW: function() {
-      return this.$store.state.colDef[0].value
+      return this.$store.state.screenDef[0].value
     },
     //父元素高
     parentH: function() {
-      return this.$store.state.colDef[1].value
+      return this.$store.state.screenDef[1].value
     }
   },
   mounted() {

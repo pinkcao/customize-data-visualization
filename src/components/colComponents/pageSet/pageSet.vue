@@ -5,7 +5,7 @@
       <el-tabs type="border-card">
         <el-tab-pane label="基础设置">
           <div class="flex-box">
-            <div class="form-sub-item" v-for="item in colDef" :key="item.index">
+            <div class="form-sub-item" v-for="item in screenDef" :key="item.index">
               <span :style="spanStyle">{{ item.title }}</span>
               <el-input-number
                 v-if="item.type == 'inputNumber'"
@@ -52,7 +52,7 @@ export default {
   name: 'pageSet',
   data() {
     return {
-      colDef: [],
+      screenDef: [],
       spanStyle: setSpanStyle,
       inputNumberStyle: setInputNumberStyle,
       iconstyle: 'color:aliceblue'
@@ -91,22 +91,34 @@ export default {
 
   created() {},
   mounted() {
-    this.initCol()
+    this.initPageDef()
   },
-
+  watch: {
+    '$store.state.screenDefFlag': function(newval) {
+      // console.log(newval)
+      if (newval == true) {
+        this.initCol()
+      }
+    }
+  },
   methods: {
     //初始化页面设置
+    initPageDef() {
+      if (this.$store.state.screenDefFlag == true) {
+        this.initCol()
+      }
+    },
     initCol() {
-      this.colDef = this.$store.state.colDef
+      this.screenDef = this.$store.state.screenDef
     },
     //更新当前页面设置
     onChange(index) {
       // console.log(index)
-      for (let i = 0; i < this.colDef.length; i++) {
-        if (this.colDef[i].index == index) {
+      for (let i = 0; i < this.screenDef.length; i++) {
+        if (this.screenDef[i].index == index) {
           let data = {
             index: index,
-            value: this.colDef[i].value
+            value: this.screenDef[i].value
           }
           this.$store.commit('updatePageValue', data)
           this.$store.commit('updateParentScale')

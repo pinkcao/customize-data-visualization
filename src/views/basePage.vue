@@ -79,7 +79,7 @@ import pageSet from '../components/colComponents/pageSet/pageSet.vue'
 import componentSet from '../components/colComponents/componentSet/componentSet.vue'
 import mainCanvas from '../components/colComponents/mainCanvas/mainCanvas.vue'
 // import mockData from '../mock/mockData.js'
-import url from '../mock/mockAPI.js'
+// import url from '@mock/mockAPI.js'
 
 export default {
   components: {
@@ -141,7 +141,9 @@ export default {
       graphfullwidth: '200px',
       graphemptywidth: '0px',
       iconstyle: 'color:aliceblue;',
-      componentName: ''
+      componentName: '',
+
+      loadingInstance: null
     }
   },
   computed: {
@@ -187,19 +189,30 @@ export default {
     /*
       初始化width保证立即响应
     */
+    this.loadingInstance = this.$loading({ fullscreen: true })
     this.$refs.graphCol.style.width = this.graphfullwidth
     this.$refs.compCol.style.width = this.componentsfullwidth
     this.$refs.pageCol.style.width = this.pagefullwidth
     this.$axios({
-      url: url.getComponentList,
+      url: this.$url.getComponentList,
       method: 'post',
       data: {}
     }).then(res => {
       this.$store.commit('initComponentList', res.data.resultSet)
+      this.$nextTick(() => {
+        this.loadingInstance.close()
+      })
     })
-    this.updateColData()
+    // this.updateColData()
   },
-
+  watch: {
+    '$store.state.screenDefFlag': function(newval) {
+      // console.log(newval)
+      if (newval == true) {
+        this.updateColData()
+      }
+    }
+  },
   methods: {
     updateColData() {
       let ColData = []

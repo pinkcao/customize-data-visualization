@@ -17,36 +17,73 @@ import url from '@mock/mockAPI.js'
 
 export default {
   components: {},
-  name: 'mainCanvas',
+  name: 'preview',
   data() {
     return {
       componentList: [],
-      currentStyle: {}
+      currentStyle: {},
+      screenStretch: {},
+      screenDef: [],
+      screenDefFlag: false,
+      screenStretchFlag: false,
+      buttonBoxStyle: {},
+      loadingInstance: null,
+      loadingStatus: false,
+      loadingDetail: {
+        components: false,
+        style: false,
+        stretch: false
+      },
+      stretchMethod: ''
     }
   },
-  computed: {
-    buttonBoxStyle: function() {
-      return {
-        position: 'absolute',
-        left: this.$store.state.colDef[0].value - 40 + 'px'
+  computed: {},
+  watch: {
+    screenStretchFlag: function(newVal) {
+      if (this.screenStretch.allStretch == true) {
+        this.stretchMethod = 'allStretch'
+      } else if (this.screenStretch.xStretch == true) {
+        this.stretchMethod = 'xStretch'
+      } else if (this.screenStretch.yStretch == true) {
+        this.stretchMethod = 'yStretch'
+      } else {
+        this.stretchMethod = 'noStretch'
+      }
+      if (this.screenStretchFlag == true && this.screenDefFlag == true) {
+        this.resize()
       }
     },
-    stretchMethod: function() {
-      if (this.$store.state.allStretch == true) {
-        return 'allStretch'
-      } else if (this.$store.state.xStretch == true) {
-        return 'xStretch'
-      } else if (this.$store.state.yStretch == true) {
-        return 'yStretch'
-      } else {
-        return 'noStretch'
+    screenDefFlag: function(newVal) {
+      this.buttonBoxStyle = {
+        position: 'absolute',
+        left: this.screenDef[0].value - 40 + 'px'
       }
+      if (this.screenStretchFlag == true && this.screenDefFlag == true) {
+        this.resize()
+      }
+    },
+    loadingStatus: function(newVal) {
+      if (newVal == true) {
+        this.$nextTick(() => {
+          this.loadingInstance.close()
+        })
+      }
+    },
+    loadingDetail: {
+      handler(newVal) {
+        if (newVal.components == true && newVal.style == true && newVal.stretch == true) {
+          this.loadingStatus = true
+        }
+      },
+      deep: true
     }
   },
   props: ['componentName'],
   created() {},
   mounted() {
-    this.resize()
+    this.loadingInstance = this.$loading({ fullscreen: true })
+    this.getScreenDef()
+    this.getScreenStretch()
     this.getComponentList()
     window.addEventListener('resize', this.resize)
   },
@@ -55,9 +92,38 @@ export default {
   },
 
   methods: {
+    //获取缩放设置
+    getScreenStretch() {
+      this.$axios({
+        url: url.getScreenStretch,
+        method: 'post',
+        data: {}
+      }).then(res => {
+        // console.log(res.data)
+        this.screenStretch = res.data
+        this.screenStretchFlag = true
+        this.loadingDetail.stretch = true
+      })
+    },
+    //获取屏幕设置
+    getScreenDef() {
+      this.$axios({
+        url: url.getScreenDef,
+        method: 'post',
+        data: {}
+      }).then(res => {
+        console.log(res.data)
+        this.screenDef = res.data
+        this.screenDefFlag = true
+        this.loadingDetail.style = true
+        // this.$nextTick(() => {
+        //   this.loadingInstance.close()
+        // })
+      })
+    },
     resize() {
-      let designWindowWidth = this.$store.state.colDef[0].value
-      let designWindowHeight = this.$store.state.colDef[1].value
+      let designWindowWidth = this.screenDef[0].value
+      let designWindowHeight = this.screenDef[1].value
 
       switch (this.stretchMethod) {
         case 'allStretch':
@@ -108,6 +174,7 @@ export default {
       }).then(res => {
         this.componentList = res.data.resultSet
         this.mountTest()
+        this.loadingDetail.components = true
       })
     },
     mountTest() {

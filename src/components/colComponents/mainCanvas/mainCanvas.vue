@@ -20,7 +20,8 @@ export default {
   data() {
     return {
       componentList: [],
-      objList: []
+      objList: [],
+      canvasStyle: {}
     }
   },
   watch: {
@@ -38,29 +39,63 @@ export default {
           }
         }
       }
+    },
+    '$store.state.screenDef': {
+      handler(newval) {
+        this.canvasStyle = {
+          width: this.$store.state.screenDef[0].value + 'px',
+          height: this.$store.state.screenDef[1].value + 'px',
+          position: this.$store.state.position,
+          transform: `scale(${this.$store.state.parentScale}) translate(0px, 0px)`
+        }
+        // console.log(this.canvasStyle)
+      },
+      deep: true
+    },
+    '$store.state.parentScale': {
+      handler(newval) {
+        this.canvasStyle = {
+          width: this.$store.state.screenDef[0].value + 'px',
+          height: this.$store.state.screenDef[1].value + 'px',
+          position: this.$store.state.position,
+          transform: `scale(${this.$store.state.parentScale}) translate(0px, 0px)`
+        }
+      }
     }
   },
   computed: {
     //当前的画布样式
-    canvasStyle: function() {
-      let parentScale = this.$store.state.parentScale
-      let result = {
-        width: this.$store.state.colDef[0].value + 'px',
-        height: this.$store.state.colDef[1].value + 'px',
-        position: this.$store.state.position,
-        transform: `scale(${parentScale}) translate(0px, 0px)`
-      }
-      console.log(result.transform)
-      return result
-    }
+    // canvasStyle: function() {
+    //   let parentScale = this.$store.state.parentScale
+    //   let result = {
+    //     width: this.$store.state.screenDef[0].value + 'px',
+    //     height: this.$store.state.screenDef[1].value + 'px',
+    //     position: this.$store.state.position,
+    //     transform: `scale(${parentScale}) translate(0px, 0px)`
+    //   }
+    //   console.log(result.transform)
+    //   return result
+    // }
   },
   props: ['componentName'],
   created() {},
   mounted() {
+    console.log(this.canvasStyle)
     this.getComponentList()
+    this.initCanvasStyle()
   },
   methods: {
     //取消所有焦点
+    initCanvasStyle() {
+      if (this.$store.state.screenDefFlag == true) {
+        this.canvasStyle = {
+          width: this.$store.state.screenDef[0].value + 'px',
+          height: this.$store.state.screenDef[1].value + 'px',
+          position: this.$store.state.position,
+          transform: `scale(${this.$store.state.parentScale}) translate(0px, 0px)`
+        }
+      }
+    },
     cancelFocus(event) {
       // console.log(event)
       if (event.target == this.$refs.target) {

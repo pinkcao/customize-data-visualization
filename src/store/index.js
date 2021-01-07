@@ -18,24 +18,26 @@ export default new Vuex.Store({
     //修正鼠标移动倍率
     parentScaleX: 0.45,
     parentScaleY: 0.45,
-    parentW: 1536, //这个调的时候记得+px
-    parentH: 864,
+    // parentW: 1536, //这个调的时候记得+px
+    // parentH: 864,
     position: 'absolute',
     currentColWidth: 0,
-    colDef: [
-      {
-        index: 0,
-        title: '页面宽度: ',
-        type: 'inputNumber',
-        value: 1536
-      },
-      {
-        index: 1,
-        title: '页面高度: ',
-        type: 'inputNumber',
-        value: 864
-      }
-    ],
+    // screenDef: [
+    //   {
+    //     index: 0,
+    //     title: '页面宽度: ',
+    //     type: 'inputNumber',
+    //     value: 1536
+    //   },
+    //   {
+    //     index: 1,
+    //     title: '页面高度: ',
+    //     type: 'inputNumber',
+    //     value: 864
+    //   }
+    // ],
+    screenDef: [],
+    screenDefFlag: false,
     allStretch: true,
     yStretch: false,
     xStretch: false,
@@ -45,6 +47,18 @@ export default new Vuex.Store({
     //获取当前组件的name
     changeComponentNameToCanvas(state, compName) {
       state.componentNameToCanvas = compName
+    },
+    //初始化界面设置
+    initScreenDef(state, screenDef) {
+      state.screenDef = screenDef
+      state.screenDefFlag = true
+    },
+    initScreenStretch(state, screenStretch) {
+      // console.log(screenStretch)
+      state.allStretch = screenStretch.allStretch
+      state.yStretch = screenStretch.yStretch
+      state.xStretch = screenStretch.xStretch
+      state.noStretch = screenStretch.noStretch
     },
     //这两个方法以备不时之需，目前不需要
     // adjustComponent(state, propertyObj) {
@@ -90,6 +104,19 @@ export default new Vuex.Store({
           state.noStretch = true
           break
       }
+      let screenStretch = {
+        allStretch: state.allStretch,
+        yStretch: state.yStretch,
+        xStretch: state.xStretch,
+        noStretch: state.noStretch
+      }
+      axios({
+        url: url.updateScreenStretch,
+        method: 'post',
+        data: screenStretch
+      }).then(res => {
+        console.log(res.data)
+      })
     },
     //更新组件dataSource中内容
     updateDataSource(state, dataSource) {
@@ -212,12 +239,21 @@ export default new Vuex.Store({
     },
     //更新当前页的宽与高
     updatePageValue(state, data) {
-      for (let i = 0; i < state.colDef.length; i++) {
-        if (state.colDef[i].index == data.index) {
-          state.colDef[i].value = data.value
+      for (let i = 0; i < state.screenDef.length; i++) {
+        if (state.screenDef[i].index == data.index) {
+          state.screenDef[i].value = data.value
           break
         }
       }
+      console.log(state.screenDef)
+      axios({
+        url: url.updateScreenDef,
+        method: 'post',
+        data: state.screenDef
+      }).then(res => {
+        //
+        console.log(res.data)
+      })
     },
     //更新当前页面规模,
     updateCurrentColWidth(state, data) {
@@ -231,7 +267,7 @@ export default new Vuex.Store({
       //使用当前屏幕的宽度来计算目前的画布所应有的Scale
       let currentWidth = window.screen.width
       currentWidth -= state.currentColWidth
-      let newScale = currentWidth / state.colDef[0].value
+      let newScale = currentWidth / state.screenDef[0].value
       state.parentScale = newScale
       state.parentScaleX = newScale
       state.parentScaleY = newScale
@@ -241,7 +277,7 @@ export default new Vuex.Store({
       //   //currentColWidth用于在不调整整个页面布局，但显示页面宽高变化时进行页面的自适应变化
       //   state.currentColWidth = state.currentColWidth + data[i]
       // }
-      // let newScale = currentWidth / state.colDef[0].value
+      // let newScale = currentWidth / state.screenDef[0].value
       // state.parentScale = newScale
       // state.parentScaleX = newScale
       // state.parentScaleY = newScale
