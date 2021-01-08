@@ -10,6 +10,15 @@ export default new Router({
       redirect: '/login'
     },
     {
+      path: '*',
+      redirect: '/notFound'
+    },
+    {
+      path: '/notFound',
+      name: 'notFound',
+      component: () => import(/* webpackChunkName: "notFound" */ '../views/notFound.vue')
+    },
+    {
       path: '/basePage',
       name: 'basePage',
       component: () => import(/* webpackChunkName: "basePage" */ '../views/basePage.vue')
