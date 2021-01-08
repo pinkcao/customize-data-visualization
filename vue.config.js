@@ -11,6 +11,7 @@ module.exports = {
       .set('@mock', resolve('src/mock'))
       .set('@public', resolve('public'))
       .set('@assets', resolve('src/assets'))
+      .set('@common', resolve('src/common'))
   },
   devServer: {
     port: 8085
