@@ -68,9 +68,11 @@ export default {
     },
     opacity: function(newVal) {
       this.initChart()
+      // console.log(111)
     },
     legendvis: function(newVal) {
       this.initChart()
+      console.log(111)
     },
     titlevis: function(newVal) {
       this.initChart()
@@ -97,6 +99,11 @@ export default {
     this.currentChart = echarts.init(this.$refs.chart)
     this.initChart()
     window.addEventListener('resize', () => {
+      this.currentChart.resize()
+    })
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', () => {
       this.currentChart.resize()
     })
   },

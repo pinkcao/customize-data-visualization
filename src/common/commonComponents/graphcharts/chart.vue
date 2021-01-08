@@ -15,13 +15,13 @@
               </el-row>
             </el-radio-group>
           </div>
-          <div :style="popoverDivStyle">
+          <!-- <div :style="popoverDivStyle">
             <el-row>
               <el-col :span="12">
                 <span>标题</span>
               </el-col>
               <el-col :span="12">
-                <el-switch v-model="titlevisible" @change="onChangeTitle"></el-switch>
+                <el-switch v-model="titlevis" @change="onChangeTitle"></el-switch>
               </el-col>
             </el-row>
           </div>
@@ -31,10 +31,10 @@
                 <span>图例组件</span>
               </el-col>
               <el-col :span="12">
-                <el-switch v-model="legendvisible" @change="onChangeLegend"></el-switch>
+                <el-switch v-model="legendvis" @change="onChangeLegend"></el-switch>
               </el-col>
             </el-row>
-          </div>
+          </div> -->
           <div :style="popoverDivStyle">
             <el-row>
               <el-col :span="12">
@@ -70,8 +70,10 @@
 <script>
 import echarts from 'echarts'
 import { loadSchema, loadSupportedType } from './chart'
+import chartDef from '../chartDef.js'
 
 export default {
+  extends: chartDef,
   name: 'v-chart',
   props: {
     width: {
@@ -157,10 +159,6 @@ export default {
       //用于设置一些基础参数，比如坐标轴是否显示
       schema: null,
       //控制图例组件显示
-      legendvisible: this.legendvis,
-      //控制标题组件显示
-      titlevisible: this.titlevis,
-      //控制缩放组件显示
       zoomvisible: this.zoomvis,
       //获取当前被支持的图表
       supportedArr: null,
@@ -187,6 +185,14 @@ export default {
     }
   },
   computed: {
+    legendvisible: function() {
+      return this.legendvis
+    },
+    //控制标题组件显示
+    titlevisible: function() {
+      return this.titlevis
+    },
+    //控制缩放组件显示
     //获取当前数据的列数(用于设置series)
     dataColumns: function() {
       if (this.dataSource.length == 0) {
@@ -286,15 +292,15 @@ export default {
       this.initChart()
     },
     //控制图例组件是否显示
-    onChangeLegend(val) {
-      this.legendvisible = val
-      this.initChart()
-    },
-    //控制标题组件是否显示
-    onChangeTitle(val) {
-      this.titlevisible = val
-      this.initChart()
-    },
+    // onChangeLegend(val) {
+    //   this.legendvis = val
+    //   this.initChart()
+    // },
+    // //控制标题组件是否显示
+    // onChangeTitle(val) {
+    //   this.titlevis = val
+    //   this.initChart()
+    // },
     //控制缩放组件是否显示
     onChangeZoom(val) {
       this.zoomvisible = val
@@ -401,12 +407,14 @@ export default {
           yAxis: {
             show: this.initAxis(this.schema.showAxis)
           },
+          itemStyle: {
+            // borderColor: '#fff',
+            // borderWidth: 1,
+            opacity: this.opacity
+          },
           dataZoom: this.initDataZoom(this.zoomvisible),
           //提供一份二维数组或是对象数组数据
           dataset: this.initDataSource(this.schema.dataSource),
-          // dataset: this.countArr(2),
-          //color不设置值则默认为['#c23531','#2f4554', '#61a0a8', '#d48265', '#91c7ae','#749f83',  '#ca8622', '#bda29a','#6e7074', '#546570', '#c4ccd3']
-          //如果追求复杂度可以在/src/layout/observable/layout中扩展themeColor,通过key指定color的array，color array可以基于themeColor计算得出。
           color: this.color,
           //对于每一列数据给予生成的图表类型
           series: this.series
@@ -430,6 +438,11 @@ export default {
           yAxis: {
             show: this.initAxis(this.schema.showAxis)
           },
+          itemStyle: {
+            // borderColor: '#fff',
+            // borderWidth: 1,
+            opacity: this.opacity
+          },
           dataZoom: this.initDataZoom(this.zoomvisible),
           dataset: {
             source: this.processedArr
@@ -443,10 +456,6 @@ export default {
         let option = this.options
         this.currentChart.setOption(option)
       }
-      this.currentChart.on('click', function(params) {
-        console.log(params)
-        alert('hello?')
-      })
     },
     //resize方法
     chartResize() {
@@ -504,6 +513,11 @@ export default {
         },
         yAxis: {
           show: this.initAxis(this.schema.showAxis)
+        },
+        itemStyle: {
+          // borderColor: '#fff',
+          // borderWidth: 1,
+          opacity: this.opacity
         },
         dataZoom: this.initDataZoom(this.zoomvisible),
         dataset: this.initDataSource(this.schema.dataSource),

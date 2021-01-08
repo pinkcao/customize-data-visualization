@@ -27,8 +27,10 @@
           v-if="flag"
           :chartTitle="title"
           :chartSubTitle="subTitle"
-          :titlevis="true"
           :dataSource="dataSource.data"
+          :opacity="style.opacity"
+          :legendvis="style.legendvis"
+          :titlevis="style.titlevis"
           ref="child"
         ></v-chart>
       </div>
@@ -78,7 +80,11 @@ export default {
           ['qualityAssurance', 55.1, 66.5]
         ]
       },
-      style: {}
+      style: {
+        opacity: 1,
+        legendvis: true,
+        titlevis: true
+      }
     }
   },
   //watch需要写在父元素的vue-mount里

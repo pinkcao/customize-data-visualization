@@ -89,8 +89,8 @@ const componentTabData = [
 const componentList = [
   {
     name: 'graphComponent',
-    title: 'title',
-    subTitle: 'subtitle',
+    title: '主标题',
+    subTitle: '副标题',
     width: 400,
     height: 300,
     top: 10,
@@ -112,12 +112,16 @@ const componentList = [
         ['qualityAssurance', 55.1, 66.5, 46.8, 34.8, 66.4]
       ]
     },
-    style: {}
+    style: {
+      opacity: 1,
+      legendvis: true,
+      titlevis: true
+    }
   },
   {
     name: 'graphComponent',
-    title: 'title',
-    subTitle: 'subtitle',
+    title: 'mainTitle',
+    subTitle: 'subTitle',
     width: 300,
     height: 300,
     top: 500,
@@ -139,7 +143,11 @@ const componentList = [
         ['qualityAssurance', 55.1, 66.5, 46.8, 34.8]
       ]
     },
-    style: {}
+    style: {
+      opacity: 1,
+      legendvis: true,
+      titlevis: true
+    }
   }
 ]
 
