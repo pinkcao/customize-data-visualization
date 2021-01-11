@@ -1,3 +1,32 @@
+<!-- based on kirillmurashov vue-drag-resize
+     my version adds rotate function
+     the rotate process runs really smooooooth
+     下面简述一下旋转原理：
+     首先在组件中添加一个handler，初始在该组件的上端
+     当点击该handler时在rotatestart数组中保存当前鼠标指针x,y坐标
+     rotatecenter保存当前组件中心点x,y坐标
+     rotate end 即为当前鼠标指针x,y坐标
+     当开始旋转时，rotatestart = 上一次的rotate end
+     意即为每次旋转时都会有一个锐角极小的三角形，通过余弦定理计算该小角，该角即为要增加或是减少的角度值
+
+     那么怎么判断是要加还是减少角度值呢？
+     需要通过矢量的叉乘
+     假设有三角形ABC
+     A为旋转中心，B为起始点，C为终止点
+     那么向量AB可以获取到，向量AC可以获取到
+     设A(x1,y1) B(x2,y2) C(x3,y3)
+     那么AB=(x2-x1,y2-y1)
+     AC=(x3-x1,y3-y1)
+     AB AC叉积=行列式
+      |x2-x1,y2-y1|
+      |x3-x1,y3-y1|
+      计算可得一值
+      根据右手法则
+      如果该值>0,则为逆时针
+      如果该值<0,则为顺时针
+      如果该值=0,则未旋转，当然此时旋转也deg = 0，无需考虑
+ -->
+
 <template>
   <div
     class="vdr"
@@ -268,7 +297,7 @@ export default {
       }, 300)
     },
     getCenter() {
-      console.log(this.$refs.current)
+      // console.log(this.$refs.current)
       var el = this.$refs.current
       this.rotateCenter = [
         // el.getBoundingClientRect().left + el.offsetWidth / 2,
@@ -622,12 +651,15 @@ export default {
         }
       }
     },
+    //朴素的两点间距离公式
     calculLength(x1, x2, y1, y2) {
       return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2))
     },
+    //余弦定理求角度
     calculrawDegA(a, b, c) {
       return Math.acos((b * b + c * c - a * a) / (2 * b * c)) * (180 / Math.PI)
     },
+    //六个点坐标，通过矢量叉积获取旋转方向
     calculClock(x1, y1, x2, y2, x3, y3) {
       return (x2 - x1) * (y3 - y1) - (y2 - y1) * (x3 - x1)
     }

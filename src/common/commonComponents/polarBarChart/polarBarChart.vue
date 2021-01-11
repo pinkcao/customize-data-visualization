@@ -65,7 +65,7 @@ export default {
       }
     },
     dataRow: function() {
-      console.log([...this.dataSource[0]])
+      // console.log([...this.dataSource[0]])
       let tempArr = [...this.dataSource[0]]
       tempArr.pop()
       return tempArr
