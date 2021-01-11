@@ -72,7 +72,7 @@ export default {
     },
     legendvis: function(newVal) {
       this.initChart()
-      console.log(111)
+      // console.log(111)
     },
     titlevis: function(newVal) {
       this.initChart()

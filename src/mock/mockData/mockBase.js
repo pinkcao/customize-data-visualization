@@ -115,7 +115,8 @@ const componentList = [
     style: {
       opacity: 1,
       legendvis: true,
-      titlevis: true
+      titlevis: true,
+      deg: 0
     }
   },
   {
@@ -146,7 +147,8 @@ const componentList = [
     style: {
       opacity: 1,
       legendvis: true,
-      titlevis: true
+      titlevis: true,
+      deg: 0
     }
   }
 ]

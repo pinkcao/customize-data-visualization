@@ -90,6 +90,23 @@
             ></el-input-number>
           </div>
 
+          <div class="form-sub-item" v-if="flag && currentComponent.style.deg >= -360">
+            <div class="span-wrapper">
+              <span :style="spanStyle">旋转角度:</span>
+            </div>
+            <el-input-number
+              :style="inputNumberStyle"
+              controls-position="right"
+              size="mini"
+              v-model="currentComponent.style.deg"
+              :step="1"
+              :precision="2"
+              :max="360"
+              :min="-360"
+              @change="updateStyle"
+            ></el-input-number>
+          </div>
+
           <div class="form-sub-item" v-if="flag && currentComponent.style.legendvis != null">
             <div class="span-wrapper">
               <span :style="spanStyle">图例显示:</span>

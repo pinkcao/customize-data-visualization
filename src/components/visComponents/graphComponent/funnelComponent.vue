@@ -1,6 +1,6 @@
 <template>
   <div v-if="ifshow" ref="testref" @keydown.delete="destroyComponent" tabindex="0">
-    <vue-drag-resize
+    <vue-drag-resize-rotate
       :isActive="active"
       :preventActiveBehavior="preventActiveBehavior"
       :w="width"
@@ -21,6 +21,9 @@
       :isResizable="resizable"
       @activated="activate"
       @deactivated="onDeactivated"
+      :rotate="rotatable"
+      @rotate="rotate"
+      :deg="style.deg"
     >
       <div style="background-color: #ffffff; width: 100%; height: 100%">
         <v-funnel-chart
@@ -35,7 +38,7 @@
           ref="child"
         ></v-funnel-chart>
       </div>
-    </vue-drag-resize>
+    </vue-drag-resize-rotate>
   </div>
 </template>
 
@@ -48,7 +51,6 @@ export default {
   extends: componentsDef,
   name: 'funnelComponent',
   components: {
-    // vFunnelChart
     vFunnelChart
   },
   data() {

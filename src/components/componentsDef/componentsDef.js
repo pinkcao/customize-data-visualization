@@ -25,6 +25,8 @@ export default {
       draggable: true,
       //当前组件是否可缩放
       resizable: true,
+      //当前组件是否可旋转
+      rotatable: true,
       //当前组件序号（唯一）
       index: 0,
       //当前组件z-index值
@@ -122,6 +124,10 @@ export default {
     activate() {
       this.$emit('updateActiveStatus', this.index)
       this.$refs.testref.focus()
+    },
+    rotate(deg) {
+      // console.log(deg)
+      this.style.deg = deg
     }
   }
 }

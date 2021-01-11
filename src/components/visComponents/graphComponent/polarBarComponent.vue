@@ -22,7 +22,7 @@
       :isResizable="resizable"
       @activated="activate"
       @deactivated="onDeactivated"
-      :rotate="true"
+      :rotate="rotatable"
       @rotate="rotate"
     >
       <div style="background-color: #ffffff; width: 100%; height: 100%">
@@ -69,6 +69,7 @@ export default {
       parentLimitation: true,
       draggable: true,
       resizable: true,
+      rotatable: true,
       index: 0,
       zindex: 0,
       mode: 'design',
@@ -99,10 +100,6 @@ export default {
   },
   created() {},
   mounted() {
-    // console.log(this.dataSource.data)
-    // console.log(true != null)
-    // console.log(false != null)
-    // console.log(undefined != null)
     this.flag = true
   },
   methods: {
@@ -135,7 +132,7 @@ export default {
       this.$refs.child.chartResize()
     },
     rotate(deg) {
-      console.log(deg)
+      // console.log(deg)
       this.style.deg = deg
     }
   }

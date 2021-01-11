@@ -1,6 +1,6 @@
 <template>
   <div v-if="ifshow" ref="testref" @keydown.delete="destroyComponent" tabindex="0">
-    <vue-drag-resize
+    <vue-drag-resize-rotate
       :isActive="active"
       :preventActiveBehavior="preventActiveBehavior"
       :w="width"
@@ -19,6 +19,9 @@
       :parentLimitation="parentLimitation"
       :isDraggable="draggable"
       :isResizable="resizable"
+      :rotate="rotatable"
+      @rotate="rotate"
+      :deg="style.deg"
       @activated="activate"
       @deactivated="onDeactivated"
     >
@@ -34,7 +37,7 @@
           ref="child"
         ></v-chart>
       </div>
-    </vue-drag-resize>
+    </vue-drag-resize-rotate>
   </div>
 </template>
 
@@ -64,6 +67,7 @@ export default {
       parentLimitation: true,
       draggable: true,
       resizable: true,
+      rotatable: true,
       index: 0,
       zindex: 0,
       mode: 'design',

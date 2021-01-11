@@ -52,7 +52,7 @@
     <span
       class="el-icon-refresh-right rotate"
       :style="currentHalfWidth"
-      v-show="active && rotate"
+      v-show="rotate && active"
       @mousedown.stop.prevent="activeRotate($event)"
     ></span>
   </div>
@@ -204,10 +204,10 @@ export default {
         return ['x', 'y', 'both', 'none'].indexOf(val) !== -1
       }
     },
-    customId: {
-      type: [String, Number],
-      default: ''
-    },
+    // customId: {
+    //   type: [String, Number],
+    //   default: ''
+    // },
     type: {}
   },
   data: function() {
@@ -254,10 +254,10 @@ export default {
     //console.log('w===',this.w);
   },
   mounted: function() {
-    document.querySelector('.vdr').setAttribute('tabindex', 1) &&
-      document.querySelector('vdr').addEventListener('keyup', () => {
-        alert(1)
-      })
+    // document.querySelector('.vdr').setAttribute('tabindex', 1) &&
+    //   document.querySelector('vdr').addEventListener('keyup', () => {
+    //     alert(1)
+    //   })
     this.cacuFather()
     document.documentElement.addEventListener('mousemove', this.move)
     document.documentElement.addEventListener('mouseup', this.up)
@@ -310,28 +310,8 @@ export default {
     activeRotate(e) {
       this.getCenter()
       this.rotateStart = [e.clientX, e.clientY]
-      var self = this
-      var clientX = 0,
-        clientY = 0
       const listener = event => {
-        var movementX = 0,
-          movementY = 0
-        if (clientX != 0) {
-          movementX = event.clientX - clientX
-          // console.log(movementX)
-        } else {
-          movementX = 0
-        }
-        if (clientY != 0) {
-          movementY = event.clientY - clientY
-          // console.log(movementY)
-        } else {
-          movementX = 0
-        }
-        var direction = -1
         var el = this.$refs.current
-        var h = el.offsetHeight,
-          w = el.offsetWidth
         let a = this.calculLength(this.rotateStart[0], event.clientX, this.rotateStart[1], event.clientY)
         let c = this.calculLength(this.rotateStart[0], this.rotateCenter[0], this.rotateStart[1], this.rotateCenter[1])
         let b = this.calculLength(this.rotateCenter[0], event.clientX, this.rotateCenter[1], event.clientY)
@@ -348,8 +328,6 @@ export default {
         srawDeg += rawDeg
         Math.abs(srawDeg) > 360 ? (srawDeg %= 360) : true
         this.rawDeg = srawDeg
-        clientX = event.clientX
-        clientY = event.clientY
         this.rotateStart[0] = event.clientX
         this.rotateStart[1] = event.clientY
         // console.log(a)
@@ -366,9 +344,9 @@ export default {
     getAngle(cen, first, second) {
       console.log(hDis / h, wDis / w)
     },
-    delItem() {
-      this.$emit('delreport', this.customId)
-    },
+    // delItem() {
+    //   this.$emit('delreport', this.customId)
+    // },
     clickSon(e) {
       //console.log(e.target);
       e.target.focus()
@@ -415,7 +393,7 @@ export default {
       if (ev.button && ev.button !== 0) {
         return
       }
-      this.$emit('clicked', ev, this.customId)
+      this.$emit('clicked', ev)
       if (!this.isDraggable || !this.active) {
         return
       }
@@ -802,9 +780,9 @@ export default {
     },
     active(isActive) {
       if (isActive) {
-        this.$emit('activated', this.customId, this.item)
+        this.$emit('activated')
       } else {
-        this.$emit('deactivated', this.customId)
+        this.$emit('deactivated')
       }
     },
     isActive(val) {
