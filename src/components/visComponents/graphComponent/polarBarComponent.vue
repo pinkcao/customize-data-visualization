@@ -1,6 +1,6 @@
 <template>
   <div v-if="ifshow" ref="testref" @keydown.delete="destroyComponent" tabindex="0">
-    <vue-drag-resize
+    <vue-drag-resize-rotate
       :isActive="active"
       :preventActiveBehavior="preventActiveBehavior"
       :w="width"
@@ -8,6 +8,7 @@
       :x="left"
       :y="top"
       :z="zindex"
+      :deg="style.deg"
       @resizing="resize"
       @dragging="resize"
       @resizestop="updateComponentList"
@@ -21,6 +22,8 @@
       :isResizable="resizable"
       @activated="activate"
       @deactivated="onDeactivated"
+      :rotate="true"
+      @rotate="rotate"
     >
       <div style="background-color: #ffffff; width: 100%; height: 100%">
         <v-polar-bar-chart
@@ -35,7 +38,7 @@
           ref="child"
         ></v-polar-bar-chart>
       </div>
-    </vue-drag-resize>
+    </vue-drag-resize-rotate>
   </div>
 </template>
 
@@ -130,6 +133,10 @@ export default {
       this.top = newRect.top
       this.left = newRect.left
       this.$refs.child.chartResize()
+    },
+    rotate(deg) {
+      console.log(deg)
+      this.style.deg = deg
     }
   }
 }

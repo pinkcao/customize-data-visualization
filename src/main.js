@@ -12,6 +12,7 @@ import VueAxios from 'vue-axios'
 import less from 'less'
 import store from './store'
 import VueDragResize from 'vue-drag-resize'
+import VueDragResizeRotate from './common/commonComponents/vueDragResizeRotate/vueDragResizeRotate.vue'
 import url from '@mock/mockAPI.js'
 
 Vue.use(ElementUI)
@@ -20,6 +21,7 @@ Vue.use(VueAxios, axios)
 Vue.config.productionTip = false
 Vue.use(less)
 Vue.component('vue-drag-resize', VueDragResize)
+Vue.component('vue-drag-resize-rotate', VueDragResizeRotate)
 Vue.prototype.$url = url
 
 // Vue.use(Vuex);
