@@ -83,9 +83,34 @@ export default {
       handler(newVal) {
         // console.log(newVal)
         clearInterval(this.dataSource.IntervalID)
-        console.log('API修正了，Interval cleared')
+        this.dataSource.IntervalID = ''
+        console.log('APIURL updated，Interval cleared')
         if (this.dataSource.APISwitch == true) {
           // let patt = /http:/
+          this.dataSource.IntervalID = setInterval(this.fetchDataFromAPI, this.dataSource.APIInterval)
+          console.log('Interval set')
+        }
+      }
+    },
+    'dataSource.APIMethod': {
+      // immediate: true,
+      handler(newVal) {
+        clearInterval(this.dataSource.IntervalID)
+        this.dataSource.IntervalID = ''
+        console.log('APIMethod updated，Interval cleared')
+        if (this.dataSource.APISwitch == true && this.dataSource.IntervalID == '') {
+          this.dataSource.IntervalID = setInterval(this.fetchDataFromAPI, this.dataSource.APIInterval)
+          console.log('Interval set')
+        }
+      }
+    },
+    'dataSource.APIInterval': {
+      // immediate: true,
+      handler(newVal) {
+        clearInterval(this.dataSource.IntervalID)
+        this.dataSource.IntervalID = ''
+        console.log('APIInterval updated，Interval cleared')
+        if (this.dataSource.APISwitch == true && this.dataSource.IntervalID == '') {
           this.dataSource.IntervalID = setInterval(this.fetchDataFromAPI, this.dataSource.APIInterval)
           console.log('Interval set')
         }
