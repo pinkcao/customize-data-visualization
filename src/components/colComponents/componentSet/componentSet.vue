@@ -58,13 +58,37 @@
         </el-tab-pane>
 
         <el-tab-pane label="数据配置">
+          <div class="form-sub-item" v-if="flag && currentComponent.dataSource.APISwitch != null">
+            <div class="span-wrapper">
+              <!-- <span :style="spanStyle">数据源配置</span> -->
+              <span style="font-size: 14px; float: left; color: #eeeeee">数据源配置</span>
+            </div>
+          </div>
+          <div style="display: flex; flex-direction: row; justify-content: flex-end">
+            <el-button size="mini" @click="dialogFormVisible = true">配置数据源</el-button>
+          </div>
+
+          <!-- <div class="form-sub-item" v-if="flag && currentComponent.dataSource.APISwitch != null">
+            <div class="span-wrapper">
+              <span :style="spanStyle">使用API:</span>
+            </div>
+            <el-switch
+              :style="inputNumberStyle"
+              size="mini"
+              v-model="currentComponent.dataSource.APISwitch"
+              @change="updateDataSource"
+            ></el-switch>
+          </div> -->
+
+          <hr v-if="flag && currentComponent.dataSource.APISwitch != null" style="border: 1px solid #777777" />
+
           <div class="form-sub-item" v-if="flag && currentComponent">
             <div class="span-wrapper">
               <span :style="spanStyle">当前数据:</span>
             </div>
             <el-input
               type="textarea"
-              placeholder="请输入内容"
+              placeholder="当前JSON数据"
               v-model="componentDataSourceData"
               @change="updateDataSource"
               rows="10"
@@ -169,11 +193,139 @@
         </el-tab-pane>
       </el-tabs>
     </div>
+
+    <el-dialog title="数据源配置" :visible.sync="dialogFormVisible">
+      <!-- <div class="form-sub-item" v-if="flag">
+        <div class="span-wrapper">
+          <span style="color: #eeeeee" :style="spanStyle">数据源:</span>
+        </div>
+        <el-select
+          :style="inputNumberStyle"
+          size="mini"
+          v-model="dataSourceValue"
+          placeholder="请选择"
+          @change="dataSourceChange"
+        >
+          <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
+        </el-select>
+      </div> -->
+      <!-- <div class="form-sub-item" v-if="flag && dataSourceValue == 'APISource'">
+        <div class="span-wrapper">
+          <span style="color: #eeeeee" :style="spanStyle">APIURL:</span>
+        </div>
+        <el-input
+          :style="dialogInputStyle"
+          size="mini"
+          v-model="currentComponent.APIURL"
+          @change="updateDataSource"
+        ></el-input>
+      </div>
+
+      <div class="form-sub-item" v-if="flag && dataSourceValue == 'APISource'">
+        <div class="span-wrapper">
+          <span style="color: #eeeeee" :style="spanStyle">APIMethod:</span>
+        </div>
+        <el-input
+          :style="dialogInputStyle"
+          size="mini"
+          v-model="currentComponent.APIMethod"
+          @change="updateDataSource"
+        ></el-input>
+      </div> -->
+
+      <el-form
+        style="border: 1px solid black; background-color: #172228"
+        :model="currentComponentDataSourceDetail"
+        v-if="flag"
+        :rules="dialogRules"
+        ref="ruleForm"
+        label-width="150px"
+      >
+        <el-form-item style="margin-top: 20px" v-if="flag" label="数据源">
+          <el-select
+            style="float: left"
+            size="mini"
+            v-model="currentComponentDataSourceDetail.dataSourceType"
+            placeholder="请选择"
+          >
+            <el-option
+              v-for="item in currentComponent.dataSource.dataSourceOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item
+          v-if="flag && currentComponentDataSourceDetail.dataSourceType == 'APISource'"
+          label="APIURL"
+          prop="currentComponentAPIURL"
+        >
+          <el-input
+            style="width: 300px; float: left"
+            size="mini"
+            v-model="currentComponentDataSourceDetail.currentComponentAPIURL"
+          ></el-input>
+        </el-form-item>
+        <el-form-item
+          v-if="flag && currentComponentDataSourceDetail.dataSourceType == 'APISource'"
+          label="API请求方式"
+          prop="currentComponentAPIMethod"
+        >
+          <el-select
+            style="float: left"
+            size="mini"
+            v-model="currentComponentDataSourceDetail.currentComponentAPIMethod"
+            placeholder="请选择请求方式"
+          >
+            <el-option label="get" value="get"></el-option>
+            <el-option label="post" value="post"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item
+          v-if="flag && currentComponentDataSourceDetail.dataSourceType == 'APISource'"
+          label="API请求间隔(ms)"
+          prop="currentComponentAPIInterval"
+        >
+          <el-input-number
+            style="float: left"
+            controls-position="right"
+            size="mini"
+            v-model="currentComponentDataSourceDetail.currentComponentAPIInterval"
+            :step="1000"
+            :min="1000"
+          ></el-input-number>
+        </el-form-item>
+        <el-form-item
+          v-if="flag && currentComponentDataSourceDetail.dataSourceType == 'APISource'"
+          label="API请求头(可选)"
+        >
+          <el-input
+            type="textarea"
+            placeholder=""
+            v-model="currentComponentDataSourceDetail.currentComponentAPIHeader"
+            style="float:left; width: 300px"
+            rows="6"
+          ></el-input>
+        </el-form-item>
+      </el-form>
+
+      <div slot="footer" class="dialog-footer">
+        <!-- <el-button size="mini" type="primary" @click="testbutton">测试按钮</el-button> -->
+        <el-button size="mini" @click="dialogFormVisible = false">取 消</el-button>
+        <el-button size="mini" type="primary" @click="updateDialogDataSource">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { setSpanStyle, setInputNumberStyle, setInputStyle } from '@/common/commonStyle/setColStyle/setColStyle.js'
+import {
+  setSpanStyle,
+  setInputNumberStyle,
+  setInputStyle,
+  setDialogInputStyle
+} from '@/common/commonStyle/setColStyle/setColStyle.js'
 
 export default {
   name: 'componentSet',
@@ -183,13 +335,37 @@ export default {
       flag: false,
       currentComponent: null,
       componentDataSourceData: '',
-      // componentWidth: -1,
-      // componentHeight: -1,
-      // componentLeft: -1,
-      // componentTop: -1,
       inputNumberStyle: setInputNumberStyle,
       spanStyle: setSpanStyle,
-      inputStyle: setInputStyle
+      inputStyle: setInputStyle,
+      dialogInputStyle: setDialogInputStyle,
+      dialogFormVisible: false,
+      currentComponentDataSourceDetail: {
+        currentComponentdataSourceType: '',
+        currentComponentAPIURL: '',
+        currentComponentAPIMethod: '',
+        currentComponentAPIInterval: '',
+        currentComponentAPIHeader: ''
+      },
+      // dataSourceValue: '',
+      // options: [
+      //   {
+      //     value: 'APISource',
+      //     label: 'API数据源'
+      //   },
+      //   {
+      //     value: 'otherSource',
+      //     label: 'unknown'
+      //   }
+      // ],
+      dialogRules: {
+        currentComponentAPIURL: [
+          { required: true, message: '请输入APIURL', trigger: 'blur' },
+          { min: 3, message: '至少3个字符', trigger: 'blur' }
+        ],
+        currentComponentAPIMethod: [{ required: true, message: '请选择API请求方式', trigger: 'blur' }],
+        currentComponentAPIInterval: [{ required: true, message: '请设定请求时间', trigger: 'blur' }]
+      }
     }
   },
   computed: {
@@ -204,8 +380,12 @@ export default {
       this.currentComponent = newval
       //由于往往是个json对象，所以将其转为JSON字符串，显示为静态JSON数据让用户直接可以修改
       this.componentDataSourceData = JSON.stringify(this.currentComponent.dataSource.data)
+      this.currentComponentDataSourceDetail.currentComponentdataSourceType = this.currentComponent.dataSource.dataSourceType
+      this.currentComponentDataSourceDetail.currentComponentAPIURL = this.currentComponent.dataSource.APIURL
+      this.currentComponentDataSourceDetail.currentComponentAPIMethod = this.currentComponent.dataSource.APIMethod
+      this.currentComponentDataSourceDetail.currentComponentAPIInterval = this.currentComponent.dataSource.APIInterval
+      this.currentComponentDataSourceDetail.currentComponentAPIHeader = this.currentComponent.dataSource.APIHeader
       this.flag = true
-      // console.log('testtext')
     }
   },
   created() {},
@@ -244,7 +424,24 @@ export default {
         top: this.currentComponent.top
       }
       this.$store.commit('updateComponentStatus', currentComponentBaseStatus)
+    },
+    dataSourceChange() {
+      console.log(this.currentComponent.dataSource.dataSourceType)
+      this.$store.commit('updateDataSource', this.currentComponent.dataSource)
+    },
+    updateDialogDataSource() {
+      this.currentComponent.dataSource.data = JSON.parse(this.componentDataSourceData)
+      this.currentComponent.dataSource.dataSourceType = this.currentComponentDataSourceDetail.dataSourceType
+      this.currentComponent.dataSource.APIURL = this.currentComponentDataSourceDetail.currentComponentAPIURL
+      this.currentComponent.dataSource.APIMethod = this.currentComponentDataSourceDetail.currentComponentAPIMethod
+      this.currentComponent.dataSource.APIInterval = this.currentComponentDataSourceDetail.currentComponentAPIInterval
+      this.currentComponent.dataSource.APIHeader = this.currentComponentDataSourceDetail.currentComponentAPIHeader
+      this.$store.commit('updateDataSource', this.currentComponent.dataSource)
+      this.dialogFormVisible = false
     }
+    // testbutton() {
+    //   this.currentComponent.dataSource.APIURL = 'wtf?'
+    // }
   }
 }
 </script>
@@ -269,6 +466,18 @@ export default {
   background-color: #222222;
 }
 
+.el-select el-select--mini {
+  background-color: #333333;
+}
+
+.el-dialog {
+  background-color: #222222;
+}
+
+.el-dialog .el-dialog__header .el-dialog__title {
+  color: #bcc9d4;
+}
+
 .title-box-component {
   width: 100%;
   height: 30px;
@@ -286,6 +495,20 @@ export default {
   width: 95%;
   display: flex;
   flex-direction: column;
+}
+
+.component-set-wrapper .el-button {
+  // align-self: center;
+  background-color: #111111;
+  border: 2px solid black;
+  color: #bcc9d4;
+}
+
+.component-set-wrapper .el-button:hover {
+  // background-color: transparent;
+  background-color: #222244;
+  border: 2px solid black;
+  color: #bcc9d4;
 }
 
 .component-set-wrapper .el-textarea__inner {
@@ -327,5 +550,17 @@ export default {
 
 .span-wrapper {
   width: 80px;
+}
+
+.form-sub-item .el-textarea__inner {
+  font-family: 'Microsoft';
+  font-size: 8px;
+  color: #bcc9d4;
+}
+
+.el-dialog__body .el-textarea__inner {
+  font-family: 'Microsoft';
+  font-size: 8px;
+  color: black;
 }
 </style>

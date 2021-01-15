@@ -110,7 +110,24 @@ const componentList = [
         ['sales', 86.4, 65.2, 82.5, 41.5, 57.6],
         ['product', 72.4, 53.9, 39.1, 14.8, 25.9],
         ['qualityAssurance', 55.1, 66.5, 46.8, 34.8, 66.4]
-      ]
+      ],
+      dataSourceOptions: [
+        {
+          value: 'APISource',
+          label: 'API数据源'
+        },
+        {
+          value: 'otherSource',
+          label: 'unknown'
+        }
+      ],
+      dataSourceType: '',
+      APISwitch: false,
+      APIURL: '',
+      APIMethod: '',
+      APIInterval: 10000,
+      APIHeader: '',
+      IntervalID: 0
     },
     style: {
       opacity: 1,
@@ -142,7 +159,24 @@ const componentList = [
         ['sales', 86.4, 65.2, 82.5, 41.5],
         ['product', 72.4, 53.9, 39.1, 14.8],
         ['qualityAssurance', 55.1, 66.5, 46.8, 34.8]
-      ]
+      ],
+      dataSourceOptions: [
+        {
+          value: 'APISource',
+          label: 'API数据源'
+        },
+        {
+          value: 'otherSource',
+          label: 'unknown'
+        }
+      ],
+      dataSourceType: '',
+      APISwitch: false,
+      APIURL: '',
+      APIMethod: '',
+      APIInterval: 10000,
+      APIHeader: '',
+      IntervalID: 0
     },
     style: {
       opacity: 1,

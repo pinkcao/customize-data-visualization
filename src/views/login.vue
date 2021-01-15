@@ -84,7 +84,7 @@ export default {
       }).then(res => {
         if (res.data == true) {
           console.log('登录成功')
-          this.$router.push('/basePage')
+          this.$router.push('/templateSelect')
         }
       })
     }

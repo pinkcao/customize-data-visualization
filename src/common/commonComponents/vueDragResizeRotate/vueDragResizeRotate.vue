@@ -890,7 +890,7 @@ span.rotate:hover {
   left: -3px;
   box-sizing: content-box;
   outline: 6px solid transparent;
-  border: 3px solid #28f0ff;
+  border: 2px solid #022d30;
 }
 .vdr-stick {
   box-sizing: border-box;

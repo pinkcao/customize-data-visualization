@@ -40,13 +40,60 @@ export default {
       //当前组件副标题
       subTitle: '',
       //当前组件数据/数据源
-      dataSource: [],
+      dataSource: {
+        data: [],
+        dataSourceOptions: [
+          {
+            value: 'APISource',
+            label: 'API数据源'
+          },
+          {
+            value: 'otherSource',
+            label: 'unknown'
+          }
+        ],
+        dataSourceType: '',
+        APISwitch: false,
+        APIURL: '',
+        APIMethod: '',
+        APIInterval: 10000,
+        APIHeader: '',
+        IntervalID: 0 //用于存储setInterval的ID，便于clearInterval
+      },
       //当前组件样式
       style: {
         deg: 0,
         opacity: 1,
         legendvis: true,
         titlevis: true
+      }
+    }
+  },
+  watch: {
+    'dataSource.dataSourceType': function(newVal) {
+      // console.log(newVal)
+      if (newVal == 'APISource') {
+        this.dataSource.APISwitch = true
+      } else {
+        this.dataSource.APISwitch = false
+      }
+    },
+    'dataSource.APIURL': function(newVal) {
+      // console.log(newVal)
+      clearInterval(this.dataSource.IntervalID)
+      console.log('API修正了，Interval cleared')
+      if (this.dataSource.APISwitch == true && this.dataSource.IntervalID == '') {
+        // let patt = /http:/
+        this.dataSource.IntervalID = setInterval(this.fetchDataFromAPI, this.dataSource.APIInterval)
+        console.log('Interval set')
+      }
+    },
+    'dataSource.APISwitch': function(newVal) {
+      // console.log(newVal)
+      if (newVal == false) {
+        console.log('APISwitch off，Interval cleared')
+        clearInterval(this.dataSource.IntervalID)
+        this.dataSource.IntervalID = ''
       }
     }
   },
@@ -128,6 +175,46 @@ export default {
     rotate(deg) {
       // console.log(deg)
       this.style.deg = deg
+    },
+    testFetchData() {
+      // console.log(this.dataSource.APIURL)
+      // console.log(this.dataSource.APIMethod)
+      if (this.dataSource.APISwitch) {
+        this.$axios({
+          url: this.dataSource.APIURL,
+          method: this.dataSource.APIMethod,
+          // url: 'http://localhost:8080/testJsonData',
+          // method: 'post',
+          data: {}
+        }).then(res => {
+          console.log(res.data)
+          this.dataSource.data = res.data
+        })
+      }
+    },
+    fetchDataFromAPI() {
+      if (this.dataSource.APISwitch) {
+        let currentHeader = {}
+        try {
+          if (this.dataSource.APIHeader != '') {
+            currentHeader = JSON.parse(this.dataSource.APIHeader)
+          }
+        } catch (error) {
+          console.log(error)
+        }
+        this.$axios({
+          url: this.dataSource.APIURL,
+          method: this.dataSource.APIMethod,
+          headers: currentHeader,
+          data: {}
+        }).then(res => {
+          if (res.status == 200) {
+            this.dataSource.data = res.data
+          }
+        })
+      }
+      console.log(this.dataSource.APIInterval)
+      console.log(this.dataSource.IntervalID)
     }
   }
 }

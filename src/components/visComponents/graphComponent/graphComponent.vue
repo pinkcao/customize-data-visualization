@@ -82,7 +82,24 @@ export default {
           ['sales', 86.4, 65.2],
           ['product', 72.4, 53.9],
           ['qualityAssurance', 55.1, 66.5]
-        ]
+        ],
+        dataSourceOptions: [
+          {
+            value: 'APISource',
+            label: 'API数据源'
+          },
+          {
+            value: 'otherSource',
+            label: 'unknown'
+          }
+        ],
+        dataSourceType: '',
+        APISwitch: false,
+        APIURL: '',
+        APIMethod: '',
+        APIInterval: 10000,
+        APIHeader: '',
+        IntervalID: 0 //用于存储setInterval的ID，便于clearInterval
       },
       style: {
         opacity: 1,
@@ -97,6 +114,7 @@ export default {
   created() {},
   mounted() {
     this.flag = true
+    this.testFetchData()
   },
   methods: {
     updateComponentList() {

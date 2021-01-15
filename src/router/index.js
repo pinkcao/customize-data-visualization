@@ -37,6 +37,11 @@ export default new Router({
       path: '/login',
       name: 'login',
       component: () => import(/* webpackChunkName: "login" */ '../views/login.vue')
+    },
+    {
+      path: '/templateSelect',
+      name: 'templateSelect',
+      component: () => import(/* webpackChunkName: "templateSelect" */ '../views/templateSelect.vue')
     }
   ]
 })

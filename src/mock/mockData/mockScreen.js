@@ -28,10 +28,6 @@ const screenStretch = {
   noStretch: false
 }
 
-Mock.setup({
-  timeout: '200-600'
-})
-
 export default {
   getScreenDef: Mock.mock(url.getScreenDef, 'post', () => {
     return screenDef
