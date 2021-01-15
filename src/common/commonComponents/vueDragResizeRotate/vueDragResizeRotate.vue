@@ -204,10 +204,6 @@ export default {
         return ['x', 'y', 'both', 'none'].indexOf(val) !== -1
       }
     },
-    // customId: {
-    //   type: [String, Number],
-    //   default: ''
-    // },
     type: {}
   },
   data: function() {
@@ -251,13 +247,8 @@ export default {
       maxBottom: null
     }
     this.currentStick = []
-    //console.log('w===',this.w);
   },
   mounted: function() {
-    // document.querySelector('.vdr').setAttribute('tabindex', 1) &&
-    //   document.querySelector('vdr').addEventListener('keyup', () => {
-    //     alert(1)
-    //   })
     this.cacuFather()
     document.documentElement.addEventListener('mousemove', this.move)
     document.documentElement.addEventListener('mouseup', this.up)
@@ -297,15 +288,11 @@ export default {
       }, 300)
     },
     getCenter() {
-      // console.log(this.$refs.current)
       var el = this.$refs.current
       this.rotateCenter = [
-        // el.getBoundingClientRect().left + el.offsetWidth / 2,
-        // el.getBoundingClientRect().top + el.offsetHeight / 2
         el.getBoundingClientRect().left + el.getBoundingClientRect().width / 2,
         el.getBoundingClientRect().top + el.getBoundingClientRect().height / 2
       ]
-      // console.log(el.getBoundingClientRect())
     },
     activeRotate(e) {
       this.getCenter()
@@ -315,7 +302,6 @@ export default {
         let a = this.calculLength(this.rotateStart[0], event.clientX, this.rotateStart[1], event.clientY)
         let c = this.calculLength(this.rotateStart[0], this.rotateCenter[0], this.rotateStart[1], this.rotateCenter[1])
         let b = this.calculLength(this.rotateCenter[0], event.clientX, this.rotateCenter[1], event.clientY)
-        // console.log(this.calculClock(this.rotateCenter[0], this.rotateCenter[1], this.rotateStart[0], this.rotateStart[1], event.clientX, event.clientY) > 0)
         // eslint-disable-next-line prettier/prettier
         let direct = this.calculClock(this.rotateCenter[0], this.rotateCenter[1], this.rotateStart[0], this.rotateStart[1], event.clientX, event.clientY) >= 0
         let rawDeg = this.calculrawDegA(a, b, c)
@@ -330,11 +316,6 @@ export default {
         this.rawDeg = srawDeg
         this.rotateStart[0] = event.clientX
         this.rotateStart[1] = event.clientY
-        // console.log(a)
-        // console.log(this.calculrawDegA(a, b, c))
-        // console.log(this.calculLength(this.rotateStart[0], event.clientX, this.rotateStart[1], event.clientY))
-        // console.log(this.calculLength(this.rotateStart[0], this.rotateCenter[0], this.rotateStart[1], this.rotateCenter[1]))
-        // console.log(this.calculLength(this.rotateCenter[0], event.clientX, this.rotateCenter[1], event.clientY))
       }
       document.body.addEventListener('mousemove', listener)
       document.body.addEventListener('mouseup', () => {

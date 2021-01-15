@@ -78,14 +78,17 @@ export default {
         this.dataSource.APISwitch = false
       }
     },
-    'dataSource.APIURL': function(newVal) {
-      // console.log(newVal)
-      clearInterval(this.dataSource.IntervalID)
-      console.log('API修正了，Interval cleared')
-      if (this.dataSource.APISwitch == true && this.dataSource.IntervalID == '') {
-        // let patt = /http:/
-        this.dataSource.IntervalID = setInterval(this.fetchDataFromAPI, this.dataSource.APIInterval)
-        console.log('Interval set')
+    'dataSource.APIURL': {
+      immediate: true,
+      handler(newVal) {
+        // console.log(newVal)
+        clearInterval(this.dataSource.IntervalID)
+        console.log('API修正了，Interval cleared')
+        if (this.dataSource.APISwitch == true) {
+          // let patt = /http:/
+          this.dataSource.IntervalID = setInterval(this.fetchDataFromAPI, this.dataSource.APIInterval)
+          console.log('Interval set')
+        }
       }
     },
     'dataSource.APISwitch': function(newVal) {
