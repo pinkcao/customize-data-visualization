@@ -338,6 +338,10 @@ export default {
                   })
               }
             },
+            //真就不是我不想重构它，是真的没搞成功
+            //你说console.log(this),this里是有$store这东西了的，并且指向的就是Store
+            //那他妈凭什么console.log(this.$store)打印出来undefined？
+            //啊？凭什么啊？
             watch: {
               //当vuex的componentList更新后，更新该组件的dataSource值，并提交至后端
               '$store.state.componentList': {
