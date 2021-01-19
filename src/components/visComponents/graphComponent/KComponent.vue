@@ -26,17 +26,16 @@
       @rotate="rotate"
     >
       <div style="background-color: #ffffff; width: 100%; height: 100%">
-        <v-polar-bar-chart
+        <v-k-chart
           v-if="flag"
           :chartTitle="title"
           :chartSubTitle="subTitle"
           :dataSource="dataSource.data"
           :opacity="style.opacity"
-          :legendvis="style.legendvis"
           :titlevis="style.titlevis"
           :mode="mode"
           ref="child"
-        ></v-polar-bar-chart>
+        ></v-k-chart>
       </div>
     </vue-drag-resize-rotate>
   </div>
@@ -45,20 +44,20 @@
 <script>
 import echarts from 'echarts'
 import componentsDef from '@components/componentsDef/componentsDef.js'
-import vPolarBarChart from '@/common/commonComponents/polarBarChart/polarBarChart.vue'
+import VKChart from '@/common/commonComponents/KChart/KChart.vue'
 
 export default {
   extends: componentsDef,
-  name: 'polarBarComponent',
+  name: 'KComponent',
   components: {
-    vPolarBarChart
+    VKChart
   },
   data() {
     return {
       //这些相当于是基础设置属性
       //如果挂载时未重新设定那么就取默认值
       preventActiveBehavior: false,
-      name: 'polarBarComponent',
+      name: 'KComponent',
       active: false,
       ifshow: false,
       width: 300,
@@ -73,30 +72,27 @@ export default {
       zindex: 0,
       mode: 'design',
       flag: false,
-      title: '极坐标柱状图',
+      title: 'K线图',
       subTitle: 'fake data',
       dataSource: {
         data: [
-          ['周一', '周二', '周三', '周四', 'legend'],
-          [2, 3, 4, 5, 'legendA'],
-          [4, 5, 6, 7, 'legendB'],
-          [5, 6, 7, 8, 'legendC']
+          ['2017-10-24', '2017-10-25', '2017-10-26', '2017-10-27'],
+          [20, 30, 10, 35],
+          [40, 35, 30, 55],
+          [33, 38, 33, 40],
+          [40, 50, 32, 60]
         ]
       },
       style: {
         opacity: 1,
-        legendvis: true,
+        // legendvis: true,
         titlevis: true
       }
     }
   },
   //watch需要写在父元素的vue-mount里
   props: {},
-  watch: {
-    title: function(newVal) {
-      console.log(newVal)
-    }
-  },
+  watch: {},
   created() {},
   mounted() {
     this.flag = true

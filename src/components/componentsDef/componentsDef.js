@@ -63,9 +63,9 @@ export default {
       //当前组件样式
       style: {
         deg: 0,
-        opacity: 1,
-        legendvis: true,
-        titlevis: true
+        opacity: 1
+        // legendvis: true,
+        // titlevis: true
       }
     }
   },

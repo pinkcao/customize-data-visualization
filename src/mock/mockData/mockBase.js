@@ -31,6 +31,11 @@ const componentTabData = [
             title: '极坐标柱状图',
             componentName: 'polarBarComponent',
             picurl: require('@/assets/极坐标柱状图.png')
+          },
+          {
+            title: 'K线图',
+            componentName: 'KComponent',
+            picurl: require('@/assets/暂无.png')
           }
         ]
       },
