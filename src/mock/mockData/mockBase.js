@@ -34,7 +34,12 @@ const componentTabData = [
           },
           {
             title: 'K线图',
-            componentName: 'KComponent',
+            componentName: 'kComponent',
+            picurl: require('@/assets/暂无.png')
+          },
+          {
+            title: '雷达图',
+            componentName: 'radarComponent',
             picurl: require('@/assets/暂无.png')
           }
         ]

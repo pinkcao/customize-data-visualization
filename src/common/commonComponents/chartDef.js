@@ -68,11 +68,9 @@ export default {
     },
     opacity: function(newVal) {
       this.initChart()
-      // console.log(111)
     },
     legendvis: function(newVal) {
       this.initChart()
-      // console.log(111)
     },
     titlevis: function(newVal) {
       this.initChart()

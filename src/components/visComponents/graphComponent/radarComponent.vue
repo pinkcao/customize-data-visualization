@@ -26,16 +26,17 @@
       @rotate="rotate"
     >
       <div style="background-color: #ffffff; width: 100%; height: 100%">
-        <v-k-chart
+        <v-radar-chart
           v-if="flag"
           :chartTitle="title"
           :chartSubTitle="subTitle"
           :dataSource="dataSource.data"
           :opacity="style.opacity"
           :titlevis="style.titlevis"
+          :legendvis="style.legendvis"
           :mode="mode"
           ref="child"
-        ></v-k-chart>
+        ></v-radar-chart>
       </div>
     </vue-drag-resize-rotate>
   </div>
@@ -44,20 +45,20 @@
 <script>
 import echarts from 'echarts'
 import componentsDef from '@components/componentsDef/componentsDef.js'
-import VKChart from '@/common/commonComponents/kChart/kChart.vue'
+import VRadarChart from '@/common/commonComponents/radarChart/radarChart.vue'
 
 export default {
   extends: componentsDef,
-  name: 'kComponent',
+  name: 'radarComponent',
   components: {
-    VKChart
+    VRadarChart
   },
   data() {
     return {
       //这些相当于是基础设置属性
       //如果挂载时未重新设定那么就取默认值
       preventActiveBehavior: false,
-      name: 'kComponent',
+      name: 'radarComponent',
       active: false,
       ifshow: false,
       width: 300,
@@ -72,20 +73,20 @@ export default {
       zindex: 0,
       mode: 'design',
       flag: false,
-      title: 'K线图',
+      title: '雷达图',
       subTitle: 'fake data',
       dataSource: {
         data: [
-          ['2017-10-24', '2017-10-25', '2017-10-26', '2017-10-27'],
-          [20, 30, 10, 35],
-          [40, 35, 30, 55],
-          [33, 38, 33, 40],
-          [40, 50, 32, 60]
+          // eslint-disable-next-line prettier/prettier
+          ['销售（sales）', '管理（Administration）', '信息技术（Information Techology）', '客服（Customer Support）','研发（Development）', '市场（Marketing）'],
+          [6500, 16000, 30000, 38000, 52000, 25000],
+          [4300, 10000, 28000, 35000, 50000, 19000, '预算分配（Allocated Budget）'],
+          [5000, 14000, 28000, 31000, 42000, 21000, '实际开销（Actual Spending）']
         ]
       },
       style: {
         opacity: 1,
-        // legendvis: true,
+        legendvis: true,
         titlevis: true
       }
     }
