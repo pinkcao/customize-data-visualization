@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 100%; height: 100%">
+  <div :style="pageSetWrapperStyle">
     <div class="title-box-page">页面设置</div>
     <div class="page-set-wrapper">
       <el-tabs type="border-card">
@@ -86,9 +86,34 @@ export default {
         'stretch-button-show': this.$store.state.noStretch,
         'stretch-button-hide': !this.$store.state.noStretch
       }
+    },
+    currentComponentIndex: function() {
+      return this.$store.state.activeComponentIndex
+    },
+    pageSetWrapperStyle: function() {
+      let tempStyle = {}
+      if (this.pageSetVis == true) {
+        tempStyle = {
+          width: '300px',
+          height: '100%',
+          transition: 'width 0.3s'
+        }
+      } else {
+        tempStyle = {
+          width: '0px',
+          height: '100%',
+          transition: 'width 0.3s'
+        }
+      }
+      return tempStyle
     }
   },
-
+  props: {
+    pageSetVis: {
+      type: Boolean,
+      default: true
+    }
+  },
   created() {},
   mounted() {
     this.initPageDef()

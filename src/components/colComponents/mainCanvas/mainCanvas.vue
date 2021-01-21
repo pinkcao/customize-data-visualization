@@ -77,7 +77,7 @@ export default {
     //   return result
     // }
   },
-  props: ['componentName'],
+  // props: ['componentName'],
   created() {},
   mounted() {
     console.log(this.canvasStyle)

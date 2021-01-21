@@ -1,6 +1,5 @@
 <template>
-  <div style="width: 100%; height: 100%">
-    <!-- 这里继承的是200px,100vh - 50px -->
+  <div :style="componentColWrapperStyle">
     <div class="title-box-comp">
       <span style="color: #b3c0d1; font-size: 12px">组件库</span>
     </div>
@@ -65,8 +64,31 @@ export default {
       getComponentTabDataFlag: false
     }
   },
-  computed: {},
-
+  computed: {
+    componentColWrapperStyle: function() {
+      let tempStyle = {}
+      if (this.componentColVis == true) {
+        tempStyle = {
+          width: '250px',
+          height: '100%',
+          transition: 'width 0.3s'
+        }
+      } else {
+        tempStyle = {
+          width: '0px',
+          height: '100%',
+          transition: 'width 0.3s'
+        }
+      }
+      return tempStyle
+    }
+  },
+  props: {
+    componentColVis: {
+      type: Boolean,
+      default: true
+    }
+  },
   created() {},
   mounted() {
     this.getTabPaneData()
@@ -128,12 +150,12 @@ export default {
         // }
       })
     },
+    /*
+        将拖拽元素name更新至vuex，全局保存。
+      */
     dragstarttest(name) {
       this.$store.commit('changeComponentNameToCanvas', name)
       console.log(this.$store.state.componentNameToCanvas)
-      /*
-        将拖拽元素name更新至vuex，全局保存。
-      */
     },
     dragendtest() {
       console.log('dragends')
@@ -143,9 +165,6 @@ export default {
 </script>
 
 <style lang="less">
-@titleboxpadding: 10px;
-@width: 250px;
-
 .title-box-comp {
   width: 100%;
   height: 30px;

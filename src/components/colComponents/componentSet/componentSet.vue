@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 100%；height: 100%">
+  <div :style="componentSetWrapperStyle">
     <div class="title-box-component">组件设置</div>
     <div class="component-set-wrapper">
       <el-tabs type="border-card">
@@ -371,6 +371,23 @@ export default {
   computed: {
     currentComponentIndex: function() {
       return this.$store.state.activeComponentIndex
+    },
+    componentSetWrapperStyle: function() {
+      let tempStyle = {}
+      if (this.componentSetVis == true) {
+        tempStyle = {
+          width: '300px',
+          height: '100%',
+          transition: 'width 0.3s'
+        }
+      } else {
+        tempStyle = {
+          width: '0px',
+          height: '100%',
+          transition: 'width 0.3s'
+        }
+      }
+      return tempStyle
     }
   },
   watch: {
@@ -393,7 +410,12 @@ export default {
     // this.updateDataSource()
     // this.initCol()
   },
-
+  props: {
+    componentSetVis: {
+      type: Boolean,
+      default: true
+    }
+  },
   methods: {
     //当值变化，将值转为json对象后传至vuex更新组件
     updateDataSource() {

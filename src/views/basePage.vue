@@ -34,12 +34,16 @@
       <el-container>
         <el-aside width="auto">
           <div ref="graphCol" class="transition-box-graph">
-            <graphCol> </graphCol>
+            <graphCol :graphColVis="graphColActive"> </graphCol>
           </div>
         </el-aside>
         <el-aside width="auto">
           <div ref="compCol" class="transition-box-comp">
-            <componentCol @changeLoadingStatus="changeLoadingStatus" :divData="divData"></componentCol>
+            <componentCol
+              :componentColVis="compColActive"
+              @changeLoadingStatus="changeLoadingStatus"
+              :divData="divData"
+            ></componentCol>
           </div>
         </el-aside>
         <el-main>
@@ -51,8 +55,8 @@
         </el-main>
         <el-aside width="auto">
           <div ref="pageCol" class="transition-box-page">
-            <pageSet v-show="pageAndComponentFlag"> </pageSet>
-            <component-set v-show="!pageAndComponentFlag"></component-set>
+            <pageSet :pageSetVis="pageColActive" v-show="pageAndComponentFlag"> </pageSet>
+            <component-set :componentSetVis="pageColActive" v-show="!pageAndComponentFlag"></component-set>
           </div>
         </el-aside>
       </el-container>
@@ -169,19 +173,15 @@ export default {
   beforeCreate() {},
   created() {},
   mounted() {
-    /*
-      初始化width保证立即响应
-    */
+    //初始化加载状态
     this.initLoadingStatus()
+    //设置加载
     this.loadingInstance = this.$loading({
       fullscreen: true,
       spinner: 'el-icon-loading',
       background: 'rgba(0, 0, 0, 0.8)',
       text: '正在加载中'
     })
-    this.$refs.graphCol.style.width = this.graphfullwidth
-    this.$refs.compCol.style.width = this.componentsfullwidth
-    this.$refs.pageCol.style.width = this.pagefullwidth
   },
   watch: {
     '$store.state.screenDefFlag': function(newval) {
@@ -226,40 +226,18 @@ export default {
       this.$store.commit('updateCurrentColWidth', ColData)
       this.$store.commit('updateParentScale')
     },
-    /*
-      用于transition三个区块
-    */
     graphclicktest() {
-      if (this.$refs.graphCol.style.width !== this.graphfullwidth) {
-        this.$refs.graphCol.style.width = this.graphfullwidth
-        this.graphColActive = true
-      } else {
-        this.$refs.graphCol.style.width = this.graphemptywidth
-        this.graphColActive = false
-      }
+      this.graphColActive = !this.graphColActive
       this.updateColData()
-      // console.log(this.getColData())
     },
 
     compclicktest() {
-      if (this.$refs.compCol.style.width !== this.componentsfullwidth) {
-        this.$refs.compCol.style.width = this.componentsfullwidth
-        this.compColActive = true
-      } else {
-        this.$refs.compCol.style.width = this.componentsemptywidth
-        this.compColActive = false
-      }
+      this.compColActive = !this.compColActive
       this.updateColData()
     },
 
     pageclicktest() {
-      if (this.$refs.pageCol.style.width !== this.pagefullwidth) {
-        this.$refs.pageCol.style.width = this.pagefullwidth
-        this.pageColActive = true
-      } else {
-        this.$refs.pageCol.style.width = this.pageemptywidth
-        this.pageColActive = false
-      }
+      this.pageColActive = !this.pageColActive
       this.updateColData()
     },
 
@@ -581,10 +559,6 @@ body {
 @highlight: #101010;
 @headerheight: 50px;
 @asideheight: calc(100vh - @headerheight);
-@graphwidth: 200px;
-@compwidth: 250px;
-@pagewidth: 350px;
-
 .el-header,
 .el-footer {
   background-color: #1d1e1f;
@@ -615,22 +589,16 @@ body {
 }
 
 .transition-box-graph {
-  width: @graphwidth;
-  transition: width 0.3s;
   background-color: #1d2127;
   height: @asideheight;
 }
 
 .transition-box-comp {
-  width: @compwidth;
-  transition: width 0.3s;
   background-color: #1d2127;
   height: @asideheight;
 }
 
 .transition-box-page {
-  width: @pagewidth;
-  transition: width 0.3s;
   background-color: #1d2127;
   height: @asideheight;
 }

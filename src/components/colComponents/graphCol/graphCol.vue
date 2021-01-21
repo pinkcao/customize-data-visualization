@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 100%; height: 100%">
+  <div :style="graphColWrapperStyle">
     <div class="title-box-graph">
       <span style="color: #b3c0d1; font-size: 12px">图层</span>
     </div>
@@ -34,12 +34,35 @@ export default {
         return this.$store.state.componentList
       },
       set(value) {
+        //图层列的显示顺序
         this.$store.commit('updateAllZindexAsc', value)
         // this.$store.commit('updateAllZindexDsc', value)
       }
+    },
+    graphColWrapperStyle: function() {
+      let tempStyle = {}
+      if (this.graphColVis == true) {
+        tempStyle = {
+          width: '200px',
+          height: '100%',
+          transition: 'width 0.3s'
+        }
+      } else {
+        tempStyle = {
+          width: '0px',
+          height: '100%',
+          transition: 'width 0.3s'
+        }
+      }
+      return tempStyle
     }
   },
-
+  props: {
+    graphColVis: {
+      type: Boolean,
+      default: true
+    }
+  },
   created() {},
   mounted() {},
 
