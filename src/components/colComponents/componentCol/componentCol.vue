@@ -147,13 +147,12 @@ export default {
 @width: 250px;
 
 .title-box-comp {
-  padding: @titleboxpadding;
-  width: @width - @titleboxpadding - @titleboxpadding;
-  height: 30px - @titleboxpadding - @titleboxpadding;
+  width: 100%;
+  height: 30px;
   background-color: #333b45;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
 }
 .component-col-el-tab .el-tabs__content {
   overflow-y: scroll;

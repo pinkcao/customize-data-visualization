@@ -50,7 +50,7 @@
           </div>
         </el-main>
         <el-aside width="auto">
-          <div ref="pageCol" :componentName="componentName" class="transition-box-page">
+          <div ref="pageCol" class="transition-box-page">
             <pageSet v-show="pageAndComponentFlag"> </pageSet>
             <component-set v-show="!pageAndComponentFlag"></component-set>
           </div>
@@ -132,7 +132,6 @@ export default {
       graphfullwidth: '200px',
       graphemptywidth: '0px',
       iconstyle: 'color:aliceblue;',
-      componentName: '',
 
       loadingStatus: [false, false],
       loadingInstance: null
@@ -183,24 +182,9 @@ export default {
     this.$refs.graphCol.style.width = this.graphfullwidth
     this.$refs.compCol.style.width = this.componentsfullwidth
     this.$refs.pageCol.style.width = this.pagefullwidth
-    // this.$axios({
-    //   url: this.$url.getComponentList,
-    //   method: 'post',
-    //   data: {}
-    // }).then(res => {
-    //   if (res.status == 200) {
-    //     this.$store.commit('initComponentList', res.data.resultSet)
-    //     //1秒后关了遮罩层
-    //   }
-    // })
-    // setTimeout(() => {
-    //   this.loadingInstance.close()
-    // }, 1000)
-    // this.updateColData()
   },
   watch: {
     '$store.state.screenDefFlag': function(newval) {
-      // console.log(newval)
       if (newval == true) {
         this.updateColData()
       }
@@ -219,7 +203,6 @@ export default {
     //更改当前loadingStatus
     changeLoadingStatus(data) {
       this.loadingStatus[data] = true
-      console.log(data)
       if (this.loadingStatus.find(this.findFalse) == undefined) {
         //我悟了大师，这里以后就用来慢慢做优化时间
         setTimeout(() => {
