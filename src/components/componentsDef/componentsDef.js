@@ -175,7 +175,9 @@ export default {
             left: this.left
           }
         }).then(res => {
-          this.$store.commit('initComponentList', res.data.resultSet)
+          if (res.status == 200) {
+            this.$store.commit('initComponentList', res.data.resultSet)
+          }
         })
       }
     },

@@ -32,6 +32,7 @@
         </div>
       </el-header>
       <el-container>
+        <!-- el-aside width必须覆写，不然就是300px -->
         <el-aside width="auto">
           <div ref="graphCol" class="transition-box-graph">
             <graphCol :graphColVis="graphColActive"> </graphCol>

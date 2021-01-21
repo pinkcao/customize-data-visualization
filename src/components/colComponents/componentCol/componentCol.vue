@@ -197,7 +197,6 @@ export default {
   -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
   box-shadow: 10px 10px 5px #888888;
   border-radius: 10px;
-  // background: #EDEDED;
 }
 .component-col-el-tab .el-tabs--left .el-tabs__header.is-left {
   margin-right: 0px;

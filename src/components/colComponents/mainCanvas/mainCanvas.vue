@@ -114,12 +114,12 @@ export default {
         method: 'post',
         data: {}
       }).then(res => {
-        this.componentList = res.data.resultSet
-        this.$store.commit('initComponentList', res.data.resultSet)
-        this.mountComponent()
-        this.$emit('changeLoadingStatus', 0)
-        // this.$store.commit('changeLoadingStatus', 0)
-        // console.log(this.$store.state.loadingStatus)
+        if (res.status == 200) {
+          this.componentList = res.data.resultSet
+          this.$store.commit('initComponentList', res.data.resultSet)
+          this.mountComponent()
+          this.$emit('changeLoadingStatus', 0)
+        }
       })
     },
     //增加组件至组件列表
@@ -184,9 +184,11 @@ export default {
                     }
                   })
                   .then(res => {
-                    that.$store.commit('initComponentList', res.data.resultSet)
-                    that.componentList = res.data.resultSet
-                    console.log(that.componentList)
+                    if (res.status == 200) {
+                      that.$store.commit('initComponentList', res.data.resultSet)
+                      that.componentList = res.data.resultSet
+                      console.log(that.componentList)
+                    }
                   })
               }
             },
@@ -336,9 +338,11 @@ export default {
                     }
                   })
                   .then(res => {
-                    that.componentList = res.data.resultSet
-                    that.$store.commit('initComponentList', res.data.resultSet)
-                    console.log(that.componentList)
+                    if (res.status == 200) {
+                      that.componentList = res.data.resultSet
+                      that.$store.commit('initComponentList', res.data.resultSet)
+                      console.log(that.componentList)
+                    }
                   })
               }
             },

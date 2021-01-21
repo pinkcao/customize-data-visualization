@@ -447,8 +447,9 @@ export default {
       }
       this.$store.commit('updateComponentStatus', currentComponentBaseStatus)
     },
+    //更改数据源
     dataSourceChange() {
-      console.log(this.currentComponent.dataSource.dataSourceType)
+      // console.log(this.currentComponent.dataSource.dataSourceType)
       this.$store.commit('updateDataSource', this.currentComponent.dataSource)
     },
     updateDialogDataSource() {
@@ -461,9 +462,6 @@ export default {
       this.$store.commit('updateDataSource', this.currentComponent.dataSource)
       this.dialogFormVisible = false
     }
-    // testbutton() {
-    //   this.currentComponent.dataSource.APIURL = 'wtf?'
-    // }
   }
 }
 </script>
