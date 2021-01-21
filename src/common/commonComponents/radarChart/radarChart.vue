@@ -141,8 +141,13 @@ export default {
         series: [
           {
             type: 'radar',
-            data: this.currentSeriesData
+            data: this.currentSeriesData,
             // data: [
+            //此处的透明度无法调整问题出在echarts本身无法调整该图表的透明度
+            //但此处的opacity的调整是根据官网设置的，所以不排除以后此处可直接使用，因此不删。
+            itemStyle: {
+              opacity: this.opacity
+            }
             //   {
             //     value: [4300, 10000, 28000, 35000, 50000, 19000],
             //     name: '预算分配（Allocated Budget）'

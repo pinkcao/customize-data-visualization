@@ -2,7 +2,7 @@ import Mock from 'mockjs'
 import url from '@mock/mockAPI.js'
 
 Mock.setup({
-  timeout: '200-600'
+  timeout: '800-1200'
 })
 
 const user_account = 'admin'

@@ -22,20 +22,7 @@ export default new Vuex.Store({
     // parentH: 864,
     position: 'absolute',
     currentColWidth: 0,
-    // screenDef: [
-    //   {
-    //     index: 0,
-    //     title: '页面宽度: ',
-    //     type: 'inputNumber',
-    //     value: 1536
-    //   },
-    //   {
-    //     index: 1,
-    //     title: '页面高度: ',
-    //     type: 'inputNumber',
-    //     value: 864
-    //   }
-    // ],
+
     screenDef: [],
     screenDefFlag: false,
     allStretch: true,

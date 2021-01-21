@@ -115,7 +115,11 @@ export default {
         data: {}
       }).then(res => {
         this.componentList = res.data.resultSet
+        this.$store.commit('initComponentList', res.data.resultSet)
         this.mountComponent()
+        this.$emit('changeLoadingStatus', 0)
+        // this.$store.commit('changeLoadingStatus', 0)
+        // console.log(this.$store.state.loadingStatus)
       })
     },
     //增加组件至组件列表

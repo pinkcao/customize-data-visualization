@@ -39,13 +39,13 @@
         </el-aside>
         <el-aside width="auto">
           <div ref="compCol" class="transition-box-comp">
-            <componentCol :divData="divData"></componentCol>
+            <componentCol @changeLoadingStatus="changeLoadingStatus" :divData="divData"></componentCol>
           </div>
         </el-aside>
         <el-main>
           <div @dragover="allowdrag" class="main-panel-wp">
             <div class="canvas-main">
-              <main-canvas> </main-canvas>
+              <main-canvas @changeLoadingStatus="changeLoadingStatus"> </main-canvas>
             </div>
           </div>
         </el-main>
@@ -90,15 +90,6 @@ export default {
     componentSet
   },
   name: 'basePage',
-  watch: {
-    // '$store.state.componentActive': {
-    //   handler(newval) {
-    //     console.log(newval)
-    //   },
-    //   deep: true,
-    //   immediate: true
-    // }
-  },
   data() {
     return {
       /*
@@ -143,24 +134,17 @@ export default {
       iconstyle: 'color:aliceblue;',
       componentName: '',
 
+      loadingStatus: [false, false],
       loadingInstance: null
     }
   },
   computed: {
     pageAndComponentFlag: function() {
-      // let activeArr = this.$store.state.componentActive
-      // let flag = false
-      // for (let i = 0; i < activeArr.length; i++) {
-      //   if (activeArr[i].active == true) {
-      //     flag = true
-      //     break
-      //   }
-      // }
-      // console.log(flag)
-      // return flag
       return this.$store.state.pageAndComponentFlag
     },
-
+    // loadingStatus() {
+    //   return this.$store.state.loadingStatus
+    // },
     graphisshown: function() {
       return {
         'icon-box-left': this.graphColActive,
@@ -189,22 +173,29 @@ export default {
     /*
       初始化width保证立即响应
     */
-    this.loadingInstance = this.$loading({ fullscreen: true })
+    this.initLoadingStatus()
+    this.loadingInstance = this.$loading({
+      fullscreen: true,
+      spinner: 'el-icon-loading',
+      background: 'rgba(0, 0, 0, 0.8)',
+      text: '正在加载中'
+    })
     this.$refs.graphCol.style.width = this.graphfullwidth
     this.$refs.compCol.style.width = this.componentsfullwidth
     this.$refs.pageCol.style.width = this.pagefullwidth
-    this.$axios({
-      url: this.$url.getComponentList,
-      method: 'post',
-      data: {}
-    }).then(res => {
-      this.$store.commit('initComponentList', res.data.resultSet)
-      //不好意思，在下今天真的不想把所有要加载的东西全部都拉去dataBus里面汇总然后得出一个最终结果再根据这个结果取消loadingInstance了
-      //但1秒，上限了好吧，毕竟我mock里设置的是0.2-0.6s，正常也不会太久了吧.大概
-      setTimeout(() => {
-        this.loadingInstance.close()
-      }, 1000)
-    })
+    // this.$axios({
+    //   url: this.$url.getComponentList,
+    //   method: 'post',
+    //   data: {}
+    // }).then(res => {
+    //   if (res.status == 200) {
+    //     this.$store.commit('initComponentList', res.data.resultSet)
+    //     //1秒后关了遮罩层
+    //   }
+    // })
+    // setTimeout(() => {
+    //   this.loadingInstance.close()
+    // }, 1000)
     // this.updateColData()
   },
   watch: {
@@ -216,6 +207,26 @@ export default {
     }
   },
   methods: {
+    findFalse(bool) {
+      return bool == false
+    },
+    //初始化当前loadingStatus
+    initLoadingStatus() {
+      for (let i = 0; i < this.loadingStatus.length; i++) {
+        this.loadingStatus[i] = false
+      }
+    },
+    //更改当前loadingStatus
+    changeLoadingStatus(data) {
+      this.loadingStatus[data] = true
+      console.log(data)
+      if (this.loadingStatus.find(this.findFalse) == undefined) {
+        //我悟了大师，这里以后就用来慢慢做优化时间
+        setTimeout(() => {
+          this.loadingInstance.close()
+        }, 200)
+      }
+    },
     updateColData() {
       let ColData = []
       //el-main的padding-left+padding-right

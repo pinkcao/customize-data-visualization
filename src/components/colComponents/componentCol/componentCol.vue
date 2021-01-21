@@ -93,7 +93,12 @@ export default {
         params: {}
       }).then(res => {
         // console.log(res)
-        this.tabpanedata = res.data.resultSet
+        if (res.status == 200) {
+          this.tabpanedata = res.data.resultSet
+          this.$emit('changeLoadingStatus', 1)
+          // this.$store.commit('changeLoadingStatus', 1)
+          // console.log(this.$store.state.loadingStatus)
+        }
 
         //无用block
         // for (let i = 0; i < this.tabpanedata.length; i++) {

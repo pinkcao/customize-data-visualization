@@ -81,7 +81,12 @@ export default {
   props: ['componentName'],
   created() {},
   mounted() {
-    this.loadingInstance = this.$loading({ fullscreen: true })
+    this.loadingInstance = this.$loading({
+      fullscreen: true,
+      spinner: 'el-icon-loading',
+      background: 'rgba(0, 0, 0, 0.8)',
+      text: '正在加载中'
+    })
     this.getScreenDef()
     this.getScreenStretch()
     this.getComponentList()
