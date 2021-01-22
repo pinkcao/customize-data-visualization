@@ -181,23 +181,7 @@ export default {
   background-color: #191c21;
   height: 100%;
 }
-::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
-}
-::-webkit-scrollbar-thumb {
-  /*滚动条里面小方块*/
-  border-radius: 10px;
-  -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-  box-shadow: 10px 10px 5px #888888;
-  background: #737373;
-}
-::-webkit-scrollbar-track {
-  /*滚动条里面轨道*/
-  -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-  box-shadow: 10px 10px 5px #888888;
-  border-radius: 10px;
-}
+
 .component-col-el-tab .el-tabs--left .el-tabs__header.is-left {
   margin-right: 0px;
 }
