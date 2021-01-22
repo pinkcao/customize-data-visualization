@@ -30,38 +30,38 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 目录结构:
 ├─assets  
-│  ├─pics  
-│  └─styles  
+│    ├─pics  
+│    └─styles  
 ├─common  
-│  ├─commonComponents  
-│  │  ├─funnelChart  
-│  │  ├─graphcharts  
-│  │  ├─kChart  
-│  │  ├─polarBarChart  
-│  │  ├─radarChart  
-│  │  └─vueDragResizeRotate  
-│  ├─commonStyle  
-│  │  ├─compColStyle  
-│  │  ├─graphColStyle  
-│  │  └─setColStyle  
-│  └─core  
+│    ├─commonComponents  
+│    │    ├─funnelChart  
+│    │    ├─graphcharts  
+│    │    ├─kChart  
+│    │    ├─polarBarChart  
+│    │    ├─radarChart  
+│    │    └─vueDragResizeRotate  
+│    ├─commonStyle  
+│    │    ├─compColStyle  
+│    │    ├─graphColStyle  
+│    │    └─setColStyle  
+│    └─core  
 ├─components  
-│  ├─basicComponents  
-│  │  ├─picComponent  
-│  │  └─textComponent  
-│  ├─colComponents  
-│  │  ├─componentCol  
-│  │  ├─componentSet  
-│  │  ├─graphCol  
-│  │  ├─mainCanvas  
-│  │  └─pageSet  
-│  ├─componentsDef  
-│  └─visComponents  
-│      ├─graphComponent  
-│      └─mapComponent  
+│    ├─basicComponents  
+│    │    ├─picComponent  
+│    │    └─textComponent  
+│    ├─colComponents  
+│    │    ├─componentCol  
+│    │    ├─componentSet  
+│    │    ├─graphCol  
+│    │    ├─mainCanvas  
+│    │    └─pageSet  
+│    ├─componentsDef  
+│    └─visComponents  
+│        ├─graphComponent  
+│        └─mapComponent  
 ├─layout  
 ├─mock  
-│  └─mockData  
+│    └─mockData  
 ├─router  
 ├─store  
 └─views  
