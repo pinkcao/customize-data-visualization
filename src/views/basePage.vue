@@ -49,7 +49,7 @@
         </el-aside>
         <el-main>
           <div @dragover="allowdrag" class="main-panel-wp">
-            <div class="canvas-main">
+            <div ref="wrapper" class="canvas-main">
               <main-canvas @changeLoadingStatus="changeLoadingStatus"> </main-canvas>
             </div>
           </div>
@@ -555,11 +555,9 @@ body {
   padding: 0px;
 }
 
-@selectedcolor: #2681ff;
-@notselectedcolor: #303640;
-@highlight: #101010;
 @headerheight: 50px;
 @asideheight: calc(100vh - @headerheight);
+
 .el-header,
 .el-footer {
   background-color: #1d1e1f;
@@ -570,44 +568,44 @@ body {
 }
 
 .el-aside {
-  background-color: #1d2127;
+  background-color: @colComponentBackgroundColor;
   color: #333;
   text-align: center;
   border: 0;
   margin: 0;
   padding: 0;
-  border-left: #000000 1px solid;
+  border-left: @blackSolidBorder;
 }
 
 .el-main {
-  background-color: #2a2e33;
+  background-color: @mainBackgroundColor;
   color: #333;
   text-align: center;
   margin: 0;
   padding: 0;
-  border-left: 1px #000000 solid;
+  border-left: @blackSolidBorder;
   z-index: 0;
 }
 
 .transition-box-graph {
-  background-color: #1d2127;
+  background-color: @colComponentBackgroundColor;
   height: @asideheight;
 }
 
 .transition-box-comp {
-  background-color: #1d2127;
+  background-color: @colComponentBackgroundColor;
   height: @asideheight;
 }
 
 .transition-box-page {
-  background-color: #1d2127;
+  background-color: @colComponentBackgroundColor;
   height: @asideheight;
 }
 
 .icon-box-left-hide {
   width: 40px;
   height: 100%;
-  background-color: @notselectedcolor;
+  background-color: @iconNotSelectedcolor;
   // margin: 10px;
   margin-left: 10px;
   float: left;
@@ -619,7 +617,7 @@ body {
 .icon-box-left {
   width: 40px;
   height: 100%;
-  background-color: @selectedcolor;
+  background-color: @iconSelectedcolor;
   // margin: 10px;
   margin-left: 10px;
   float: left;
@@ -630,18 +628,18 @@ body {
 
 .icon-box-left-hide:hover {
   cursor: pointer;
-  background-color: @notselectedcolor + @highlight;
+  background-color: @iconNotSelectedcolor + @highlight;
 }
 
 .icon-box-left:hover {
   cursor: pointer;
-  background-color: @selectedcolor + @highlight;
+  background-color: @iconSelectedcolor + @highlight;
 }
 
 .icon-box-right {
   width: 40px;
   height: 100%;
-  background-color: @notselectedcolor;
+  background-color: @iconNotSelectedcolor;
   margin-left: 10px;
   // margin: 10px;
   float: right;
@@ -652,7 +650,7 @@ body {
 
 .icon-box-right:hover {
   cursor: pointer;
-  background-color: @notselectedcolor + @highlight;
+  background-color: @iconNotSelectedcolor + @highlight;
 }
 
 .head-box-left {

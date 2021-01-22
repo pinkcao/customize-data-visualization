@@ -168,7 +168,7 @@ export default {
 .title-box-comp {
   width: 100%;
   height: 30px;
-  background-color: #333b45;
+  background-color: @titleBoxBackgroundColor;
   display: flex;
   align-items: center;
   justify-content: center;

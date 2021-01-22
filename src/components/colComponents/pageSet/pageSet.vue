@@ -160,10 +160,6 @@ export default {
 </script>
 
 <style lang="less">
-@selectedcolor: #2681ff;
-@notselectedcolor: #303640;
-@highlight: #101010;
-
 .page-set-wrapper {
   width: 95%;
 }
@@ -171,7 +167,7 @@ export default {
 .page-set-wrapper .el-tabs--border-card {
   border: 0px;
   background-color: transparent;
-  border: 1px solid black;
+  border: @blackSolidBorder;
 }
 
 .page-set-wrapper .el-tabs--border-card > .el-tabs__header .el-tabs__item {
@@ -180,7 +176,7 @@ export default {
 
 .page-set-wrapper .el-tabs--border-card > .el-tabs__header {
   background-color: rgb(20, 20, 20);
-  border: 1px solid #222222;
+  border: @darkSolidBorder;
 }
 
 .page-set-wrapper .el-tabs--border-card > .el-tabs__header .el-tabs__item.is-active {
@@ -198,7 +194,7 @@ export default {
 
 .page-stretch-button-set {
   width: 100%;
-  border: 1px solid black;
+  border: @blackSolidBorder;
   display: flex;
   justify-content: space-around;
 }
@@ -206,7 +202,7 @@ export default {
 .title-box-page {
   width: 100%;
   height: 30px;
-  background-color: #333b45;
+  background-color: @titleBoxBackgroundColor;
   color: #bcc9d4;
   text-align: center;
   font-size: 12px;
@@ -246,13 +242,13 @@ export default {
 .page-set-wrapper input {
   background-color: #222222;
   border-radius: 0px;
-  border: 1px solid #333333;
+  border: @darkSolidBorder;
 }
 
 .stretch-button-show {
   width: 40px;
   height: 30px;
-  background-color: @selectedcolor;
+  background-color: @iconSelectedcolor;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -260,13 +256,13 @@ export default {
 
 .stretch-button-show:hover {
   cursor: pointer;
-  background-color: @selectedcolor + @highlight;
+  background-color: @iconSelectedcolor + @highlight;
 }
 
 .stretch-button-hide {
   width: 40px;
   height: 30px;
-  background-color: @notselectedcolor;
+  background-color: @iconNotSelectedcolor;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -274,6 +270,6 @@ export default {
 
 .stretch-button-hide:hover {
   cursor: pointer;
-  background-color: @notselectedcolor + @highlight;
+  background-color: @iconNotSelectedcolor + @highlight;
 }
 </style>

@@ -15,5 +15,12 @@ module.exports = {
   },
   devServer: {
     port: 8085
+  },
+  pluginOptions: {
+    //全局使用less
+    'style-resources-loader': {
+      preProcessor: 'less',
+      patterns: [path.resolve(__dirname, 'src/assets/styles/commonStyles.less')]
+    }
   }
 }

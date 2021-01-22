@@ -20,27 +20,27 @@ const componentTabData = [
           {
             title: '综合图表组件',
             componentName: 'graphComponent',
-            picurl: require('@/assets/图表组件.png')
+            picurl: require('@/assets/pics/图表组件.png')
           },
           {
             title: '漏斗图',
             componentName: 'funnelComponent',
-            picurl: require('@/assets/漏斗图.png')
+            picurl: require('@/assets/pics/漏斗图.png')
           },
           {
             title: '极坐标柱状图',
             componentName: 'polarBarComponent',
-            picurl: require('@/assets/极坐标柱状图.png')
+            picurl: require('@/assets/pics/极坐标柱状图.png')
           },
           {
             title: 'K线图',
             componentName: 'kComponent',
-            picurl: require('@/assets/K线图.png')
+            picurl: require('@/assets/pics/K线图.png')
           },
           {
             title: '雷达图',
             componentName: 'radarComponent',
-            picurl: require('@/assets/雷达图.png')
+            picurl: require('@/assets/pics/雷达图.png')
           }
         ]
       },
@@ -51,17 +51,17 @@ const componentTabData = [
           {
             title: '组件d',
             componentName: 'titleComponent',
-            picurl: require('@/assets/文字组件.png')
+            picurl: require('@/assets/pics/文字组件.png')
           },
           {
             title: '组件e',
             componentName: 'compE',
-            picurl: require('@/assets/暂无.png')
+            picurl: require('@/assets/pics/暂无.png')
           },
           {
             title: '组件f',
             componentName: 'compF',
-            picurl: require('@/assets/暂无.png')
+            picurl: require('@/assets/pics/暂无.png')
           }
         ]
       }
@@ -77,7 +77,7 @@ const componentTabData = [
           {
             title: '组件g',
             componentName: 'compG',
-            picurl: require('@/assets/暂无.png')
+            picurl: require('@/assets/pics/暂无.png')
           }
         ]
       },
@@ -88,7 +88,7 @@ const componentTabData = [
           {
             title: '组件h',
             componentName: 'compH',
-            picurl: require('@/assets/暂无.png')
+            picurl: require('@/assets/pics/暂无.png')
           }
         ]
       }

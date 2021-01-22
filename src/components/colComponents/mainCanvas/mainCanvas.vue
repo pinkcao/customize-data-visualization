@@ -12,7 +12,6 @@
 import { getComponent } from '@components/visComponents/comMap.js'
 import Mount from 'vue-mount'
 import { destroy } from 'vue-mount'
-// import url from '@mock/mockAPI.js'
 
 export default {
   components: {},
@@ -405,10 +404,12 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="less" scoped>
 /*设置坐标原点为0 0,不然transform所使用坐标系是从div正中位置 即50 50出发*/
 .main-canvas-background {
-  background-color: #0e2a43;
+  background-color: @canvasBackgroundColor;
   transform-origin: 0 0;
+  margin-top: 10px;
+  margin-left: 10px;
 }
 </style>

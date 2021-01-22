@@ -470,7 +470,7 @@ export default {
 .component-set-wrapper .el-tabs--border-card {
   border: 0px;
   background-color: transparent;
-  border: 1px solid black;
+  border: @blackSolidBorder;
 }
 
 .component-set-wrapper .el-tabs--border-card > .el-tabs__header .el-tabs__item {
@@ -479,7 +479,7 @@ export default {
 
 .component-set-wrapper .el-tabs--border-card > .el-tabs__header {
   background-color: rgb(20, 20, 20);
-  border: 1px solid #222222;
+  border: @darkSolidBorder;
 }
 
 .component-set-wrapper .el-tabs--border-card > .el-tabs__header .el-tabs__item.is-active {
@@ -501,7 +501,7 @@ export default {
 .title-box-component {
   width: 100%;
   height: 30px;
-  background-color: #333b45;
+  background-color: @titleBoxBackgroundColor;
   color: #bcc9d4;
   text-align: center;
   font-size: 12px;
@@ -565,7 +565,7 @@ export default {
 .component-set-wrapper input {
   background-color: #222222;
   border-radius: 0px;
-  border: 1px solid #333333;
+  border: @darkSolidBorder;
 }
 
 .span-wrapper {
