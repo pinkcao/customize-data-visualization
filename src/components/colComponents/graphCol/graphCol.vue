@@ -1,7 +1,7 @@
 <template>
   <div :style="graphColWrapperStyle">
     <div class="title-box-graph">
-      <span style="color: #b3c0d1; font-size: 12px">图层</span>
+      <span :style="titleStyle">图层</span>
     </div>
     <div style="width: 100%: scroll-y: auto">
       <vuedraggable style="width: 100%; display: flex; justify-content: center" v-model="componentList">
@@ -18,6 +18,7 @@
 
 <script>
 import vuedraggable from 'vuedraggable'
+import { colSpanStyle } from '@common/commonStyle/compColStyle/compColStyle.js'
 
 export default {
   name: 'graphCol',
@@ -25,7 +26,9 @@ export default {
     vuedraggable
   },
   data() {
-    return {}
+    return {
+      titleStyle: colSpanStyle
+    }
   },
   computed: {
     //当前的componentList

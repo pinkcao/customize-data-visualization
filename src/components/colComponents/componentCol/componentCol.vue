@@ -1,7 +1,7 @@
 <template>
   <div :style="componentColWrapperStyle">
     <div class="title-box-comp">
-      <span style="color: #b3c0d1; font-size: 12px">组件库</span>
+      <span :style="titleStyle">组件库</span>
     </div>
     <!-- component-col-el-tab相当于wrapper,它可以解决无法覆盖ui组件样式的问题 -->
     <div class="component-col-el-tab" style="height: calc(100vh - 80px)">
@@ -52,6 +52,8 @@
 </template>
 
 <script>
+import { colSpanStyle } from '@common/commonStyle/compColStyle/compColStyle.js'
+
 export default {
   name: 'componentCol',
   data() {
@@ -61,7 +63,8 @@ export default {
       testSonData: '',
       tabpanedata: [],
       iconstyle: 'color:aliceblue;',
-      getComponentTabDataFlag: false
+      getComponentTabDataFlag: false,
+      titleStyle: colSpanStyle
     }
   },
   computed: {

@@ -1,6 +1,8 @@
 <template>
   <div :style="pageSetWrapperStyle">
-    <div class="title-box-page">页面设置</div>
+    <div class="title-box-page">
+      <span :style="titleStyle">页面设置</span>
+    </div>
     <div class="page-set-wrapper">
       <el-tabs type="border-card">
         <el-tab-pane label="基础设置">
@@ -47,6 +49,7 @@
 
 <script>
 import { setSpanStyle, setInputNumberStyle } from '@/common/commonStyle/setColStyle/setColStyle.js'
+import { colSpanStyle } from '@common/commonStyle/compColStyle/compColStyle.js'
 
 export default {
   name: 'pageSet',
@@ -55,7 +58,8 @@ export default {
       screenDef: [],
       spanStyle: setSpanStyle,
       inputNumberStyle: setInputNumberStyle,
-      iconstyle: 'color:aliceblue'
+      iconstyle: 'color:aliceblue',
+      titleStyle: colSpanStyle
     }
   },
   computed: {

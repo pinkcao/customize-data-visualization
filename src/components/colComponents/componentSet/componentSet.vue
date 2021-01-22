@@ -1,6 +1,8 @@
 <template>
   <div :style="componentSetWrapperStyle">
-    <div class="title-box-component">组件设置</div>
+    <div class="title-box-component">
+      <span :style="titleStyle">组件设置</span>
+    </div>
     <div class="component-set-wrapper">
       <el-tabs type="border-card">
         <el-tab-pane label="基础属性">
@@ -326,6 +328,7 @@ import {
   setInputStyle,
   setDialogInputStyle
 } from '@/common/commonStyle/setColStyle/setColStyle.js'
+import { colSpanStyle } from '@common/commonStyle/compColStyle/compColStyle.js'
 
 export default {
   name: 'componentSet',
@@ -347,6 +350,7 @@ export default {
         currentComponentAPIInterval: '',
         currentComponentAPIHeader: ''
       },
+      titleStyle: colSpanStyle,
       // dataSourceValue: '',
       // options: [
       //   {
