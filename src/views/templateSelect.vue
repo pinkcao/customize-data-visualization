@@ -5,8 +5,11 @@
     </div>
     <div class="main-select-pane content-box">
       <el-row :gutter="10">
-        <el-col v-for="item in testList" :key="item" :span="6">
-          <div style="height: 200px; background-color: black; margin:5px" @click="clickTemplate(item)"></div>
+        <el-col v-for="item in templateList" :key="item.templateID" :span="6">
+          <div
+            style="height: 200px; background-color: black; margin: 5px"
+            @click="clickTemplate(item.templateID)"
+          ></div>
         </el-col>
       </el-row>
     </div>
@@ -18,19 +21,34 @@ export default {
   name: 'login',
   data() {
     return {
-      testList: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+      templateList: []
     }
   },
   computed: {},
   created() {},
-  mounted() {},
+  mounted() {
+    this.getTemplateList(this.$store.state.currentUserID)
+  },
 
   methods: {
     //从数据库获取该人的模板信息，包括模板的个数、ID，根据个数、ID生成相应的可点击的模板、点击后进入设计界面
     //当前正在修改的模板ID进入session、在修改时把session中的模板ID、用户ID作为参数与数据库交互
     clickTemplate(item) {
       console.log(item)
+      this.$store.commit('changeCurrentTemplateID', item)
       this.$router.push('/basePage')
+    },
+    getTemplateList(userID) {
+      this.$axios({
+        url: this.$url.getTemplateList,
+        method: 'post',
+        data: {
+          userID: userID
+        }
+      }).then(res => {
+        // console.log(res.data)
+        this.templateList = res.data
+      })
     }
   }
 }

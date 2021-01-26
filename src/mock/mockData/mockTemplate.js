@@ -16,10 +16,20 @@ const screenDef = [
   }
 ]
 
-// const allStretch = true
-// const yStretch = false
-// const xStretch = false
-// const noStretch = false
+const templateList = [
+  {
+    templateID: 1,
+    templatePicUrl: ''
+  },
+  {
+    templateID: 2,
+    templatePicUrl: ''
+  },
+  {
+    templateID: 3,
+    templatePicUrl: ''
+  }
+]
 
 const screenStretch = {
   allStretch: true,
@@ -50,5 +60,20 @@ export default {
     screenStretch.xStretch = tempScreenStretch.xStretch
     screenStretch.noStretch = tempScreenStretch.noStretch
     return screenStretch
+  }),
+  updateScreenStretch: Mock.mock(url.updateScreenStretch, 'post', params => {
+    let tempScreenStretch = JSON.parse(params.body)
+    screenStretch.allStretch = tempScreenStretch.allStretch
+    screenStretch.yStretch = tempScreenStretch.yStretch
+    screenStretch.xStretch = tempScreenStretch.xStretch
+    screenStretch.noStretch = tempScreenStretch.noStretch
+    return screenStretch
+  }),
+  getTemplateList: Mock.mock(url.getTemplateList, 'post', params => {
+    console.log(JSON.parse(params.body))
+    let userID = JSON.parse(params.body)
+    if (userID != null) {
+      return templateList
+    }
   })
 }

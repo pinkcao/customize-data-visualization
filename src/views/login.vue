@@ -40,14 +40,14 @@ export default {
 
   methods: {
     testjson() {
-      let dataSource = [
-        ['department', '2018', '2019', '2020', '2021'],
-        ['finance', 43.3, 85.8, 93.7, 55.4],
-        ['humanResource', 83.1, 73.4, 55.1, 77.3],
-        ['sales', 86.4, 65.2, 82.5, 41.5],
-        ['product', 72.4, 53.9, 39.1, 14.8],
-        ['qualityAssurance', 55.1, 66.5, 46.8, 34.8]
-      ]
+      // let dataSource = [
+      //   ['department', '2018', '2019', '2020', '2021'],
+      //   ['finance', 43.3, 85.8, 93.7, 55.4],
+      //   ['humanResource', 83.1, 73.4, 55.1, 77.3],
+      //   ['sales', 86.4, 65.2, 82.5, 41.5],
+      //   ['product', 72.4, 53.9, 39.1, 14.8],
+      //   ['qualityAssurance', 55.1, 66.5, 46.8, 34.8]
+      // ]
       // console.log(JSON.stringify(dataSource))
       // this.$axios({
       //   url: 'http://localhost:8080/testjson',
@@ -58,9 +58,7 @@ export default {
       // }).then(res => {
       //   console.log(res)
       // })
-
       //上方是测试json数据传入,下方是测试json数据传出
-
       // this.$axios({
       //   url: 'http://localhost:8080/testfetchjson',
       //   method: 'post',
@@ -82,7 +80,9 @@ export default {
           password: sha1(this.form.password)
         }
       }).then(res => {
-        if (res.data == true) {
+        if (res.data.loginStatus == true) {
+          console.log(res.data)
+          this.$store.commit('changeCurrentUserID', res.data.userID)
           console.log('登录成功')
           this.$router.push('/templateSelect')
         }

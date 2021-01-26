@@ -12,5 +12,6 @@ export default {
   updateScreenDef: 'http://localhost:8080/screen/updateScreenDef',
   getScreenStretch: 'http://localhost:8080/screen/getScreenStretch',
   updateScreenStretch: 'http://localhost:8080/screen/updateScreenStretch',
-  testJsonData: 'http://localhost:8080/testJsonData'
+  testJsonData: 'http://localhost:8080/testJsonData',
+  getTemplateList: 'http://localhost:8080/template/getTemplateList'
 }

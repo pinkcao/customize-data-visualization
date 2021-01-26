@@ -5,9 +5,6 @@ Mock.setup({
   timeout: '800-1200'
 })
 
-const user_account = 'admin'
-const user_password = 'd033e22ae348aeb5660fc2140aec35850c4da997'
-
 //默认初始tabdata
 const componentTabData = [
   {
@@ -296,14 +293,6 @@ export default {
       status: 200,
       message: '修改组件数据成功',
       resultSet: componentList
-    }
-  }),
-  userLogin: Mock.mock(url.userLogin, 'post', params => {
-    let args = JSON.parse(params.body)
-    if (args.account == user_account && args.password == user_password) {
-      return true
-    } else {
-      return false
     }
   })
   // getComponentListPromise: Mock.mock(url.getComponentListPromise, 'post', () => {

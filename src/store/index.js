@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 import url from '@mock/mockAPI.js'
+import { RGBA_ASTC_10x10_Format } from 'three'
 
 Vue.use(Vuex)
 
@@ -28,9 +29,24 @@ export default new Vuex.Store({
     allStretch: true,
     yStretch: false,
     xStretch: false,
-    noStretch: false
+    noStretch: false,
+
+    currentUserID: -1,
+    currentTemplateID: -1
   },
   mutations: {
+    changeCurrentTemplateID(state, templateID) {
+      if (templateID >= 0) {
+        state.currentTemplateID = templateID
+      }
+    },
+
+    changeCurrentUserID(state, userID) {
+      if (userID >= 0) {
+        state.currentUserID = userID
+        console.log(state.currentUserID)
+      }
+    },
     //获取当前组件的name
     changeComponentNameToCanvas(state, compName) {
       state.componentNameToCanvas = compName
