@@ -19,7 +19,8 @@ export default {
     return {
       componentList: [],
       objList: [],
-      canvasStyle: {}
+      canvasStyle: {},
+      loadingInstance: null
     }
   },
   watch: {
@@ -237,6 +238,12 @@ export default {
             }
           })
         )
+        this.loadingInstance = this.$loading({
+          fullscreen: true,
+          spinner: 'el-icon-loading',
+          background: 'rgba(0, 0, 0, 0.8)',
+          text: '挂载中'
+        })
         //设置完Mount对象，将其挂载至target
         this.objList[this.objList.length - 1].mount()
         console.log(this.objList[this.objList.length - 1])
@@ -267,6 +274,7 @@ export default {
           this.componentList = res.data.resultSet
           this.$store.commit('initComponentList', this.componentList)
           this.$store.commit('initActiveComponent', this.componentList)
+          this.loadingInstance.close()
         })
         this.$store.commit('changeComponentNameToCanvas', '')
       }
