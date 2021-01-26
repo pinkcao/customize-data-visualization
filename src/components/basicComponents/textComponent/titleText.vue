@@ -1,6 +1,6 @@
 <template>
   <div v-if="ifshow" ref="testref" @keydown.delete="destroyComponent" tabindex="0">
-    <vue-drag-resize
+    <vue-drag-resize-rotate
       :isActive="active"
       :preventActiveBehavior="preventActiveBehavior"
       :w="width"
@@ -21,19 +21,23 @@
       :isResizable="resizable"
       @activated="activate"
       @deactivated="onDeactivated"
+      :rotate="rotatable"
+      @rotate="rotate"
+      :deg="style.deg"
     >
       <div style="background-color: #ffffff; width: 100%; height: 100%">
         <span :style="titleStyle">{{ dataSource.data }}</span>
       </div>
-    </vue-drag-resize>
+    </vue-drag-resize-rotate>
   </div>
 </template>
 
 <script>
-import componentsDef from '@components/componentsDef/componentsDef.js'
+// import componentsDef from '@components/componentsDef/componentsDef.js'
+import commonComponentsDef from '@components/componentsDef/commonComponentsDef.js'
 
 export default {
-  extends: componentsDef,
+  extends: commonComponentsDef,
   name: 'titleText',
   data() {
     return {
@@ -48,6 +52,7 @@ export default {
       parentLimitation: true,
       draggable: true,
       resizable: true,
+      rotatable: true,
       index: 0,
       zindex: 0,
       mode: 'design',
@@ -59,7 +64,8 @@ export default {
         // fontColor: '#409EFF'
       },
       style: {
-        fontColor: '#409EFF'
+        fontColor: '#409EFF',
+        deg: 0
       }
     }
   },
@@ -73,10 +79,7 @@ export default {
   },
 
   created() {},
-  mounted() {
-    console.log(this.width)
-    console.log(this.height)
-  },
+  mounted() {},
 
   methods: {}
 }

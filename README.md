@@ -24,11 +24,7 @@ yarn build
 yarn lint
 ```
 
-### Customize configuration
-
-See [Configuration Reference](https://cli.vuejs.org/config/).
-
-目录结构:
+目录结构:  
 ├─assets  
 │    ├─pics  
 │    └─styles  
@@ -64,4 +60,4 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 │    └─mockData  
 ├─router  
 ├─store  
-└─views  
+└─views

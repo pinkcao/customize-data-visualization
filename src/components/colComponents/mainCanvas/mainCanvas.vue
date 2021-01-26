@@ -11,7 +11,6 @@
 <script>
 import { getComponent } from '@components/visComponents/comMap.js'
 import Mount from 'vue-mount'
-import { destroy } from 'vue-mount'
 
 export default {
   components: {},
@@ -115,6 +114,7 @@ export default {
       }).then(res => {
         if (res.status == 200) {
           this.componentList = res.data.resultSet
+          console.log(res.data.resultSet)
           this.$store.commit('initComponentList', res.data.resultSet)
           this.mountComponent()
           this.$emit('changeLoadingStatus', 0)

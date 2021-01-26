@@ -42,7 +42,6 @@
 </template>
 
 <script>
-import echarts from 'echarts'
 import vChart from '@/common/commonComponents/graphcharts/chart.vue'
 import componentsDef from '@components/componentsDef/componentsDef.js'
 

@@ -98,7 +98,7 @@ export default {
       let tempStyle = {}
       if (this.pageSetVis == true) {
         tempStyle = {
-          width: '300px',
+          width: '350px',
           height: '100%',
           transition: 'width 0.3s'
         }

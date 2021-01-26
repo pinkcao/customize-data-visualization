@@ -121,6 +121,7 @@ export default {
         if (res.status == 200) {
           this.tabpanedata = res.data.resultSet
           this.$emit('changeLoadingStatus', 1)
+          console.log(res)
           // this.$store.commit('changeLoadingStatus', 1)
           // console.log(this.$store.state.loadingStatus)
         }

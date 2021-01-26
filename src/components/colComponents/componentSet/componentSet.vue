@@ -60,13 +60,16 @@
         </el-tab-pane>
 
         <el-tab-pane label="数据配置">
-          <div class="form-sub-item" v-if="flag && currentComponent.dataSource.APISwitch != null">
+          <div class="form-sub-item" v-show="flag && currentComponent.dataSource.APISwitch != null">
             <div class="span-wrapper">
               <!-- <span :style="spanStyle">数据源配置</span> -->
               <span style="font-size: 14px; float: left; color: #eeeeee">数据源配置</span>
             </div>
           </div>
-          <div style="display: flex; flex-direction: row; justify-content: flex-end">
+          <div
+            v-show="flag && currentComponent.dataSource.APISwitch != null"
+            style="display: flex; flex-direction: row; justify-content: flex-end"
+          >
             <el-button size="mini" @click="dialogFormVisible = true">配置数据源</el-button>
           </div>
 
@@ -82,7 +85,7 @@
             ></el-switch>
           </div> -->
 
-          <hr v-if="flag && currentComponent.dataSource.APISwitch != null" style="border: 1px solid #777777" />
+          <hr v-show="flag && currentComponent.dataSource.APISwitch != null" style="border: 1px solid #777777" />
 
           <div class="form-sub-item" v-if="flag && currentComponent">
             <div class="span-wrapper">
@@ -380,7 +383,7 @@ export default {
       let tempStyle = {}
       if (this.componentSetVis == true) {
         tempStyle = {
-          width: '300px',
+          width: '350px',
           height: '100%',
           transition: 'width 0.3s'
         }
