@@ -325,7 +325,7 @@ export default {
       return {
         text: this.currentChartTitle,
         subtext: this.currentChartSubTitle,
-        left: 'center',
+        left: this.titlepos,
         show: param
       }
     },

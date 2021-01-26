@@ -62,21 +62,7 @@ export default {
       }
     }
   },
-  computed: {
-    //当前的画布样式
-    // canvasStyle: function() {
-    //   let parentScale = this.$store.state.parentScale
-    //   let result = {
-    //     width: this.$store.state.screenDef[0].value + 'px',
-    //     height: this.$store.state.screenDef[1].value + 'px',
-    //     position: this.$store.state.position,
-    //     transform: `scale(${parentScale}) translate(0px, 0px)`
-    //   }
-    //   console.log(result.transform)
-    //   return result
-    // }
-  },
-  // props: ['componentName'],
+  computed: {},
   created() {},
   mounted() {
     console.log(this.canvasStyle)

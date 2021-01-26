@@ -33,6 +33,7 @@
           :dataSource="dataSource.data"
           :opacity="style.opacity"
           :titlevis="style.titlevis"
+          :titlepos="style.titlepos"
           :mode="mode"
           ref="child"
         ></v-k-chart>

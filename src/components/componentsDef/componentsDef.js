@@ -63,7 +63,8 @@ export default {
       //当前组件样式
       style: {
         deg: 0,
-        opacity: 1
+        opacity: 1,
+        titlepos: 'center'
         // legendvis: true,
         // titlevis: true
       }

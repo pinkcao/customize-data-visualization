@@ -34,6 +34,7 @@
           :opacity="style.opacity"
           :titlevis="style.titlevis"
           :legendvis="style.legendvis"
+          :titlepos="style.titlepos"
           :mode="mode"
           ref="child"
         ></v-radar-chart>

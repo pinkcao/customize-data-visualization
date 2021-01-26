@@ -34,6 +34,7 @@
           :opacity="style.opacity"
           :legendvis="style.legendvis"
           :titlevis="style.titlevis"
+          :titlepos="style.titlepos"
           ref="child"
         ></v-chart>
       </div>

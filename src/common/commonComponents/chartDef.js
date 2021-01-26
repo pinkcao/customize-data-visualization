@@ -60,6 +60,10 @@ export default {
     mode: {
       type: String,
       default: 'design'
+    },
+    titlepos: {
+      type: String,
+      default: 'center'
     }
   },
   watch: {
@@ -79,6 +83,9 @@ export default {
       this.initChart()
     },
     chartSubTitle: function(newVal) {
+      this.initChart()
+    },
+    titlepos: function(newVal) {
       this.initChart()
     }
   },

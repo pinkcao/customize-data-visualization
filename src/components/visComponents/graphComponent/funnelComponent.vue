@@ -34,6 +34,7 @@
           :opacity="style.opacity"
           :legendvis="style.legendvis"
           :titlevis="style.titlevis"
+          :titlepos="style.titlepos"
           :mode="mode"
           ref="child"
         ></v-funnel-chart>

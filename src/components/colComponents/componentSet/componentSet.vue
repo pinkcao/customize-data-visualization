@@ -60,14 +60,14 @@
         </el-tab-pane>
 
         <el-tab-pane label="数据配置">
-          <div class="form-sub-item" v-show="flag && currentComponent.dataSource.APISwitch != null">
+          <div class="form-sub-item" v-if="flag && currentComponent.dataSource.APISwitch != null">
             <div class="span-wrapper">
               <!-- <span :style="spanStyle">数据源配置</span> -->
               <span style="font-size: 14px; float: left; color: #eeeeee">数据源配置</span>
             </div>
           </div>
           <div
-            v-show="flag && currentComponent.dataSource.APISwitch != null"
+            v-if="flag && currentComponent.dataSource.APISwitch != null"
             style="display: flex; flex-direction: row; justify-content: flex-end"
           >
             <el-button size="mini" @click="dialogFormVisible = true">配置数据源</el-button>
@@ -85,7 +85,7 @@
             ></el-switch>
           </div> -->
 
-          <hr v-show="flag && currentComponent.dataSource.APISwitch != null" style="border: 1px solid #777777" />
+          <hr v-if="flag && currentComponent.dataSource.APISwitch != null" style="border: 1px solid #777777" />
 
           <div class="form-sub-item" v-if="flag && currentComponent">
             <div class="span-wrapper">
@@ -183,6 +183,27 @@
               v-model="currentComponent.subTitle"
               @change="updateSubTitle"
             ></el-input>
+          </div>
+
+          <div class="form-sub-item" v-if="flag && currentComponent.style.titlevis == true">
+            <div class="span-wrapper">
+              <span :style="spanStyle">标题位置:</span>
+            </div>
+            <el-select
+              :style="inputStyle"
+              style="float: left"
+              size="mini"
+              v-model="currentComponent.style.titlepos"
+              placeholder="请选择"
+              @change="updateStyle"
+            >
+              <el-option
+                v-for="item in titleposOption"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              ></el-option>
+            </el-select>
           </div>
 
           <div class="form-sub-item" v-if="flag && currentComponent.style.fontColor">
@@ -354,6 +375,20 @@ export default {
         currentComponentAPIHeader: ''
       },
       titleStyle: colSpanStyle,
+      titleposOption: [
+        {
+          value: 'left',
+          label: '左侧'
+        },
+        {
+          value: 'center',
+          label: '中间'
+        },
+        {
+          value: 'right',
+          label: '右侧'
+        }
+      ],
       // dataSourceValue: '',
       // options: [
       //   {

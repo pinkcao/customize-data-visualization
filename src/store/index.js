@@ -120,7 +120,7 @@ export default new Vuex.Store({
       for (let i = 0; i < state.componentList.length; i++) {
         if (state.componentList[i].index == state.activeComponentIndex) {
           state.componentList[i].style = style
-          // console.log(state.componentList[i].dataSource.dataSourceType)
+          // console.log(state.componentList[i].style)
           break
         }
       }

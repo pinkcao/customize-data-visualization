@@ -143,7 +143,8 @@ const componentList = [
       opacity: 1,
       legendvis: true,
       titlevis: true,
-      deg: 0
+      deg: 0,
+      titlepos: 'center'
     }
   },
   {
@@ -192,7 +193,8 @@ const componentList = [
       opacity: 1,
       legendvis: true,
       titlevis: true,
-      deg: 0
+      deg: 0,
+      titlepos: 'center'
     }
   }
 ]

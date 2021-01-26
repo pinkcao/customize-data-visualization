@@ -139,7 +139,7 @@ export default {
         title: {
           text: this.chartTitle,
           subtext: this.chartSubTitle,
-          left: 'center',
+          left: this.titlepos,
           show: this.titlevis
         },
         // toolbox: {
