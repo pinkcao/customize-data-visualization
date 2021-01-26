@@ -95,104 +95,117 @@ const componentTabData = [
 //默认初始挂载组件
 const componentList = [
   {
-    name: 'graphComponent',
-    title: '主标题',
-    subTitle: '副标题',
-    width: 400,
-    height: 300,
-    top: 10,
-    left: 10,
-    draggable: true,
-    resizable: true,
-    parentLimitation: true,
-    active: false,
-    ifshow: true,
-    index: 0,
-    zindex: 0,
-    dataSource: {
-      data: [
-        ['department', '2018', '2019', '2020', '2021', '2022'],
-        ['finance', 43.3, 85.8, 93.7, 55.4, 66.7],
-        ['humanResource', 83.1, 73.4, 55.1, 77.3, 26.4],
-        ['sales', 86.4, 65.2, 82.5, 41.5, 57.6],
-        ['product', 72.4, 53.9, 39.1, 14.8, 25.9],
-        ['qualityAssurance', 55.1, 66.5, 46.8, 34.8, 66.4]
-      ],
-      dataSourceOptions: [
-        {
-          value: 'APISource',
-          label: 'API数据源'
+    templateID: 1,
+    components: [
+      {
+        name: 'graphComponent',
+        title: '主标题',
+        subTitle: '副标题',
+        width: 400,
+        height: 300,
+        top: 10,
+        left: 10,
+        draggable: true,
+        resizable: true,
+        parentLimitation: true,
+        active: false,
+        ifshow: true,
+        index: 0,
+        zindex: 0,
+        dataSource: {
+          data: [
+            ['department', '2018', '2019', '2020', '2021', '2022'],
+            ['finance', 43.3, 85.8, 93.7, 55.4, 66.7],
+            ['humanResource', 83.1, 73.4, 55.1, 77.3, 26.4],
+            ['sales', 86.4, 65.2, 82.5, 41.5, 57.6],
+            ['product', 72.4, 53.9, 39.1, 14.8, 25.9],
+            ['qualityAssurance', 55.1, 66.5, 46.8, 34.8, 66.4]
+          ],
+          dataSourceOptions: [
+            {
+              value: 'APISource',
+              label: 'API数据源'
+            },
+            {
+              value: 'otherSource',
+              label: 'unknown'
+            }
+          ],
+          dataSourceType: '',
+          APISwitch: false,
+          APIURL: '',
+          APIMethod: '',
+          APIInterval: 10000,
+          APIHeader: '',
+          IntervalID: 0
         },
-        {
-          value: 'otherSource',
-          label: 'unknown'
+        style: {
+          opacity: 1,
+          legendvis: true,
+          titlevis: true,
+          deg: 0,
+          titlepos: 'center'
         }
-      ],
-      dataSourceType: '',
-      APISwitch: false,
-      APIURL: '',
-      APIMethod: '',
-      APIInterval: 10000,
-      APIHeader: '',
-      IntervalID: 0
-    },
-    style: {
-      opacity: 1,
-      legendvis: true,
-      titlevis: true,
-      deg: 0,
-      titlepos: 'center'
-    }
+      },
+      {
+        name: 'graphComponent',
+        title: 'mainTitle',
+        subTitle: 'subTitle',
+        width: 300,
+        height: 300,
+        top: 500,
+        left: 100,
+        draggable: true,
+        resizable: true,
+        parentLimitation: true,
+        active: false,
+        ifshow: true,
+        index: 1,
+        zindex: 1,
+        dataSource: {
+          data: [
+            ['department', '2018', '2019', '2020', '2021'],
+            ['finance', 43.3, 85.8, 93.7, 55.4],
+            ['humanResource', 83.1, 73.4, 55.1, 77.3],
+            ['sales', 86.4, 65.2, 82.5, 41.5],
+            ['product', 72.4, 53.9, 39.1, 14.8],
+            ['qualityAssurance', 55.1, 66.5, 46.8, 34.8]
+          ],
+          dataSourceOptions: [
+            {
+              value: 'APISource',
+              label: 'API数据源'
+            },
+            {
+              value: 'otherSource',
+              label: 'unknown'
+            }
+          ],
+          dataSourceType: '',
+          APISwitch: false,
+          APIURL: '',
+          APIMethod: '',
+          APIInterval: 10000,
+          APIHeader: '',
+          IntervalID: 0
+        },
+        style: {
+          opacity: 1,
+          legendvis: true,
+          titlevis: true,
+          deg: 0,
+          titlepos: 'center'
+        }
+      }
+    ]
   },
   {
-    name: 'graphComponent',
-    title: 'mainTitle',
-    subTitle: 'subTitle',
-    width: 300,
-    height: 300,
-    top: 500,
-    left: 100,
-    draggable: true,
-    resizable: true,
-    parentLimitation: true,
-    active: false,
-    ifshow: true,
-    index: 1,
-    zindex: 1,
-    dataSource: {
-      data: [
-        ['department', '2018', '2019', '2020', '2021'],
-        ['finance', 43.3, 85.8, 93.7, 55.4],
-        ['humanResource', 83.1, 73.4, 55.1, 77.3],
-        ['sales', 86.4, 65.2, 82.5, 41.5],
-        ['product', 72.4, 53.9, 39.1, 14.8],
-        ['qualityAssurance', 55.1, 66.5, 46.8, 34.8]
-      ],
-      dataSourceOptions: [
-        {
-          value: 'APISource',
-          label: 'API数据源'
-        },
-        {
-          value: 'otherSource',
-          label: 'unknown'
-        }
-      ],
-      dataSourceType: '',
-      APISwitch: false,
-      APIURL: '',
-      APIMethod: '',
-      APIInterval: 10000,
-      APIHeader: '',
-      IntervalID: 0
-    },
-    style: {
-      opacity: 1,
-      legendvis: true,
-      titlevis: true,
-      deg: 0,
-      titlepos: 'center'
-    }
+    templateID: 2,
+    components: []
+  },
+  {
+    templateID: 3,
+    components: []
   }
 ]
 
@@ -208,21 +221,34 @@ export default {
     }
   }),
   //获取当前componentList
-  getComponentList: Mock.mock(url.getComponentList, 'post', () => {
-    return {
-      status: 200,
-      message: '获取成功',
-      resultSet: componentList
+  getComponentList: Mock.mock(url.getComponentList, 'post', params => {
+    let currentTemplateID = JSON.parse(params.body).templateID
+    console.log(currentTemplateID)
+    for (let i = 0; i < componentList.length; i++) {
+      if (componentList[i].templateID == currentTemplateID) {
+        return {
+          message: '获取成功',
+          resultSet: componentList[i].components
+        }
+      }
     }
   }),
   //添加组件并设置其index值为当前数组长度
   appendComponentList: Mock.mock(url.appendComponentList, 'post', newComp => {
-    componentList.push(JSON.parse(newComp.body))
-    componentList[componentList.length - 1].index = componentList.length - 1
-    return {
-      status: 200,
-      message: '添加成功',
-      resultSet: componentList
+    let currentTemplateID = JSON.parse(newComp.body).templateID
+    let component = JSON.parse(newComp.body)
+    console.log(component)
+    delete component['templateID']
+    console.log(component)
+    for (let i = 0; i < componentList.length; i++) {
+      if (componentList[i].templateID == currentTemplateID) {
+        componentList[i].components.push(component)
+        componentList[i].components[componentList[i].components.length - 1].index = componentList[i].components.length -1
+        return {
+          message: '添加成功',
+          resultSet: componentList[i].components
+        }
+      }
     }
   }),
   //每当组件进行缩放、位移进行调用，更新当前组件的的属性
@@ -288,24 +314,10 @@ export default {
         componentList[i].subTitle = args.subTitle
       }
     }
-    // console.log(componentList)
     return {
       status: 200,
       message: '修改组件数据成功',
       resultSet: componentList
     }
   })
-  // getComponentListPromise: Mock.mock(url.getComponentListPromise, 'post', () => {
-  //   return new Promise(function(resolve, reject) {
-  //     this.$axios({
-  //       url: url.getComponentListPromise,
-  //       method: 'post',
-  //       data: {}
-  //     }).then(res => {
-  //       if (res.status === 200) {
-  //         resolve(res.resultSet)
-  //       }
-  //     })
-  //   })
-  // })
 }

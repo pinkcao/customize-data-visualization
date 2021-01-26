@@ -97,7 +97,9 @@ export default {
       this.$axios({
         url: this.$url.getComponentList,
         method: 'post',
-        data: {}
+        data: {
+          templateID: this.$store.state.currentTemplateID
+        }
       }).then(res => {
         if (res.status == 200) {
           this.componentList = res.data.resultSet
@@ -239,6 +241,7 @@ export default {
           method: 'post',
           //不用testobj是因为在testObj中重定向了store，会造成"Converting circular structure to JSON"的问题
           data: {
+            templateID: this.$store.state.currentTemplateID,
             index: this.componentList.length,
             zindex: this.componentList.length,
             ifshow: true,

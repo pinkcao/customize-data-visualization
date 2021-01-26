@@ -6,10 +6,7 @@
     <div class="main-select-pane content-box">
       <el-row :gutter="10">
         <el-col v-for="item in templateList" :key="item.templateID" :span="6">
-          <div
-            style="height: 200px; background-color: black; margin: 5px"
-            @click="clickTemplate(item.templateID)"
-          ></div>
+          <div class="template-box" @click="clickTemplate(item.templateID)"></div>
         </el-col>
       </el-row>
     </div>
@@ -21,12 +18,19 @@ export default {
   name: 'login',
   data() {
     return {
-      templateList: []
+      templateList: [],
+      loadingInstance: null
     }
   },
   computed: {},
   created() {},
   mounted() {
+    this.loadingInstance = this.$loading({
+      fullscreen: true,
+      spinner: 'el-icon-loading',
+      background: 'rgba(0, 0, 0, 0.8)',
+      text: '正在加载中'
+    })
     this.getTemplateList(this.$store.state.currentUserID)
   },
 
@@ -47,7 +51,10 @@ export default {
         }
       }).then(res => {
         // console.log(res.data)
-        this.templateList = res.data
+        if (res.status == 200) {
+          this.templateList = res.data
+          this.loadingInstance.close()
+        }
       })
     }
   }
@@ -87,7 +94,13 @@ export default {
   overflow-x: hidden;
 }
 
-.main-select-pane.content-box:hover {
+.template-box {
+  height: 200px;
+  background-color: black;
+  margin: 5px;
+}
+
+.template-box:hover {
   cursor: pointer;
 }
 </style>
