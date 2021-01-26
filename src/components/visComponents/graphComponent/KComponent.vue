@@ -43,7 +43,6 @@
 </template>
 
 <script>
-import echarts from 'echarts'
 import componentsDef from '@components/componentsDef/componentsDef.js'
 import VKChart from '@/common/commonComponents/kChart/kChart.vue'
 

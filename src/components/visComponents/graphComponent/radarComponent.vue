@@ -44,7 +44,6 @@
 </template>
 
 <script>
-import echarts from 'echarts'
 import componentsDef from '@components/componentsDef/componentsDef.js'
 import VRadarChart from '@/common/commonComponents/radarChart/radarChart.vue'
 
