@@ -115,7 +115,10 @@ export default new Vuex.Store({
       axios({
         url: url.updateScreenStretch,
         method: 'post',
-        data: screenStretch
+        data: {
+          screenStretch: screenStretch,
+          templateID: state.currentTemplateID
+        }
       }).then(res => {
         console.log(res.data)
       })
@@ -261,7 +264,10 @@ export default new Vuex.Store({
       axios({
         url: url.updateScreenDef,
         method: 'post',
-        data: state.screenDef
+        data: {
+          screenDef: state.screenDef,
+          templateID: state.currentTemplateID
+        }
       }).then(res => {
         //
         // console.log(res.data)

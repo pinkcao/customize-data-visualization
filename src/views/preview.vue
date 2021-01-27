@@ -102,7 +102,9 @@ export default {
       this.$axios({
         url: url.getScreenStretch,
         method: 'post',
-        data: {}
+        data: {
+          templateID: this.$store.state.currentTemplateID
+        }
       }).then(res => {
         // console.log(res.data)
         this.screenStretch = res.data
@@ -115,7 +117,9 @@ export default {
       this.$axios({
         url: url.getScreenDef,
         method: 'post',
-        data: {}
+        data: {
+          templateID: this.$store.state.currentTemplateID
+        }
       }).then(res => {
         console.log(res.data)
         this.screenDef = res.data
@@ -175,7 +179,9 @@ export default {
       this.$axios({
         url: url.getComponentList,
         method: 'post',
-        data: {}
+        data: {
+          templateID: this.$store.state.currentTemplateID
+        }
       }).then(res => {
         this.componentList = res.data.resultSet
         this.mountTest()

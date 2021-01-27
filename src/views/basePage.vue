@@ -174,6 +174,8 @@ export default {
   beforeCreate() {},
   created() {},
   mounted() {
+    this.initScreenDef()
+    this.initScreenStretch()
     //初始化加载状态
     this.initLoadingStatus()
     //设置加载
@@ -183,7 +185,6 @@ export default {
       background: 'rgba(0, 0, 0, 0.8)',
       text: '正在加载中'
     })
-
     // this.$axios({
     //   url: 'http://localhost:8080/testListMapJson',
     //   method: 'post',
@@ -242,6 +243,28 @@ export default {
     }
   },
   methods: {
+    initScreenDef() {
+      this.$axios({
+        url: this.$url.getScreenDef,
+        method: 'post',
+        data: {
+          templateID: this.$store.state.currentTemplateID
+        }
+      }).then(res => {
+        this.$store.commit('initScreenDef', res.data)
+      })
+    },
+    initScreenStretch() {
+      this.$axios({
+        url: this.$url.getScreenStretch,
+        method: 'post',
+        data: {
+          templateID: this.$store.state.currentTemplateID
+        }
+      }).then(res => {
+        this.$store.commit('initScreenStretch', res.data)
+      })
+    },
     findFalse(bool) {
       return bool == false
     },

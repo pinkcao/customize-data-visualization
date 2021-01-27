@@ -33,32 +33,8 @@ export default {
       }
     }
   },
-  mounted() {
-    this.initScreenDef()
-    this.initScreenStretch()
-  },
-  methods: {
-    initScreenDef() {
-      this.$axios({
-        url: this.$url.getScreenDef,
-        method: 'post',
-        data: {}
-      }).then(res => {
-        console.log(res.data)
-        this.$store.commit('initScreenDef', res.data)
-      })
-    },
-    initScreenStretch() {
-      this.$axios({
-        url: this.$url.getScreenStretch,
-        method: 'post',
-        data: {}
-      }).then(res => {
-        // console.log(res.data)
-        this.$store.commit('initScreenStretch', res.data)
-      })
-    }
-  }
+  mounted() {},
+  methods: {}
 }
 </script>
 
