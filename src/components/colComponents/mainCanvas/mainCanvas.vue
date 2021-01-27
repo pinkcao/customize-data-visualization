@@ -26,9 +26,7 @@ export default {
   watch: {
     //监听vuex中的componentList属性，如果有更改则覆盖当前objList的z-index值
     '$store.state.componentList': function(newval) {
-      // console.log(newval)
       let compList = newval
-      console.log(newval)
       for (let i = 0; i < this.objList.length; i++) {
         for (let j = 0; j < compList.length; j++) {
           //必须是this.objList[i].component_instance获取当前VueComponent实体

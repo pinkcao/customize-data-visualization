@@ -223,7 +223,7 @@ export default {
   //获取当前componentList
   getComponentList: Mock.mock(url.getComponentList, 'post', params => {
     let currentTemplateID = JSON.parse(params.body).templateID
-    console.log(currentTemplateID)
+    // console.log(currentTemplateID)
     for (let i = 0; i < componentList.length; i++) {
       if (componentList[i].templateID == currentTemplateID) {
         return {
@@ -258,18 +258,18 @@ export default {
     // console.log(JSON.parse(params.body))
     let propertyObj = JSON.parse(params.body)
     let currentTemplateID = JSON.parse(params.body).templateID
-    console.log(propertyObj)
+    // console.log(propertyObj)
     for (let i = 0; i < componentList.length; i++) {
       if (componentList[i].templateID == currentTemplateID) {
-        console.log('right')
+        // console.log('right')
         for (let j = 0; j < componentList[i].components.length; j++) {
-          console.log(componentList[i].components[j].index, propertyObj.index)
+          // console.log(componentList[i].components[j].index, propertyObj.index)
           if (propertyObj.index == componentList[i].components[j].index) {
             componentList[i].components[j].width = propertyObj.width
             componentList[i].components[j].height = propertyObj.height
             componentList[i].components[j].top = propertyObj.top
             componentList[i].components[j].left = propertyObj.left
-            console.log(componentList[i].components)
+            // console.log(componentList[i].components)
             return {
               message: '更新成功',
               resultSet: componentList[i].components
@@ -309,13 +309,13 @@ export default {
   updateZindexComponentList: Mock.mock(url.updateZindexComponentList, 'post', params => {
     let currentTemplateID = JSON.parse(params.body).templateID
     let currentComponentList = JSON.parse(params.body).componentList
-    console.log(currentComponentList)
+    // console.log(currentComponentList)
     for (let i = 0; i < componentList.length; i++) {
       if (componentList[i].templateID == currentTemplateID) {
         for (let j = 0; j < componentList[i].components.length; j++) {
           componentList[i].components[j] = currentComponentList[j]
-          console.log(componentList[i].components.length)
-          console.log(currentComponentList[j])
+          // console.log(componentList[i].components.length)
+          // console.log(currentComponentList[j])
         }
         return {
           message: '修改z-index成功',

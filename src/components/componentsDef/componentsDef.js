@@ -165,8 +165,8 @@ export default {
     //更新当前组件基础属性
     updateComponentList() {
       if (this.mode == 'design') {
-        console.log(this.index)
-        console.log(this.$store.state.currentTemplateID)
+        // console.log(this.index)
+        // console.log(this.$store.state.currentTemplateID)
         this.$axios({
           url: url.adjustComponent,
           method: 'post',
@@ -180,7 +180,7 @@ export default {
           }
         }).then(res => {
           if (res.status == 200) {
-            console.log(res.data.resultSet)
+            // console.log(res.data.resultSet)
             this.$store.commit('initComponentList', res.data.resultSet)
             this.$store.commit('resizeUpdateActiveComponent')
           }
@@ -192,12 +192,16 @@ export default {
       this.ifshow = false
       this.$emit('destroyComponent', this.index)
     },
+    chartResize() {
+      this.$refs.child.chartResize()
+    },
     //调整当前组件基础属性
     resize(newRect) {
       this.width = newRect.width
       this.height = newRect.height
       this.top = newRect.top
       this.left = newRect.left
+      this.$refs.child.chartResize()
     },
     //由active转为inactive,失去焦点
     onDeactivated() {

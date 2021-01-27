@@ -98,40 +98,7 @@ export default {
   mounted() {
     this.flag = true
   },
-  methods: {
-    // updateComponentList() {
-    //   if (this.mode == 'design') {
-    //     this.$axios({
-    //       url: this.$url.adjustComponent,
-    //       method: 'post',
-    //       data: {
-    //         index: this.index,
-    //         width: this.width,
-    //         height: this.height,
-    //         top: this.top,
-    //         left: this.left
-    //       }
-    //     }).then(res => {
-    //       this.$store.commit('initComponentList', res.data.resultSet)
-    //       this.$store.commit('resizeUpdateActiveComponent')
-    //     })
-    //   }
-    // },
-    chartResize() {
-      this.$refs.child.chartResize()
-    },
-    resize(newRect) {
-      this.width = newRect.width
-      this.height = newRect.height
-      this.top = newRect.top
-      this.left = newRect.left
-      this.$refs.child.chartResize()
-    },
-    rotate(deg) {
-      // console.log(deg)
-      this.style.deg = deg
-    }
-  }
+  methods: {}
 }
 </script>
 

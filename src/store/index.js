@@ -43,7 +43,7 @@ export default new Vuex.Store({
     changeCurrentUserID(state, userID) {
       if (userID >= 0) {
         state.currentUserID = userID
-        console.log(state.currentUserID)
+        // console.log(state.currentUserID)
       }
     },
     //获取当前组件的name
@@ -174,14 +174,14 @@ export default new Vuex.Store({
     //初始化组件列表
     initComponentList(state, componentList) {
       state.componentList = componentList
-      console.log(state.componentList)
+      // console.log(state.componentList)
     },
     //初始化活跃组件列表
     initActiveComponent(state, componentList) {
       for (let i = 0; i < componentList.length; i++) {
         state.componentActive[componentList[i].index] = { active: componentList[i].active }
       }
-      console.log(state.componentActive)
+      // console.log(state.componentActive)
     },
     //设置所有组件为不活跃，设置被选中组件为活跃
     updateActiveComponent(state, args) {
@@ -229,7 +229,7 @@ export default new Vuex.Store({
           templateID: state.currentTemplateID
         }
       }).then(res => {
-        console.log(res.data.resultSet)
+        // console.log(res.data.resultSet)
       })
     },
     //传入排序后数组，给排序后数组的z-index重排序，降序
@@ -264,7 +264,7 @@ export default new Vuex.Store({
         data: state.screenDef
       }).then(res => {
         //
-        console.log(res.data)
+        // console.log(res.data)
       })
     },
     //更新当前页面规模,
