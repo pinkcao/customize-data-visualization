@@ -4,10 +4,10 @@
     <div class="login-input-pane">
       <el-form ref="form" :model="form" label-width="80px">
         <el-form-item label="账号">
-          <el-input v-model="form.account"></el-input>
+          <el-input autofocus v-model="form.account" @keydown.enter.native="onSubmit"></el-input>
         </el-form-item>
         <el-form-item label="密码">
-          <el-input v-model="form.password"></el-input>
+          <el-input autofocus v-model="form.password" @keydown.enter.native="onSubmit"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button autofocus @keydown.enter="onSubmit" type="primary" @click="onSubmit">登录</el-button>
