@@ -49,6 +49,11 @@ export default new Vuex.Store({
     changeComponentNameToCanvas(state, compName) {
       state.componentNameToCanvas = compName
     },
+    //初始化flag
+    initScreenFlags(state) {
+      state.screenDefFlag = false
+      state.screenStretchFlag = false
+    },
     //初始化界面设置
     initScreenDef(state, screenDef) {
       state.screenDef = screenDef

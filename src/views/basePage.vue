@@ -174,6 +174,7 @@ export default {
   beforeCreate() {},
   created() {},
   mounted() {
+    this.$store.commit('initScreenFlags')
     this.initScreenDef()
     this.initScreenStretch()
     //初始化加载状态
