@@ -18,13 +18,12 @@ export default new Vuex.Store({
     //修正鼠标移动倍率
     parentScaleX: 0.45,
     parentScaleY: 0.45,
-    // parentW: 1536, //这个调的时候记得+px
-    // parentH: 864,
     position: 'absolute',
     currentColWidth: 0,
 
     screenDef: [],
     screenDefFlag: false,
+    screenStretchFlag: false,
     allStretch: true,
     yStretch: false,
     xStretch: false,
@@ -61,6 +60,7 @@ export default new Vuex.Store({
       state.yStretch = screenStretch.yStretch
       state.xStretch = screenStretch.xStretch
       state.noStretch = screenStretch.noStretch
+      state.screenStretchFlag = true
     },
     //这两个方法以备不时之需，目前不需要
     // adjustComponent(state, propertyObj) {

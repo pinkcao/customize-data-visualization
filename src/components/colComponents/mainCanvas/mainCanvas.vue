@@ -59,14 +59,28 @@ export default {
           transform: `scale(${this.$store.state.parentScale}) translate(0px, 0px)`
         }
       }
+    },
+    mountComponentssFlag: {
+      handler(newVal) {
+        if (newVal == true) {
+          this.getComponentList()
+        }
+      }
     }
   },
-  computed: {},
+  computed: {
+    mountComponentssFlag: function() {
+      if (this.$store.state.screenDefFlag == true && this.$store.state.screenStretchFlag == true) {
+        return true
+      }
+      return false
+    }
+  },
   created() {},
   mounted() {
     console.log(this.canvasStyle)
-    this.getComponentList()
     this.initCanvasStyle()
+    // this.getComponentList()
   },
   methods: {
     //取消所有焦点
