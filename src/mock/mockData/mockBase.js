@@ -237,13 +237,15 @@ export default {
   appendComponentList: Mock.mock(url.appendComponentList, 'post', newComp => {
     let currentTemplateID = JSON.parse(newComp.body).templateID
     let component = JSON.parse(newComp.body)
-    console.log(component)
+    // console.log(component)
     delete component['templateID']
-    console.log(component)
+    // console.log(component)
     for (let i = 0; i < componentList.length; i++) {
       if (componentList[i].templateID == currentTemplateID) {
         componentList[i].components.push(component)
-        componentList[i].components[componentList[i].components.length - 1].index = componentList[i].components.length -1
+        // eslint-disable-next-line prettier/prettier
+        componentList[i].components[componentList[i].components.length - 1].index =
+          componentList[i].components.length - 1
         return {
           message: '添加成功',
           resultSet: componentList[i].components
@@ -255,69 +257,104 @@ export default {
   adjustComponentList: Mock.mock(url.adjustComponent, 'post', params => {
     // console.log(JSON.parse(params.body))
     let propertyObj = JSON.parse(params.body)
+    let currentTemplateID = JSON.parse(params.body).templateID
+    console.log(propertyObj)
     for (let i = 0; i < componentList.length; i++) {
-      if (propertyObj.index == componentList[i].index) {
-        componentList[i].width = propertyObj.width
-        componentList[i].height = propertyObj.height
-        componentList[i].top = propertyObj.top
-        componentList[i].left = propertyObj.left
-        break
+      if (componentList[i].templateID == currentTemplateID) {
+        console.log('right')
+        for (let j = 0; j < componentList[i].components.length; j++) {
+          console.log(componentList[i].components[j].index, propertyObj.index)
+          if (propertyObj.index == componentList[i].components[j].index) {
+            componentList[i].components[j].width = propertyObj.width
+            componentList[i].components[j].height = propertyObj.height
+            componentList[i].components[j].top = propertyObj.top
+            componentList[i].components[j].left = propertyObj.left
+            console.log(componentList[i].components)
+            return {
+              message: '更新成功',
+              resultSet: componentList[i].components
+            }
+          }
+        }
       }
     }
     return {
-      status: 200,
-      message: '更新成功',
-      resultSet: componentList
+      message: '更新失败'
     }
   }),
   //删除组件，只是将其可见性设为否
   spliceComponentList: Mock.mock(url.spliceComponentList, 'post', params => {
     let index = JSON.parse(params.body).index
-    console.log(index)
+    let currentTemplateID = JSON.parse(params.body).templateID
     for (let i = 0; i < componentList.length; i++) {
-      if (componentList[i].index == index) {
-        componentList[i].ifshow = false
+      if (componentList[i].templateID == currentTemplateID) {
+        for (let j = 0; j < componentList[i].components.length; j++) {
+          if (index == componentList[i].components[j].index) {
+            componentList[i].components[j].ifshow = false
+            return {
+              message: '删除成功',
+              resultSet: componentList[i].components
+            }
+          }
+        }
       }
     }
     return {
-      status: 200,
-      message: '删除成功',
+      message: '删除失败',
       resultSet: componentList
     }
   }),
   //更新所有组件的z-index值使其与设计界面z-index值相等
   //实际上这里是直接复制了传入的componentList
   updateZindexComponentList: Mock.mock(url.updateZindexComponentList, 'post', params => {
-    let currentComponentList = JSON.parse(params.body)
-    for (let i = 0; i < currentComponentList.length; i++) {
-      componentList[i] = currentComponentList[i]
-    }
-    return {
-      status: 200,
-      message: '修改z-index成功',
-      resultSet: componentList
-    }
-  }),
-  updateComponentBasicStatus: Mock.mock(url.updateComponentBasicStatus, 'post', params => {
-    let args = JSON.parse(params.body)
-    let index = args.index
-    // let dataSource = args.dataSource
+    let currentTemplateID = JSON.parse(params.body).templateID
+    let currentComponentList = JSON.parse(params.body).componentList
+    console.log(currentComponentList)
     for (let i = 0; i < componentList.length; i++) {
-      if (componentList[i].index == index) {
-        componentList[i].dataSource = args.dataSource
-        componentList[i].width = args.width
-        componentList[i].height = args.height
-        componentList[i].left = args.left
-        componentList[i].top = args.top
-        componentList[i].style = args.style
-        componentList[i].title = args.title
-        componentList[i].subTitle = args.subTitle
+      if (componentList[i].templateID == currentTemplateID) {
+        for (let j = 0; j < componentList[i].components.length; j++) {
+          componentList[i].components[j] = currentComponentList[j]
+          console.log(componentList[i].components.length)
+          console.log(currentComponentList[j])
+        }
+        return {
+          message: '修改z-index成功',
+          resultSet: componentList[i].components
+        }
       }
     }
     return {
-      status: 200,
-      message: '修改组件数据成功',
-      resultSet: componentList
+      message: '修改z-index失败',
+      resultSet: componentList[i].components
+    }
+    // for (let i = 0; i < currentComponentList.length; i++) {
+    //   componentList[i] = currentComponentList[i]
+    // }
+  }),
+  updateComponentBasicStatus: Mock.mock(url.updateComponentBasicStatus, 'post', params => {
+    let currentTemplateID = JSON.parse(params.body).templateID
+    let args = JSON.parse(params.body)
+    let index = args.index
+    for (let i = 0; i < componentList.length; i++) {
+      if (componentList[i].templateID == currentTemplateID) {
+        for (let j = 0; j < componentList[i].components.length; j++) {
+          componentList[i].components[j].dataSource = args.dataSource
+          componentList[i].components[j].width = args.width
+          componentList[i].components[j].height = args.height
+          componentList[i].components[j].left = args.left
+          componentList[i].components[j].top = args.top
+          componentList[i].components[j].style = args.style
+          componentList[i].components[j].title = args.title
+          componentList[i].components[j].subTitle = args.subTitle
+          return {
+            message: '修改组件数据成功',
+            resultSet: componentList[i].components
+          }
+        }
+      }
+    }
+    return {
+      message: '修改组件数据失败'
     }
   })
 }

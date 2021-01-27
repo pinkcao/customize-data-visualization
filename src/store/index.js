@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 import url from '@mock/mockAPI.js'
-import { RGBA_ASTC_10x10_Format } from 'three'
 
 Vue.use(Vuex)
 
@@ -175,12 +174,14 @@ export default new Vuex.Store({
     //初始化组件列表
     initComponentList(state, componentList) {
       state.componentList = componentList
+      console.log(state.componentList)
     },
     //初始化活跃组件列表
     initActiveComponent(state, componentList) {
       for (let i = 0; i < componentList.length; i++) {
         state.componentActive[componentList[i].index] = { active: componentList[i].active }
       }
+      console.log(state.componentActive)
     },
     //设置所有组件为不活跃，设置被选中组件为活跃
     updateActiveComponent(state, args) {
@@ -223,9 +224,12 @@ export default new Vuex.Store({
       axios({
         url: url.updateZindexComponentList,
         method: 'post',
-        data: componentList
+        data: {
+          componentList: componentList,
+          templateID: state.currentTemplateID
+        }
       }).then(res => {
-        // console.log(res.data.resultSet)
+        console.log(res.data.resultSet)
       })
     },
     //传入排序后数组，给排序后数组的z-index重排序，降序
@@ -237,7 +241,10 @@ export default new Vuex.Store({
       axios({
         url: url.updateZindexComponentList,
         method: 'post',
-        data: componentList
+        data: {
+          componentList: componentList,
+          templateID: state.currentTemplateID
+        }
       }).then(res => {
         // console.log(res.data.resultSet)
       })

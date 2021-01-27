@@ -90,13 +90,14 @@ export default {
     // console.log(this)
   },
   methods: {
-    //更新当前组件基础属性
+    // 更新当前组件基础属性
     updateComponentList() {
       if (this.mode == 'design') {
         this.$axios({
           url: url.adjustComponent,
           method: 'post',
           data: {
+            templateID: this.$store.state.currentTemplateID,
             index: this.index,
             width: this.width,
             height: this.height,

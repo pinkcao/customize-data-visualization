@@ -26,11 +26,7 @@ export default {
       zoomvisible: this.zoomvis
     }
   },
-  watch: {
-    dataSource: function(newVal) {
-      this.initChart()
-    }
-  },
+  watch: {},
   computed: {
     xAxisData: function() {
       return this.dataSource[0]

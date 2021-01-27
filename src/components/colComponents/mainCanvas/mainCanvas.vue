@@ -28,6 +28,7 @@ export default {
     '$store.state.componentList': function(newval) {
       // console.log(newval)
       let compList = newval
+      console.log(newval)
       for (let i = 0; i < this.objList.length; i++) {
         for (let j = 0; j < compList.length; j++) {
           //必须是this.objList[i].component_instance获取当前VueComponent实体
@@ -168,7 +169,8 @@ export default {
                     url: that.$url.spliceComponentList,
                     method: 'post',
                     data: {
-                      index: index
+                      index: index,
+                      templateID: that.$store.state.currentTemplateID
                     }
                   })
                   .then(res => {
@@ -201,6 +203,7 @@ export default {
                             url: that.$url.updateComponentBasicStatus,
                             method: 'post',
                             data: {
+                              templateID: that.$store.state.currentTemplateID,
                               index: mnt.component_instance.index,
                               dataSource: newVal[i].dataSource,
                               width: newVal[i].width,
@@ -213,9 +216,9 @@ export default {
                             }
                           })
                           .then(res => {
-                            if (res.data.status == 200 && mnt.component_instance == 'titleComponent') {
-                              mnt.component_instance.chartResize()
-                            }
+                            // if (res.data.status == 200 && mnt.component_instance == 'titleComponent') {
+                            //   mnt.component_instance.chartResize()
+                            // }
                           })
                         break
                       }
@@ -330,7 +333,8 @@ export default {
                     url: that.$url.spliceComponentList,
                     method: 'post',
                     data: {
-                      index: index
+                      index: index,
+                      templateID: that.$store.state.currentTemplateID
                     }
                   })
                   .then(res => {
@@ -367,6 +371,7 @@ export default {
                             url: that.$url.updateComponentBasicStatus,
                             method: 'post',
                             data: {
+                              templateID: that.$store.state.currentTemplateID,
                               index: mnt.component_instance.index,
                               dataSource: newVal[i].dataSource,
                               width: newVal[i].width,
@@ -379,8 +384,8 @@ export default {
                             }
                           })
                           .then(res => {
-                            if (res.data.status == 200 && mnt.component_instance.name == 'graphComponent') {
-                              mnt.component_instance.chartResize()
+                            if (res.data.status == 200) {
+                              console.log(res.data.resultSet)
                             }
                           })
                         break

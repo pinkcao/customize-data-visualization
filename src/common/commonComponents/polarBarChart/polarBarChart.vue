@@ -51,11 +51,7 @@ export default {
       zoomvisible: this.zoomvis
     }
   },
-  watch: {
-    dataSource: function(newVal) {
-      this.initChart()
-    }
-  },
+  watch: {},
   computed: {
     //设置图表的整个宽,高
     chartStyle: function() {

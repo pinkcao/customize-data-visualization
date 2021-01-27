@@ -67,8 +67,10 @@ export default {
     }
   },
   watch: {
-    dataSource: function(newVal) {
-      this.initChart()
+    dataSource: function(newVal, oldVal) {
+      if (JSON.stringify(newVal) != JSON.stringify(oldVal)) {
+        this.initChart()
+      }
     },
     opacity: function(newVal) {
       this.initChart()

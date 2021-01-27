@@ -29,11 +29,7 @@ export default {
       zoomvisible: this.zoomvis
     }
   },
-  watch: {
-    dataSource: function(newVal) {
-      this.initChart()
-    }
-  },
+  watch: {},
   computed: {},
   mounted() {
     this.currentChart = echarts.init(this.$refs.chart)

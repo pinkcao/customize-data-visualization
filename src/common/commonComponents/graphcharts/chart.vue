@@ -178,10 +178,10 @@ export default {
     }
   },
   watch: {
-    dataSource: function(newVal) {
-      // console.log('那我问一下，为什么我被点击之后也会更新dataSource?')
-      // console.log('那我透露一下，这里被调用是因为你上面父元素在被点击时就会莫名触发resizestop dragstop,导致一直更新')
-      this.updateChart()
+    dataSource: function(newVal, oldVal) {
+      if (JSON.stringify(newVal) != JSON.stringify(oldVal)) {
+        this.initChart()
+      }
     }
   },
   computed: {
