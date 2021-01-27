@@ -125,7 +125,6 @@ export default {
       pageColActive: true,
 
       divData: {},
-      dataFromSon: '',
       /*
         div参数
       */
@@ -139,7 +138,9 @@ export default {
       iconstyle: 'color:aliceblue;',
 
       loadingStatus: [false, false],
-      loadingInstance: null
+      loadingInstance: null,
+      loadingIntervalID: 0,
+      loadingTimer: 0
     }
   },
   computed: {
@@ -180,6 +181,7 @@ export default {
     //初始化加载状态
     this.initLoadingStatus()
     //设置加载
+    this.loadingIntervalID = setInterval(this.timerAccumulation, 10)
     this.loadingInstance = this.$loading({
       fullscreen: true,
       spinner: 'el-icon-loading',
@@ -266,6 +268,10 @@ export default {
         this.$store.commit('initScreenStretch', res.data)
       })
     },
+    timerAccumulation() {
+      this.loadingTimer += 10
+      // console.log(this.loadingTimer)
+    },
     findFalse(bool) {
       return bool == false
     },
@@ -279,10 +285,13 @@ export default {
     changeLoadingStatus(data) {
       this.loadingStatus[data] = true
       if (this.loadingStatus.find(this.findFalse) == undefined) {
-        //我悟了大师，这里以后就用来慢慢做优化时间
-        setTimeout(() => {
-          this.loadingInstance.close()
-        }, 200)
+        this.loadingInstance.close()
+        clearInterval(this.loadingIntervalID)
+        if (this.loadingTimer / 2 > 100) {
+          alert('当前延时为: ' + this.loadingTimer / 2 + 'ms，使用体验将受到影响')
+        }
+        // setTimeout(() => {
+        // }, 500)
       }
     },
     updateColData() {
