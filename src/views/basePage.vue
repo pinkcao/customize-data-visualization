@@ -147,9 +147,6 @@ export default {
     pageAndComponentFlag: function() {
       return this.$store.state.pageAndComponentFlag
     },
-    // loadingStatus() {
-    //   return this.$store.state.loadingStatus
-    // },
     graphisshown: function() {
       return {
         'icon-box-left': this.graphColActive,
@@ -181,7 +178,7 @@ export default {
     //初始化加载状态
     this.initLoadingStatus()
     //设置加载
-    this.loadingIntervalID = setInterval(this.timerAccumulation, 10)
+    // this.loadingIntervalID = setInterval(this.timerAccumulation, 10)
     this.loadingInstance = this.$loading({
       fullscreen: true,
       spinner: 'el-icon-loading',
@@ -251,7 +248,8 @@ export default {
         url: this.$url.getScreenDef,
         method: 'post',
         data: {
-          templateID: this.$store.state.currentTemplateID
+          templateID: this.$store.state.currentTemplateID,
+          userID: this.$store.state.currentUserID
         }
       }).then(res => {
         this.$store.commit('initScreenDef', res.data)
@@ -262,16 +260,17 @@ export default {
         url: this.$url.getScreenStretch,
         method: 'post',
         data: {
-          templateID: this.$store.state.currentTemplateID
+          templateID: this.$store.state.currentTemplateID,
+          userID: this.$store.state.currentUserID
         }
       }).then(res => {
         this.$store.commit('initScreenStretch', res.data)
       })
     },
-    timerAccumulation() {
-      this.loadingTimer += 10
-      // console.log(this.loadingTimer)
-    },
+    // timerAccumulation() {
+    //   this.loadingTimer += 10
+    //   // console.log(this.loadingTimer)
+    // },
     findFalse(bool) {
       return bool == false
     },
@@ -285,13 +284,13 @@ export default {
     changeLoadingStatus(data) {
       this.loadingStatus[data] = true
       if (this.loadingStatus.find(this.findFalse) == undefined) {
-        this.loadingInstance.close()
-        clearInterval(this.loadingIntervalID)
-        if (this.loadingTimer / 2 > 100) {
-          alert('当前延时为: ' + this.loadingTimer / 2 + 'ms，使用体验将受到影响')
-        }
-        // setTimeout(() => {
-        // }, 500)
+        // clearInterval(this.loadingIntervalID)
+        // if (this.loadingTimer / 2 > 100) {
+        //   alert('当前延时为: ' + this.loadingTimer / 2 + 'ms，使用体验将受到影响')
+        // }
+        setTimeout(() => {
+          this.loadingInstance.close()
+        }, 500)
       }
     },
     updateColData() {

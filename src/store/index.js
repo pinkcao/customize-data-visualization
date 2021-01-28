@@ -122,7 +122,8 @@ export default new Vuex.Store({
         method: 'post',
         data: {
           screenStretch: screenStretch,
-          templateID: state.currentTemplateID
+          templateID: state.currentTemplateID,
+          userID: state.currentUserID
         }
       }).then(res => {
         console.log(res.data)
@@ -271,7 +272,8 @@ export default new Vuex.Store({
         method: 'post',
         data: {
           screenDef: state.screenDef,
-          templateID: state.currentTemplateID
+          templateID: state.currentTemplateID,
+          userID: state.currentUserID
         }
       }).then(res => {
         //

@@ -52,12 +52,12 @@ const componentTabData = [
           },
           {
             title: '组件e',
-            componentName: 'compE',
+            componentName: 'titleComponent',
             picurl: require('@/assets/pics/暂无.png')
           },
           {
             title: '组件f',
-            componentName: 'compF',
+            componentName: 'titleComponent',
             picurl: require('@/assets/pics/暂无.png')
           }
         ]
@@ -73,7 +73,7 @@ const componentTabData = [
         componentDetailList: [
           {
             title: '组件g',
-            componentName: 'compG',
+            componentName: 'titleComponent',
             picurl: require('@/assets/pics/暂无.png')
           }
         ]
@@ -84,7 +84,7 @@ const componentTabData = [
         componentDetailList: [
           {
             title: '组件h',
-            componentName: 'compH',
+            componentName: 'titleComponent',
             picurl: require('@/assets/pics/暂无.png')
           }
         ]
@@ -205,6 +205,18 @@ const componentList = [
   },
   {
     templateID: 3,
+    components: []
+  },
+  {
+    templateID: 4,
+    components: []
+  },
+  {
+    templateID: 5,
+    components: []
+  },
+  {
+    templateID: 6,
     components: []
   }
 ]

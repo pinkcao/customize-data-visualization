@@ -42,12 +42,12 @@ export default {
       this.$store.commit('changeCurrentTemplateID', item)
       this.$router.push('/basePage')
     },
-    getTemplateList(userID) {
+    getTemplateList() {
       this.$axios({
         url: this.$url.getTemplateList,
         method: 'post',
         data: {
-          userID: userID
+          userID: this.$store.state.currentUserID
         }
       }).then(res => {
         // console.log(res.data)

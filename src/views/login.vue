@@ -19,7 +19,6 @@
 </template>
 
 <script>
-import echarts from 'echarts'
 import url from '@mock/mockAPI.js'
 
 export default {
@@ -35,7 +34,9 @@ export default {
   computed: {},
   created() {},
   mounted() {
-    this.testjson()
+    // let sha1 = require('js-sha1')
+    // console.log(sha1('test'))
+    // this.testjson()
   },
 
   methods: {

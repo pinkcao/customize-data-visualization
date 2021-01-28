@@ -103,7 +103,8 @@ export default {
         url: url.getScreenStretch,
         method: 'post',
         data: {
-          templateID: this.$store.state.currentTemplateID
+          templateID: this.$store.state.currentTemplateID,
+          userID: this.$store.state.currentUserID
         }
       }).then(res => {
         // console.log(res.data)
@@ -118,7 +119,8 @@ export default {
         url: url.getScreenDef,
         method: 'post',
         data: {
-          templateID: this.$store.state.currentTemplateID
+          templateID: this.$store.state.currentTemplateID,
+          userID: this.$store.state.currentUserID
         }
       }).then(res => {
         console.log(res.data)
