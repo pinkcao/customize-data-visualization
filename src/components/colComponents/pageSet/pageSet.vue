@@ -22,7 +22,7 @@
               ></el-input-number>
             </div>
             <div class="page-stretch">
-              <span style="margin: 5px; align-self: flex-start; font-size: 13px">缩放方式:</span>
+              <span style="margin: 5px; align-self: flex-start; font-size: 13px; user-select: none">缩放方式:</span>
               <div class="page-stretch-button-set">
                 <div :class="allStretch" @click="updateStretch('allStretch')" title="全屏缩放">
                   <i :style="iconstyle" class="el-icon-full-screen"></i>
@@ -181,6 +181,7 @@ export default {
 .page-set-wrapper .el-tabs--border-card > .el-tabs__header {
   background-color: rgb(20, 20, 20);
   border: @darkSolidBorder;
+  user-select: none;
 }
 
 .page-set-wrapper .el-tabs--border-card > .el-tabs__header .el-tabs__item.is-active {

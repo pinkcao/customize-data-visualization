@@ -522,6 +522,7 @@ export default {
 .component-set-wrapper .el-tabs--border-card > .el-tabs__header {
   background-color: rgb(20, 20, 20);
   border: @darkSolidBorder;
+  user-select: none;
 }
 
 .component-set-wrapper .el-tabs--border-card > .el-tabs__header .el-tabs__item.is-active {

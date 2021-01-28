@@ -8,6 +8,11 @@
         <el-col v-for="item in templateList" :key="item.templateID" :span="6">
           <div class="template-box" @click="clickTemplate(item.templateID)"></div>
         </el-col>
+        <el-col :span="6">
+          <div class="plus-box">
+            <i style="font-size: 40px" class="el-icon-plus"></i>
+          </div>
+        </el-col>
       </el-row>
     </div>
   </div>
@@ -97,7 +102,23 @@ export default {
 .template-box {
   height: 200px;
   background-color: black;
+  border-radius: 5px;
   margin: 5px;
+}
+
+.plus-box {
+  height: 200px;
+  background-color: transparent;
+  margin: 5px;
+  border: 1px dashed black;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.plus-box:hover {
+  cursor: pointer;
 }
 
 .template-box:hover {

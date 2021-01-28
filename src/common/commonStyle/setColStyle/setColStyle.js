@@ -1,6 +1,7 @@
 export const setSpanStyle = {
   'font-size': '13px',
-  float: 'left'
+  float: 'left',
+  'user-select': 'none'
 }
 
 export const setInputNumberStyle = {

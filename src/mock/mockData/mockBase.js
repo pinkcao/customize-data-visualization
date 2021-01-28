@@ -2,7 +2,7 @@ import Mock from 'mockjs'
 import url from '@mock/mockAPI.js'
 
 Mock.setup({
-  timeout: '400-500'
+  timeout: '800-1200'
 })
 
 //默认初始tabdata

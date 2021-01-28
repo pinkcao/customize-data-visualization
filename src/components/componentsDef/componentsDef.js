@@ -178,16 +178,6 @@ export default {
             height: this.height,
             top: this.top,
             left: this.left
-            // templateID: this.$store.state.currentTemplateID,
-            // index: this.index,
-            // dataSource: this.dataSource,
-            // width: this.width,
-            // height: this.height,
-            // left: this.left,
-            // top: this.top,
-            // title: this.title,
-            // subTitle: this.subTitle,
-            // style: this.style
           }
         }).then(res => {
           if (res.status == 200) {
