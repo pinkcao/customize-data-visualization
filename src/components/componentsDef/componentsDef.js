@@ -172,15 +172,26 @@ export default {
           method: 'post',
           data: {
             templateID: this.$store.state.currentTemplateID,
+            deg: this.style.deg,
             index: this.index,
             width: this.width,
             height: this.height,
             top: this.top,
             left: this.left
+            // templateID: this.$store.state.currentTemplateID,
+            // index: this.index,
+            // dataSource: this.dataSource,
+            // width: this.width,
+            // height: this.height,
+            // left: this.left,
+            // top: this.top,
+            // title: this.title,
+            // subTitle: this.subTitle,
+            // style: this.style
           }
         }).then(res => {
           if (res.status == 200) {
-            // console.log(res.data.resultSet)
+            console.log(res.data.resultSet)
             this.$store.commit('initComponentList', res.data.resultSet)
             this.$store.commit('resizeUpdateActiveComponent')
           }

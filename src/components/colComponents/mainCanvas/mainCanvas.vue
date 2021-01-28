@@ -203,10 +203,10 @@ export default {
                     for (let i = 0; i < newVal.length; i++) {
                       if (newVal[i].index == mnt.component_instance.index) {
                         mnt.component_instance.dataSource = newVal[i].dataSource
-                        mnt.component_instance.width = newVal[i].width
-                        mnt.component_instance.height = newVal[i].height
-                        mnt.component_instance.left = newVal[i].left
-                        mnt.component_instance.top = newVal[i].top
+                        // mnt.component_instance.width = newVal[i].width
+                        // mnt.component_instance.height = newVal[i].height
+                        // mnt.component_instance.left = newVal[i].left
+                        // mnt.component_instance.top = newVal[i].top
                         mnt.component_instance.title = newVal[i].title
                         mnt.component_instance.subTitle = newVal[i].subTitle
                         mnt.component_instance.style = newVal[i].style
@@ -218,10 +218,10 @@ export default {
                               templateID: that.$store.state.currentTemplateID,
                               index: mnt.component_instance.index,
                               dataSource: newVal[i].dataSource,
-                              width: newVal[i].width,
-                              height: newVal[i].height,
-                              left: newVal[i].left,
-                              top: newVal[i].top,
+                              // width: newVal[i].width,
+                              // height: newVal[i].height,
+                              // left: newVal[i].left,
+                              // top: newVal[i].top,
                               title: newVal[i].title,
                               subTitle: newVal[i].subTitle,
                               style: newVal[i].style
@@ -358,10 +358,6 @@ export default {
                   })
               }
             },
-            //真就不是我不想重构它，是真的没搞成功
-            //你说console.log(this),this里是有$store这东西了的，并且指向的就是Store
-            //那他妈凭什么console.log(this.$store)打印出来undefined？
-            //啊？凭什么啊？
             watch: {
               //当vuex的componentList更新后，更新该组件的dataSource值，并提交至后端
               '$store.state.componentList': {
@@ -371,10 +367,10 @@ export default {
                     for (let i = 0; i < newVal.length; i++) {
                       if (newVal[i].index == mnt.component_instance.index) {
                         mnt.component_instance.dataSource = newVal[i].dataSource
-                        mnt.component_instance.width = newVal[i].width
-                        mnt.component_instance.height = newVal[i].height
-                        mnt.component_instance.left = newVal[i].left
-                        mnt.component_instance.top = newVal[i].top
+                        // mnt.component_instance.width = newVal[i].width
+                        // mnt.component_instance.height = newVal[i].height
+                        // mnt.component_instance.left = newVal[i].left
+                        // mnt.component_instance.top = newVal[i].top
                         mnt.component_instance.style = newVal[i].style
                         mnt.component_instance.title = newVal[i].title
                         mnt.component_instance.subTitle = newVal[i].subTitle
@@ -386,10 +382,10 @@ export default {
                               templateID: that.$store.state.currentTemplateID,
                               index: mnt.component_instance.index,
                               dataSource: newVal[i].dataSource,
-                              width: newVal[i].width,
-                              height: newVal[i].height,
-                              left: newVal[i].left,
-                              top: newVal[i].top,
+                              // width: newVal[i].width,
+                              // height: newVal[i].height,
+                              // left: newVal[i].left,
+                              // top: newVal[i].top,
                               title: newVal[i].title,
                               subTitle: newVal[i].subTitle,
                               style: newVal[i].style
@@ -412,6 +408,7 @@ export default {
         this.objList[i].mount()
       }
       //初始化activeComponent列表，用此列表维护每个组件的active值
+      console.log(this.componentList)
       this.$store.commit('initActiveComponent', this.componentList)
     }
   }

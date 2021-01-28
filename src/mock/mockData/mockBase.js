@@ -2,7 +2,7 @@ import Mock from 'mockjs'
 import url from '@mock/mockAPI.js'
 
 Mock.setup({
-  timeout: '80-120'
+  timeout: '400-500'
 })
 
 //默认初始tabdata
@@ -281,7 +281,9 @@ export default {
             componentList[i].components[j].height = propertyObj.height
             componentList[i].components[j].top = propertyObj.top
             componentList[i].components[j].left = propertyObj.left
-            // console.log(componentList[i].components)
+            componentList[i].components[j].style.deg = propertyObj.deg
+            console.log(propertyObj)
+            console.log(componentList[i].components)
             return {
               message: '更新成功',
               resultSet: componentList[i].components
@@ -339,9 +341,6 @@ export default {
       message: '修改z-index失败',
       resultSet: componentList[i].components
     }
-    // for (let i = 0; i < currentComponentList.length; i++) {
-    //   componentList[i] = currentComponentList[i]
-    // }
   }),
   updateComponentBasicStatus: Mock.mock(url.updateComponentBasicStatus, 'post', params => {
     let currentTemplateID = JSON.parse(params.body).templateID
@@ -350,17 +349,19 @@ export default {
     for (let i = 0; i < componentList.length; i++) {
       if (componentList[i].templateID == currentTemplateID) {
         for (let j = 0; j < componentList[i].components.length; j++) {
-          componentList[i].components[j].dataSource = args.dataSource
-          componentList[i].components[j].width = args.width
-          componentList[i].components[j].height = args.height
-          componentList[i].components[j].left = args.left
-          componentList[i].components[j].top = args.top
-          componentList[i].components[j].style = args.style
-          componentList[i].components[j].title = args.title
-          componentList[i].components[j].subTitle = args.subTitle
-          return {
-            message: '修改组件数据成功',
-            resultSet: componentList[i].components
+          if (componentList[i].components[j].index == index) {
+            componentList[i].components[j].dataSource = args.dataSource
+            // componentList[i].components[j].width = args.width
+            // componentList[i].components[j].height = args.height
+            // componentList[i].components[j].left = args.left
+            // componentList[i].components[j].top = args.top
+            componentList[i].components[j].style = args.style
+            componentList[i].components[j].title = args.title
+            componentList[i].components[j].subTitle = args.subTitle
+            return {
+              message: '修改组件数据成功',
+              resultSet: componentList[i].components
+            }
           }
         }
       }

@@ -1,20 +1,6 @@
 import Mock from 'mockjs'
 import url from '@mock/mockAPI.js'
 
-// const screenDef = [
-//   {
-//     index: 0,
-//     title: '页面宽度: ',
-//     type: 'inputNumber',
-//     value: 1536
-//   },
-//   {
-//     index: 1,
-//     title: '页面高度: ',
-//     type: 'inputNumber',
-//     value: 864
-//   }
-// ]
 const errorString = 'cannot find certain template'
 
 const templateList = [
@@ -173,13 +159,6 @@ const templateList = [
     ]
   }
 ]
-
-const screenStretch = {
-  allStretch: true,
-  yStretch: false,
-  xStretch: false,
-  noStretch: false
-}
 
 export default {
   getScreenDef: Mock.mock(url.getScreenDef, 'post', params => {
