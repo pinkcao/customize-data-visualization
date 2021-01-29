@@ -228,9 +228,9 @@ export default {
                             }
                           })
                           .then(res => {
-                            // if (res.data.status == 200 && mnt.component_instance == 'titleComponent') {
-                            //   mnt.component_instance.chartResize()
-                            // }
+                            if (res.data.status == 200) {
+                              //do something
+                            }
                           })
                         break
                       }
@@ -393,7 +393,7 @@ export default {
                           })
                           .then(res => {
                             if (res.data.status == 200) {
-                              console.log(res.data.resultSet)
+                              //can do something but won't matter
                             }
                           })
                         break
@@ -408,7 +408,6 @@ export default {
         this.objList[i].mount()
       }
       //初始化activeComponent列表，用此列表维护每个组件的active值
-      console.log(this.componentList)
       this.$store.commit('initActiveComponent', this.componentList)
     }
   }

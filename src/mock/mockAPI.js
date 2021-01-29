@@ -13,5 +13,7 @@ export default {
   getScreenStretch: 'http://localhost:8080/screen/getScreenStretch',
   updateScreenStretch: 'http://localhost:8080/screen/updateScreenStretch',
   testJsonData: 'http://localhost:8080/testJsonData',
-  getTemplateList: 'http://localhost:8080/template/getTemplateList'
+  getTemplateList: 'http://localhost:8080/template/getTemplateList',
+  appendTemplate: 'http://localhost:8080/template/appendTemplate',
+  spliceTemplate: 'http://localhost:8080/template/spliceTemplate'
 }

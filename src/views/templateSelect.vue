@@ -5,11 +5,20 @@
     </div>
     <div class="main-select-pane content-box">
       <el-row :gutter="10">
-        <el-col v-for="item in templateList" :key="item.templateID" :span="6">
-          <div class="template-box" @click="clickTemplate(item.templateID)"></div>
+        <el-col v-for="item in templateList" v-show="!item.disabled" :key="item.templateID" :span="6">
+          <div class="template-box" @mouseenter="item.templateActive = true" @mouseleave="item.templateActive = false">
+            <div class="active-box" v-show="item.templateActive">
+              <div @click="clickTemplate(item.templateID)" class="icon-wrapper">
+                <i style="font-size: 150%" class="el-icon-video-play"></i>
+              </div>
+              <div @click="spliceTemplate(item.templateID)" class="icon-wrapper">
+                <i style="font-size: 150%" class="el-icon-delete"></i>
+              </div>
+            </div>
+          </div>
         </el-col>
         <el-col :span="6">
-          <div class="plus-box">
+          <div @click="appendTemplate" class="plus-box">
             <i style="font-size: 40px" class="el-icon-plus"></i>
           </div>
         </el-col>
@@ -30,12 +39,6 @@ export default {
   computed: {},
   created() {},
   mounted() {
-    this.loadingInstance = this.$loading({
-      fullscreen: true,
-      spinner: 'el-icon-loading',
-      background: 'rgba(0, 0, 0, 0.8)',
-      text: '正在加载中'
-    })
     this.getTemplateList(this.$store.state.currentUserID)
   },
 
@@ -48,6 +51,12 @@ export default {
       this.$router.push('/basePage')
     },
     getTemplateList() {
+      this.loadingInstance = this.$loading({
+        fullscreen: true,
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.8)',
+        text: '正在加载中'
+      })
       this.$axios({
         url: this.$url.getTemplateList,
         method: 'post',
@@ -57,10 +66,64 @@ export default {
       }).then(res => {
         // console.log(res.data)
         if (res.status == 200) {
+          for (let i = 0; i < res.data.length; i++) {
+            res.data[i].templateActive = false
+          }
+          this.templateList = res.data
+          console.log(this.templateList)
+          this.loadingInstance.close()
+        }
+      })
+    },
+    appendTemplate() {
+      this.loadingInstance = this.$loading({
+        fullscreen: true,
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.8)',
+        text: '添加中'
+      })
+      this.$axios({
+        url: this.$url.appendTemplate,
+        method: 'post',
+        data: {
+          userID: this.$store.state.currentUserID
+        }
+      }).then(res => {
+        if (res.status == 200) {
+          for (let i = 0; i < res.data.length; i++) {
+            res.data[i].templateActive = false
+          }
           this.templateList = res.data
           this.loadingInstance.close()
         }
       })
+    },
+    spliceTemplate(templateID) {
+      let message = '确定删除吗'
+      if (confirm(message) == true) {
+        this.loadingInstance = this.$loading({
+          fullscreen: true,
+          spinner: 'el-icon-loading',
+          background: 'rgba(0, 0, 0, 0.8)',
+          text: '删除中'
+        })
+        this.$axios({
+          url: this.$url.spliceTemplate,
+          method: 'post',
+          data: {
+            userID: this.$store.state.currentUserID,
+            templateID: templateID
+          }
+        }).then(res => {
+          if (res.status == 200) {
+            for (let i = 0; i < res.data.length; i++) {
+              res.data[i].templateActive = false
+            }
+            this.templateList = res.data
+            this.loadingInstance.close()
+          }
+        })
+      }
     }
   }
 }
@@ -101,6 +164,7 @@ export default {
 
 .template-box {
   height: 200px;
+  // width: 200px;
   background-color: black;
   border-radius: 5px;
   margin: 5px;
@@ -108,6 +172,7 @@ export default {
 
 .plus-box {
   height: 200px;
+  // width: 200px;
   background-color: transparent;
   margin: 5px;
   border: 1px dashed black;
@@ -119,9 +184,31 @@ export default {
 
 .plus-box:hover {
   cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.2);
 }
 
-.template-box:hover {
+.icon-wrapper:hover {
+  background-color: rgba(255, 255, 255, 0.35);
   cursor: pointer;
+}
+
+.active-box {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-wrapper {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.25);
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>

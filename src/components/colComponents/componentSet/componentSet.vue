@@ -62,8 +62,7 @@
         <el-tab-pane label="数据配置">
           <div class="form-sub-item" v-if="flag && currentComponent.dataSource.APISwitch != null">
             <div class="span-wrapper">
-              <!-- <span :style="spanStyle">数据源配置</span> -->
-              <span style="font-size: 14px; float: left; color: #eeeeee">数据源配置</span>
+              <span style="font-size: 14px; float: left; color: #eeeeee; user-select: none">数据源配置</span>
             </div>
           </div>
           <div
@@ -72,18 +71,6 @@
           >
             <el-button size="mini" @click="dialogFormVisible = true">配置数据源</el-button>
           </div>
-
-          <!-- <div class="form-sub-item" v-if="flag && currentComponent.dataSource.APISwitch != null">
-            <div class="span-wrapper">
-              <span :style="spanStyle">使用API:</span>
-            </div>
-            <el-switch
-              :style="inputNumberStyle"
-              size="mini"
-              v-model="currentComponent.dataSource.APISwitch"
-              @change="updateDataSource"
-            ></el-switch>
-          </div> -->
 
           <hr v-if="flag && currentComponent.dataSource.APISwitch != null" style="border: 1px solid #777777" />
 
@@ -221,44 +208,6 @@
     </div>
 
     <el-dialog title="数据源配置" :visible.sync="dialogFormVisible">
-      <!-- <div class="form-sub-item" v-if="flag">
-        <div class="span-wrapper">
-          <span style="color: #eeeeee" :style="spanStyle">数据源:</span>
-        </div>
-        <el-select
-          :style="inputNumberStyle"
-          size="mini"
-          v-model="dataSourceValue"
-          placeholder="请选择"
-          @change="dataSourceChange"
-        >
-          <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
-        </el-select>
-      </div> -->
-      <!-- <div class="form-sub-item" v-if="flag && dataSourceValue == 'APISource'">
-        <div class="span-wrapper">
-          <span style="color: #eeeeee" :style="spanStyle">APIURL:</span>
-        </div>
-        <el-input
-          :style="dialogInputStyle"
-          size="mini"
-          v-model="currentComponent.APIURL"
-          @change="updateDataSource"
-        ></el-input>
-      </div>
-
-      <div class="form-sub-item" v-if="flag && dataSourceValue == 'APISource'">
-        <div class="span-wrapper">
-          <span style="color: #eeeeee" :style="spanStyle">APIMethod:</span>
-        </div>
-        <el-input
-          :style="dialogInputStyle"
-          size="mini"
-          v-model="currentComponent.APIMethod"
-          @change="updateDataSource"
-        ></el-input>
-      </div> -->
-
       <el-form
         style="border: 1px solid black; background-color: #172228"
         :model="currentComponentDataSourceDetail"
@@ -389,17 +338,6 @@ export default {
           label: '右侧'
         }
       ],
-      // dataSourceValue: '',
-      // options: [
-      //   {
-      //     value: 'APISource',
-      //     label: 'API数据源'
-      //   },
-      //   {
-      //     value: 'otherSource',
-      //     label: 'unknown'
-      //   }
-      // ],
       dialogRules: {
         currentComponentAPIURL: [
           { required: true, message: '请输入APIURL', trigger: 'blur' },
@@ -448,10 +386,7 @@ export default {
     }
   },
   created() {},
-  mounted() {
-    // this.updateDataSource()
-    // this.initCol()
-  },
+  mounted() {},
   props: {
     componentSetVis: {
       type: Boolean,
@@ -462,9 +397,6 @@ export default {
     //当值变化，将值转为json对象后传至vuex更新组件
     updateDataSource() {
       this.currentComponent.dataSource.data = JSON.parse(this.componentDataSourceData)
-      // this.$store.commit('updateDataSource', JSON.parse(this.componentDataSource))
-      // console.log(this.currentComponent.dataSource)
-
       this.$store.commit('updateDataSource', this.currentComponent.dataSource)
     },
     //更新所有的样式
@@ -491,7 +423,6 @@ export default {
     },
     //更改数据源
     dataSourceChange() {
-      // console.log(this.currentComponent.dataSource.dataSourceType)
       this.$store.commit('updateDataSource', this.currentComponent.dataSource)
     },
     updateDialogDataSource() {
