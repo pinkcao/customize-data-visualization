@@ -224,8 +224,6 @@ export default {
         this.$axios({
           url: this.dataSource.APIURL,
           method: this.dataSource.APIMethod,
-          // url: 'http://localhost:8080/testJsonData',
-          // method: 'post',
           data: {}
         }).then(res => {
           console.log(res.data)
@@ -251,6 +249,7 @@ export default {
         }).then(res => {
           if (res.status == 200) {
             this.dataSource.data = res.data
+            console.log(res.data)
           }
         })
       }

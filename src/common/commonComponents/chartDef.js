@@ -69,6 +69,7 @@ export default {
   watch: {
     dataSource: function(newVal, oldVal) {
       if (JSON.stringify(newVal) != JSON.stringify(oldVal)) {
+        console.log(newVal)
         this.initChart()
       }
     },

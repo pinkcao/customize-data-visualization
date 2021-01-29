@@ -8,6 +8,7 @@ export default {
   updateComponentBasicStatus: 'http://localhost:8080/api/componentList/updateComponent',
   basePicurl: 'http://localhost:8080/componentImage/',
   userLogin: 'http://localhost:8080/user/login',
+  userRegister: 'http://localhost:8080/user/register',
   getScreenDef: 'http://localhost:8080/screen/getScreenDef',
   updateScreenDef: 'http://localhost:8080/screen/updateScreenDef',
   getScreenStretch: 'http://localhost:8080/screen/getScreenStretch',

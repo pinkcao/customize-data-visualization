@@ -100,30 +100,45 @@ export default {
     },
     spliceTemplate(templateID) {
       let message = '确定删除吗'
-      if (confirm(message) == true) {
-        this.loadingInstance = this.$loading({
-          fullscreen: true,
-          spinner: 'el-icon-loading',
-          background: 'rgba(0, 0, 0, 0.8)',
-          text: '删除中'
-        })
-        this.$axios({
-          url: this.$url.spliceTemplate,
-          method: 'post',
-          data: {
-            userID: this.$store.state.currentUserID,
-            templateID: templateID
-          }
-        }).then(res => {
-          if (res.status == 200) {
-            for (let i = 0; i < res.data.length; i++) {
-              res.data[i].templateActive = false
+      this.$confirm(message, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'info'
+      })
+        .then(() => {
+          this.loadingInstance = this.$loading({
+            fullscreen: true,
+            spinner: 'el-icon-loading',
+            background: 'rgba(0, 0, 0, 0.8)',
+            text: '删除中'
+          })
+          this.$axios({
+            url: this.$url.spliceTemplate,
+            method: 'post',
+            data: {
+              userID: this.$store.state.currentUserID,
+              templateID: templateID
             }
-            this.templateList = res.data
-            this.loadingInstance.close()
-          }
+          }).then(res => {
+            if (res.status == 200) {
+              for (let i = 0; i < res.data.length; i++) {
+                res.data[i].templateActive = false
+              }
+              this.templateList = res.data
+              this.loadingInstance.close()
+              this.$message({
+                type: 'success',
+                message: '删除成功!'
+              })
+            }
+          })
         })
-      }
+        .catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          })
+        })
     }
   }
 }
@@ -164,7 +179,6 @@ export default {
 
 .template-box {
   height: 200px;
-  // width: 200px;
   background-color: black;
   border-radius: 5px;
   margin: 5px;
@@ -172,7 +186,6 @@ export default {
 
 .plus-box {
   height: 200px;
-  // width: 200px;
   background-color: transparent;
   margin: 5px;
   border: 1px dashed black;

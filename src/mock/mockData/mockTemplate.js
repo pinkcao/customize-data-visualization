@@ -1,7 +1,28 @@
 import Mock from 'mockjs'
 import url from '@mock/mockAPI.js'
 
+// function checkDuplicateAccount(account) {
+//   return age >= 18;
+// }
+
 const errorString = 'cannot find certain template'
+
+const userList = [
+  {
+    userAccount: 'admin',
+    userPassword: 'd033e22ae348aeb5660fc2140aec35850c4da997',
+    userEmail: 'notacertainaddress@gmail.com',
+    userID: 1,
+    disabled: false
+  },
+  {
+    userAccount: 'test',
+    userPassword: 'a94a8fe5ccb19ba61c4c0873d391e987982fbbd3',
+    userEmail: 'notacertainaddress@gmail.com',
+    userID: 2,
+    disabled: false
+  }
+]
 
 const templateList = [
   {
@@ -167,6 +188,8 @@ const templateList = [
 ]
 
 let lastTemplateID = 6
+
+let lastUserID = 2
 
 const componentList = [
   {
@@ -566,6 +589,48 @@ export default {
     }
     return {
       message: '修改组件数据失败'
+    }
+  }),
+  userLogin: Mock.mock(url.userLogin, 'post', params => {
+    let args = JSON.parse(params.body)
+    for (let i = 0; i < userList.length; i++) {
+      if (args.account == userList[i].userAccount && args.password == userList[i].userPassword) {
+        return {
+          loginStatus: true,
+          userID: userList[i].userID
+        }
+      }
+    }
+    return {
+      loginStatus: false
+    }
+  }),
+  userRegister: Mock.mock(url.userRegister, 'post', params => {
+    let userInfo = JSON.parse(params.body)
+    let tempAccountArr = []
+    for (let i = 0; i < userList.length; i++) {
+      tempAccountArr.push(userList[i].userAccount)
+    }
+    if (tempAccountArr.find(item => item == userInfo.userAccount) == undefined) {
+      lastUserID += 1
+      userList.push({
+        userAccount: userInfo.userAccount,
+        userPassword: userInfo.userPassword,
+        userEmail: userInfo.userEmail,
+        userID: lastUserID,
+        disabled: false
+      })
+      templateList.push({
+        userID: lastUserID,
+        userTemplate: []
+      })
+      return {
+        registerStatus: true,
+        userInfo: userList[userList.length - 1]
+      }
+    }
+    return {
+      registerStatus: false
     }
   })
 }

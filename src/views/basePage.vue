@@ -3,6 +3,11 @@
     <el-container style="height: auto">
       <el-header height="50px">
         <!-- button set -->
+        <div class="head-box-back">
+          <div title="后退" class="back-icon-wrapper" @click="routeToTemplateSelect">
+            <i class="el-icon-back"></i>
+          </div>
+        </div>
         <div class="head-box-left">
           <div title="图层" @click="graphclicktest" :class="graphisshown">
             <i :style="iconstyle" class="el-icon-picture"></i>
@@ -626,6 +631,9 @@ export default {
     },
     routeToColorTest() {
       this.$router.push({ path: '/colorTest' })
+    },
+    routeToTemplateSelect() {
+      this.$router.push({ path: '/templateSelect' })
     }
   }
 }
@@ -735,6 +743,17 @@ body {
   background-color: @iconNotSelectedcolor + @highlight;
 }
 
+.head-box-back {
+  margin-left: 20px;
+  margin-top: 10px;
+  float: left;
+  height: 30px;
+  width: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
 .head-box-left {
   margin-left: 100px;
   margin-top: 10px;
@@ -769,5 +788,21 @@ body {
   height: 100%;
   width: 100%;
   user-select: none;
+}
+
+.back-icon-wrapper {
+  width: 30px;
+  height: 100%;
+  background-color: @iconNotSelectedcolor;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.back-icon-wrapper:hover {
+  cursor: pointer;
+  background-color: @iconNotSelectedcolor + @highlight;
 }
 </style>

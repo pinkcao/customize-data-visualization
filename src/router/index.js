@@ -42,6 +42,11 @@ const routes = [
     path: '/templateSelect',
     name: 'templateSelect',
     component: () => import(/* webpackChunkName: "templateSelect" */ '../views/templateSelect.vue')
+  },
+  {
+    path: '/register',
+    name: 'register',
+    component: () => import(/* webpackChunkName: "register" */ '../views/register.vue')
   }
 ]
 
@@ -53,7 +58,7 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   //console.log(store.state.isLogin);
-  if (to.path == '/' || to.path == '/login') {
+  if (to.path == '/' || to.path == '/login' || to.path == '/register') {
     next()
   } else {
     if (store.state.currentUserID == -1) {
