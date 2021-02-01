@@ -153,11 +153,38 @@ export default {
           this.$store.commit('updateParentScale')
         }
       }
+      this.$axios({
+        url: this.$url.updateScreenDef,
+        method: 'post',
+        data: {
+          screenDef: this.$store.state.screenDef,
+          templateID: this.$store.state.currentTemplateID,
+          userID: this.$store.state.currentUserID
+        }
+      }).then(res => {
+        console.log(res.data)
+      })
     },
     //更新当前缩放模式至vuex
     updateStretch(stretch) {
-      console.log(stretch)
       this.$store.commit('updateStretch', stretch)
+      let screenStretch = {
+        allStretch: this.$store.state.allStretch,
+        yStretch: this.$store.state.yStretch,
+        xStretch: this.$store.state.xStretch,
+        noStretch: this.$store.state.noStretch
+      }
+      this.$axios({
+        url: this.$url.updateScreenStretch,
+        method: 'post',
+        data: {
+          screenStretch: screenStretch,
+          templateID: this.$store.state.currentTemplateID,
+          userID: this.$store.state.currentUserID
+        }
+      }).then(res => {
+        // console.log(res.data)
+      })
     }
   }
 }

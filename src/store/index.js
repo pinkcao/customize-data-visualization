@@ -111,23 +111,6 @@ export default new Vuex.Store({
           state.noStretch = true
           break
       }
-      let screenStretch = {
-        allStretch: state.allStretch,
-        yStretch: state.yStretch,
-        xStretch: state.xStretch,
-        noStretch: state.noStretch
-      }
-      axios({
-        url: url.updateScreenStretch,
-        method: 'post',
-        data: {
-          screenStretch: screenStretch,
-          templateID: state.currentTemplateID,
-          userID: state.currentUserID
-        }
-      }).then(res => {
-        console.log(res.data)
-      })
     },
     //更新组件dataSource中内容
     updateDataSource(state, dataSource) {
@@ -266,19 +249,7 @@ export default new Vuex.Store({
           break
         }
       }
-      console.log(state.screenDef)
-      axios({
-        url: url.updateScreenDef,
-        method: 'post',
-        data: {
-          screenDef: state.screenDef,
-          templateID: state.currentTemplateID,
-          userID: state.currentUserID
-        }
-      }).then(res => {
-        //
-        // console.log(res.data)
-      })
+      // console.log(state.screenDef)
     },
     //更新当前页面规模,
     updateCurrentColWidth(state, data) {

@@ -41,6 +41,7 @@ export default {
   name: 'login',
   data() {
     return {
+      loadingInstance: null,
       form: {
         account: '',
         password: ''
@@ -86,6 +87,12 @@ export default {
       // })
     },
     onSubmit() {
+      this.loadingInstance = this.$loading({
+        fullscreen: true,
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.8)',
+        text: '登录中'
+      })
       let sha1 = require('js-sha1')
       //account = admin
       //password = admin
@@ -100,7 +107,8 @@ export default {
         if (res.data.loginStatus == true) {
           console.log(res.data)
           this.$store.commit('changeCurrentUserID', res.data.userID)
-          console.log('登录成功')
+          // console.log('登录成功')
+          this.loadingInstance.close()
           this.$router.push('/templateSelect')
         }
       })
