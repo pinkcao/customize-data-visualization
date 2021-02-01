@@ -16,5 +16,6 @@ export default {
   testJsonData: 'http://localhost:8080/testJsonData',
   getTemplateList: 'http://localhost:8080/template/getTemplateList',
   appendTemplate: 'http://localhost:8080/template/appendTemplate',
-  spliceTemplate: 'http://localhost:8080/template/spliceTemplate'
+  spliceTemplate: 'http://localhost:8080/template/spliceTemplate',
+  validateAccount: 'http://localhost:8080/user/validateAccount'
 }

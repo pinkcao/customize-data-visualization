@@ -632,5 +632,16 @@ export default {
     return {
       registerStatus: false
     }
+  }),
+  validateAccount: Mock.mock(url.validateAccount, 'post', params => {
+    let userAccount = JSON.parse(params.body).account
+    let tempAccountArr = []
+    for (let i = 0; i < userList.length; i++) {
+      tempAccountArr.push(userList[i].userAccount)
+    }
+    if (tempAccountArr.find(item => item == userAccount) == undefined) {
+      return true
+    }
+    return false
   })
 }

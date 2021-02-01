@@ -9,7 +9,7 @@
             >
           </div>
         </el-form-item>
-        <el-form-item label="账号">
+        <el-form-item label="账号" prop="account">
           <el-input placeholder="请输入账号" autofocus v-model="ruleForm.account"></el-input>
         </el-form-item>
         <!-- <el-form-item label="密码" prop="pass">
@@ -19,12 +19,18 @@
           <el-input show-password placeholder="请重复密码" autofocus v-model="form.passwordConfirm"></el-input>
         </el-form-item> -->
         <el-form-item label="密码" prop="pass">
-          <el-input placeholder="请输入密码" type="password" v-model="ruleForm.pass" autocomplete="off"></el-input>
+          <el-input
+            placeholder="请输入密码"
+            show-password
+            type="password"
+            v-model="ruleForm.pass"
+            autocomplete="off"
+          ></el-input>
         </el-form-item>
         <el-form-item label="确认密码" prop="checkPass">
           <el-input placeholder="请重复密码" type="password" v-model="ruleForm.checkPass" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="邮件地址">
+        <el-form-item label="邮件地址" prop="email">
           <el-input placeholder="请输入邮件地址" v-model="ruleForm.email"></el-input>
         </el-form-item>
         <el-form-item>
@@ -42,10 +48,29 @@
 
 <script>
 import sha1 from 'js-sha1'
+import Schema from 'async-validator'
 
 export default {
   name: 'login',
   data() {
+    var validateAccount = (rule, value, callback) => {
+      this.$axios({
+        url: this.$url.validateAccount,
+        method: 'post',
+        data: {
+          account: value
+        }
+      }).then(res => {
+        if (res.status == 200) {
+          console.log(res.data)
+          if (res.data == true) {
+            callback()
+          } else {
+            callback('用户名重复')
+          }
+        }
+      })
+    }
     var validatePass = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请输入密码'))
@@ -74,8 +99,13 @@ export default {
         email: ''
       },
       rules: {
-        pass: [{ validator: validatePass, trigger: 'blur' }],
-        checkPass: [{ validator: validatePass2, trigger: 'blur' }]
+        account: [{ validator: validateAccount, trigger: 'blur', required: true }],
+        pass: [
+          { validator: validatePass, trigger: 'blur', required: true },
+          { min: 8, max: 20, message: '长度在 8 到 20 个字符', trigger: 'blur' }
+        ],
+        checkPass: [{ validator: validatePass2, trigger: 'blur', required: true }],
+        email: [{ type: 'email', message: '请输入正确邮件地址', trigger: 'blur', required: true }]
       }
     }
   },
