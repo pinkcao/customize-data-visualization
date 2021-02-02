@@ -51,7 +51,9 @@ export default {
             backgroundImage: `url(${this.backgroundImageUrl})`,
             transformOrigin: this.mainCanvasBackgroundStyle.transformOrigin,
             marginTop: this.mainCanvasBackgroundStyle.marginTop,
-            marginLeft: this.mainCanvasBackgroundStyle.marginLeft
+            marginLeft: this.mainCanvasBackgroundStyle.marginLeft,
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: '100% 100%'
           }
         }
       },
@@ -70,7 +72,9 @@ export default {
             backgroundImage: `url(${this.backgroundImageUrl})`,
             transformOrigin: this.mainCanvasBackgroundStyle.transformOrigin,
             marginTop: this.mainCanvasBackgroundStyle.marginTop,
-            marginLeft: this.mainCanvasBackgroundStyle.marginLeft
+            marginLeft: this.mainCanvasBackgroundStyle.marginLeft,
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: '100% 100%'
           }
         }
       }
@@ -89,7 +93,9 @@ export default {
             backgroundImage: `url(${this.backgroundImageUrl})`,
             transformOrigin: this.mainCanvasBackgroundStyle.transformOrigin,
             marginTop: this.mainCanvasBackgroundStyle.marginTop,
-            marginLeft: this.mainCanvasBackgroundStyle.marginLeft
+            marginLeft: this.mainCanvasBackgroundStyle.marginLeft,
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: '100% 100%'
           }
         }
         // console.log(this.canvasStyle)

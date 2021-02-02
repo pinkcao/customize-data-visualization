@@ -167,7 +167,9 @@ export default {
         ${document.documentElement.clientHeight / designWindowHeight}) translate(0px, 0px)`,
             overflow: 'hidden',
             backgroundColor: this.backgroundStyle.backgroundColor,
-            backgroundImage: `url('${this.backgroundStyle.backgroundImage}')`
+            backgroundImage: `url('${this.backgroundStyle.backgroundImage}')`,
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: '100% 100%'
           }
           break
         case 'xStretch':
@@ -178,7 +180,9 @@ export default {
         ${1}) translate(0px, 0px)`,
             'overflow-x': 'hidden',
             backgroundColor: this.backgroundStyle.backgroundColor,
-            backgroundImage: `url('${this.backgroundStyle.backgroundImage}')`
+            backgroundImage: `url('${this.backgroundStyle.backgroundImage}')`,
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: '100% 100%'
           }
           break
         case 'yStretch':
@@ -189,7 +193,9 @@ export default {
         ${document.documentElement.clientHeight / designWindowHeight}) translate(0px, 0px)`,
             'overflow-y': 'hidden',
             backgroundColor: this.backgroundStyle.backgroundColor,
-            backgroundImage: `url('${this.backgroundStyle.backgroundImage}')`
+            backgroundImage: `url('${this.backgroundStyle.backgroundImage}')`,
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: '100% 100%'
           }
           break
         case 'noStretch':
@@ -199,7 +205,9 @@ export default {
             transform: `scale(${1}, 
         ${1}) translate(0px, 0px)`,
             backgroundColor: this.backgroundStyle.backgroundColor,
-            backgroundImage: `url('${this.backgroundStyle.backgroundImage}')`
+            backgroundImage: `url('${this.backgroundStyle.backgroundImage}')`,
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: '100% 100%'
           }
           break
       }
