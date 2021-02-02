@@ -24,15 +24,18 @@ export default {
       screenDef: [],
       screenDefFlag: false,
       screenStretchFlag: false,
+      backgroundStyleFlag: false,
       buttonBoxStyle: {},
       loadingInstance: null,
       loadingStatus: false,
       loadingDetail: {
         components: false,
         style: false,
-        stretch: false
+        stretch: false,
+        background: false
       },
-      stretchMethod: ''
+      stretchMethod: '',
+      backgroundStyle: {}
     }
   },
   computed: {},
@@ -47,7 +50,7 @@ export default {
       } else {
         this.stretchMethod = 'noStretch'
       }
-      if (this.screenStretchFlag == true && this.screenDefFlag == true) {
+      if (this.screenStretchFlag == true && this.screenDefFlag == true && this.backgroundStyleFlag == true) {
         this.resize()
       }
     },
@@ -57,7 +60,12 @@ export default {
         left: this.screenDef[0].value - 40 + 'px',
         'z-index': 10000
       }
-      if (this.screenStretchFlag == true && this.screenDefFlag == true) {
+      if (this.screenStretchFlag == true && this.screenDefFlag == true && this.backgroundStyleFlag == true) {
+        this.resize()
+      }
+    },
+    backgroundStyleFlag: function(newVal) {
+      if (this.screenStretchFlag == true && this.screenDefFlag == true && this.backgroundStyleFlag == true) {
         this.resize()
       }
     },
@@ -70,7 +78,7 @@ export default {
     },
     loadingDetail: {
       handler(newVal) {
-        if (newVal.components == true && newVal.style == true && newVal.stretch == true) {
+        if (newVal.components == true && newVal.style == true && newVal.stretch == true && newVal.background == true) {
           this.loadingStatus = true
         }
       },
@@ -88,6 +96,7 @@ export default {
     })
     this.getScreenDef()
     this.getScreenStretch()
+    this.getBackgroundStyle()
     this.getComponentList()
     window.addEventListener('resize', this.resize)
   },
@@ -96,6 +105,20 @@ export default {
   },
 
   methods: {
+    getBackgroundStyle() {
+      this.$axios({
+        url: url.getBackgroundStyle,
+        method: 'post',
+        data: {
+          templateID: this.$store.state.currentTemplateID,
+          userID: this.$store.state.currentUserID
+        }
+      }).then(res => {
+        this.backgroundStyle = res.data
+        this.backgroundStyleFlag = true
+        this.loadingDetail.background = true
+      })
+    },
     //获取缩放设置
     getScreenStretch() {
       this.$axios({
@@ -142,7 +165,9 @@ export default {
             height: designWindowHeight + 'px',
             transform: `scale(${document.documentElement.clientWidth / designWindowWidth}, 
         ${document.documentElement.clientHeight / designWindowHeight}) translate(0px, 0px)`,
-            overflow: 'hidden'
+            overflow: 'hidden',
+            backgroundColor: this.backgroundStyle.backgroundColor,
+            backgroundImage: `url('${this.backgroundStyle.backgroundImage}')`
           }
           break
         case 'xStretch':
@@ -151,7 +176,9 @@ export default {
             height: designWindowHeight + 'px',
             transform: `scale(${document.documentElement.clientWidth / designWindowWidth}, 
         ${1}) translate(0px, 0px)`,
-            'overflow-x': 'hidden'
+            'overflow-x': 'hidden',
+            backgroundColor: this.backgroundStyle.backgroundColor,
+            backgroundImage: `url('${this.backgroundStyle.backgroundImage}')`
           }
           break
         case 'yStretch':
@@ -160,7 +187,9 @@ export default {
             height: designWindowHeight + 'px',
             transform: `scale(${1}, 
         ${document.documentElement.clientHeight / designWindowHeight}) translate(0px, 0px)`,
-            'overflow-y': 'hidden'
+            'overflow-y': 'hidden',
+            backgroundColor: this.backgroundStyle.backgroundColor,
+            backgroundImage: `url('${this.backgroundStyle.backgroundImage}')`
           }
           break
         case 'noStretch':
@@ -168,7 +197,9 @@ export default {
             width: designWindowWidth + 'px',
             height: designWindowHeight + 'px',
             transform: `scale(${1}, 
-        ${1}) translate(0px, 0px)`
+        ${1}) translate(0px, 0px)`,
+            backgroundColor: this.backgroundStyle.backgroundColor,
+            backgroundImage: `url('${this.backgroundStyle.backgroundImage}')`
           }
           break
       }

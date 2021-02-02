@@ -180,10 +180,9 @@ export default {
     this.$store.commit('initScreenFlags')
     this.initScreenDef()
     this.initScreenStretch()
+    this.initBackgroundStyle()
     //初始化加载状态
     this.initLoadingStatus()
-    //设置加载
-    // this.loadingIntervalID = setInterval(this.timerAccumulation, 10)
     this.loadingInstance = this.$loading({
       fullscreen: true,
       spinner: 'el-icon-loading',
@@ -248,6 +247,18 @@ export default {
     }
   },
   methods: {
+    initBackgroundStyle() {
+      this.$axios({
+        url: this.$url.getBackgroundStyle,
+        method: 'post',
+        data: {
+          templateID: this.$store.state.currentTemplateID,
+          userID: this.$store.state.currentUserID
+        }
+      }).then(res => {
+        this.$store.commit('initBackgroundStyle', res.data)
+      })
+    },
     initScreenDef() {
       this.$axios({
         url: this.$url.getScreenDef,
@@ -257,7 +268,9 @@ export default {
           userID: this.$store.state.currentUserID
         }
       }).then(res => {
-        this.$store.commit('initScreenDef', res.data)
+        if (res.status == 200) {
+          this.$store.commit('initScreenDef', res.data)
+        }
       })
     },
     initScreenStretch() {
@@ -269,7 +282,9 @@ export default {
           userID: this.$store.state.currentUserID
         }
       }).then(res => {
-        this.$store.commit('initScreenStretch', res.data)
+        if (res.status == 200) {
+          this.$store.commit('initScreenStretch', res.data)
+        }
       })
     },
     // timerAccumulation() {

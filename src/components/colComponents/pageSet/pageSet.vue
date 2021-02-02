@@ -41,14 +41,43 @@
             </div>
           </div>
         </el-tab-pane>
-        <el-tab-pane label="背景设置"></el-tab-pane>
+        <el-tab-pane label="背景设置">
+          <div class="form-sub-item" v-if="backgroundStyleFlag">
+            <div class="span-wrapper">
+              <span :style="spanStyle">背景颜色:</span>
+            </div>
+            <el-color-picker
+              :style="inputNumberStyle"
+              v-model="backgroundColor"
+              @change="updateBackgroundStyle"
+            ></el-color-picker>
+          </div>
+
+          <div class="form-sub-item" v-if="backgroundStyleFlag">
+            <div class="span-wrapper">
+              <span :style="spanStyle">背景地址:</span>
+            </div>
+            <el-input
+              :style="inputStyle"
+              style="width: 200px"
+              size="mini"
+              v-model="backgroundImage"
+              @change="updateBackgroundStyle"
+            ></el-input>
+          </div>
+        </el-tab-pane>
       </el-tabs>
     </div>
   </div>
 </template>
 
 <script>
-import { setSpanStyle, setInputNumberStyle } from '@/common/commonStyle/setColStyle/setColStyle.js'
+import {
+  setSpanStyle,
+  setInputNumberStyle,
+  setInputStyle,
+  setDialogInputStyle
+} from '@/common/commonStyle/setColStyle/setColStyle.js'
 import { colSpanStyle } from '@common/commonStyle/compColStyle/compColStyle.js'
 
 export default {
@@ -59,7 +88,15 @@ export default {
       spanStyle: setSpanStyle,
       inputNumberStyle: setInputNumberStyle,
       iconstyle: 'color:aliceblue',
-      titleStyle: colSpanStyle
+      titleStyle: colSpanStyle,
+      inputStyle: setInputStyle,
+      backgroundStyle: {
+        backgroundColor: '#000000',
+        backgroundImage: ''
+      },
+      backgroundColor: '',
+      backgroundImage: '',
+      backgroundStyleFlag: false
     }
   },
   computed: {
@@ -121,6 +158,7 @@ export default {
   created() {},
   mounted() {
     this.initPageDef()
+    this.initBackgroundStyle()
   },
   watch: {
     '$store.state.screenDefFlag': function(newval) {
@@ -128,9 +166,42 @@ export default {
       if (newval == true) {
         this.initCol()
       }
+    },
+    '$store.state.backgroundStyleFlag': function(newval) {
+      if (newval) {
+        this.initBackgroundStyle()
+      }
     }
   },
   methods: {
+    updateBackgroundStyle() {
+      console.log('?')
+      if (this.$store.state.backgroundStyleFlag == true) {
+        let tempBackgroundStyle = {
+          backgroundColor: this.backgroundColor,
+          backgroundImage: this.backgroundImage
+        }
+        this.$store.commit('updateBackgroundStyle', tempBackgroundStyle)
+        this.$axios({
+          url: this.$url.updateBackgroundStyle,
+          method: 'post',
+          data: {
+            backgroundStyle: tempBackgroundStyle,
+            templateID: this.$store.state.currentTemplateID,
+            userID: this.$store.state.currentUserID
+          }
+        }).then(res => {
+          if (res.status == 200) {
+            console.log(res.data)
+          }
+        })
+      }
+    },
+    initBackgroundStyle() {
+      this.backgroundColor = this.$store.state.backgroundStyle.backgroundColor
+      this.backgroundImage = this.$store.state.backgroundStyle.backgroundImage
+      this.backgroundStyleFlag = true
+    },
     //初始化页面设置
     initPageDef() {
       if (this.$store.state.screenDefFlag == true) {
@@ -303,5 +374,9 @@ export default {
 .stretch-button-hide:hover {
   cursor: pointer;
   background-color: @iconNotSelectedcolor + @highlight;
+}
+
+.span-wrapper {
+  width: 80px;
 }
 </style>

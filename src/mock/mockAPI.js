@@ -17,5 +17,7 @@ export default {
   getTemplateList: 'http://localhost:8080/template/getTemplateList',
   appendTemplate: 'http://localhost:8080/template/appendTemplate',
   spliceTemplate: 'http://localhost:8080/template/spliceTemplate',
-  validateAccount: 'http://localhost:8080/user/validateAccount'
+  validateAccount: 'http://localhost:8080/user/validateAccount',
+  getBackgroundStyle: 'http://localhost:8080/screen/getBackgroundStyle',
+  updateBackgroundStyle: 'http://localhost:8080/screen/updateBackgroundStyle'
 }

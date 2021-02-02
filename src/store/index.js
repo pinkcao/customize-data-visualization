@@ -24,10 +24,15 @@ export default new Vuex.Store({
     screenDef: [],
     screenDefFlag: false,
     screenStretchFlag: false,
+    backgroundStyleFlag: false,
     allStretch: true,
     yStretch: false,
     xStretch: false,
     noStretch: false,
+    backgroundStyle: {
+      backgroundColor: '',
+      backgroundImage: ''
+    },
 
     currentUserID: -1,
     currentTemplateID: -1
@@ -53,6 +58,7 @@ export default new Vuex.Store({
     initScreenFlags(state) {
       state.screenDefFlag = false
       state.screenStretchFlag = false
+      state.backgroundStyleFlag = false
     },
     //初始化界面设置
     initScreenDef(state, screenDef) {
@@ -67,23 +73,15 @@ export default new Vuex.Store({
       state.noStretch = screenStretch.noStretch
       state.screenStretchFlag = true
     },
-    //这两个方法以备不时之需，目前不需要
-    // adjustComponent(state, propertyObj) {
-    //   for (let i = 0; i < state.componentList.length; i++) {
-    //     if (propertyObj.index == state.componentList[i].index) {
-    //       state.componentList[i].width = propertyObj.width
-    //       state.componentList[i].height = propertyObj.height
-    //       state.componentList[i].top = propertyObj.top
-    //       state.componentList[i].left = propertyObj.left
-    //     }
-    //   }
-    // },
-    // appendComponent(state, properties) {
-    //   properties.index = state.componentList.length
-    //   state.componentList.push(properties)
-    //   console.log(properties)
-    // },
-    //仅更新数据源
+    initBackgroundStyle(state, backgroundStyle) {
+      state.backgroundStyle = backgroundStyle
+      state.backgroundStyleFlag = true
+      console.log(state.backgroundStyle)
+    },
+    updateBackgroundStyle(state, backgroundStyle) {
+      state.backgroundStyle = backgroundStyle
+      console.log(state.backgroundStyle)
+    },
     updateStretch(state, stretch) {
       switch (stretch) {
         case 'allStretch':

@@ -9,7 +9,7 @@
     </div> -->
   <!-- <el-image :src="imgurl" :fit="'fill'"></el-image> -->
   <!-- </div> -->
-  <div v-if="ifshow">
+  <div :style="backgroundStyle" v-if="ifshow">
     <vue-drag-resize-rotate
       :isActive="active"
       :preventActiveBehavior="preventActiveBehavior"
@@ -34,10 +34,7 @@
 
 <script>
 import echarts from 'echarts'
-// import vueDragResizeRotate from './vueDragResizeRotate.vue'
-
 export default {
-  // components: { vueDragResizeRotate },
   name: 'colorTest',
   data() {
     return {
@@ -75,6 +72,11 @@ export default {
         legendvis: true,
         titlevis: true,
         deg: 0
+      },
+      backgroundStyle: {
+        backgroundImage: 'url(http://localhost:8080/componentImage/漏斗图.png)',
+        width: '100%',
+        height: '100%'
       }
     }
   },

@@ -1,11 +1,5 @@
 <template>
-  <div
-    @click="cancelFocus"
-    ref="target"
-    class="main-canvas-background"
-    :style="canvasStyle"
-    @drop="appendComponentList"
-  ></div>
+  <div @click="cancelFocus" ref="target" :style="canvasStyle" @drop="appendComponentList"></div>
 </template>
 
 <script>
@@ -20,7 +14,13 @@ export default {
       componentList: [],
       objList: [],
       canvasStyle: {},
-      loadingInstance: null
+      loadingInstance: null,
+      mainCanvasBackgroundStyle: {
+        backgroundColor: '#0e2a43',
+        transformOrigin: '0 0',
+        marginTop: '10px',
+        marginLeft: '10px'
+      }
     }
   },
   watch: {
@@ -40,25 +40,61 @@ export default {
     },
     '$store.state.screenDef': {
       handler(newval) {
-        this.canvasStyle = {
-          width: this.$store.state.screenDef[0].value + 'px',
-          height: this.$store.state.screenDef[1].value + 'px',
-          position: this.$store.state.position,
-          transform: `scale(${this.$store.state.parentScale}) translate(0px, 0px)`
+        if (this.mountComponentssFlag) {
+          // let picurl = this.$store.state.backgroundStyle.backgroundImage
+          this.canvasStyle = {
+            width: this.$store.state.screenDef[0].value + 'px',
+            height: this.$store.state.screenDef[1].value + 'px',
+            position: this.$store.state.position,
+            transform: `scale(${this.$store.state.parentScale}) translate(0px, 0px)`,
+            backgroundColor: this.$store.state.backgroundStyle.backgroundColor,
+            backgroundImage: `url(${this.backgroundImageUrl})`,
+            transformOrigin: this.mainCanvasBackgroundStyle.transformOrigin,
+            marginTop: this.mainCanvasBackgroundStyle.marginTop,
+            marginLeft: this.mainCanvasBackgroundStyle.marginLeft
+          }
         }
-        // console.log(this.canvasStyle)
       },
       deep: true
     },
     '$store.state.parentScale': {
       handler(newval) {
-        this.canvasStyle = {
-          width: this.$store.state.screenDef[0].value + 'px',
-          height: this.$store.state.screenDef[1].value + 'px',
-          position: this.$store.state.position,
-          transform: `scale(${this.$store.state.parentScale}) translate(0px, 0px)`
+        if (this.mountComponentssFlag) {
+          // let picurl = this.$store.state.backgroundStyle.backgroundImage
+          this.canvasStyle = {
+            width: this.$store.state.screenDef[0].value + 'px',
+            height: this.$store.state.screenDef[1].value + 'px',
+            position: this.$store.state.position,
+            transform: `scale(${this.$store.state.parentScale}) translate(0px, 0px)`,
+            backgroundColor: this.$store.state.backgroundStyle.backgroundColor,
+            backgroundImage: `url(${this.backgroundImageUrl})`,
+            transformOrigin: this.mainCanvasBackgroundStyle.transformOrigin,
+            marginTop: this.mainCanvasBackgroundStyle.marginTop,
+            marginLeft: this.mainCanvasBackgroundStyle.marginLeft
+          }
         }
       }
+    },
+    '$store.state.backgroundStyle': {
+      handler(newval) {
+        if (this.mountComponentssFlag) {
+          // let picurl = this.$store.state.backgroundStyle.backgroundImage
+          console.log('?')
+          this.canvasStyle = {
+            width: this.$store.state.screenDef[0].value + 'px',
+            height: this.$store.state.screenDef[1].value + 'px',
+            position: this.$store.state.position,
+            transform: `scale(${this.$store.state.parentScale}) translate(0px, 0px)`,
+            backgroundColor: this.$store.state.backgroundStyle.backgroundColor,
+            backgroundImage: `url(${this.backgroundImageUrl})`,
+            transformOrigin: this.mainCanvasBackgroundStyle.transformOrigin,
+            marginTop: this.mainCanvasBackgroundStyle.marginTop,
+            marginLeft: this.mainCanvasBackgroundStyle.marginLeft
+          }
+        }
+        // console.log(this.canvasStyle)
+      },
+      deep: true
     },
     mountComponentssFlag: {
       handler(newVal) {
@@ -70,10 +106,16 @@ export default {
   },
   computed: {
     mountComponentssFlag: function() {
-      if (this.$store.state.screenDefFlag == true && this.$store.state.screenStretchFlag == true) {
+      if (this.$store.state.screenDefFlag == true && this.$store.state.backgroundStyleFlag == true) {
         return true
       }
       return false
+    },
+    backgroundImageUrl: function() {
+      if (this.mountComponentssFlag) {
+        return this.$store.state.backgroundStyle.backgroundImage
+      }
+      return ''
     }
   },
   created() {},
@@ -417,7 +459,7 @@ export default {
 <style lang="less" scoped>
 /*设置坐标原点为0 0,不然transform所使用坐标系是从div正中位置 即50 50出发*/
 .main-canvas-background {
-  background-color: @canvasBackgroundColor;
+  background-color: #0e2a43;
   transform-origin: 0 0;
   margin-top: 10px;
   margin-left: 10px;
