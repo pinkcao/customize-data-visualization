@@ -74,7 +74,6 @@ export default {
         deg: 0
       },
       backgroundStyle: {
-        backgroundImage: 'url(http://localhost:8080/componentImage/漏斗图.png)',
         width: '100%',
         height: '100%'
       }
@@ -100,7 +99,7 @@ export default {
       this.left = newRect.left
     },
     testconsole(deg) {
-      console.log(deg)
+      // console.log(deg)
       this.style.deg = deg
     }
     // test(value) {

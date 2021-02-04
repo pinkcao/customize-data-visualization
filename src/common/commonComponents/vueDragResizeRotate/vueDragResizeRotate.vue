@@ -536,6 +536,13 @@ export default {
         x: (stickStartPos.mouseX - (ev.pageX || ev.touches[0].pageX)) / this.parentScaleX,
         y: (stickStartPos.mouseY - (ev.pageY || ev.touches[0].pageY)) / this.parentScaleY
       }
+      let tempDeltaX = Math.cos((-this.deg * Math.PI) / 180) * delta.x - Math.sin((-this.deg * Math.PI) / 180) * delta.y
+      let tempDeltaY = Math.sin((-this.deg * Math.PI) / 180) * delta.x + Math.cos((-this.deg * Math.PI) / 180) * delta.y
+      console.log(delta.x, delta.y)
+      console.log(tempDeltaX, tempDeltaY)
+      // delta()
+      delta.x = tempDeltaX
+      delta.y = tempDeltaY
       switch (this.currentStick[0]) {
         case 'b':
           this.rawBottom = stickStartPos.bottom + delta.y
