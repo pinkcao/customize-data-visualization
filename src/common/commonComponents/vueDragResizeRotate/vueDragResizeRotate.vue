@@ -48,6 +48,7 @@
       @mousedown.stop.prevent="stickDown(stick, $event)"
       @touchstart.stop.prevent="stickDown(stick, $event)"
       :style="vdrStick(stick)"
+      :ref="stick"
     ></div>
     <span
       class="el-icon-refresh-right rotate"
@@ -228,7 +229,9 @@ export default {
       right: null,
       bottom: null,
       minWidth: this.minw,
-      minHeight: this.minh
+      minHeight: this.minh,
+      currentFixArray: [],
+      currentFixSpot: []
     }
   },
   created: function() {
@@ -446,6 +449,45 @@ export default {
         return
       }
       this.stickDrag = true
+      this.currentFixSpot = [this.$refs.bl[0].getBoundingClientRect().x, this.$refs.bl[0].getBoundingClientRect().y]
+      this.currentFixArray = [this.$refs.bl[0].getBoundingClientRect().x, this.$refs.bl[0].getBoundingClientRect().y]
+      console.log(this.currentFixArray)
+      console.log(this.$refs.current.getBoundingClientRect())
+      switch (stick) {
+        case 'tl':
+          this.$refs.current.style.transformOrigin = 'bottom right'
+          break
+        case 'tm':
+          this.$refs.current.style.transformOrigin = 'bottom center'
+          break
+        case 'tr':
+          this.$refs.current.style.transformOrigin = 'bottom left'
+          break
+        case 'mr':
+          this.$refs.current.style.transformOrigin = 'left center'
+          break
+        case 'br':
+          this.$refs.current.style.transformOrigin = 'top left'
+          break
+        case 'bm':
+          this.$refs.current.style.transformOrigin = 'top center'
+          break
+        case 'bl':
+          this.$refs.current.style.transformOrigin = 'top right'
+          break
+        case 'ml':
+          this.$refs.current.style.transformOrigin = 'right center'
+          break
+      }
+      // this.$refs.current.style.transformOrigin = 'bottom left'
+      // eslint-disable-next-line prettier/prettier
+      console.log(this.currentFixArray[0] - this.$refs.bl[0].getBoundingClientRect().x, this.currentFixArray[1] - this.$refs.bl[0].getBoundingClientRect().y)
+      // eslint-disable-next-line prettier/prettier
+      let testArr = [this.currentFixArray[0] - this.$refs.bl[0].getBoundingClientRect().x, this.currentFixArray[1] - this.$refs.bl[0].getBoundingClientRect().y]
+      this.left = this.left + testArr[0] / this.parentScaleX
+      this.right = this.right - testArr[0] / this.parentScaleX
+      this.top = this.top + testArr[1] / this.parentScaleY
+      this.bottom = this.bottom - testArr[1] / this.parentScaleY
       this.stickStartPos.mouseX = ev.pageX || ev.touches[0].pageX
       this.stickStartPos.mouseY = ev.pageY || ev.touches[0].pageY
       this.stickStartPos.left = this.left
@@ -538,9 +580,8 @@ export default {
       }
       let tempDeltaX = Math.cos((-this.deg * Math.PI) / 180) * delta.x - Math.sin((-this.deg * Math.PI) / 180) * delta.y
       let tempDeltaY = Math.sin((-this.deg * Math.PI) / 180) * delta.x + Math.cos((-this.deg * Math.PI) / 180) * delta.y
-      console.log(delta.x, delta.y)
-      console.log(tempDeltaX, tempDeltaY)
-      // delta()
+
+      // console.log(tempDeltaX, tempDeltaY)
       delta.x = tempDeltaX
       delta.y = tempDeltaY
       switch (this.currentStick[0]) {
@@ -559,6 +600,22 @@ export default {
           this.rawLeft = stickStartPos.left - delta.x
           break
       }
+      // let tempFix = [this.$refs.bl[0].getBoundingClientRect().x, this.$refs.bl[0].getBoundingClientRect().y]
+      // if (tempFix[0] - this.currentFixSpot[0] != NaN && tempFix[1] - this.currentFixSpot[1] != NaN) {
+      //   let tempStore = [tempFix[0] - this.currentFixSpot[0], tempFix[1] - this.currentFixSpot[1]]
+      //   let fixX =
+      //     Math.cos((-this.deg * Math.PI) / 180) * tempStore[0] - Math.sin((-this.deg * Math.PI) / 180) * tempStore[1]
+      //   let fixY =
+      //     Math.sin((-this.deg * Math.PI) / 180) * tempStore[1] + Math.cos((-this.deg * Math.PI) / 180) * tempStore[1]
+      //   console.log(fixX, fixY)
+      //   this.$refs.current.style.left += tempStore[0]
+      //   this.$refs.current.style.top += tempStore[1]
+      //   // this.left = this.left - fixX
+      //   // this.top = this.top - fixY
+      // }
+      this.currentFixSpot = [this.$refs.bl[0].getBoundingClientRect().x, this.$refs.bl[0].getBoundingClientRect().y]
+      // this.left = this.left - (this.currentFixArray[0] - tempFix[0])
+      // this.top = this.top - (this.currentFixArray[1] - tempFix[1])
       this.$emit('resizing', this.rect)
     },
     stickUp() {
@@ -581,6 +638,15 @@ export default {
         minBottom: null,
         maxBottom: null
       }
+      this.currentFixArray = [this.$refs.bl[0].getBoundingClientRect().x, this.$refs.bl[0].getBoundingClientRect().y]
+      this.$refs.current.style.transformOrigin = 'center center'
+      // eslint-disable-next-line prettier/prettier
+      let testArr = [this.currentFixArray[0] - this.$refs.bl[0].getBoundingClientRect().x, this.currentFixArray[1] - this.$refs.bl[0].getBoundingClientRect().y]
+      this.left = this.left + testArr[0] / this.parentScaleX
+      this.right = this.right - testArr[0] / this.parentScaleX
+      this.top = this.top + testArr[1] / this.parentScaleY
+      this.bottom = this.bottom - testArr[1] / this.parentScaleY
+      console.log(this.$refs.bl[0].getBoundingClientRect())
       this.rawTop = this.top
       this.rawBottom = this.bottom
       this.rawLeft = this.left
@@ -673,6 +739,10 @@ export default {
         top: Math.round(this.top),
         width: Math.round(this.width),
         height: Math.round(this.height)
+        // left: Number(this.left.toFixed(5)),
+        // top: Number(this.top.toFixed(5)),
+        // width: Number(this.width.toFixed(5)),
+        // height: Number(this.height.toFixed(5))
       }
     }
   },
@@ -719,6 +789,7 @@ export default {
         this.rawBottom = bottom - delta / aspectFactor / 2
       }
       this.right = newRight
+      // console.log(this.right)
     },
     rawTop(newTop) {
       const limits = this.limits

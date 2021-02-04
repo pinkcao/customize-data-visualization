@@ -97,6 +97,7 @@ export default {
       this.height = newRect.height
       this.top = newRect.top
       this.left = newRect.left
+      // console.log(this.width)
     },
     testconsole(deg) {
       // console.log(deg)
