@@ -6,7 +6,7 @@
 
 <script>
 // Vue.component('component-line',{})
-
+//test
 export default {
   name: 'App'
 }
