@@ -451,8 +451,8 @@ export default {
       this.stickDrag = true
       this.currentFixSpot = [this.$refs.bl[0].getBoundingClientRect().x, this.$refs.bl[0].getBoundingClientRect().y]
       this.currentFixArray = [this.$refs.bl[0].getBoundingClientRect().x, this.$refs.bl[0].getBoundingClientRect().y]
-      console.log(this.currentFixArray)
-      console.log(this.$refs.current.getBoundingClientRect())
+      // console.log(this.currentFixArray)
+      // console.log(this.$refs.current.getBoundingClientRect())
       switch (stick) {
         case 'tl':
           this.$refs.current.style.transformOrigin = 'bottom right'
@@ -517,6 +517,7 @@ export default {
     calcResizeLimitation() {
       let minw = this.minWidth
       let minh = this.minHeight
+      // console.log('test')
       const aspectFactor = this.aspectFactor
       const width = this.width
       const height = this.height
@@ -542,6 +543,14 @@ export default {
         maxTop: top + (height - minh),
         minBottom: parentLim,
         maxBottom: bottom + (height - minh)
+        // minLeft: parentLim - 200,
+        // maxLeft: left + (width - minw) + 200,
+        // minRight: parentLim - 200,
+        // maxRight: right + (width - minw) + 200,
+        // minTop: parentLim - 200,
+        // maxTop: top + (height - minh) + 200,
+        // minBottom: parentLim - 200,
+        // maxBottom: bottom + (height - minh) + 200
       }
       if (this.aspectRatio) {
         const aspectLimits = {
@@ -570,53 +579,49 @@ export default {
           }
         }
       }
+      console.log(limits)
       return limits
     },
     stickMove(ev) {
-      const stickStartPos = this.stickStartPos
-      const delta = {
-        x: (stickStartPos.mouseX - (ev.pageX || ev.touches[0].pageX)) / this.parentScaleX,
-        y: (stickStartPos.mouseY - (ev.pageY || ev.touches[0].pageY)) / this.parentScaleY
-      }
-      let tempDeltaX = Math.cos((-this.deg * Math.PI) / 180) * delta.x - Math.sin((-this.deg * Math.PI) / 180) * delta.y
-      let tempDeltaY = Math.sin((-this.deg * Math.PI) / 180) * delta.x + Math.cos((-this.deg * Math.PI) / 180) * delta.y
+      // console.log(stickStartPos.mouseX)
+      // console.log(ev.pageX)
+      // console.log(!(ev.pageX || ev.touches != undefined))
+      if ((ev.pageX || ev.touches != undefined) && (ev.pageY || ev.touches != undefined)) {
+        const stickStartPos = this.stickStartPos
+        const delta = {
+          x: (stickStartPos.mouseX - (ev.pageX || ev.touches[0].pageX)) / this.parentScaleX,
+          y: (stickStartPos.mouseY - (ev.pageY || ev.touches[0].pageY)) / this.parentScaleY
+        }
+        let tempDeltaX =
+          Math.cos((-this.deg * Math.PI) / 180) * delta.x - Math.sin((-this.deg * Math.PI) / 180) * delta.y
+        let tempDeltaY =
+          Math.sin((-this.deg * Math.PI) / 180) * delta.x + Math.cos((-this.deg * Math.PI) / 180) * delta.y
 
-      // console.log(tempDeltaX, tempDeltaY)
-      delta.x = tempDeltaX
-      delta.y = tempDeltaY
-      switch (this.currentStick[0]) {
-        case 'b':
-          this.rawBottom = stickStartPos.bottom + delta.y
-          break
-        case 't':
-          this.rawTop = stickStartPos.top - delta.y
-          break
+        // console.log(tempDeltaX, tempDeltaY)
+        delta.x = tempDeltaX
+        delta.y = tempDeltaY
+        switch (this.currentStick[0]) {
+          case 'b':
+            this.rawBottom = stickStartPos.bottom + delta.y
+            break
+          case 't':
+            this.rawTop = stickStartPos.top - delta.y
+            break
+        }
+        switch (this.currentStick[1]) {
+          case 'r':
+            this.rawRight = stickStartPos.right + delta.x
+            break
+          case 'l':
+            this.rawLeft = stickStartPos.left - delta.x
+            break
+        }
+        this.currentFixSpot = [this.$refs.bl[0].getBoundingClientRect().x, this.$refs.bl[0].getBoundingClientRect().y]
+        // this.left = this.left - (this.currentFixArray[0] - tempFix[0])
+        // this.top = this.top - (this.currentFixArray[1] - tempFix[1])
+        // console.log(this.rect)
+        this.$emit('resizing', this.rect)
       }
-      switch (this.currentStick[1]) {
-        case 'r':
-          this.rawRight = stickStartPos.right + delta.x
-          break
-        case 'l':
-          this.rawLeft = stickStartPos.left - delta.x
-          break
-      }
-      // let tempFix = [this.$refs.bl[0].getBoundingClientRect().x, this.$refs.bl[0].getBoundingClientRect().y]
-      // if (tempFix[0] - this.currentFixSpot[0] != NaN && tempFix[1] - this.currentFixSpot[1] != NaN) {
-      //   let tempStore = [tempFix[0] - this.currentFixSpot[0], tempFix[1] - this.currentFixSpot[1]]
-      //   let fixX =
-      //     Math.cos((-this.deg * Math.PI) / 180) * tempStore[0] - Math.sin((-this.deg * Math.PI) / 180) * tempStore[1]
-      //   let fixY =
-      //     Math.sin((-this.deg * Math.PI) / 180) * tempStore[1] + Math.cos((-this.deg * Math.PI) / 180) * tempStore[1]
-      //   console.log(fixX, fixY)
-      //   this.$refs.current.style.left += tempStore[0]
-      //   this.$refs.current.style.top += tempStore[1]
-      //   // this.left = this.left - fixX
-      //   // this.top = this.top - fixY
-      // }
-      this.currentFixSpot = [this.$refs.bl[0].getBoundingClientRect().x, this.$refs.bl[0].getBoundingClientRect().y]
-      // this.left = this.left - (this.currentFixArray[0] - tempFix[0])
-      // this.top = this.top - (this.currentFixArray[1] - tempFix[1])
-      this.$emit('resizing', this.rect)
     },
     stickUp() {
       this.stickDrag = false
@@ -646,7 +651,7 @@ export default {
       this.right = this.right - testArr[0] / this.parentScaleX
       this.top = this.top + testArr[1] / this.parentScaleY
       this.bottom = this.bottom - testArr[1] / this.parentScaleY
-      console.log(this.$refs.bl[0].getBoundingClientRect())
+      // console.log(this.$refs.bl[0].getBoundingClientRect())
       this.rawTop = this.top
       this.rawBottom = this.bottom
       this.rawLeft = this.left
