@@ -7,9 +7,14 @@
       :h="height"
       :x="left"
       :y="top"
+      :deg="style.deg"
       :z="zindex"
+      :isDraggable="draggable"
+      :isResizable="resizable"
+      :isRotatable="rotatable"
       @resizing="resize"
       @dragging="resize"
+      @rotatating="rotate"
       @resizestop="updateComponentList"
       @dragstop="updateComponentList"
       :parentScaleX="parentScaleX"
@@ -17,13 +22,8 @@
       :parentW="parentW"
       :parentH="parentH"
       :parentLimitation="parentLimitation"
-      :isDraggable="draggable"
-      :isResizable="resizable"
       @activated="activate"
       @deactivated="onDeactivated"
-      :rotate="rotatable"
-      @rotate="rotate"
-      :deg="style.deg"
     >
       <div style="background-color: #ffffff; width: 100%; height: 100%">
         <v-funnel-chart

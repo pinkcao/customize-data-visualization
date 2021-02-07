@@ -53,7 +53,7 @@
     <span
       class="el-icon-refresh-right rotate"
       :style="currentHalfWidth"
-      v-show="rotate && active"
+      v-show="isRotatable && active"
       @mousedown.stop.prevent="activeRotate($event)"
     ></span>
   </div>
@@ -75,10 +75,6 @@ const styleMapping = {
 export default {
   name: 'vue-drag-resize-rotate',
   props: {
-    rotate: {
-      type: Boolean,
-      default: true
-    },
     border: {},
     bgColor: {
       default: '#000'
@@ -103,6 +99,10 @@ export default {
     preventActiveBehavior: {
       type: Boolean,
       default: false
+    },
+    isRotatable: {
+      type: Boolean,
+      default: true
     },
     isDraggable: {
       type: Boolean,
@@ -616,7 +616,7 @@ export default {
             this.rawLeft = stickStartPos.left - delta.x
             break
         }
-        this.currentFixSpot = [this.$refs.bl[0].getBoundingClientRect().x, this.$refs.bl[0].getBoundingClientRect().y]
+        // this.currentFixSpot = [this.$refs.bl[0].getBoundingClientRect().x, this.$refs.bl[0].getBoundingClientRect().y]
         // this.left = this.left - (this.currentFixArray[0] - tempFix[0])
         // this.top = this.top - (this.currentFixArray[1] - tempFix[1])
         // console.log(this.rect)
@@ -753,7 +753,7 @@ export default {
   },
   watch: {
     rawDeg() {
-      this.$emit('rotate', this.rawDeg)
+      this.$emit('rotatating', this.rawDeg)
     },
     rawLeft(newLeft) {
       const limits = this.limits
@@ -950,11 +950,11 @@ span.rotate:hover {
   width: 100%;
   height: 100%;
   position: absolute;
-  top: -3px;
-  left: -3px;
+  /* top: -3px;
+  left: -3px; */
   box-sizing: content-box;
   outline: 6px solid transparent;
-  border: 2px solid #022d30;
+  /* border: 2px solid #022d30; */
 }
 .vdr-stick {
   box-sizing: border-box;
