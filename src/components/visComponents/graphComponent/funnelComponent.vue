@@ -14,7 +14,7 @@
       :isRotatable="rotatable"
       @resizing="resize"
       @dragging="resize"
-      @rotatating="rotate"
+      @rotating="rotate"
       @resizestop="updateComponentList"
       @dragstop="updateComponentList"
       :parentScaleX="parentScaleX"

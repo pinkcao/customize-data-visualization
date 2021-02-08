@@ -753,7 +753,7 @@ export default {
   },
   watch: {
     rawDeg() {
-      this.$emit('rotatating', this.rawDeg)
+      this.$emit('rotating', this.rawDeg)
     },
     rawLeft(newLeft) {
       const limits = this.limits

@@ -24,8 +24,8 @@
       :parentLimitation="parentLimitation"
       :isDraggable="draggable"
       :isResizable="resizable"
-      :rotate="true"
-      @rotate="testconsole"
+      :isRotatable="true"
+      @rotating="testconsole"
     >
       <div style="background-color: #555555; width: 100%; height: 100%"></div>
     </vue-drag-resize-rotate>
