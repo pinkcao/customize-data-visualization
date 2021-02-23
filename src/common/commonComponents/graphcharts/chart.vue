@@ -234,7 +234,6 @@ export default {
           }
         } else {
           for (let i = 0; i < this.dataColumns; i++) {
-            // console.log(this.dataColumns)
             result[i] = { type: chartType }
           }
         }
@@ -278,13 +277,10 @@ export default {
     })
   },
   methods: {
-    confirmChange(value) {
-      console.log(value)
-    },
+    confirmChange(value) {},
     //获取被支持的图表列表
     getSupportedArr() {
       this.supportedArr = loadSupportedType()
-      // console.log(this.supportedArr)
     },
     //当在slidebar中mouseup时更新当前饼图中显示的列数
     onAfterChange(val) {
@@ -312,7 +308,6 @@ export default {
     },
     //当统计分组的分组被更改后重新设置图表
     groupChange(value) {
-      // console.log(value)
       this.countArr(value)
       this.initChart()
     },

@@ -22,5 +22,6 @@ module.exports = {
       preProcessor: 'less',
       patterns: [path.resolve(__dirname, 'src/assets/styles/commonStyles.less')]
     }
-  }
+  },
+  publicPath: './'
 }

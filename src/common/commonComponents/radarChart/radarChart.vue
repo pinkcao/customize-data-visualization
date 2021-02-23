@@ -31,10 +31,8 @@ export default {
     currentIndicator: function() {
       let indicator = []
       for (let i = 0; i < this.dataSource[0].length; i++) {
-        // console.log(this.dataSource[0][i])
         indicator.push({ name: this.dataSource[0][i], max: this.dataSource[1][i] })
       }
-      // console.log(indicator)
       return indicator
     },
     currentLegend: function() {
@@ -42,11 +40,9 @@ export default {
       for (let i = 2; i < this.dataSource.length; i++) {
         legend.push(this.dataSource[i][this.dataSource[i].length - 1])
       }
-      // console.log(legend)
       return legend
     },
     currentSeriesData: function() {
-      console.log(this.dataSource)
       let seriesData = []
       for (let i = 2; i < this.dataSource.length; i++) {
         let tempData = []
@@ -58,7 +54,6 @@ export default {
         lineData.name = this.dataSource[i][this.dataSource[0].length]
         seriesData.push(lineData)
       }
-      console.log(seriesData)
       return seriesData
     }
   },
