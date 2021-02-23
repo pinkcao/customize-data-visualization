@@ -33,7 +33,6 @@
     :style="{ ...style, transform: 'rotateZ(' + deg + 'Deg)' }"
     ref="current"
     tabIndex="-1"
-    @keyup.delete="delItem"
     @click="clickSon($event)"
     :class="active || isActive ? 'active' : 'inactive'"
     @mousedown.stop.prevent="bodyDown($event)"
@@ -54,7 +53,8 @@
       class="el-icon-refresh-right rotate"
       :style="currentHalfWidth"
       v-show="isRotatable && active"
-      @mousedown.stop.prevent="activeRotate($event)"
+      @mousedown.stop.prevent="rotateDown($event)"
+      @touchstart.stop.prevent="rotateDown($event)"
     ></span>
   </div>
 </template>
@@ -237,6 +237,7 @@ export default {
   created: function() {
     this.stickDrag = false
     this.bodyDrag = false
+    this.rotateDrag = false
     this.stickAxis = null
     this.stickStartPos = { mouseX: 0, mouseY: 0, x: 0, y: 0, w: 0, h: 0 }
     this.limits = {
@@ -297,42 +298,7 @@ export default {
         el.getBoundingClientRect().top + el.getBoundingClientRect().height / 2
       ]
     },
-    activeRotate(e) {
-      this.getCenter()
-      this.rotateStart = [e.clientX, e.clientY]
-      const listener = event => {
-        var el = this.$refs.current
-        let a = this.calculLength(this.rotateStart[0], event.clientX, this.rotateStart[1], event.clientY)
-        let c = this.calculLength(this.rotateStart[0], this.rotateCenter[0], this.rotateStart[1], this.rotateCenter[1])
-        let b = this.calculLength(this.rotateCenter[0], event.clientX, this.rotateCenter[1], event.clientY)
-        // eslint-disable-next-line prettier/prettier
-        let direct = this.calculClock(this.rotateCenter[0], this.rotateCenter[1], this.rotateStart[0], this.rotateStart[1], event.clientX, event.clientY) >= 0
-        let rawDeg = this.calculrawDegA(a, b, c)
-        rawDeg = Math.abs(rawDeg)
-        //判断转向 顺时针or 逆时针
-        if (!direct) {
-          rawDeg = 0 - rawDeg
-        }
-        var srawDeg = this.rawDeg
-        srawDeg += rawDeg
-        Math.abs(srawDeg) > 360 ? (srawDeg %= 360) : true
-        this.rawDeg = srawDeg
-        this.rotateStart[0] = event.clientX
-        this.rotateStart[1] = event.clientY
-      }
-      document.body.addEventListener('mousemove', listener)
-      document.body.addEventListener('mouseup', () => {
-        document.body.removeEventListener('mousemove', listener)
-      })
-    },
-    getAngle(cen, first, second) {
-      console.log(hDis / h, wDis / w)
-    },
-    // delItem() {
-    //   this.$emit('delreport', this.customId)
-    // },
     clickSon(e) {
-      //console.log(e.target);
       e.target.focus()
       e.stopPropagation()
     },
@@ -350,7 +316,7 @@ export default {
       this.active = false
     },
     move(ev) {
-      if (!this.stickDrag && !this.bodyDrag) {
+      if (!this.stickDrag && !this.bodyDrag && !this.rotateDrag) {
         return
       }
       ev.stopPropagation()
@@ -360,6 +326,9 @@ export default {
       if (this.bodyDrag) {
         this.bodyMove(ev)
       }
+      if (this.rotateDrag) {
+        this.rotateMove(ev)
+      }
     },
     up(ev) {
       if (this.stickDrag) {
@@ -367,6 +336,9 @@ export default {
       }
       if (this.bodyDrag) {
         this.bodyUp(ev)
+      }
+      if (this.rotateDrag) {
+        this.rotateUp(ev)
       }
     },
     bodyDown: function(ev) {
@@ -444,6 +416,58 @@ export default {
         maxBottom: null
       }
     },
+    rotateDown: function(ev) {
+      if (!this.isRotatable || !this.active) {
+        return
+      }
+      this.getCenter()
+      this.rotateDrag = true
+      this.rotateStart = [ev.clientX || ev.touches[0].pageX, ev.clientY || ev.touches[0].pageY]
+    },
+    rotateMove(event) {
+      var el = this.$refs.current
+      let a = this.calculLength(
+        this.rotateStart[0],
+        event.clientX || event.touches[0].pageX,
+        this.rotateStart[1],
+        event.clientY || event.touches[0].pageY
+      )
+      let c = this.calculLength(this.rotateStart[0], this.rotateCenter[0], this.rotateStart[1], this.rotateCenter[1])
+      let b = this.calculLength(
+        this.rotateCenter[0],
+        event.clientX || event.touches[0].pageX,
+        this.rotateCenter[1],
+        event.clientY || event.touches[0].pageY
+      )
+      // eslint-disable-next-line prettier/prettier
+      let direct =
+        this.calculClock(
+          this.rotateCenter[0],
+          this.rotateCenter[1],
+          this.rotateStart[0],
+          this.rotateStart[1],
+          event.clientX || event.touches[0].pageX,
+          event.clientY || event.touches[0].pageY
+        ) >= 0
+      let rawDeg = this.calculrawDegA(a, b, c)
+      rawDeg = Math.abs(rawDeg)
+      //判断转向 顺时针or 逆时针
+      if (!direct) {
+        rawDeg = 0 - rawDeg
+      }
+      var srawDeg = this.rawDeg
+      srawDeg += rawDeg
+      Math.abs(srawDeg) > 360 ? (srawDeg %= 360) : true
+      this.rawDeg = srawDeg
+      this.rotateStart[0] = event.clientX || event.touches[0].pageX
+      this.rotateStart[1] = event.clientY || event.touches[0].pageY
+      this.$emit('rotating', this.rawDeg)
+    },
+    rotateUp() {
+      this.rotateDrag = false
+      this.$emit('rotating', this.rawDeg)
+      this.$emit('rotatestop', this.rawDeg)
+    },
     stickDown: function(stick, ev) {
       if (!this.isResizable || !this.active) {
         return
@@ -451,8 +475,6 @@ export default {
       this.stickDrag = true
       this.currentFixSpot = [this.$refs.bl[0].getBoundingClientRect().x, this.$refs.bl[0].getBoundingClientRect().y]
       this.currentFixArray = [this.$refs.bl[0].getBoundingClientRect().x, this.$refs.bl[0].getBoundingClientRect().y]
-      // console.log(this.currentFixArray)
-      // console.log(this.$refs.current.getBoundingClientRect())
       switch (stick) {
         case 'tl':
           this.$refs.current.style.transformOrigin = 'bottom right'
@@ -479,11 +501,11 @@ export default {
           this.$refs.current.style.transformOrigin = 'right center'
           break
       }
-      // this.$refs.current.style.transformOrigin = 'bottom left'
       // eslint-disable-next-line prettier/prettier
-      console.log(this.currentFixArray[0] - this.$refs.bl[0].getBoundingClientRect().x, this.currentFixArray[1] - this.$refs.bl[0].getBoundingClientRect().y)
-      // eslint-disable-next-line prettier/prettier
-      let testArr = [this.currentFixArray[0] - this.$refs.bl[0].getBoundingClientRect().x, this.currentFixArray[1] - this.$refs.bl[0].getBoundingClientRect().y]
+      let testArr = [
+        this.currentFixArray[0] - this.$refs.bl[0].getBoundingClientRect().x,
+        this.currentFixArray[1] - this.$refs.bl[0].getBoundingClientRect().y
+      ]
       this.left = this.left + testArr[0] / this.parentScaleX
       this.right = this.right - testArr[0] / this.parentScaleX
       this.top = this.top + testArr[1] / this.parentScaleY
@@ -517,7 +539,6 @@ export default {
     calcResizeLimitation() {
       let minw = this.minWidth
       let minh = this.minHeight
-      // console.log('test')
       const aspectFactor = this.aspectFactor
       const width = this.width
       const height = this.height
@@ -543,14 +564,6 @@ export default {
         maxTop: top + (height - minh),
         minBottom: parentLim,
         maxBottom: bottom + (height - minh)
-        // minLeft: parentLim - 200,
-        // maxLeft: left + (width - minw) + 200,
-        // minRight: parentLim - 200,
-        // maxRight: right + (width - minw) + 200,
-        // minTop: parentLim - 200,
-        // maxTop: top + (height - minh) + 200,
-        // minBottom: parentLim - 200,
-        // maxBottom: bottom + (height - minh) + 200
       }
       if (this.aspectRatio) {
         const aspectLimits = {
@@ -579,13 +592,9 @@ export default {
           }
         }
       }
-      console.log(limits)
       return limits
     },
     stickMove(ev) {
-      // console.log(stickStartPos.mouseX)
-      // console.log(ev.pageX)
-      // console.log(!(ev.pageX || ev.touches != undefined))
       if ((ev.pageX || ev.touches != undefined) && (ev.pageY || ev.touches != undefined)) {
         const stickStartPos = this.stickStartPos
         const delta = {
@@ -596,8 +605,6 @@ export default {
           Math.cos((-this.deg * Math.PI) / 180) * delta.x - Math.sin((-this.deg * Math.PI) / 180) * delta.y
         let tempDeltaY =
           Math.sin((-this.deg * Math.PI) / 180) * delta.x + Math.cos((-this.deg * Math.PI) / 180) * delta.y
-
-        // console.log(tempDeltaX, tempDeltaY)
         delta.x = tempDeltaX
         delta.y = tempDeltaY
         switch (this.currentStick[0]) {
@@ -616,10 +623,6 @@ export default {
             this.rawLeft = stickStartPos.left - delta.x
             break
         }
-        // this.currentFixSpot = [this.$refs.bl[0].getBoundingClientRect().x, this.$refs.bl[0].getBoundingClientRect().y]
-        // this.left = this.left - (this.currentFixArray[0] - tempFix[0])
-        // this.top = this.top - (this.currentFixArray[1] - tempFix[1])
-        // console.log(this.rect)
         this.$emit('resizing', this.rect)
       }
     },
@@ -645,13 +648,14 @@ export default {
       }
       this.currentFixArray = [this.$refs.bl[0].getBoundingClientRect().x, this.$refs.bl[0].getBoundingClientRect().y]
       this.$refs.current.style.transformOrigin = 'center center'
-      // eslint-disable-next-line prettier/prettier
-      let testArr = [this.currentFixArray[0] - this.$refs.bl[0].getBoundingClientRect().x, this.currentFixArray[1] - this.$refs.bl[0].getBoundingClientRect().y]
+      let testArr = [
+        this.currentFixArray[0] - this.$refs.bl[0].getBoundingClientRect().x,
+        this.currentFixArray[1] - this.$refs.bl[0].getBoundingClientRect().y
+      ]
       this.left = this.left + testArr[0] / this.parentScaleX
       this.right = this.right - testArr[0] / this.parentScaleX
       this.top = this.top + testArr[1] / this.parentScaleY
       this.bottom = this.bottom - testArr[1] / this.parentScaleY
-      // console.log(this.$refs.bl[0].getBoundingClientRect())
       this.rawTop = this.top
       this.rawBottom = this.bottom
       this.rawLeft = this.left
@@ -744,17 +748,10 @@ export default {
         top: Math.round(this.top),
         width: Math.round(this.width),
         height: Math.round(this.height)
-        // left: Number(this.left.toFixed(5)),
-        // top: Number(this.top.toFixed(5)),
-        // width: Number(this.width.toFixed(5)),
-        // height: Number(this.height.toFixed(5))
       }
     }
   },
   watch: {
-    rawDeg() {
-      this.$emit('rotating', this.rawDeg)
-    },
     rawLeft(newLeft) {
       const limits = this.limits
       const stickAxis = this.stickAxis
@@ -794,7 +791,6 @@ export default {
         this.rawBottom = bottom - delta / aspectFactor / 2
       }
       this.right = newRight
-      // console.log(this.right)
     },
     rawTop(newTop) {
       const limits = this.limits
@@ -950,11 +946,8 @@ span.rotate:hover {
   width: 100%;
   height: 100%;
   position: absolute;
-  /* top: -3px;
-  left: -3px; */
   box-sizing: content-box;
   outline: 6px solid transparent;
-  /* border: 2px solid #022d30; */
 }
 .vdr-stick {
   box-sizing: border-box;

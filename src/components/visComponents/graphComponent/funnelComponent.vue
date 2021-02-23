@@ -17,6 +17,7 @@
       @rotating="rotate"
       @resizestop="updateComponentList"
       @dragstop="updateComponentList"
+      @rotatestop="updateComponentList"
       :parentScaleX="parentScaleX"
       :parentScaleY="parentScaleY"
       :parentW="parentW"
