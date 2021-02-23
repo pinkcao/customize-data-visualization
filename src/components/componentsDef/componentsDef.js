@@ -19,6 +19,8 @@ export default {
       top: 100,
       //当前组件左侧距离
       left: 100,
+      //当前组件顺时针旋转角度
+      deg: 0,
       //当前组件是否会受限于父元素
       parentLimitation: true,
       //当前组件是否可拖拽
@@ -62,7 +64,6 @@ export default {
       },
       //当前组件样式
       style: {
-        deg: 0,
         opacity: 1,
         titlepos: 'center'
         // legendvis: true,
@@ -215,7 +216,7 @@ export default {
     },
     rotate(deg) {
       // console.log(deg)
-      this.style.deg = deg
+      this.deg = deg
     },
     testFetchData() {
       // console.log(this.dataSource.APIURL)

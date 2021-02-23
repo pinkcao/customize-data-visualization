@@ -227,6 +227,7 @@ const componentList = [
         height: 300,
         top: 10,
         left: 10,
+        deg: 0,
         draggable: true,
         resizable: true,
         parentLimitation: true,
@@ -265,7 +266,6 @@ const componentList = [
           opacity: 1,
           legendvis: true,
           titlevis: true,
-          deg: 0,
           titlepos: 'center'
         }
       },
@@ -277,6 +277,7 @@ const componentList = [
         height: 300,
         top: 500,
         left: 100,
+        deg: 0,
         draggable: true,
         resizable: true,
         parentLimitation: true,
@@ -315,7 +316,6 @@ const componentList = [
           opacity: 1,
           legendvis: true,
           titlevis: true,
-          deg: 0,
           titlepos: 'center'
         }
       }
@@ -562,7 +562,7 @@ export default {
             componentList[i].components[j].height = propertyObj.height
             componentList[i].components[j].top = propertyObj.top
             componentList[i].components[j].left = propertyObj.left
-            componentList[i].components[j].style.deg = propertyObj.deg
+            componentList[i].components[j].deg = propertyObj.deg
             console.log(propertyObj)
             console.log(componentList[i].components)
             return {

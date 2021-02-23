@@ -187,6 +187,7 @@ export default {
           //用于指向当前鼠标指针在canvas中的位置
           left: event.offsetX,
           top: event.offsetY,
+          deg: 0,
           draggable: true,
           resizable: true,
           parentLimitation: true,
@@ -313,6 +314,7 @@ export default {
             height: that.objList[this.objList.length - 1].component_instance.height,
             top: event.offsetY,
             left: event.offsetX,
+            deg: 0,
             draggable: true,
             resizable: true,
             parentLimitation: true,
@@ -351,6 +353,7 @@ export default {
               height: currentData[i].height,
               top: currentData[i].top,
               left: currentData[i].left,
+              deg: currentData[i].deg,
               name: currentData[i].name,
               draggable: currentData[i].draggable,
               resizable: currentData[i].resizable,

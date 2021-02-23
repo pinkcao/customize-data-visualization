@@ -7,7 +7,7 @@
       :h="height"
       :x="left"
       :y="top"
-      :deg="style.deg"
+      :deg="deg"
       :z="zindex"
       :isRotatable="rotatable"
       :isDraggable="draggable"
