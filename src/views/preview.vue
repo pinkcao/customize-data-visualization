@@ -245,6 +245,7 @@ export default {
             height: currentData[i].height,
             top: currentData[i].top,
             left: currentData[i].left,
+            deg: currentData[i].deg,
             name: currentData[i].name,
             parentLimitation: false,
             preventActiveBehavior: true,

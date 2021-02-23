@@ -25,18 +25,28 @@ export default {
   },
   watch: {
     //监听vuex中的componentList属性，如果有更改则覆盖当前objList的z-index值
-    '$store.state.componentList': function(newval) {
-      let compList = newval
-      for (let i = 0; i < this.objList.length; i++) {
-        for (let j = 0; j < compList.length; j++) {
-          //必须是this.objList[i].component_instance获取当前VueComponent实体
-          if (this.objList[i].component_instance.index == compList[j].index) {
-            this.objList[i].set({
-              data: { zindex: compList[j].zindex }
-            })
+    '$store.state.componentList': {
+      handler(newval) {
+        let compList = newval
+        for (let i = 0; i < this.objList.length; i++) {
+          for (let j = 0; j < compList.length; j++) {
+            //必须是this.objList[i].component_instance获取当前VueComponent实体
+            if (this.objList[i].component_instance.index == compList[j].index) {
+              this.objList[i].set({
+                data: {
+                  zindex: compList[j].zindex,
+                  width: compList[j].width,
+                  height: compList[j].height,
+                  top: compList[j].top,
+                  left: compList[j].left,
+                  deg: compList[j].deg
+                }
+              })
+            }
           }
         }
-      }
+      },
+      deep: true
     },
     '$store.state.screenDef': {
       handler(newval) {

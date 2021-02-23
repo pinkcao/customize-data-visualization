@@ -156,6 +156,7 @@ export default new Vuex.Store({
           state.componentList[i].height = currentComponentBaseStatus.height
           state.componentList[i].left = currentComponentBaseStatus.left
           state.componentList[i].top = currentComponentBaseStatus.top
+          state.componentList[i].deg = currentComponentBaseStatus.deg
           // console.log(state.componentList[i])
           break
         }

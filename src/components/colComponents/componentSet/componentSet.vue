@@ -57,6 +57,23 @@
               @change="componentBaseStatusOnChange"
             ></el-input-number>
           </div>
+
+          <div class="form-sub-item" v-if="flag && currentComponent.deg >= -360">
+            <div class="span-wrapper">
+              <span :style="spanStyle">旋转角度:</span>
+            </div>
+            <el-input-number
+              :style="inputNumberStyle"
+              controls-position="right"
+              size="mini"
+              v-model="currentComponent.deg"
+              :step="1"
+              :precision="2"
+              :max="360"
+              :min="-360"
+              @change="componentBaseStatusOnChange"
+            ></el-input-number>
+          </div>
         </el-tab-pane>
 
         <el-tab-pane label="数据配置">
@@ -102,23 +119,6 @@
               :step="0.05"
               :max="1"
               :min="0"
-              @change="updateStyle"
-            ></el-input-number>
-          </div>
-
-          <div class="form-sub-item" v-if="flag && currentComponent.style.deg >= -360">
-            <div class="span-wrapper">
-              <span :style="spanStyle">旋转角度:</span>
-            </div>
-            <el-input-number
-              :style="inputNumberStyle"
-              controls-position="right"
-              size="mini"
-              v-model="currentComponent.style.deg"
-              :step="1"
-              :precision="2"
-              :max="360"
-              :min="-360"
               @change="updateStyle"
             ></el-input-number>
           </div>
@@ -417,7 +417,8 @@ export default {
         width: this.currentComponent.width,
         height: this.currentComponent.height,
         left: this.currentComponent.left,
-        top: this.currentComponent.top
+        top: this.currentComponent.top,
+        deg: this.currentComponent.deg
       }
       this.$store.commit('updateComponentStatus', currentComponentBaseStatus)
     },

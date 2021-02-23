@@ -173,7 +173,7 @@ export default {
           method: 'post',
           data: {
             templateID: this.$store.state.currentTemplateID,
-            deg: this.style.deg,
+            deg: this.deg,
             index: this.index,
             width: this.width,
             height: this.height,
