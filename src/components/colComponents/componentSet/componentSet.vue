@@ -372,18 +372,21 @@ export default {
   },
   watch: {
     //默认不渲染，只有当vuex中的currentComponent被赋值后渲染
-    '$store.state.currentComponent': function(newval) {
+    '$store.state.currentComponent': {
+      handler(newval) {
+        this.currentComponent = newval
+        //由于往往是个json对象，所以将其转为JSON字符串，显示为静态JSON数据让用户直接可以修改
+        this.componentDataSourceData = JSON.stringify(this.currentComponent.dataSource.data)
+        this.currentComponentDataSourceDetail.currentComponentdataSourceType = this.currentComponent.dataSource.dataSourceType
+        this.currentComponentDataSourceDetail.currentComponentAPIURL = this.currentComponent.dataSource.APIURL
+        this.currentComponentDataSourceDetail.currentComponentAPIMethod = this.currentComponent.dataSource.APIMethod
+        this.currentComponentDataSourceDetail.currentComponentAPIInterval = this.currentComponent.dataSource.APIInterval
+        this.currentComponentDataSourceDetail.currentComponentAPIHeader = this.currentComponent.dataSource.APIHeader
+        this.flag = true
+        // console.log(this.currentComponentDataSourceDetail)
+      },
+      deep: true
       // console.log(newval)
-      this.currentComponent = newval
-      //由于往往是个json对象，所以将其转为JSON字符串，显示为静态JSON数据让用户直接可以修改
-      this.componentDataSourceData = JSON.stringify(this.currentComponent.dataSource.data)
-      this.currentComponentDataSourceDetail.currentComponentdataSourceType = this.currentComponent.dataSource.dataSourceType
-      this.currentComponentDataSourceDetail.currentComponentAPIURL = this.currentComponent.dataSource.APIURL
-      this.currentComponentDataSourceDetail.currentComponentAPIMethod = this.currentComponent.dataSource.APIMethod
-      this.currentComponentDataSourceDetail.currentComponentAPIInterval = this.currentComponent.dataSource.APIInterval
-      this.currentComponentDataSourceDetail.currentComponentAPIHeader = this.currentComponent.dataSource.APIHeader
-      this.flag = true
-      console.log(this.currentComponentDataSourceDetail)
     }
   },
   created() {},

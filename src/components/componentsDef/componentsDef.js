@@ -267,6 +267,7 @@ export default {
       console.log(this.dataSource.APIInterval)
       console.log(this.dataSource.IntervalID)
       console.log(this.index)
+      console.log(this.$store.state.currentComponent)
     },
     removeInterval() {
       clearInterval(this.dataSource.IntervalID)

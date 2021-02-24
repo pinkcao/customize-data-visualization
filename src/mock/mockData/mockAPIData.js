@@ -47,6 +47,6 @@ function generateData(scaleX, scaleY) {
 
 export default {
   testJsonData: Mock.mock(url.testJsonData, 'post', () => {
-    return generateData(Math.floor(Math.random() * 4 + 1), Math.floor(Math.random() * 7 + 1))
+    return generateData(Math.floor(Math.random() * 4 + 2), Math.floor(Math.random() * 6 + 2))
   })
 }
