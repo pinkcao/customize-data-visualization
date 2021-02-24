@@ -220,7 +220,7 @@
           <el-select
             style="float: left"
             size="mini"
-            v-model="currentComponentDataSourceDetail.dataSourceType"
+            v-model="currentComponentDataSourceDetail.currentComponentdataSourceType"
             placeholder="请选择"
           >
             <el-option
@@ -232,7 +232,7 @@
           </el-select>
         </el-form-item>
         <el-form-item
-          v-if="flag && currentComponentDataSourceDetail.dataSourceType == 'APISource'"
+          v-if="flag && currentComponentDataSourceDetail.currentComponentdataSourceType == 'APISource'"
           label="APIURL"
           prop="currentComponentAPIURL"
         >
@@ -243,7 +243,7 @@
           ></el-input>
         </el-form-item>
         <el-form-item
-          v-if="flag && currentComponentDataSourceDetail.dataSourceType == 'APISource'"
+          v-if="flag && currentComponentDataSourceDetail.currentComponentdataSourceType == 'APISource'"
           label="API请求方式"
           prop="currentComponentAPIMethod"
         >
@@ -258,7 +258,7 @@
           </el-select>
         </el-form-item>
         <el-form-item
-          v-if="flag && currentComponentDataSourceDetail.dataSourceType == 'APISource'"
+          v-if="flag && currentComponentDataSourceDetail.currentComponentdataSourceType == 'APISource'"
           label="API请求间隔(ms)"
           prop="currentComponentAPIInterval"
         >
@@ -272,7 +272,7 @@
           ></el-input-number>
         </el-form-item>
         <el-form-item
-          v-if="flag && currentComponentDataSourceDetail.dataSourceType == 'APISource'"
+          v-if="flag && currentComponentDataSourceDetail.currentComponentdataSourceType == 'APISource'"
           label="API请求头(可选)"
         >
           <el-input
@@ -383,6 +383,7 @@ export default {
       this.currentComponentDataSourceDetail.currentComponentAPIInterval = this.currentComponent.dataSource.APIInterval
       this.currentComponentDataSourceDetail.currentComponentAPIHeader = this.currentComponent.dataSource.APIHeader
       this.flag = true
+      console.log(this.currentComponentDataSourceDetail)
     }
   },
   created() {},
@@ -428,7 +429,7 @@ export default {
     },
     updateDialogDataSource() {
       this.currentComponent.dataSource.data = JSON.parse(this.componentDataSourceData)
-      this.currentComponent.dataSource.dataSourceType = this.currentComponentDataSourceDetail.dataSourceType
+      this.currentComponent.dataSource.dataSourceType = this.currentComponentDataSourceDetail.currentComponentdataSourceType
       this.currentComponent.dataSource.APIURL = this.currentComponentDataSourceDetail.currentComponentAPIURL
       this.currentComponent.dataSource.APIMethod = this.currentComponentDataSourceDetail.currentComponentAPIMethod
       this.currentComponent.dataSource.APIInterval = this.currentComponentDataSourceDetail.currentComponentAPIInterval

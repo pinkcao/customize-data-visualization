@@ -84,7 +84,7 @@ export default {
       immediate: true,
       handler(newVal) {
         // console.log(newVal)
-        clearInterval(this.dataSource.IntervalID)
+        this.removeInterval()
         this.dataSource.IntervalID = ''
         console.log('APIURL updated，Interval cleared')
         if (this.dataSource.APISwitch == true) {
@@ -97,11 +97,13 @@ export default {
     'dataSource.APIMethod': {
       // immediate: true,
       handler(newVal) {
-        clearInterval(this.dataSource.IntervalID)
+        this.removeInterval()
         this.dataSource.IntervalID = ''
         console.log('APIMethod updated，Interval cleared')
+        // console.log(this.dataSource.APISwitch == true && this.dataSource.IntervalID == '')
         if (this.dataSource.APISwitch == true && this.dataSource.IntervalID == '') {
           this.dataSource.IntervalID = setInterval(this.fetchDataFromAPI, this.dataSource.APIInterval)
+          // console.log(this.dataSource.APISwitch == true && this.dataSource.IntervalID == '')
           console.log('Interval set')
         }
       }
@@ -109,11 +111,13 @@ export default {
     'dataSource.APIInterval': {
       // immediate: true,
       handler(newVal) {
-        clearInterval(this.dataSource.IntervalID)
+        this.removeInterval()
         this.dataSource.IntervalID = ''
         console.log('APIInterval updated，Interval cleared')
+        // console.log(this.dataSource.APISwitch == true && this.dataSource.IntervalID == '')
         if (this.dataSource.APISwitch == true && this.dataSource.IntervalID == '') {
           this.dataSource.IntervalID = setInterval(this.fetchDataFromAPI, this.dataSource.APIInterval)
+          // console.log(this.dataSource.APISwitch == true && this.dataSource.IntervalID == '')
           console.log('Interval set')
         }
       }
@@ -122,7 +126,7 @@ export default {
       // console.log(newVal)
       if (newVal == false) {
         console.log('APISwitch off，Interval cleared')
-        clearInterval(this.dataSource.IntervalID)
+        this.removeInterval()
         this.dataSource.IntervalID = ''
       }
     }
@@ -160,7 +164,13 @@ export default {
     }
   },
   mounted() {
-    // console.log(this)
+    console.log(this.dataSource)
+  },
+  beforeDestroy() {
+    this.removeInterval()
+  },
+  destroyed() {
+    console.log('test')
   },
   methods: {
     //更新当前组件基础属性
@@ -256,6 +266,10 @@ export default {
       }
       console.log(this.dataSource.APIInterval)
       console.log(this.dataSource.IntervalID)
+      console.log(this.index)
+    },
+    removeInterval() {
+      clearInterval(this.dataSource.IntervalID)
     }
   }
 }

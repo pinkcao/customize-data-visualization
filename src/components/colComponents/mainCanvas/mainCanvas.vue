@@ -23,6 +23,9 @@ export default {
       }
     }
   },
+  beforeDestroy() {
+    console.log('test')
+  },
   watch: {
     //监听vuex中的componentList属性，如果有更改则覆盖当前objList的z-index值
     '$store.state.componentList': {

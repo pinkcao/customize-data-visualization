@@ -11,6 +11,7 @@
 import { getComponent } from '@components/visComponents/comMap.js'
 //由于在预览界面不会对子组件再进行操作，因此仅只引入mount方法，不保存整个Mount对象
 import { mount } from 'vue-mount'
+import Mount from 'vue-mount'
 import url from '@mock/mockAPI.js'
 
 export default {
@@ -35,7 +36,8 @@ export default {
         background: false
       },
       stretchMethod: '',
-      backgroundStyle: {}
+      backgroundStyle: {},
+      objList: []
     }
   },
   computed: {},
@@ -102,6 +104,9 @@ export default {
   },
   beforeDestroy() {
     window.removeEventListener('resize', this.resize)
+    for (let i = 0; i < this.objList.length; i++) {
+      this.objList[i].destroy()
+    }
   },
 
   methods: {
@@ -232,36 +237,40 @@ export default {
       let currentData = this.componentList
       let that = this
       for (let i = 0; i < currentData.length; i++) {
-        mount(getComponent(currentData[i].name), {
-          target: that.$refs.preview,
-          mode: 'append',
-          props: {},
-          data: {
-            index: currentData[i].index,
-            zindex: currentData[i].zindex,
-            target: this.$refs.target,
-            ifshow: currentData[i].ifshow,
-            width: currentData[i].width,
-            height: currentData[i].height,
-            top: currentData[i].top,
-            left: currentData[i].left,
-            deg: currentData[i].deg,
-            name: currentData[i].name,
-            parentLimitation: false,
-            preventActiveBehavior: true,
-            dataSource: currentData[i].dataSource,
-            title: currentData[i].title,
-            subTitle: currentData[i].subTitle,
-            style: currentData[i].style,
-            draggable: false,
-            resizable: false,
-            mode: 'preview',
-            active: false
-            // $store: this.$store
-            //重新挂载后无法访问到全局的this.$store,需要对$store重定向
-          },
-          on: {}
-        })
+        this.objList.push(
+          new Mount(getComponent(currentData[i].name), {
+            // mount(getComponent(currentData[i].name), {
+            target: that.$refs.preview,
+            mode: 'append',
+            props: {},
+            data: {
+              index: currentData[i].index,
+              zindex: currentData[i].zindex,
+              target: this.$refs.target,
+              ifshow: currentData[i].ifshow,
+              width: currentData[i].width,
+              height: currentData[i].height,
+              top: currentData[i].top,
+              left: currentData[i].left,
+              deg: currentData[i].deg,
+              name: currentData[i].name,
+              parentLimitation: false,
+              preventActiveBehavior: true,
+              dataSource: currentData[i].dataSource,
+              title: currentData[i].title,
+              subTitle: currentData[i].subTitle,
+              style: currentData[i].style,
+              draggable: false,
+              resizable: false,
+              mode: 'preview',
+              active: false
+              // $store: this.$store
+              //重新挂载后无法访问到全局的this.$store,需要对$store重定向
+            },
+            on: {}
+          })
+        )
+        this.objList[i].mount()
       }
     }
   }
