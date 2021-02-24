@@ -24,7 +24,11 @@ export default {
     }
   },
   beforeDestroy() {
-    console.log('test')
+    // console.log('test')
+    //在切换路由或是销毁该组件时把所有子组件手动销毁
+    for (let i = 0; i < this.objList.length; i++) {
+      this.objList[i].destroy()
+    }
   },
   watch: {
     //监听vuex中的componentList属性，如果有更改则覆盖当前objList的z-index值
