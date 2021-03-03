@@ -461,12 +461,12 @@ export default {
       this.rawDeg = srawDeg
       this.rotateStart[0] = event.clientX || event.touches[0].pageX
       this.rotateStart[1] = event.clientY || event.touches[0].pageY
-      this.$emit('rotating', this.rawDeg)
+      this.$emit('rotating', Math.round(this.rawDeg))
     },
     rotateUp() {
       this.rotateDrag = false
-      this.$emit('rotating', this.rawDeg)
-      this.$emit('rotatestop', this.rawDeg)
+      this.$emit('rotating', Math.round(this.rawDeg))
+      this.$emit('rotatestop', Math.round(this.rawDeg))
     },
     stickDown: function(stick, ev) {
       if (!this.isResizable || !this.active) {

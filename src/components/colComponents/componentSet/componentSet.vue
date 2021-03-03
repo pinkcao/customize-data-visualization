@@ -68,7 +68,6 @@
               size="mini"
               v-model="currentComponent.deg"
               :step="1"
-              :precision="2"
               :max="360"
               :min="-360"
               @change="componentBaseStatusOnChange"
