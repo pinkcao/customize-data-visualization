@@ -1,5 +1,5 @@
 export default {
-  getComTabData: 'http://localhost:8080/api/comCol/getComTabData',
+  getComponentTabData: 'http://localhost:8080/api/componentCol/getComponentTabData',
   getComponentList: 'http://localhost:8080/api/componentList/getComponentList',
   appendComponentList: 'http://localhost:8080/api/componentList/appendComponentList',
   adjustComponent: 'http://localhost:8080/api/componentList/adjustComponent',

@@ -111,20 +111,15 @@ export default {
     //获取TabPaneData
     getTabPaneData() {
       this.$axios({
-        url: this.$url.getComTabData,
-        // url: 'http://localhost:8080/componentTabData/getAll',
-        // method: 'get',
-        method: 'post',
-        params: {}
+        url: this.$url.getComponentTabData,
+        method: 'get'
       }).then(res => {
         // console.log(res)
-        if (res.status == 200) {
-          this.tabpanedata = res.data.resultSet
-          this.$emit('changeLoadingStatus', 1)
-          console.log(res)
-          // this.$store.commit('changeLoadingStatus', 1)
-          // console.log(this.$store.state.loadingStatus)
-        }
+        // if (res.status == 200) {
+        //   this.tabpanedata = res.data.resultSet
+        //   this.$emit('changeLoadingStatus', 1)
+        //   console.log(res)
+        // }
 
         //无用block
         // for (let i = 0; i < this.tabpanedata.length; i++) {
@@ -137,21 +132,22 @@ export default {
         //   }
         // }
 
-        // if (res.status == 200) {
-        //   for (let i = 0; i < res.data.length; i++) {
-        //     console.log(res.data[i].className)
-        //     for (let j = 0; j < res.data[i].showData.length; j++) {
-        //       // console.log(res.data[i].showData[j])
-        //       for (let k = 0; k < res.data[i].showData[j].componentDetailList.length; k++) {
-        //         // console.log(url.basePicurl + res.data[i].showData[j].componentDetailList[k].picurl)
-        //         res.data[i].showData[j].componentDetailList[k].picurl =
-        //           url.basePicurl + res.data[i].showData[j].componentDetailList[k].picurl
-        //       }
-        //     }
-        //   }
-        //   this.tabpanedata = res.data
-        //   this.getComponentTabDataFlag = true
-        // }
+        if (res.status == 200) {
+          for (let i = 0; i < res.data.length; i++) {
+            console.log(res.data[i].className)
+            for (let j = 0; j < res.data[i].showData.length; j++) {
+              // console.log(res.data[i].showData[j])
+              for (let k = 0; k < res.data[i].showData[j].componentDetailList.length; k++) {
+                // console.log(url.basePicurl + res.data[i].showData[j].componentDetailList[k].picurl)
+                res.data[i].showData[j].componentDetailList[k].picurl =
+                  this.$url.basePicurl + res.data[i].showData[j].componentDetailList[k].picurl
+              }
+            }
+          }
+          this.$emit('changeLoadingStatus', 1)
+          this.tabpanedata = res.data
+          this.getComponentTabDataFlag = true
+        }
       })
     },
     /*

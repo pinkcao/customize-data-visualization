@@ -4,6 +4,7 @@ import url from '@mock/mockAPI.js'
 Mock.setup({
   timeout: '80-120'
 })
+console.log('mock服务加载')
 
 //默认初始tabdata
 const componentTabData = [
@@ -94,15 +95,13 @@ const componentTabData = [
 ]
 //默认初始挂载组件
 
-console.log('mock服务加载')
-
-export default {
-  //获取组件列的tabData
-  getComTabData: Mock.mock(url.getComTabData, 'post', () => {
-    return {
-      status: 200,
-      message: '获取成功',
-      resultSet: componentTabData
-    }
-  })
-}
+// export default {
+//   //获取组件列的tabData
+//   getComTabData: Mock.mock(url.getComTabData, 'post', () => {
+//     return {
+//       status: 200,
+//       message: '获取成功',
+//       resultSet: componentTabData
+//     }
+//   })
+// }
