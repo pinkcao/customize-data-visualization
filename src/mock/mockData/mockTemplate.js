@@ -651,20 +651,20 @@ export default {
       message: '修改组件数据失败'
     }
   }),
-  userLogin: Mock.mock(url.userLogin, 'post', params => {
-    let args = JSON.parse(params.body)
-    for (let i = 0; i < userList.length; i++) {
-      if (args.account == userList[i].userAccount && args.password == userList[i].userPassword) {
-        return {
-          loginStatus: true,
-          userID: userList[i].userID
-        }
-      }
-    }
-    return {
-      loginStatus: false
-    }
-  }),
+  // userLogin: Mock.mock(url.userLogin, 'post', params => {
+  //   let args = JSON.parse(params.body)
+  //   for (let i = 0; i < userList.length; i++) {
+  //     if (args.account == userList[i].userAccount && args.password == userList[i].userPassword) {
+  //       return {
+  //         loginStatus: true,
+  //         userID: userList[i].userID
+  //       }
+  //     }
+  //   }
+  //   return {
+  //     loginStatus: false
+  //   }
+  // }),
   userRegister: Mock.mock(url.userRegister, 'post', params => {
     let userInfo = JSON.parse(params.body)
     let tempAccountArr = []

@@ -6,7 +6,6 @@ export default {
   spliceComponentList: 'http://localhost:8080/api/componentList/spliceComponent',
   updateZindexComponentList: 'http://localhost:8080/api/componentList/updateZindexComponentList',
   updateComponentBasicStatus: 'http://localhost:8080/api/componentList/updateComponentBasicStatus',
-  basePicurl: 'http://localhost:8080/componentImage/',
   userLogin: 'http://localhost:8080/api/user/login',
   userRegister: 'http://localhost:8080/api/user/register',
   validateAccount: 'http://localhost:8080/api/user/validateAccount',
@@ -16,9 +15,10 @@ export default {
   updateScreenStretch: 'http://localhost:8080/api/screen/updateScreenStretch',
   getBackgroundStyle: 'http://localhost:8080/api/screen/getBackgroundStyle',
   updateBackgroundStyle: 'http://localhost:8080/api/screen/updateBackgroundStyle',
-  testJsonData: 'http://localhost:8080/testJsonData',
   getTemplateList: 'http://localhost:8080/api/template/getTemplateList',
   appendTemplate: 'http://localhost:8080/api/template/appendTemplate',
   spliceTemplate: 'http://localhost:8080/api/template/spliceTemplate',
-  updateTemplate: 'http://localhost:8080/api/template/updateTemplate'
+  updateTemplate: 'http://localhost:8080/api/template/updateTemplate',
+  basePicurl: 'http://localhost:8080/componentImage/',
+  testJsonData: 'http://localhost:8080/testJsonData'
 }
