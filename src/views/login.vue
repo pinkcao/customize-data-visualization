@@ -110,6 +110,9 @@ export default {
           // console.log('登录成功')
           this.loadingInstance.close()
           this.$router.push('/templateSelect')
+        } else {
+          this.loadingInstance.close()
+          this.$message.error('登录失败，请检查用户名与密码')
         }
       })
     },
