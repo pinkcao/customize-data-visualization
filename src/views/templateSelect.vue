@@ -59,8 +59,8 @@ export default {
       })
       this.$axios({
         url: this.$url.getTemplateList,
-        method: 'post',
-        data: {
+        method: 'get',
+        params: {
           userID: this.$store.state.currentUserID
         }
       }).then(res => {
@@ -70,7 +70,7 @@ export default {
             res.data[i].templateActive = false
           }
           this.templateList = res.data
-          // console.log(this.templateList)
+          console.log(this.templateList)
           this.loadingInstance.close()
         }
       })

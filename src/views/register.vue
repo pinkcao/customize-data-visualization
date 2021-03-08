@@ -58,7 +58,7 @@ export default {
         url: this.$url.validateAccount,
         method: 'post',
         data: {
-          account: value
+          userAccount: value
         }
       }).then(res => {
         if (res.status == 200) {
@@ -99,7 +99,10 @@ export default {
         email: ''
       },
       rules: {
-        account: [{ validator: validateAccount, trigger: 'blur', required: true }],
+        account: [
+          { validator: validateAccount, trigger: 'blur', required: true },
+          { min: 8, max: 20, message: '长度在 8 到 20 个字符', trigger: 'blur' }
+        ],
         pass: [
           { validator: validatePass, trigger: 'blur', required: true },
           { min: 8, max: 20, message: '长度在 8 到 20 个字符', trigger: 'blur' }

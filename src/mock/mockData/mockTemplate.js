@@ -441,78 +441,81 @@ export default {
     }
     return errorString
   }),
-  getTemplateList: Mock.mock(url.getTemplateList, 'post', params => {
-    // console.log(JSON.parse(params.body))
-    let userID = JSON.parse(params.body).userID
-    for (let i = 0; i < templateList.length; i++) {
-      // console.log(userID,templateList[i].userID)
-      if (userID == templateList[i].userID) {
-        console.log(templateList[i].userTemplate)
-        return templateList[i].userTemplate
-      }
-    }
-  }),
-  appendTemplate: Mock.mock(url.appendTemplate, 'post', params => {
-    let userID = JSON.parse(params.body).userID
-    for (let i = 0; i < templateList.length; i++) {
-      if (userID == templateList[i].userID) {
-        lastTemplateID += 1
-        let template = {
-          templateID: lastTemplateID,
-          templatePicUrl: '',
-          screenDef: [
-            {
-              index: 0,
-              title: '页面宽度: ',
-              type: 'inputNumber',
-              value: 1920
-            },
-            {
-              index: 1,
-              title: '页面高度: ',
-              type: 'inputNumber',
-              value: 1080
-            }
-          ],
-          screenStretch: {
-            allStretch: true,
-            yStretch: false,
-            xStretch: false,
-            noStretch: false
-          },
-          backgroundStyle: {
-            backgroundColor: '#0e2a43',
-            backgroundImage: ''
-          }
-        }
-        templateList[i].userTemplate.push(template)
-        let templateDetail = {
-          templateID: lastTemplateID,
-          components: []
-        }
-        componentList.push(templateDetail)
-        // console.log(templateList[i].userTemplate)
-        return templateList[i].userTemplate
-      }
-    }
-  }),
-  spliceTemplate: Mock.mock(url.spliceTemplate, 'post', params => {
-    let userID = JSON.parse(params.body).userID
-    let currentTemplateID = JSON.parse(params.body).templateID
-    for (let i = 0; i < templateList.length; i++) {
-      if (userID == templateList[i].userID) {
-        for (let j = 0; j < templateList[i].userTemplate.length; j++) {
-          if (currentTemplateID == templateList[i].userTemplate[j].templateID) {
-            // templateList[i].userTemplate.splice(j, 1)
-            templateList[i].userTemplate[j].disabled = true
-            // console.log(templateList[i].userTemplate)
-            return templateList[i].userTemplate
-          }
-        }
-      }
-    }
-    return 'userID或者templateID有问题'
-  }),
+  // getTemplateList: Mock.mock(url.getTemplateList, 'post', params => {
+  //   // console.log(JSON.parse(params.body))
+  //   let userID = JSON.parse(params.body).userID
+  //   for (let i = 0; i < templateList.length; i++) {
+  //     // console.log(userID,templateList[i].userID)
+  //     if (userID == templateList[i].userID) {
+  //       console.log(templateList[i].userTemplate)
+  //       return templateList[i].userTemplate
+  //     }
+  //   }
+  // }),
+
+  // appendTemplate: Mock.mock(url.appendTemplate, 'post', params => {
+  //   let userID = JSON.parse(params.body).userID
+  //   for (let i = 0; i < templateList.length; i++) {
+  //     if (userID == templateList[i].userID) {
+  //       lastTemplateID += 1
+  //       let template = {
+  //         templateID: lastTemplateID,
+  //         templatePicUrl: '',
+  //         screenDef: [
+  //           {
+  //             index: 0,
+  //             title: '页面宽度: ',
+  //             type: 'inputNumber',
+  //             value: 1920
+  //           },
+  //           {
+  //             index: 1,
+  //             title: '页面高度: ',
+  //             type: 'inputNumber',
+  //             value: 1080
+  //           }
+  //         ],
+  //         screenStretch: {
+  //           allStretch: true,
+  //           yStretch: false,
+  //           xStretch: false,
+  //           noStretch: false
+  //         },
+  //         backgroundStyle: {
+  //           backgroundColor: '#0e2a43',
+  //           backgroundImage: ''
+  //         }
+  //       }
+  //       templateList[i].userTemplate.push(template)
+  //       let templateDetail = {
+  //         templateID: lastTemplateID,
+  //         components: []
+  //       }
+  //       componentList.push(templateDetail)
+  //       // console.log(templateList[i].userTemplate)
+  //       return templateList[i].userTemplate
+  //     }
+  //   }
+  // }),
+
+  // spliceTemplate: Mock.mock(url.spliceTemplate, 'post', params => {
+  //   let userID = JSON.parse(params.body).userID
+  //   let currentTemplateID = JSON.parse(params.body).templateID
+  //   for (let i = 0; i < templateList.length; i++) {
+  //     if (userID == templateList[i].userID) {
+  //       for (let j = 0; j < templateList[i].userTemplate.length; j++) {
+  //         if (currentTemplateID == templateList[i].userTemplate[j].templateID) {
+  //           // templateList[i].userTemplate.splice(j, 1)
+  //           templateList[i].userTemplate[j].disabled = true
+  //           // console.log(templateList[i].userTemplate)
+  //           return templateList[i].userTemplate
+  //         }
+  //       }
+  //     }
+  //   }
+  //   return 'userID或者templateID有问题'
+  // }),
+
   //获取当前componentList
   getComponentList: Mock.mock(url.getComponentList, 'post', params => {
     let currentTemplateID = JSON.parse(params.body).templateID
@@ -650,7 +653,7 @@ export default {
     return {
       message: '修改组件数据失败'
     }
-  }),
+  })
   // userLogin: Mock.mock(url.userLogin, 'post', params => {
   //   let args = JSON.parse(params.body)
   //   for (let i = 0; i < userList.length; i++) {
@@ -665,43 +668,45 @@ export default {
   //     loginStatus: false
   //   }
   // }),
-  userRegister: Mock.mock(url.userRegister, 'post', params => {
-    let userInfo = JSON.parse(params.body)
-    let tempAccountArr = []
-    for (let i = 0; i < userList.length; i++) {
-      tempAccountArr.push(userList[i].userAccount)
-    }
-    if (tempAccountArr.find(item => item == userInfo.userAccount) == undefined) {
-      lastUserID += 1
-      userList.push({
-        userAccount: userInfo.userAccount,
-        userPassword: userInfo.userPassword,
-        userEmail: userInfo.userEmail,
-        userID: lastUserID,
-        disabled: false
-      })
-      templateList.push({
-        userID: lastUserID,
-        userTemplate: []
-      })
-      return {
-        registerStatus: true,
-        userInfo: userList[userList.length - 1]
-      }
-    }
-    return {
-      registerStatus: false
-    }
-  }),
-  validateAccount: Mock.mock(url.validateAccount, 'post', params => {
-    let userAccount = JSON.parse(params.body).account
-    let tempAccountArr = []
-    for (let i = 0; i < userList.length; i++) {
-      tempAccountArr.push(userList[i].userAccount)
-    }
-    if (tempAccountArr.find(item => item == userAccount) == undefined) {
-      return true
-    }
-    return false
-  })
+
+  // userRegister: Mock.mock(url.userRegister, 'post', params => {
+  //   let userInfo = JSON.parse(params.body)
+  //   let tempAccountArr = []
+  //   for (let i = 0; i < userList.length; i++) {
+  //     tempAccountArr.push(userList[i].userAccount)
+  //   }
+  //   if (tempAccountArr.find(item => item == userInfo.userAccount) == undefined) {
+  //     lastUserID += 1
+  //     userList.push({
+  //       userAccount: userInfo.userAccount,
+  //       userPassword: userInfo.userPassword,
+  //       userEmail: userInfo.userEmail,
+  //       userID: lastUserID,
+  //       disabled: false
+  //     })
+  //     templateList.push({
+  //       userID: lastUserID,
+  //       userTemplate: []
+  //     })
+  //     return {
+  //       registerStatus: true,
+  //       userInfo: userList[userList.length - 1]
+  //     }
+  //   }
+  //   return {
+  //     registerStatus: false
+  //   }
+  // })
+
+  // validateAccount: Mock.mock(url.validateAccount, 'post', params => {
+  //   let userAccount = JSON.parse(params.body).account
+  //   let tempAccountArr = []
+  //   for (let i = 0; i < userList.length; i++) {
+  //     tempAccountArr.push(userList[i].userAccount)
+  //   }
+  //   if (tempAccountArr.find(item => item == userAccount) == undefined) {
+  //     return true
+  //   }
+  //   return false
+  // })
 }
