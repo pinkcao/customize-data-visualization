@@ -86,11 +86,11 @@ export default {
         // console.log(newVal)
         this.removeInterval()
         this.dataSource.IntervalID = ''
-        console.log('APIURL updated，Interval cleared')
+        // console.log('APIURL updated，Interval cleared')
         if (this.dataSource.APISwitch == true) {
           // let patt = /http:/
           this.dataSource.IntervalID = setInterval(this.fetchDataFromAPI, this.dataSource.APIInterval)
-          console.log('Interval set')
+          // console.log('Interval set')
         }
       }
     },
@@ -99,12 +99,12 @@ export default {
       handler(newVal) {
         this.removeInterval()
         this.dataSource.IntervalID = ''
-        console.log('APIMethod updated，Interval cleared')
+        // console.log('APIMethod updated，Interval cleared')
         // console.log(this.dataSource.APISwitch == true && this.dataSource.IntervalID == '')
         if (this.dataSource.APISwitch == true && this.dataSource.IntervalID == '') {
           this.dataSource.IntervalID = setInterval(this.fetchDataFromAPI, this.dataSource.APIInterval)
           // console.log(this.dataSource.APISwitch == true && this.dataSource.IntervalID == '')
-          console.log('Interval set')
+          // console.log('Interval set')
         }
       }
     },
@@ -113,19 +113,19 @@ export default {
       handler(newVal) {
         this.removeInterval()
         this.dataSource.IntervalID = ''
-        console.log('APIInterval updated，Interval cleared')
+        // console.log('APIInterval updated，Interval cleared')
         // console.log(this.dataSource.APISwitch == true && this.dataSource.IntervalID == '')
         if (this.dataSource.APISwitch == true && this.dataSource.IntervalID == '') {
           this.dataSource.IntervalID = setInterval(this.fetchDataFromAPI, this.dataSource.APIInterval)
           // console.log(this.dataSource.APISwitch == true && this.dataSource.IntervalID == '')
-          console.log('Interval set')
+          // console.log('Interval set')
         }
       }
     },
     'dataSource.APISwitch': function(newVal) {
       // console.log(newVal)
       if (newVal == false) {
-        console.log('APISwitch off，Interval cleared')
+        // console.log('APISwitch off，Interval cleared')
         this.removeInterval()
         this.dataSource.IntervalID = ''
       }
@@ -164,13 +164,13 @@ export default {
     }
   },
   mounted() {
-    console.log(this.dataSource)
+    // console.log(this.dataSource)
   },
   beforeDestroy() {
     this.removeInterval()
   },
   destroyed() {
-    console.log('test')
+    // console.log('test')
   },
   methods: {
     //更新当前组件基础属性
@@ -192,7 +192,7 @@ export default {
           }
         }).then(res => {
           if (res.status == 200) {
-            console.log(res.data.resultSet)
+            // console.log(res.data.resultSet)
             this.$store.commit('initComponentList', res.data.resultSet)
             this.$store.commit('resizeUpdateActiveComponent')
           }
@@ -237,7 +237,7 @@ export default {
           method: this.dataSource.APIMethod,
           data: {}
         }).then(res => {
-          console.log(res.data)
+          // console.log(res.data)
           this.dataSource.data = res.data
         })
       }
@@ -250,7 +250,7 @@ export default {
             currentHeader = JSON.parse(this.dataSource.APIHeader)
           }
         } catch (error) {
-          console.log(error)
+          // console.log(error)
         }
         this.$axios({
           url: this.dataSource.APIURL,
@@ -260,14 +260,14 @@ export default {
         }).then(res => {
           if (res.status == 200) {
             this.dataSource.data = res.data
-            console.log(res.data)
+            // console.log(res.data)
           }
         })
       }
-      console.log(this.dataSource.APIInterval)
-      console.log(this.dataSource.IntervalID)
-      console.log(this.index)
-      console.log(this.$store.state.currentComponent)
+      // console.log(this.dataSource.APIInterval)
+      // console.log(this.dataSource.IntervalID)
+      // console.log(this.index)
+      // console.log(this.$store.state.currentComponent)
     },
     removeInterval() {
       clearInterval(this.dataSource.IntervalID)

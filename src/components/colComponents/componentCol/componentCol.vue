@@ -134,7 +134,7 @@ export default {
 
         if (res.status == 200) {
           for (let i = 0; i < res.data.length; i++) {
-            console.log(res.data[i].className)
+            // console.log(res.data[i].className)
             for (let j = 0; j < res.data[i].showData.length; j++) {
               // console.log(res.data[i].showData[j])
               for (let k = 0; k < res.data[i].showData[j].componentDetailList.length; k++) {
@@ -155,10 +155,10 @@ export default {
       */
     dragstarttest(name) {
       this.$store.commit('changeComponentNameToCanvas', name)
-      console.log(this.$store.state.componentNameToCanvas)
+      // console.log(this.$store.state.componentNameToCanvas)
     },
     dragendtest() {
-      console.log('dragends')
+      // console.log('dragends')
     }
   }
 }

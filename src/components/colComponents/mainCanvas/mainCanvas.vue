@@ -185,6 +185,16 @@ export default {
           this.$store.commit('initComponentList', res.data.resultSet)
           this.mountComponent()
           this.$emit('changeLoadingStatus', 0)
+          console.log(this.componentList[1])
+          this.$axios({
+            url: this.$url.componentTrans,
+            method: 'post',
+            data: {
+              componentList: this.componentList[1]
+            }
+          }).then(res => {
+            console.log(res.data)
+          })
         }
       })
     },
