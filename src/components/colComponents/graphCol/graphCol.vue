@@ -6,7 +6,7 @@
     <div style="width: 100%: scroll-y: auto">
       <vuedraggable style="width: 100%; display: flex; justify-content: center" v-model="componentList">
         <transition-group>
-          <div v-for="item in componentList" v-show="item.ifshow" :key="item.zindex" class="item">
+          <div v-for="item in componentList" v-show="!item.disabled" :key="item.zindex" class="item">
             componentIndex:{{ item.index }}<br />
             compName:{{ item.name }}
           </div>

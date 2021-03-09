@@ -232,7 +232,7 @@ const componentList = [
         resizable: true,
         parentLimitation: true,
         active: false,
-        ifshow: true,
+        disabled: false,
         index: 0,
         zindex: 0,
         dataSource: {
@@ -282,7 +282,7 @@ const componentList = [
         resizable: true,
         parentLimitation: true,
         active: false,
-        ifshow: true,
+        disabled: false,
         index: 1,
         zindex: 1,
         dataSource: {
@@ -594,7 +594,7 @@ export default {
       if (componentList[i].templateID == currentTemplateID) {
         for (let j = 0; j < componentList[i].components.length; j++) {
           if (index == componentList[i].components[j].index) {
-            componentList[i].components[j].ifshow = false
+            componentList[i].components[j].disabled = true
             return {
               message: '删除成功',
               resultSet: componentList[i].components

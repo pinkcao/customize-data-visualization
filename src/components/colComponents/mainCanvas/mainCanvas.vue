@@ -209,7 +209,7 @@ export default {
         let testObj = {
           index: this.componentList.length,
           zindex: this.componentList.length,
-          ifshow: true,
+          disabled: false,
           name: this.$store.state.componentNameToCanvas,
           //用于指向当前鼠标指针在canvas中的位置
           left: event.offsetX,
@@ -335,7 +335,7 @@ export default {
             templateID: this.$store.state.currentTemplateID,
             index: this.componentList.length,
             zindex: this.componentList.length,
-            ifshow: true,
+            disabled: false,
             name: this.$store.state.componentNameToCanvas,
             width: that.objList[this.objList.length - 1].component_instance.width,
             height: that.objList[this.objList.length - 1].component_instance.height,
@@ -375,7 +375,7 @@ export default {
               index: currentData[i].index,
               zindex: currentData[i].index,
               target: that.$refs.target,
-              ifshow: currentData[i].ifshow,
+              disabled: currentData[i].disabled,
               width: currentData[i].width,
               height: currentData[i].height,
               top: currentData[i].top,

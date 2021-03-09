@@ -9,7 +9,7 @@
     </div> -->
   <!-- <el-image :src="imgurl" :fit="'fill'"></el-image> -->
   <!-- </div> -->
-  <div :style="backgroundStyle" v-if="ifshow">
+  <div :style="backgroundStyle" v-if="disabled">
     <vue-drag-resize-rotate
       :isActive="active"
       :preventActiveBehavior="preventActiveBehavior"
@@ -43,7 +43,7 @@ export default {
       preventActiveBehavior: false,
       name: 'compA',
       active: false,
-      ifshow: true,
+      disabled: true,
       width: 200,
       height: 200,
       top: 0,

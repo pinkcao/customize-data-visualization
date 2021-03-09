@@ -1,5 +1,5 @@
 <template>
-  <div v-if="ifshow" ref="testref" @keydown.delete="destroyComponent" tabindex="0">
+  <div v-if="!disabled" ref="testref" @keydown.delete="destroyComponent" tabindex="0">
     <vue-drag-resize-rotate
       :isActive="active"
       :preventActiveBehavior="preventActiveBehavior"
@@ -60,7 +60,7 @@ export default {
       preventActiveBehavior: false,
       name: 'compA',
       active: false,
-      ifshow: false,
+      disabled: false,
       width: 200,
       height: 200,
       top: 0,

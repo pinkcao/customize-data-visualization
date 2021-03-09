@@ -10,7 +10,7 @@ export default {
       //当前组件是否活跃
       active: false,
       //当前组件是否渲染
-      ifshow: false,
+      disabled: false,
       //当前组件宽度
       width: 500,
       //当前组件高度
@@ -201,7 +201,7 @@ export default {
     },
     //销毁当前组件，实际不销毁，只是不渲染，组件仍在内存，在mainCanvas组件中的objList中存储，可以调用mount()方法再次挂载
     destroyComponent() {
-      this.ifshow = false
+      this.disabled = false
       this.$emit('destroyComponent', this.index)
     },
     chartResize() {

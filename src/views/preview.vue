@@ -247,7 +247,7 @@ export default {
               index: currentData[i].index,
               zindex: currentData[i].zindex,
               target: this.$refs.target,
-              ifshow: currentData[i].ifshow,
+              disabled: currentData[i].disabled,
               width: currentData[i].width,
               height: currentData[i].height,
               top: currentData[i].top,
