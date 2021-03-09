@@ -185,10 +185,15 @@ export default {
         this.$axios({
           url: this.$url.updateBackgroundStyle,
           method: 'post',
+          // data: { //frontend
+          //   backgroundStyle: tempBackgroundStyle,
+          //   templateID: this.$store.state.currentTemplateID,
+          //   userID: this.$store.state.currentUserID
+          // }
           data: {
-            backgroundStyle: tempBackgroundStyle,
-            templateID: this.$store.state.currentTemplateID,
-            userID: this.$store.state.currentUserID
+            backgroundColor: this.backgroundColor,
+            backgroundImage: this.backgroundImage,
+            templateID: this.$store.state.currentTemplateID
           }
         }).then(res => {
           if (res.status == 200) {
@@ -224,13 +229,23 @@ export default {
           this.$store.commit('updateParentScale')
         }
       }
+      // this.$axios({
+      //   url: this.$url.updateScreenDef,
+      //   method: 'post',
+      //   data: {
+      //     screenDef: this.$store.state.screenDef,
+      //     templateID: this.$store.state.currentTemplateID,
+      //     userID: this.$store.state.currentUserID
+      //   }
+      // }).then(res => {
+      //   console.log(res.data)
+      // })
+      console.log(this.$store.state.screenDef)
       this.$axios({
         url: this.$url.updateScreenDef,
         method: 'post',
         data: {
-          screenDef: this.$store.state.screenDef,
-          templateID: this.$store.state.currentTemplateID,
-          userID: this.$store.state.currentUserID
+          screenDef: this.$store.state.screenDef
         }
       }).then(res => {
         console.log(res.data)
@@ -245,16 +260,18 @@ export default {
         xStretch: this.$store.state.xStretch,
         noStretch: this.$store.state.noStretch
       }
+
       this.$axios({
         url: this.$url.updateScreenStretch,
         method: 'post',
         data: {
-          screenStretch: screenStretch,
+          // screenStretch: screenStretch,
+          screenStretch: stretch,
           templateID: this.$store.state.currentTemplateID,
           userID: this.$store.state.currentUserID
         }
       }).then(res => {
-        // console.log(res.data)
+        console.log(res.data)
       })
     }
   }

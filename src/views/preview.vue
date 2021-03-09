@@ -113,8 +113,8 @@ export default {
     getBackgroundStyle() {
       this.$axios({
         url: url.getBackgroundStyle,
-        method: 'post',
-        data: {
+        method: 'get',
+        params: {
           templateID: this.$store.state.currentTemplateID,
           userID: this.$store.state.currentUserID
         }
@@ -128,8 +128,8 @@ export default {
     getScreenStretch() {
       this.$axios({
         url: url.getScreenStretch,
-        method: 'post',
-        data: {
+        method: 'get',
+        params: {
           templateID: this.$store.state.currentTemplateID,
           userID: this.$store.state.currentUserID
         }
@@ -144,8 +144,8 @@ export default {
     getScreenDef() {
       this.$axios({
         url: url.getScreenDef,
-        method: 'post',
-        data: {
+        method: 'get',
+        params: {
           templateID: this.$store.state.currentTemplateID,
           userID: this.$store.state.currentUserID
         }

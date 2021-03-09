@@ -9,12 +9,12 @@ export default {
   userLogin: 'http://localhost:8080/api/user/login', //finished
   userRegister: 'http://localhost:8080/api/user/register', //finished
   validateAccount: 'http://localhost:8080/api/user/validateAccount', //finished
-  getScreenDef: 'http://localhost:8080/api/screen/getScreenDef',
-  updateScreenDef: 'http://localhost:8080/api/screen/updateScreenDef',
-  getScreenStretch: 'http://localhost:8080/api/screen/getScreenStretch',
-  updateScreenStretch: 'http://localhost:8080/api/screen/updateScreenStretch',
-  getBackgroundStyle: 'http://localhost:8080/api/screen/getBackgroundStyle',
-  updateBackgroundStyle: 'http://localhost:8080/api/screen/updateBackgroundStyle',
+  getScreenDef: 'http://localhost:8080/api/screen/getScreenDef', //maybe finished
+  updateScreenDef: 'http://localhost:8080/api/screen/updateScreenDef', //maybe finished
+  getScreenStretch: 'http://localhost:8080/api/screen/getScreenStretch', //maybe finished
+  updateScreenStretch: 'http://localhost:8080/api/screen/updateScreenStretch', //maybe finished
+  getBackgroundStyle: 'http://localhost:8080/api/screen/getBackgroundStyle', //maybe finished
+  updateBackgroundStyle: 'http://localhost:8080/api/screen/updateBackgroundStyle', //maybe finished
   getTemplateList: 'http://localhost:8080/api/template/getTemplateList', //finished
   appendTemplate: 'http://localhost:8080/api/template/appendTemplate', //finished
   spliceTemplate: 'http://localhost:8080/api/template/spliceTemplate', //finished

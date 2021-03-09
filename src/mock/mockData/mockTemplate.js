@@ -344,103 +344,109 @@ const componentList = [
 ]
 
 export default {
-  getBackgroundStyle: Mock.mock(url.getBackgroundStyle, 'post', params => {
-    let currentTemplateID = JSON.parse(params.body).templateID
-    let currentUserID = JSON.parse(params.body).userID
-    for (let i = 0; i < templateList.length; i++) {
-      if (templateList[i].userID == currentUserID) {
-        for (let j = 0; j < templateList[i].userTemplate.length; j++) {
-          if (templateList[i].userTemplate[j].templateID == currentTemplateID) {
-            return templateList[i].userTemplate[j].backgroundStyle
-          }
-        }
-      }
-    }
-    return errorString
-  }),
-  updateBackgroundStyle: Mock.mock(url.updateBackgroundStyle, 'post', params => {
-    let currentTemplateID = JSON.parse(params.body).templateID
-    let currentUserID = JSON.parse(params.body).userID
-    let tempBackgroundStyle = JSON.parse(params.body).backgroundStyle
-    for (let i = 0; i < templateList.length; i++) {
-      if (templateList[i].userID == currentUserID) {
-        for (let j = 0; j < templateList[i].userTemplate.length; j++) {
-          if (templateList[i].userTemplate[j].templateID == currentTemplateID) {
-            for (let k = 0; k < templateList[i].userTemplate[j].screenDef.length; k++) {
-              templateList[i].userTemplate[j].backgroundStyle = tempBackgroundStyle
-            }
-            return templateList[i].userTemplate[j].backgroundStyle
-          }
-        }
-      }
-    }
-    return errorString
-  }),
-  getScreenDef: Mock.mock(url.getScreenDef, 'post', params => {
-    let currentTemplateID = JSON.parse(params.body).templateID
-    let currentUserID = JSON.parse(params.body).userID
-    for (let i = 0; i < templateList.length; i++) {
-      if (templateList[i].userID == currentUserID) {
-        for (let j = 0; j < templateList[i].userTemplate.length; j++) {
-          if (templateList[i].userTemplate[j].templateID == currentTemplateID) {
-            return templateList[i].userTemplate[j].screenDef
-          }
-        }
-      }
-    }
-    return errorString
-  }),
-  updateScreenDef: Mock.mock(url.updateScreenDef, 'post', params => {
-    let currentTemplateID = JSON.parse(params.body).templateID
-    let currentUserID = JSON.parse(params.body).userID
-    let tempScreenDef = JSON.parse(params.body).screenDef
-    for (let i = 0; i < templateList.length; i++) {
-      if (templateList[i].userID == currentUserID) {
-        for (let j = 0; j < templateList[i].userTemplate.length; j++) {
-          if (templateList[i].userTemplate[j].templateID == currentTemplateID) {
-            for (let k = 0; k < templateList[i].userTemplate[j].screenDef.length; k++) {
-              templateList[i].userTemplate[j].screenDef[k] = tempScreenDef[k]
-            }
-            return templateList[i].userTemplate[j].screenDef
-          }
-        }
-      }
-    }
-    return errorString
-  }),
-  getScreenStretch: Mock.mock(url.getScreenStretch, 'post', params => {
-    let currentTemplateID = JSON.parse(params.body).templateID
-    let currentUserID = JSON.parse(params.body).userID
-    for (let i = 0; i < templateList.length; i++) {
-      if (templateList[i].userID == currentUserID) {
-        for (let j = 0; j < templateList[i].userTemplate.length; j++) {
-          if (templateList[i].userTemplate[j].templateID == currentTemplateID) {
-            return templateList[i].userTemplate[j].screenStretch
-          }
-        }
-      }
-    }
-    return errorString
-  }),
-  updateScreenStretch: Mock.mock(url.updateScreenStretch, 'post', params => {
-    let currentUserID = JSON.parse(params.body).userID
-    let currentTemplateID = JSON.parse(params.body).templateID
-    let tempScreenStretch = JSON.parse(params.body).screenStretch
-    for (let i = 0; i < templateList.length; i++) {
-      if (templateList[i].userID == currentUserID) {
-        for (let j = 0; j < templateList[i].userTemplate.length; j++) {
-          if (templateList[i].userTemplate[j].templateID == currentTemplateID) {
-            templateList[i].userTemplate[j].screenStretch.allStretch = tempScreenStretch.allStretch
-            templateList[i].userTemplate[j].screenStretch.yStretch = tempScreenStretch.yStretch
-            templateList[i].userTemplate[j].screenStretch.xStretch = tempScreenStretch.xStretch
-            templateList[i].userTemplate[j].screenStretch.noStretch = tempScreenStretch.noStretch
-            return templateList[i].userTemplate[j].screenStretch
-          }
-        }
-      }
-    }
-    return errorString
-  }),
+  // getBackgroundStyle: Mock.mock(url.getBackgroundStyle, 'post', params => {
+  //   let currentTemplateID = JSON.parse(params.body).templateID
+  //   let currentUserID = JSON.parse(params.body).userID
+  //   for (let i = 0; i < templateList.length; i++) {
+  //     if (templateList[i].userID == currentUserID) {
+  //       for (let j = 0; j < templateList[i].userTemplate.length; j++) {
+  //         if (templateList[i].userTemplate[j].templateID == currentTemplateID) {
+  //           return templateList[i].userTemplate[j].backgroundStyle
+  //         }
+  //       }
+  //     }
+  //   }
+  //   return errorString
+  // }),
+
+  // updateBackgroundStyle: Mock.mock(url.updateBackgroundStyle, 'post', params => {
+  //   let currentTemplateID = JSON.parse(params.body).templateID
+  //   let currentUserID = JSON.parse(params.body).userID
+  //   let tempBackgroundStyle = JSON.parse(params.body).backgroundStyle
+  //   for (let i = 0; i < templateList.length; i++) {
+  //     if (templateList[i].userID == currentUserID) {
+  //       for (let j = 0; j < templateList[i].userTemplate.length; j++) {
+  //         if (templateList[i].userTemplate[j].templateID == currentTemplateID) {
+  //           for (let k = 0; k < templateList[i].userTemplate[j].screenDef.length; k++) {
+  //             templateList[i].userTemplate[j].backgroundStyle = tempBackgroundStyle
+  //           }
+  //           return templateList[i].userTemplate[j].backgroundStyle
+  //         }
+  //       }
+  //     }
+  //   }
+  //   return errorString
+  // }),
+
+  // getScreenDef: Mock.mock(url.getScreenDef, 'post', params => {
+  //   let currentTemplateID = JSON.parse(params.body).templateID
+  //   let currentUserID = JSON.parse(params.body).userID
+  //   for (let i = 0; i < templateList.length; i++) {
+  //     if (templateList[i].userID == currentUserID) {
+  //       for (let j = 0; j < templateList[i].userTemplate.length; j++) {
+  //         if (templateList[i].userTemplate[j].templateID == currentTemplateID) {
+  //           return templateList[i].userTemplate[j].screenDef
+  //         }
+  //       }
+  //     }
+  //   }
+  //   return errorString
+  // }),
+
+  // updateScreenDef: Mock.mock(url.updateScreenDef, 'post', params => {
+  //   let currentTemplateID = JSON.parse(params.body).templateID
+  //   let currentUserID = JSON.parse(params.body).userID
+  //   let tempScreenDef = JSON.parse(params.body).screenDef
+  //   for (let i = 0; i < templateList.length; i++) {
+  //     if (templateList[i].userID == currentUserID) {
+  //       for (let j = 0; j < templateList[i].userTemplate.length; j++) {
+  //         if (templateList[i].userTemplate[j].templateID == currentTemplateID) {
+  //           for (let k = 0; k < templateList[i].userTemplate[j].screenDef.length; k++) {
+  //             templateList[i].userTemplate[j].screenDef[k] = tempScreenDef[k]
+  //           }
+  //           return templateList[i].userTemplate[j].screenDef
+  //         }
+  //       }
+  //     }
+  //   }
+  //   return errorString
+  // }),
+
+  // getScreenStretch: Mock.mock(url.getScreenStretch, 'post', params => {
+  //   let currentTemplateID = JSON.parse(params.body).templateID
+  //   let currentUserID = JSON.parse(params.body).userID
+  //   for (let i = 0; i < templateList.length; i++) {
+  //     if (templateList[i].userID == currentUserID) {
+  //       for (let j = 0; j < templateList[i].userTemplate.length; j++) {
+  //         if (templateList[i].userTemplate[j].templateID == currentTemplateID) {
+  //           return templateList[i].userTemplate[j].screenStretch
+  //         }
+  //       }
+  //     }
+  //   }
+  //   return errorString
+  // }),
+
+  // updateScreenStretch: Mock.mock(url.updateScreenStretch, 'post', params => {
+  //   let currentUserID = JSON.parse(params.body).userID
+  //   let currentTemplateID = JSON.parse(params.body).templateID
+  //   let tempScreenStretch = JSON.parse(params.body).screenStretch
+  //   for (let i = 0; i < templateList.length; i++) {
+  //     if (templateList[i].userID == currentUserID) {
+  //       for (let j = 0; j < templateList[i].userTemplate.length; j++) {
+  //         if (templateList[i].userTemplate[j].templateID == currentTemplateID) {
+  //           templateList[i].userTemplate[j].screenStretch.allStretch = tempScreenStretch.allStretch
+  //           templateList[i].userTemplate[j].screenStretch.yStretch = tempScreenStretch.yStretch
+  //           templateList[i].userTemplate[j].screenStretch.xStretch = tempScreenStretch.xStretch
+  //           templateList[i].userTemplate[j].screenStretch.noStretch = tempScreenStretch.noStretch
+  //           return templateList[i].userTemplate[j].screenStretch
+  //         }
+  //       }
+  //     }
+  //   }
+  //   return errorString
+  // }),
+
   // getTemplateList: Mock.mock(url.getTemplateList, 'post', params => {
   //   // console.log(JSON.parse(params.body))
   //   let userID = JSON.parse(params.body).userID

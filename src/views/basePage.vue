@@ -250,25 +250,27 @@ export default {
     initBackgroundStyle() {
       this.$axios({
         url: this.$url.getBackgroundStyle,
-        method: 'post',
-        data: {
+        method: 'get',
+        params: {
           templateID: this.$store.state.currentTemplateID,
           userID: this.$store.state.currentUserID
         }
       }).then(res => {
+        console.log(res.data)
         this.$store.commit('initBackgroundStyle', res.data)
       })
     },
     initScreenDef() {
       this.$axios({
         url: this.$url.getScreenDef,
-        method: 'post',
-        data: {
+        method: 'get',
+        params: {
           templateID: this.$store.state.currentTemplateID,
           userID: this.$store.state.currentUserID
         }
       }).then(res => {
         if (res.status == 200) {
+          // console.log(res.data)
           this.$store.commit('initScreenDef', res.data)
         }
       })
@@ -276,13 +278,14 @@ export default {
     initScreenStretch() {
       this.$axios({
         url: this.$url.getScreenStretch,
-        method: 'post',
-        data: {
+        method: 'get',
+        params: {
           templateID: this.$store.state.currentTemplateID,
           userID: this.$store.state.currentUserID
         }
       }).then(res => {
         if (res.status == 200) {
+          console.log(res.data)
           this.$store.commit('initScreenStretch', res.data)
         }
       })
