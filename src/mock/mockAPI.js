@@ -1,7 +1,7 @@
 export default {
   getComponentTabData: 'http://localhost:8080/api/componentCol/getComponentTabData', //finished
-  getComponentList: 'http://localhost:8080/api/component/getComponent',
-  appendComponentList: 'http://localhost:8080/api/component/appendComponent',
+  getComponentList: 'http://localhost:8080/api/component/getComponent', // it's fucking finished
+  appendComponentList: 'http://localhost:8080/api/component/appendComponent', // it's fucking finished
   adjustComponent: 'http://localhost:8080/api/component/adjustComponent',
   spliceComponentList: 'http://localhost:8080/api/component/spliceComponent',
   updateZindexComponentList: 'http://localhost:8080/api/component/updateComponentZindex',
@@ -21,5 +21,5 @@ export default {
   updateTemplate: 'http://localhost:8080/api/template/updateTemplate', // no such API
   basePicurl: 'http://localhost:8080/componentImage/', //picurl
   testJsonData: 'http://localhost:8080/testJsonData', // mock random data for API fetch
-  componentTrans: 'http://localhost:8080/api/component/componentTrans'
+  componentTrans: 'http://localhost:8080/api/component/componentTrans' // data initialization API finished
 }

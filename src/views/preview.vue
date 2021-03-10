@@ -223,11 +223,17 @@ export default {
     getComponentList() {
       this.$axios({
         url: url.getComponentList,
-        method: 'post',
-        data: {
+        method: 'get',
+        params: {
           templateID: this.$store.state.currentTemplateID
         }
       }).then(res => {
+        for (let i = 0; i < res.data.resultSet.length; i++) {
+          res.data.resultSet[i].dataSource.data = JSON.parse(res.data.resultSet[i].dataSource.data)
+          res.data.resultSet[i].dataSource.dataSourceOptions = JSON.parse(
+            res.data.resultSet[i].dataSource.dataSourceOptions
+          )
+        }
         this.componentList = res.data.resultSet
         this.mountTest()
         this.loadingDetail.components = true

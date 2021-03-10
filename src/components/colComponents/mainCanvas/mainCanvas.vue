@@ -35,6 +35,7 @@ export default {
     '$store.state.componentList': {
       handler(newval) {
         let compList = newval
+        console.log(newval)
         for (let i = 0; i < this.objList.length; i++) {
           for (let j = 0; j < compList.length; j++) {
             //必须是this.objList[i].component_instance获取当前VueComponent实体
@@ -139,6 +140,17 @@ export default {
         return this.$store.state.backgroundStyle.backgroundImage
       }
       return ''
+    },
+    dataForTrans: function() {
+      let tempComponentList = JSON.parse(JSON.stringify(this.componentList)) // 深拷贝当前tempList
+      for (let i = 0; i < tempComponentList.length; i++) {
+        tempComponentList[i].templateID = this.$store.state.currentTemplateID
+        tempComponentList[i].dataSource.data = JSON.stringify(tempComponentList[i].dataSource.data)
+        tempComponentList[i].dataSource.dataSourceOptions = JSON.stringify(
+          tempComponentList[i].dataSource.dataSourceOptions
+        )
+      }
+      return tempComponentList
     }
   },
   created() {},
@@ -174,27 +186,32 @@ export default {
     getComponentList() {
       this.$axios({
         url: this.$url.getComponentList,
-        method: 'post',
-        data: {
+        method: 'get',
+        params: {
           templateID: this.$store.state.currentTemplateID
         }
       }).then(res => {
         if (res.status == 200) {
+          for (let i = 0; i < res.data.resultSet.length; i++) {
+            res.data.resultSet[i].dataSource.data = JSON.parse(res.data.resultSet[i].dataSource.data)
+            res.data.resultSet[i].dataSource.dataSourceOptions = JSON.parse(
+              res.data.resultSet[i].dataSource.dataSourceOptions
+            )
+          }
           this.componentList = res.data.resultSet
-          console.log(res.data.resultSet)
+          console.log(this.componentList)
           this.$store.commit('initComponentList', res.data.resultSet)
           this.mountComponent()
           this.$emit('changeLoadingStatus', 0)
-          console.log(this.componentList[1])
-          this.$axios({
-            url: this.$url.componentTrans,
-            method: 'post',
-            data: {
-              componentList: this.componentList[1]
-            }
-          }).then(res => {
-            console.log(res.data)
-          })
+          // this.$axios({
+          //   url: this.$url.componentTrans,
+          //   method: 'post',
+          //   data: {
+          //     componentList: this.dataForTrans
+          //   }
+          // }).then(res => {
+          //   console.log(res.data)
+          // })
         }
       })
     },
@@ -327,6 +344,12 @@ export default {
         this.objList[this.objList.length - 1].mount()
         console.log(this.objList[this.objList.length - 1])
         //挂载完毕后将其传至后端保存
+
+        //deep copy
+        // eslint-disable-next-line prettier/prettier
+        let tempdataSource = JSON.parse(JSON.stringify(this.objList[this.objList.length - 1].component_instance.dataSource))
+        tempdataSource.data = JSON.stringify(tempdataSource.data)
+        tempdataSource.dataSourceOptions = JSON.stringify(tempdataSource.dataSourceOptions)
         this.$axios({
           url: that.$url.appendComponentList,
           method: 'post',
@@ -348,10 +371,11 @@ export default {
             active: false,
             title: that.objList[this.objList.length - 1].component_instance.title,
             subTitle: that.objList[this.objList.length - 1].component_instance.subTitle,
-            dataSource: this.objList[this.objList.length - 1].component_instance.dataSource,
+            dataSource: tempdataSource,
             style: this.objList[this.objList.length - 1].component_instance.style
           }
         }).then(res => {
+          console.log(res.data)
           this.componentList = res.data.resultSet
           this.$store.commit('initComponentList', this.componentList)
           this.$store.commit('initActiveComponent', this.componentList)

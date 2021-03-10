@@ -192,7 +192,7 @@ export default {
           }
         }).then(res => {
           if (res.status == 200) {
-            // console.log(res.data.resultSet)
+            console.log(res.data.resultSet)
             this.$store.commit('initComponentList', res.data.resultSet)
             this.$store.commit('resizeUpdateActiveComponent')
           }

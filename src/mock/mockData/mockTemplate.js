@@ -523,38 +523,38 @@ export default {
   // }),
 
   //获取当前componentList
-  getComponentList: Mock.mock(url.getComponentList, 'post', params => {
-    let currentTemplateID = JSON.parse(params.body).templateID
-    // console.log(currentTemplateID)
-    for (let i = 0; i < componentList.length; i++) {
-      if (componentList[i].templateID == currentTemplateID) {
-        return {
-          message: '获取成功',
-          resultSet: componentList[i].components
-        }
-      }
-    }
-  }),
+  // getComponentList: Mock.mock(url.getComponentList, 'post', params => {
+  //   let currentTemplateID = JSON.parse(params.body).templateID
+  //   // console.log(currentTemplateID)
+  //   for (let i = 0; i < componentList.length; i++) {
+  //     if (componentList[i].templateID == currentTemplateID) {
+  //       return {
+  //         message: '获取成功',
+  //         resultSet: componentList[i].components
+  //       }
+  //     }
+  //   }
+  // }),
   //添加组件并设置其index值为当前数组长度
-  appendComponentList: Mock.mock(url.appendComponentList, 'post', newComp => {
-    let currentTemplateID = JSON.parse(newComp.body).templateID
-    let component = JSON.parse(newComp.body)
-    // console.log(component)
-    delete component['templateID']
-    // console.log(component)
-    for (let i = 0; i < componentList.length; i++) {
-      if (componentList[i].templateID == currentTemplateID) {
-        componentList[i].components.push(component)
-        // eslint-disable-next-line prettier/prettier
-        componentList[i].components[componentList[i].components.length - 1].index =
-          componentList[i].components.length - 1
-        return {
-          message: '添加成功',
-          resultSet: componentList[i].components
-        }
-      }
-    }
-  }),
+  // appendComponentList: Mock.mock(url.appendComponentList, 'post', newComp => {
+  //   let currentTemplateID = JSON.parse(newComp.body).templateID
+  //   let component = JSON.parse(newComp.body)
+  //   // console.log(component)
+  //   delete component['templateID']
+  //   // console.log(component)
+  //   for (let i = 0; i < componentList.length; i++) {
+  //     if (componentList[i].templateID == currentTemplateID) {
+  //       componentList[i].components.push(component)
+  //       // eslint-disable-next-line prettier/prettier
+  //       componentList[i].components[componentList[i].components.length - 1].index =
+  //         componentList[i].components.length - 1
+  //       return {
+  //         message: '添加成功',
+  //         resultSet: componentList[i].components
+  //       }
+  //     }
+  //   }
+  // }),
   //每当组件进行缩放、位移进行调用，更新当前组件的的属性
   adjustComponentList: Mock.mock(url.adjustComponent, 'post', params => {
     // console.log(JSON.parse(params.body))
