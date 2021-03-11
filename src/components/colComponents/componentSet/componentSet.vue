@@ -383,6 +383,7 @@ export default {
         this.currentComponentDataSourceDetail.currentComponentAPIHeader = this.currentComponent.dataSource.APIHeader
         this.flag = true
         // console.log(this.currentComponentDataSourceDetail)
+        console.log(this.currentComponent)
       },
       deep: true
       // console.log(newval)

@@ -212,12 +212,21 @@ export default new Vuex.Store({
       for (let i = 0; i < state.componentList.length; i++) {
         state.componentList[i].zindex = i
       }
+      console.log(componentList)
+      let tempComponentList = JSON.parse(JSON.stringify(componentList))
+      for (let i = 0; i < tempComponentList.length; i++) {
+        // console.log(tempComponentList[i].dataSource.data)
+        tempComponentList[i].dataSource.data = JSON.stringify(tempComponentList[i].dataSource.data)
+        tempComponentList[i].dataSource.dataSourceOptions = JSON.stringify(
+          tempComponentList[i].dataSource.dataSourceOptions
+        )
+      }
       axios({
         url: url.updateZindexComponentList,
         method: 'post',
         data: {
-          componentList: componentList,
-          templateID: state.currentTemplateID
+          componentList: tempComponentList
+          // templateID: state.currentTemplateID
         }
       }).then(res => {
         // console.log(res.data.resultSet)

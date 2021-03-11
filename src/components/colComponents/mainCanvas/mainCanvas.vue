@@ -47,7 +47,8 @@ export default {
                   height: compList[j].height,
                   top: compList[j].top,
                   left: compList[j].left,
-                  deg: compList[j].deg
+                  deg: compList[j].deg,
+                  disabled: compList[j].disabled
                 }
               })
             }
@@ -280,6 +281,12 @@ export default {
                   })
                   .then(res => {
                     if (res.status == 200) {
+                      for (let i = 0; i < res.data.resultSet.length; i++) {
+                        res.data.resultSet[i].dataSource.data = JSON.parse(res.data.resultSet[i].dataSource.data)
+                        res.data.resultSet[i].dataSource.dataSourceOptions = JSON.parse(
+                          res.data.resultSet[i].dataSource.dataSourceOptions
+                        )
+                      }
                       that.$store.commit('initComponentList', res.data.resultSet)
                       that.componentList = res.data.resultSet
                       console.log(that.componentList)
@@ -303,6 +310,9 @@ export default {
                         mnt.component_instance.title = newVal[i].title
                         mnt.component_instance.subTitle = newVal[i].subTitle
                         mnt.component_instance.style = newVal[i].style
+                        let tempDataSource = JSON.parse(JSON.stringify(newVal[i].dataSource))
+                        tempDataSource.data = JSON.stringify(tempDataSource.data)
+                        tempDataSource.dataSourceOptions = JSON.stringify(tempDataSource.dataSourceOptions)
                         that
                           .$axios({
                             url: that.$url.updateComponentBasicStatus,
@@ -310,7 +320,7 @@ export default {
                             data: {
                               templateID: that.$store.state.currentTemplateID,
                               index: mnt.component_instance.index,
-                              dataSource: newVal[i].dataSource,
+                              dataSource: tempDataSource,
                               // width: newVal[i].width,
                               // height: newVal[i].height,
                               // left: newVal[i].left,
@@ -347,7 +357,9 @@ export default {
 
         //deep copy
         // eslint-disable-next-line prettier/prettier
-        let tempdataSource = JSON.parse(JSON.stringify(this.objList[this.objList.length - 1].component_instance.dataSource))
+        let tempdataSource = JSON.parse(
+          JSON.stringify(this.objList[this.objList.length - 1].component_instance.dataSource)
+        )
         tempdataSource.data = JSON.stringify(tempdataSource.data)
         tempdataSource.dataSourceOptions = JSON.stringify(tempdataSource.dataSourceOptions)
         this.$axios({
@@ -440,6 +452,7 @@ export default {
                 }
               },
               //调用销毁方法，只是逻辑删除，并且如果需要可以再次mount，对象存在了objList中
+              //事实上把disabled值改了就行
               destroyComponent(...args) {
                 let index = args[0]
                 that
@@ -453,6 +466,12 @@ export default {
                   })
                   .then(res => {
                     if (res.status == 200) {
+                      for (let i = 0; i < res.data.resultSet.length; i++) {
+                        res.data.resultSet[i].dataSource.data = JSON.parse(res.data.resultSet[i].dataSource.data)
+                        res.data.resultSet[i].dataSource.dataSourceOptions = JSON.parse(
+                          res.data.resultSet[i].dataSource.dataSourceOptions
+                        )
+                      }
                       that.componentList = res.data.resultSet
                       that.$store.commit('initComponentList', res.data.resultSet)
                       console.log(that.componentList)
@@ -476,6 +495,9 @@ export default {
                         mnt.component_instance.style = newVal[i].style
                         mnt.component_instance.title = newVal[i].title
                         mnt.component_instance.subTitle = newVal[i].subTitle
+                        let tempDataSource = JSON.parse(JSON.stringify(newVal[i].dataSource))
+                        tempDataSource.data = JSON.stringify(tempDataSource.data)
+                        tempDataSource.dataSourceOptions = JSON.stringify(tempDataSource.dataSourceOptions)
                         that
                           .$axios({
                             url: that.$url.updateComponentBasicStatus,
@@ -483,7 +505,7 @@ export default {
                             data: {
                               templateID: that.$store.state.currentTemplateID,
                               index: mnt.component_instance.index,
-                              dataSource: newVal[i].dataSource,
+                              dataSource: tempDataSource,
                               // width: newVal[i].width,
                               // height: newVal[i].height,
                               // left: newVal[i].left,

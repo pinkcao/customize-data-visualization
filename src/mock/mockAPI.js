@@ -2,10 +2,10 @@ export default {
   getComponentTabData: 'http://localhost:8080/api/componentCol/getComponentTabData', //finished
   getComponentList: 'http://localhost:8080/api/component/getComponent', // it's fucking finished
   appendComponentList: 'http://localhost:8080/api/component/appendComponent', // it's fucking finished
-  adjustComponent: 'http://localhost:8080/api/component/adjustComponent',
-  spliceComponentList: 'http://localhost:8080/api/component/spliceComponent',
-  updateZindexComponentList: 'http://localhost:8080/api/component/updateComponentZindex',
-  updateComponentBasicStatus: 'http://localhost:8080/api/component/updateComponentBasicStatus',
+  adjustComponent: 'http://localhost:8080/api/component/adjustComponent', //finished
+  spliceComponentList: 'http://localhost:8080/api/component/spliceComponent', //finished
+  updateZindexComponentList: 'http://localhost:8080/api/component/updateComponentZindex', //finished
+  updateComponentBasicStatus: 'http://localhost:8080/api/component/updateComponentBasicStatus', //finished
   userLogin: 'http://localhost:8080/api/user/login', //finished
   userRegister: 'http://localhost:8080/api/user/register', //finished
   validateAccount: 'http://localhost:8080/api/user/validateAccount', //finished

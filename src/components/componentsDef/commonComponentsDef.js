@@ -94,11 +94,14 @@ export default {
     // 更新当前组件基础属性
     updateComponentList() {
       if (this.mode == 'design') {
+        // console.log(this.index)
+        // console.log(this.$store.state.currentTemplateID)
         this.$axios({
           url: url.adjustComponent,
           method: 'post',
           data: {
             templateID: this.$store.state.currentTemplateID,
+            deg: this.deg,
             index: this.index,
             width: this.width,
             height: this.height,
@@ -107,7 +110,15 @@ export default {
           }
         }).then(res => {
           if (res.status == 200) {
+            for (let i = 0; i < res.data.resultSet.length; i++) {
+              res.data.resultSet[i].dataSource.data = JSON.parse(res.data.resultSet[i].dataSource.data)
+              res.data.resultSet[i].dataSource.dataSourceOptions = JSON.parse(
+                res.data.resultSet[i].dataSource.dataSourceOptions
+              )
+            }
+            console.log(res.data.resultSet)
             this.$store.commit('initComponentList', res.data.resultSet)
+            this.$store.commit('resizeUpdateActiveComponent')
           }
         })
       }

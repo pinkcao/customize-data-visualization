@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import Mock from 'mockjs'
 import url from '@mock/mockAPI.js'
 
@@ -556,110 +557,110 @@ export default {
   //   }
   // }),
   //每当组件进行缩放、位移进行调用，更新当前组件的的属性
-  adjustComponentList: Mock.mock(url.adjustComponent, 'post', params => {
-    // console.log(JSON.parse(params.body))
-    let propertyObj = JSON.parse(params.body)
-    let currentTemplateID = JSON.parse(params.body).templateID
-    // console.log(propertyObj)
-    for (let i = 0; i < componentList.length; i++) {
-      if (componentList[i].templateID == currentTemplateID) {
-        // console.log('right')
-        for (let j = 0; j < componentList[i].components.length; j++) {
-          // console.log(componentList[i].components[j].index, propertyObj.index)
-          if (propertyObj.index == componentList[i].components[j].index) {
-            componentList[i].components[j].width = propertyObj.width
-            componentList[i].components[j].height = propertyObj.height
-            componentList[i].components[j].top = propertyObj.top
-            componentList[i].components[j].left = propertyObj.left
-            componentList[i].components[j].deg = propertyObj.deg
-            console.log(propertyObj)
-            console.log(componentList[i].components)
-            return {
-              message: '更新成功',
-              resultSet: componentList[i].components
-            }
-          }
-        }
-      }
-    }
-    return {
-      message: '更新失败'
-    }
-  }),
+  // adjustComponentList: Mock.mock(url.adjustComponent, 'post', params => {
+  //   // console.log(JSON.parse(params.body))
+  //   let propertyObj = JSON.parse(params.body)
+  //   let currentTemplateID = JSON.parse(params.body).templateID
+  //   // console.log(propertyObj)
+  //   for (let i = 0; i < componentList.length; i++) {
+  //     if (componentList[i].templateID == currentTemplateID) {
+  //       // console.log('right')
+  //       for (let j = 0; j < componentList[i].components.length; j++) {
+  //         // console.log(componentList[i].components[j].index, propertyObj.index)
+  //         if (propertyObj.index == componentList[i].components[j].index) {
+  //           componentList[i].components[j].width = propertyObj.width
+  //           componentList[i].components[j].height = propertyObj.height
+  //           componentList[i].components[j].top = propertyObj.top
+  //           componentList[i].components[j].left = propertyObj.left
+  //           componentList[i].components[j].deg = propertyObj.deg
+  //           console.log(propertyObj)
+  //           console.log(componentList[i].components)
+  //           return {
+  //             message: '更新成功',
+  //             resultSet: componentList[i].components
+  //           }
+  //         }
+  //       }
+  //     }
+  //   }
+  //   return {
+  //     message: '更新失败'
+  //   }
+  // }),
   //删除组件，只是将其可见性设为否
-  spliceComponentList: Mock.mock(url.spliceComponentList, 'post', params => {
-    let index = JSON.parse(params.body).index
-    let currentTemplateID = JSON.parse(params.body).templateID
-    for (let i = 0; i < componentList.length; i++) {
-      if (componentList[i].templateID == currentTemplateID) {
-        for (let j = 0; j < componentList[i].components.length; j++) {
-          if (index == componentList[i].components[j].index) {
-            componentList[i].components[j].disabled = true
-            return {
-              message: '删除成功',
-              resultSet: componentList[i].components
-            }
-          }
-        }
-      }
-    }
-    return {
-      message: '删除失败',
-      resultSet: componentList
-    }
-  }),
+  // spliceComponentList: Mock.mock(url.spliceComponentList, 'post', params => {
+  //   let index = JSON.parse(params.body).index
+  //   let currentTemplateID = JSON.parse(params.body).templateID
+  //   for (let i = 0; i < componentList.length; i++) {
+  //     if (componentList[i].templateID == currentTemplateID) {
+  //       for (let j = 0; j < componentList[i].components.length; j++) {
+  //         if (index == componentList[i].components[j].index) {
+  //           componentList[i].components[j].disabled = true
+  //           return {
+  //             message: '删除成功',
+  //             resultSet: componentList[i].components
+  //           }
+  //         }
+  //       }
+  //     }
+  //   }
+  //   return {
+  //     message: '删除失败',
+  //     resultSet: componentList[i].components
+  //   }
+  // }),
   //更新所有组件的z-index值使其与设计界面z-index值相等
   //实际上这里是直接复制了传入的componentList
-  updateZindexComponentList: Mock.mock(url.updateZindexComponentList, 'post', params => {
-    let currentTemplateID = JSON.parse(params.body).templateID
-    let currentComponentList = JSON.parse(params.body).componentList
-    // console.log(currentComponentList)
-    for (let i = 0; i < componentList.length; i++) {
-      if (componentList[i].templateID == currentTemplateID) {
-        for (let j = 0; j < componentList[i].components.length; j++) {
-          componentList[i].components[j] = currentComponentList[j]
-          // console.log(componentList[i].components.length)
-          // console.log(currentComponentList[j])
-        }
-        return {
-          message: '修改z-index成功',
-          resultSet: componentList[i].components
-        }
-      }
-    }
-    return {
-      message: '修改z-index失败',
-      resultSet: componentList[i].components
-    }
-  }),
-  updateComponentBasicStatus: Mock.mock(url.updateComponentBasicStatus, 'post', params => {
-    let currentTemplateID = JSON.parse(params.body).templateID
-    let args = JSON.parse(params.body)
-    let index = args.index
-    for (let i = 0; i < componentList.length; i++) {
-      if (componentList[i].templateID == currentTemplateID) {
-        for (let j = 0; j < componentList[i].components.length; j++) {
-          if (componentList[i].components[j].index == index) {
-            componentList[i].components[j].dataSource = args.dataSource
-            // componentList[i].components[j].width = args.width
-            // componentList[i].components[j].height = args.height
-            // componentList[i].components[j].left = args.left
-            // componentList[i].components[j].top = args.top
-            componentList[i].components[j].style = args.style
-            componentList[i].components[j].title = args.title
-            componentList[i].components[j].subTitle = args.subTitle
-            return {
-              message: '修改组件数据成功',
-              resultSet: componentList[i].components
-            }
-          }
-        }
-      }
-    }
-    return {
-      message: '修改组件数据失败'
-    }
-  })
+  // updateZindexComponentList: Mock.mock(url.updateZindexComponentList, 'post', params => {
+  //   let currentTemplateID = JSON.parse(params.body).templateID
+  //   let currentComponentList = JSON.parse(params.body).componentList
+  //   // console.log(currentComponentList)
+  //   for (let i = 0; i < componentList.length; i++) {
+  //     if (componentList[i].templateID == currentTemplateID) {
+  //       for (let j = 0; j < componentList[i].components.length; j++) {
+  //         componentList[i].components[j] = currentComponentList[j]
+  //         // console.log(componentList[i].components.length)
+  //         // console.log(currentComponentList[j])
+  //       }
+  //       return {
+  //         message: '修改z-index成功',
+  //         resultSet: componentList[i].components
+  //       }
+  //     }
+  //   }
+  //   return {
+  //     message: '修改z-index失败',
+  //     resultSet: componentList[i].components
+  //   }
+  // })
+  // updateComponentBasicStatus: Mock.mock(url.updateComponentBasicStatus, 'post', params => {
+  //   let currentTemplateID = JSON.parse(params.body).templateID
+  //   let args = JSON.parse(params.body)
+  //   let index = args.index
+  //   for (let i = 0; i < componentList.length; i++) {
+  //     if (componentList[i].templateID == currentTemplateID) {
+  //       for (let j = 0; j < componentList[i].components.length; j++) {
+  //         if (componentList[i].components[j].index == index) {
+  //           componentList[i].components[j].dataSource = args.dataSource
+  //           // componentList[i].components[j].width = args.width
+  //           // componentList[i].components[j].height = args.height
+  //           // componentList[i].components[j].left = args.left
+  //           // componentList[i].components[j].top = args.top
+  //           componentList[i].components[j].style = args.style
+  //           componentList[i].components[j].title = args.title
+  //           componentList[i].components[j].subTitle = args.subTitle
+  //           return {
+  //             message: '修改组件数据成功',
+  //             resultSet: componentList[i].components
+  //           }
+  //         }
+  //       }
+  //     }
+  //   }
+  //   return {
+  //     message: '修改组件数据失败'
+  //   }
+  // })
   // userLogin: Mock.mock(url.userLogin, 'post', params => {
   //   let args = JSON.parse(params.body)
   //   for (let i = 0; i < userList.length; i++) {
