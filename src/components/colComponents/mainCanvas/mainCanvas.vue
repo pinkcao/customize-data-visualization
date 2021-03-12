@@ -224,15 +224,21 @@ export default {
         //基础数据
         let tempindex = 0
         let tempzindex = 0
-        for (let i = 0; i < this.componentList.length; i++) {
-          if (tempindex < this.componentList[i].index) {
-            tempindex = this.componentList[i].index
+        let finalindex = 0
+        console.log(this.componentList.length)
+        if (this.componentList.length > 0) {
+          for (let i = 0; i < this.componentList.length; i++) {
+            if (tempindex < this.componentList[i].index) {
+              tempindex = this.componentList[i].index
+            }
+            if (tempzindex < this.componentList[i].zindex) {
+              tempzindex = this.componentList[i].zindex
+            }
           }
-          if (tempzindex < this.componentList[i].zindex) {
-            tempzindex = this.componentList[i].zindex
-          }
+          finalindex = tempindex > tempzindex ? tempindex + 1 : tempzindex + 1
+        } else {
+          finalindex = 0
         }
-        let finalindex = tempindex > tempzindex ? tempindex + 1 : tempzindex + 1
         let testObj = {
           index: finalindex,
           zindex: finalindex,
