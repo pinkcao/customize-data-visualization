@@ -229,7 +229,7 @@ export default new Vuex.Store({
           // templateID: state.currentTemplateID
         }
       }).then(res => {
-        // console.log(res.data.resultSet)
+        console.log(res.data.resultSet)
       })
     },
     //传入排序后数组，给排序后数组的z-index重排序，降序

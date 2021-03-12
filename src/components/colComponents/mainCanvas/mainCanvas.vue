@@ -101,8 +101,6 @@ export default {
     '$store.state.backgroundStyle': {
       handler(newval) {
         if (this.mountComponentssFlag) {
-          // let picurl = this.$store.state.backgroundStyle.backgroundImage
-          console.log('?')
           this.canvasStyle = {
             width: this.$store.state.screenDef[0].value + 'px',
             height: this.$store.state.screenDef[1].value + 'px',
@@ -224,9 +222,20 @@ export default {
         //保存当前this至that
         let that = this
         //基础数据
+        let tempindex = 0
+        let tempzindex = 0
+        for (let i = 0; i < this.componentList.length; i++) {
+          if (tempindex < this.componentList[i].index) {
+            tempindex = this.componentList[i].index
+          }
+          if (tempzindex < this.componentList[i].zindex) {
+            tempzindex = this.componentList[i].zindex
+          }
+        }
+        let finalindex = tempindex > tempzindex ? tempindex + 1 : tempzindex + 1
         let testObj = {
-          index: this.componentList.length,
-          zindex: this.componentList.length,
+          index: finalindex,
+          zindex: finalindex,
           disabled: false,
           name: this.$store.state.componentNameToCanvas,
           //用于指向当前鼠标指针在canvas中的位置
@@ -388,6 +397,12 @@ export default {
           }
         }).then(res => {
           console.log(res.data)
+          for (let i = 0; i < res.data.resultSet.length; i++) {
+            res.data.resultSet[i].dataSource.data = JSON.parse(res.data.resultSet[i].dataSource.data)
+            res.data.resultSet[i].dataSource.dataSourceOptions = JSON.parse(
+              res.data.resultSet[i].dataSource.dataSourceOptions
+            )
+          }
           this.componentList = res.data.resultSet
           this.$store.commit('initComponentList', this.componentList)
           this.$store.commit('initActiveComponent', this.componentList)

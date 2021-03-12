@@ -46,11 +46,16 @@
             <div class="span-wrapper">
               <span :style="spanStyle">背景颜色:</span>
             </div>
-            <el-color-picker
-              :style="inputNumberStyle"
-              v-model="backgroundColor"
-              @change="updateBackgroundStyle"
-            ></el-color-picker>
+            <div>
+              <el-color-picker
+                :style="inputNumberStyle"
+                v-model="backgroundColor"
+                @change="updateBackgroundStyle"
+              ></el-color-picker>
+            </div>
+            <div class="default-color">
+              <el-button size="mini" @click="updateBackgroundStyleToDefault">恢复默认颜色</el-button>
+            </div>
           </div>
 
           <div class="form-sub-item" v-if="backgroundStyleFlag">
@@ -96,7 +101,8 @@ export default {
       },
       backgroundColor: '',
       backgroundImage: '',
-      backgroundStyleFlag: false
+      backgroundStyleFlag: false,
+      defaultBackgroundColor: '#0e2a43'
     }
   },
   computed: {
@@ -175,7 +181,6 @@ export default {
   },
   methods: {
     updateBackgroundStyle() {
-      console.log('?')
       if (this.$store.state.backgroundStyleFlag == true) {
         let tempBackgroundStyle = {
           backgroundColor: this.backgroundColor,
@@ -192,6 +197,29 @@ export default {
           // }
           data: {
             backgroundColor: this.backgroundColor,
+            backgroundImage: this.backgroundImage,
+            templateID: this.$store.state.currentTemplateID
+          }
+        }).then(res => {
+          if (res.status == 200) {
+            console.log(res.data)
+          }
+        })
+      }
+    },
+    updateBackgroundStyleToDefault() {
+      if (this.$store.state.backgroundStyleFlag == true) {
+        this.backgroundColor = this.defaultBackgroundColor
+        let tempBackgroundStyle = {
+          backgroundColor: this.defaultBackgroundColor,
+          backgroundImage: this.backgroundImage
+        }
+        this.$store.commit('updateBackgroundStyle', tempBackgroundStyle)
+        this.$axios({
+          url: this.$url.updateBackgroundStyle,
+          method: 'post',
+          data: {
+            backgroundColor: this.defaultBackgroundColor,
             backgroundImage: this.backgroundImage,
             templateID: this.$store.state.currentTemplateID
           }
@@ -395,5 +423,23 @@ export default {
 
 .span-wrapper {
   width: 80px;
+}
+
+.default-color {
+  margin-left: 10px;
+}
+
+.default-color .el-button {
+  // align-self: center;
+  background-color: #111111;
+  border: 2px solid black;
+  color: #bcc9d4;
+}
+
+.default-color .el-button:hover {
+  // background-color: transparent;
+  background-color: #0e2a43;
+  border: 2px solid black;
+  color: #bcc9d4;
 }
 </style>

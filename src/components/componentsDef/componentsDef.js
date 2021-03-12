@@ -176,7 +176,7 @@ export default {
     //更新当前组件基础属性
     updateComponentList() {
       if (this.mode == 'design') {
-        // console.log(this.index)
+        console.log(this.index)
         // console.log(this.$store.state.currentTemplateID)
         this.$axios({
           url: url.adjustComponent,
@@ -191,6 +191,7 @@ export default {
             left: this.left
           }
         }).then(res => {
+          // console.log(res.data.resultSet)
           if (res.status == 200) {
             for (let i = 0; i < res.data.resultSet.length; i++) {
               res.data.resultSet[i].dataSource.data = JSON.parse(res.data.resultSet[i].dataSource.data)
