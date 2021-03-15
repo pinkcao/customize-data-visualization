@@ -88,6 +88,7 @@ export default {
 
 <style scoped lang="less">
 @titleboxpadding: 10px;
+@itemColor: #00474f;
 
 .title-box-graph {
   width: 100%;
@@ -105,13 +106,13 @@ span {
 .item {
   width: 100%;
   height: 80px;
-  background-color: #2c075c;
+  background-color: @itemColor;
   color: #ffffff;
   margin-top: 2px;
 }
 
 .item:hover {
   cursor: pointer;
-  background-color: #2c075c + @highlight;
+  background-color: @itemColor + @highlight;
 }
 </style>
