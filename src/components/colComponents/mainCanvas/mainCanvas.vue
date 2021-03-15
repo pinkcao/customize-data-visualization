@@ -377,6 +377,7 @@ export default {
         )
         tempdataSource.data = JSON.stringify(tempdataSource.data)
         tempdataSource.dataSourceOptions = JSON.stringify(tempdataSource.dataSourceOptions)
+        console.log(this.objList[this.objList.length - 1].component_instance.style)
         this.$axios({
           url: that.$url.appendComponentList,
           method: 'post',

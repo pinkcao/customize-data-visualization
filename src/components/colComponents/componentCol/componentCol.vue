@@ -114,36 +114,18 @@ export default {
         url: this.$url.getComponentTabData,
         method: 'get'
       }).then(res => {
-        // console.log(res)
-        // if (res.status == 200) {
-        //   this.tabpanedata = res.data.resultSet
-        //   this.$emit('changeLoadingStatus', 1)
-        //   console.log(res)
-        // }
-
-        //无用block
-        // for (let i = 0; i < this.tabpanedata.length; i++) {
-        //   console.log(this.tabpanedata[i].showData)
-        //   for (let j = 0; j < this.tabpanedata[i].showData.length; j++) {
-        //     console.log(this.tabpanedata[i].showData[j])
-        //     for (let k = 0; k < this.tabpanedata[i].showData[j].componentDetailList.length; k++) {
-        //       console.log(this.tabpanedata[i].showData[j].componentDetailList[k].picurl)
-        //     }
-        //   }
-        // }
-
         if (res.status == 200) {
           for (let i = 0; i < res.data.length; i++) {
             // console.log(res.data[i].className)
             for (let j = 0; j < res.data[i].showData.length; j++) {
               // console.log(res.data[i].showData[j])
               for (let k = 0; k < res.data[i].showData[j].componentDetailList.length; k++) {
-                // console.log(url.basePicurl + res.data[i].showData[j].componentDetailList[k].picurl)
                 res.data[i].showData[j].componentDetailList[k].picurl =
                   this.$url.basePicurl + res.data[i].showData[j].componentDetailList[k].picurl
               }
             }
           }
+          console.log(res.data)
           this.$emit('changeLoadingStatus', 1)
           this.tabpanedata = res.data
           this.getComponentTabDataFlag = true

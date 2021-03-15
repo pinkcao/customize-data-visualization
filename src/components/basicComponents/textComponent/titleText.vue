@@ -26,7 +26,7 @@
       @deactivated="onDeactivated"
     >
       <div style="background-color: #ffffff; width: 100%; height: 100%">
-        <span :style="titleStyle">{{ dataSource.data }}</span>
+        <div :style="titleStyle">{{ dataSource.data }}</div>
       </div>
     </vue-drag-resize-rotate>
   </div>
@@ -49,6 +49,7 @@ export default {
       height: 50,
       top: 100,
       left: 100,
+      deg: 0,
       parentLimitation: true,
       draggable: true,
       resizable: true,
@@ -64,8 +65,7 @@ export default {
         // fontColor: '#409EFF'
       },
       style: {
-        fontColor: '#409EFF',
-        deg: 0
+        fontColor: '#409EFF'
       }
     }
   },
@@ -73,7 +73,8 @@ export default {
     titleStyle: function() {
       return {
         'font-size': 0.8 * this.height + 'px',
-        color: this.style.fontColor
+        color: this.style.fontColor,
+        'text-align': 'center'
       }
     }
   },
