@@ -13,8 +13,8 @@
             class="item"
             @click="activateComponent(item.index)"
           >
-            componentIndex:{{ item.index }}<br />
-            compName:{{ item.name }}
+            组件序号:{{ item.index }}<br />
+            组件名:{{ item.name }}
           </div>
         </transition-group>
       </vuedraggable>

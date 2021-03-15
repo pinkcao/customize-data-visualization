@@ -146,7 +146,7 @@ export default {
     },
     rotate(deg) {
       // console.log(deg)
-      this.style.deg = deg
+      this.deg = deg
     }
   }
 }
