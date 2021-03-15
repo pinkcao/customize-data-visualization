@@ -176,7 +176,7 @@ export default {
     //更新当前组件基础属性
     updateComponentList() {
       if (this.mode == 'design') {
-        console.log(this.index)
+        // console.log(this.index)
         // console.log(this.$store.state.currentTemplateID)
         this.$axios({
           url: url.adjustComponent,

@@ -13,6 +13,7 @@ export default new Vuex.Store({
     pageAndComponentFlag: true,
     activeComponentIndex: -1,
     currentComponent: [],
+    componentActiveFlag: false,
     //修正canvas规模
     parentScale: 0.45,
     //修正鼠标移动倍率
@@ -184,11 +185,16 @@ export default new Vuex.Store({
       state.componentActive[index].active = true
       state.pageAndComponentFlag = false
       state.activeComponentIndex = index
+      state.componentActiveFlag = true
       for (let i = 0; i < state.componentList.length; i++) {
         if (state.componentList[i].index == index) {
           state.currentComponent = state.componentList[i]
         }
       }
+    },
+    //设置所有组件为不活跃，设置被选中组件为活跃
+    resetComponentActiveFlag(state, bool) {
+      state.componentActiveFlag = false
     },
     //当每个组件的基础属性变化时被调用，更新当前组件，响应至componentSet
     resizeUpdateActiveComponent(state) {

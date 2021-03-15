@@ -424,6 +424,24 @@ export default {
         top: this.currentComponent.top,
         deg: this.currentComponent.deg
       }
+      console.log(this.currentComponent)
+      this.$axios({
+        url: this.$url.adjustComponent,
+        method: 'post',
+        data: {
+          templateID: this.$store.state.currentTemplateID,
+          deg: this.currentComponent.deg,
+          index: this.currentComponent.index,
+          width: this.currentComponent.width,
+          height: this.currentComponent.height,
+          top: this.currentComponent.top,
+          left: this.currentComponent.left
+        }
+      }).then(res => {
+        if (res.status == 200) {
+        }
+      })
+
       this.$store.commit('updateComponentStatus', currentComponentBaseStatus)
     },
     //更改数据源

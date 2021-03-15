@@ -6,7 +6,13 @@
     <div style="width: 100%: scroll-y: auto">
       <vuedraggable style="width: 100%; display: flex; justify-content: center" v-model="componentList">
         <transition-group>
-          <div v-for="item in componentList" v-show="!item.disabled" :key="item.zindex" class="item">
+          <div
+            v-for="item in componentList"
+            v-show="!item.disabled"
+            :key="item.zindex"
+            class="item"
+            @click="activateComponent(item.index)"
+          >
             componentIndex:{{ item.index }}<br />
             compName:{{ item.name }}
           </div>
@@ -69,7 +75,14 @@ export default {
   created() {},
   mounted() {},
 
-  methods: {}
+  methods: {
+    activateComponent(componentIndex) {
+      let args = {
+        index: componentIndex
+      }
+      this.$store.commit('updateActiveComponent', args)
+    }
+  }
 }
 </script>
 
@@ -95,5 +108,10 @@ span {
   background-color: #2c075c;
   color: #ffffff;
   margin-top: 2px;
+}
+
+.item:hover {
+  cursor: pointer;
+  background-color: #2c075c + @highlight;
 }
 </style>
