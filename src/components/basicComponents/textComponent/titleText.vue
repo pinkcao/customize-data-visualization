@@ -63,7 +63,6 @@ export default {
       subTitle: '',
       dataSource: {
         data: '测试'
-        // fontColor: '#409EFF'
       },
       style: {
         fontColor: '#409EFF'
@@ -72,10 +71,12 @@ export default {
   },
   computed: {
     titleStyle: function() {
+      console.log(this.style.opacity)
       return {
         'font-size': 0.8 * this.height + 'px',
         color: this.style.fontColor,
-        'text-align': 'center'
+        'text-align': 'center',
+        opacity: this.style.opacity
       }
     }
   },

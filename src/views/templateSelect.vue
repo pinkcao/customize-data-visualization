@@ -9,36 +9,39 @@
           <span slot="label"><i class="el-icon-date"></i> 我的可视化</span>
           <el-tabs :tab-position="'left'">
             <el-tab-pane label="组1">
-              <div style="height: 100%; overflow-y: auto;">
-                <el-row :gutter="10">
-                  <el-col :span="6">
-                    <div @click="appendTemplate" class="plus-box">
-                      <i style="font-size: 40px" class="el-icon-plus"></i>
+              <div class="template-container">
+                <!-- <el-row :gutter="10">
+                  <el-col :span="6"> -->
+                <div @click="appendTemplate" class="plus-box">
+                  <i style="font-size: 40px" class="el-icon-plus"></i>
+                </div>
+                <!-- </el-col>
+                  <el-col v-for="item in templateList" v-show="!item.disabled" :key="item.templateID" :span="6"> -->
+                <div
+                  v-for="item in templateList"
+                  v-show="!item.disabled"
+                  :key="item.templateID"
+                  class="template-box"
+                  @mouseenter="item.templateActive = true"
+                  @mouseleave="item.templateActive = false"
+                >
+                  <div class="active-box" v-show="item.templateActive">
+                    <div @click="clickTemplate(item.templateID)" class="icon-wrapper">
+                      <i style="font-size: 150%" class="el-icon-video-play"></i>
                     </div>
-                  </el-col>
-                  <el-col v-for="item in templateList" v-show="!item.disabled" :key="item.templateID" :span="6">
-                    <div
-                      class="template-box"
-                      @mouseenter="item.templateActive = true"
-                      @mouseleave="item.templateActive = false"
-                    >
-                      <div class="active-box" v-show="item.templateActive">
-                        <div @click="clickTemplate(item.templateID)" class="icon-wrapper">
-                          <i style="font-size: 150%" class="el-icon-video-play"></i>
-                        </div>
-                        <div @click="spliceTemplate(item.templateID)" class="icon-wrapper">
-                          <i style="font-size: 150%" class="el-icon-delete"></i>
-                        </div>
-                      </div>
+                    <div @click="spliceTemplate(item.templateID)" class="icon-wrapper">
+                      <i style="font-size: 150%" class="el-icon-delete"></i>
                     </div>
-                  </el-col>
-                </el-row>
+                  </div>
+                </div>
+                <!-- </el-col>
+                </el-row> -->
               </div>
             </el-tab-pane>
             <el-tab-pane label="组2"></el-tab-pane>
           </el-tabs>
         </el-tab-pane>
-        <el-tab-pane label="消息中心">消息中心</el-tab-pane>
+        <el-tab-pane label="消息中心"></el-tab-pane>
       </el-tabs>
     </div>
   </div>
@@ -199,7 +202,8 @@ export default {
 }
 
 .template-box {
-  height: 200px;
+  height: 150px;
+  width: 200px;
   background-color: @cyan-10;
   // border-radius: 5px;
   border: 2px solid black;
@@ -207,7 +211,8 @@ export default {
 }
 
 .plus-box {
-  height: 200px;
+  height: 150px;
+  width: 200px;
   background-color: #aaaaaa;
   margin: 5px;
   border: 1px dashed black;
@@ -220,7 +225,7 @@ export default {
 .plus-box:hover {
   cursor: pointer;
   background-color: #aaaaaa + @highlight;
-  box-shadow: 2px 2px 2px #333333;
+  box-shadow: 1px 1px 1px #333333;
 }
 
 .icon-wrapper:hover {
@@ -229,13 +234,13 @@ export default {
 }
 
 .active-box {
-  width: 100%;
-  height: 100%;
+  width: 200px;
+  height: 150px;
   background-color: @cyan-10 + @highlight + @highlight;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 2px 2px 2px #333333;
+  box-shadow: 1px 1px 1px #333333;
   // border-radius: 5px;
 }
 
@@ -268,5 +273,14 @@ export default {
 
 .el-tab-pane {
   height: 100%;
+}
+
+.template-container {
+  margin-top: 50px;
+  height: 100%;
+  overflow-y: auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
 }
 </style>
