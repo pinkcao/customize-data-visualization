@@ -33,6 +33,10 @@
                       <i style="font-size: 150%" class="el-icon-delete"></i>
                     </div>
                   </div>
+                  <div class="inactive-box" v-show="!item.templateActive"></div>
+                  <div class="template-box-status-bar">
+                    <span style="margin-left: 10px">模板ID:{{ item.templateID }} </span>
+                  </div>
                 </div>
                 <!-- </el-col>
                 </el-row> -->
@@ -41,7 +45,7 @@
             <el-tab-pane label="组2"></el-tab-pane>
           </el-tabs>
         </el-tab-pane>
-        <el-tab-pane label="消息中心"></el-tab-pane>
+        <el-tab-pane label="暂留"></el-tab-pane>
       </el-tabs>
     </div>
   </div>
@@ -165,6 +169,11 @@ export default {
 </script>
 
 <style lang="less">
+@boxheight: 150px;
+@boxwidth: 200px;
+@boxtop: 120px;
+@boxrest: @boxheight - @boxtop;
+
 .main-select-pane {
   display: flex;
   flex-direction: column;
@@ -178,9 +187,9 @@ export default {
   // width: 80%;
   // height: 20%;
   flex-grow: 1;
-  background-color: #010101;
+  background-color: #0d0f12;
   // margin: 10px;
-  border: 5px solid @cyan-10;
+  // border: 5px solid @cyan-10;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -188,7 +197,7 @@ export default {
 }
 
 .main-select-pane.content-box {
-  border: 5px solid @cyan-10;
+  // border: 5px solid @cyan-10;
   display: inline;
   // flex-direction: row;
   // width: 100%;
@@ -202,8 +211,8 @@ export default {
 }
 
 .template-box {
-  height: 150px;
-  width: 200px;
+  height: @boxheight;
+  width: @boxwidth;
   background-color: @cyan-10;
   // border-radius: 5px;
   border: 2px solid black;
@@ -211,8 +220,8 @@ export default {
 }
 
 .plus-box {
-  height: 150px;
-  width: 200px;
+  height: @boxheight;
+  width: @boxwidth;
   background-color: #aaaaaa;
   margin: 5px;
   border: 1px dashed black;
@@ -234,14 +243,31 @@ export default {
 }
 
 .active-box {
-  width: 200px;
-  height: 150px;
+  height: @boxtop;
+  width: @boxwidth;
   background-color: @cyan-10 + @highlight + @highlight;
   display: flex;
   align-items: center;
   justify-content: center;
   box-shadow: 1px 1px 1px #333333;
   // border-radius: 5px;
+}
+
+.inactive-box {
+  height: @boxtop;
+  width: @boxwidth;
+  background-color: transparent;
+}
+
+.template-box-status-bar {
+  height: @boxrest;
+  width: @boxwidth;
+  background-color: @cyan-10 + @highlight;
+  color: #ddd;
+  display: flex;
+  align-content: center;
+  align-items: center;
+  justify-content: flex-start;
 }
 
 .icon-wrapper {
@@ -262,6 +288,7 @@ export default {
 }
 .el-tabs__content {
   height: 100%;
+  background-color: #191b22;
   // overflow-y: scroll;
 }
 
@@ -283,4 +310,35 @@ export default {
   flex-wrap: wrap;
   align-content: flex-start;
 }
+
+.el-tabs--border-card > .el-tabs__header {
+  background-color: #0d0f12;
+}
+
+.el-tabs--border-card > .el-tabs__header .el-tabs__item.is-active {
+  background-color: #191b22;
+  border: 1px solid transparent;
+  color: #bbbbbb;
+}
+
+.el-tabs__item.is-active {
+  color: #cccccc;
+}
+
+.el-tabs__item {
+  color: #888888;
+}
+
+.el-tabs__nav.is-left {
+  background-color: #191c21;
+  height: 100%;
+}
+
+.el-tabs--border-card > .el-tabs__header {
+  border: 0px;
+}
+
+// .el-tabs__item is-left is-active {
+//   background-color: #999999;
+// }
 </style>
