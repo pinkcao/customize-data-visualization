@@ -232,7 +232,7 @@ export default {
       this.$refs.testref.focus()
     },
     rotate(deg) {
-      // console.log(deg)
+      console.log(deg)
       this.deg = deg
     },
     testFetchData() {

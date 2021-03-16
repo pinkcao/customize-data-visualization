@@ -1,5 +1,5 @@
 <template>
-  <div @click="cancelFocus" ref="target" :style="canvasStyle" @drop="appendComponentList"></div>
+  <div @mousedown="cancelFocus" ref="target" :style="canvasStyle" @drop="appendComponentList"></div>
 </template>
 
 <script>
@@ -197,6 +197,7 @@ export default {
             data: { active: false }
           })
         }
+        console.log('冒泡到这了，很不幸')
       }
     },
     //获取组件列表，维护
@@ -429,6 +430,7 @@ export default {
     //把初始所有在组件列表的组件挂载在当前div上
     mountComponent() {
       let currentData = this.componentList
+      console.log(this.componentList)
       let that = this
       for (let i = 0; i < currentData.length; i++) {
         this.objList.push(
@@ -547,6 +549,7 @@ export default {
             }
           })
         )
+        console.log(this.objList[i])
         this.objList[i].mount()
       }
       //初始化activeComponent列表，用此列表维护每个组件的active值
