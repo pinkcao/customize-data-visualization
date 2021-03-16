@@ -27,15 +27,15 @@
                 >
                   <div class="active-box" v-show="item.templateActive">
                     <div @click="clickTemplate(item.templateID)" class="icon-wrapper">
-                      <i style="font-size: 150%" class="el-icon-video-play"></i>
+                      <i style="font-size: 100%" class="el-icon-video-play"></i>
                     </div>
                     <div @click="spliceTemplate(item.templateID)" class="icon-wrapper">
-                      <i style="font-size: 150%" class="el-icon-delete"></i>
+                      <i style="font-size: 100%" class="el-icon-delete"></i>
                     </div>
                   </div>
                   <div class="inactive-box" v-show="!item.templateActive"></div>
                   <div class="template-box-status-bar">
-                    <span style="margin-left: 10px">模板ID:{{ item.templateID }} </span>
+                    <span style="margin-left: 10px; font-size:10px">模板ID:{{ item.templateID }} </span>
                   </div>
                 </div>
                 <!-- </el-col>
@@ -271,8 +271,8 @@ export default {
 }
 
 .icon-wrapper {
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   background-color: rgba(255, 255, 255, 0.25);
   margin: auto;
@@ -303,7 +303,6 @@ export default {
 }
 
 .template-container {
-  margin-top: 50px;
   height: 100%;
   overflow-y: auto;
   display: flex;
