@@ -123,9 +123,13 @@ export default {
           userID: this.$store.state.currentUserID
         }
       }).then(res => {
-        this.backgroundStyle = res.data
-        this.backgroundStyleFlag = true
-        this.loadingDetail.background = true
+        if (res) {
+          if (res.status == 200) {
+            this.backgroundStyle = res.data
+            this.backgroundStyleFlag = true
+            this.loadingDetail.background = true
+          }
+        }
       })
     },
     //获取缩放设置
@@ -138,10 +142,13 @@ export default {
           userID: this.$store.state.currentUserID
         }
       }).then(res => {
-        // console.log(res.data)
-        this.screenStretch = res.data
-        this.screenStretchFlag = true
-        this.loadingDetail.stretch = true
+        if (res) {
+          if (res.status == 200) {
+            this.screenStretch = res.data
+            this.screenStretchFlag = true
+            this.loadingDetail.stretch = true
+          }
+        }
       })
     },
     //获取屏幕设置
@@ -154,13 +161,13 @@ export default {
           userID: this.$store.state.currentUserID
         }
       }).then(res => {
-        console.log(res.data)
-        this.screenDef = res.data
-        this.screenDefFlag = true
-        this.loadingDetail.style = true
-        // this.$nextTick(() => {
-        //   this.loadingInstance.close()
-        // })
+        if (res) {
+          if (res.status == 200) {
+            this.screenDef = res.data
+            this.screenDefFlag = true
+            this.loadingDetail.style = true
+          }
+        }
       })
     },
     resize() {

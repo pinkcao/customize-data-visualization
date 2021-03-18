@@ -259,7 +259,9 @@ export default {
         }
       }).then(res => {
         if (res) {
-          this.$store.commit('initBackgroundStyle', res.data)
+          if (res.status == 200) {
+            this.$store.commit('initBackgroundStyle', res.data)
+          }
         }
       })
     },
@@ -273,7 +275,9 @@ export default {
         }
       }).then(res => {
         if (res) {
-          this.$store.commit('initScreenDef', res.data)
+          if (res.status == 200) {
+            this.$store.commit('initScreenDef', res.data)
+          }
         }
       })
     },
@@ -287,7 +291,9 @@ export default {
         }
       }).then(res => {
         if (res) {
-          this.$store.commit('initScreenStretch', res.data)
+          if (res.status == 200) {
+            this.$store.commit('initScreenStretch', res.data)
+          }
         }
       })
     },

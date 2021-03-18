@@ -9,6 +9,7 @@ export default {
   userLogin: 'http://localhost:8080/api/user/login', //finished
   userRegister: 'http://localhost:8080/api/user/register', //finished
   validateAccount: 'http://localhost:8080/api/user/validateAccount', //finished
+  refreshLoginStatus: 'http//localhost:8080/api/user/refreshLoginStatus', //finished
   getScreenDef: 'http://localhost:8080/api/screen/getScreenDef', //maybe finished
   updateScreenDef: 'http://localhost:8080/api/screen/updateScreenDef', //maybe finished
   getScreenStretch: 'http://localhost:8080/api/screen/getScreenStretch', //maybe finished

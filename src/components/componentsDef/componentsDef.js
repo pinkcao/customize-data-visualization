@@ -191,18 +191,20 @@ export default {
             left: this.left
           }
         }).then(res => {
-          // console.log(res.data.resultSet)
-          if (res.status == 200) {
-            for (let i = 0; i < res.data.resultSet.length; i++) {
-              res.data.resultSet[i].dataSource.data = JSON.parse(res.data.resultSet[i].dataSource.data)
-              res.data.resultSet[i].dataSource.dataSourceOptions = JSON.parse(
-                res.data.resultSet[i].dataSource.dataSourceOptions
-              )
+          if (res) {
+            if (res.status == 200) {
+              for (let i = 0; i < res.data.resultSet.length; i++) {
+                res.data.resultSet[i].dataSource.data = JSON.parse(res.data.resultSet[i].dataSource.data)
+                res.data.resultSet[i].dataSource.dataSourceOptions = JSON.parse(
+                  res.data.resultSet[i].dataSource.dataSourceOptions
+                )
+              }
+              console.log(res.data.resultSet)
+              this.$store.commit('initComponentList', res.data.resultSet)
+              this.$store.commit('resizeUpdateActiveComponent')
             }
-            console.log(res.data.resultSet)
-            this.$store.commit('initComponentList', res.data.resultSet)
-            this.$store.commit('resizeUpdateActiveComponent')
           }
+          // console.log(res.data.resultSet)
         })
       }
     },
@@ -243,8 +245,12 @@ export default {
           method: this.dataSource.APIMethod,
           data: {}
         }).then(res => {
+          if (res) {
+            if (res.status == 200) {
+              this.dataSource.data = res.data
+            }
+          }
           // console.log(res.data)
-          this.dataSource.data = res.data
         })
       }
     },
@@ -264,9 +270,11 @@ export default {
           headers: currentHeader,
           data: {}
         }).then(res => {
-          if (res.status == 200) {
-            this.dataSource.data = res.data
-            // console.log(res.data)
+          if (res) {
+            if (res.status == 200) {
+              this.dataSource.data = res.data
+              // console.log(res.data)
+            }
           }
         })
       }

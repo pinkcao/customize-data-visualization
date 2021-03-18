@@ -116,16 +116,18 @@ export default {
           userPassword: sha1(this.form.password)
         }
       }).then(res => {
-        if (res.data.loginStatus == true) {
-          window.localStorage.setItem('Auth-Token', res.data.token)
-          console.log(res.data)
-          this.$store.commit('changeCurrentUserID', res.data.userID)
-          // console.log('登录成功')
-          this.loadingInstance.close()
-          this.$router.push('/templateSelect')
-        } else {
-          this.loadingInstance.close()
-          this.$message.error('登录失败，请检查用户名与密码')
+        if (res) {
+          if (res.data.loginStatus == true) {
+            window.localStorage.setItem('Auth-Token', res.data.token)
+            console.log(res.data)
+            this.$store.commit('changeCurrentUserID', res.data.userID)
+            // console.log('登录成功')
+            this.loadingInstance.close()
+            this.$router.push('/templateSelect')
+          } else {
+            this.loadingInstance.close()
+            this.$message.error('登录失败，请检查用户名与密码')
+          }
         }
       })
     },

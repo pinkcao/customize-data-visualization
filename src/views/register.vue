@@ -61,12 +61,14 @@ export default {
           userAccount: value
         }
       }).then(res => {
-        if (res.status == 200) {
-          console.log(res.data)
-          if (res.data == true) {
-            callback()
-          } else {
-            callback('用户名重复')
+        if (res) {
+          if (res.status == 200) {
+            console.log(res.data)
+            if (res.data == true) {
+              callback()
+            } else {
+              callback('用户名重复')
+            }
           }
         }
       })
@@ -139,19 +141,21 @@ export default {
               userEmail: this.ruleForm.email
             }
           }).then(res => {
-            if (res.status == 200 && res.data.registerStatus == true) {
-              this.loadingInstance.close()
-              this.$message({
-                type: 'success',
-                message: '注册成功!'
-              })
-              this.$router.push('/login')
-            } else {
-              this.loadingInstance.close()
-              this.$message({
-                type: 'error',
-                message: '注册失败!'
-              })
+            if (res) {
+              if (res.status == 200 && res.data.registerStatus == true) {
+                this.loadingInstance.close()
+                this.$message({
+                  type: 'success',
+                  message: '注册成功!'
+                })
+                this.$router.push('/login')
+              } else {
+                this.loadingInstance.close()
+                this.$message({
+                  type: 'error',
+                  message: '注册失败!'
+                })
+              }
             }
           })
         } else {

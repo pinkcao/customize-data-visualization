@@ -201,8 +201,10 @@ export default {
             templateID: this.$store.state.currentTemplateID
           }
         }).then(res => {
-          if (res.status == 200) {
-            console.log(res.data)
+          if (res) {
+            if (res.status == 200) {
+              console.log(res.data)
+            }
           }
         })
       }
@@ -224,8 +226,10 @@ export default {
             templateID: this.$store.state.currentTemplateID
           }
         }).then(res => {
-          if (res.status == 200) {
-            console.log(res.data)
+          if (res) {
+            if (res.status == 200) {
+              // console.log(res.data)
+            }
           }
         })
       }
@@ -276,10 +280,14 @@ export default {
           screenDef: this.$store.state.screenDef
         }
       }).then(res => {
-        console.log(res.data)
+        if (res) {
+          if (res.status == 200) {
+            // console.log(res.data)
+          }
+        }
       })
     },
-    //更新当前缩放模式至vuex
+    //更新当前缩放模式
     updateStretch(stretch) {
       this.$store.commit('updateStretch', stretch)
       let screenStretch = {
@@ -299,7 +307,11 @@ export default {
           userID: this.$store.state.currentUserID
         }
       }).then(res => {
-        console.log(res.data)
+        if (res) {
+          if (res.status == 200) {
+            // console.log(res.data)
+          }
+        }
       })
     }
   }

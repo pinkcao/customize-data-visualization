@@ -92,13 +92,15 @@ export default {
         }
       }).then(res => {
         // console.log(res.data)
-        if (res.status == 200) {
-          for (let i = 0; i < res.data.length; i++) {
-            res.data[i].templateActive = false
+        if (res) {
+          if (res.status == 200) {
+            for (let i = 0; i < res.data.length; i++) {
+              res.data[i].templateActive = false
+            }
+            this.templateList = res.data
+            console.log(this.templateList)
+            this.loadingInstance.close()
           }
-          this.templateList = res.data
-          console.log(this.templateList)
-          this.loadingInstance.close()
         }
       })
     },
