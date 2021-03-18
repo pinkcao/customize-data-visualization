@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import store from '../store/index.js'
+import axios from 'axios'
+import url from '@mock/mockAPI.js'
 // import notFound from '../views/notFound.vue'
 // import basePage from '../views/basePage.vue'
 // import preview from '../views/preview.vue'
@@ -70,18 +72,27 @@ const router = new Router({
   routes
 })
 
-router.beforeEach((to, from, next) => {
-  //console.log(store.state.isLogin);
-  if (to.path == '/' || to.path == '/login' || to.path == '/register') {
-    next()
-  } else {
-    if (store.state.currentUserID == -1) {
-      next('/')
-      alert('请先登录')
-    } else {
-      next()
-    }
-  }
-})
+// router.beforeEach((to, from, next) => {
+//   if (to.path == '/' || to.path == '/login' || to.path == '/register') {
+//     next()
+//   } else {
+//     if (store.state.currentUserID == -1) {
+//       next('/')
+//       alert('请先登录')
+//     } else {
+//       axios({
+//         url: url.refreshLoginStatus,
+//         method: 'get',
+//         data: {
+//           userID: store.state.currentUserID
+//         }
+//       }).then(res => {
+//         if (res.data.loginStatus == true) {
+//           window.localStorage.setItem('Auth-Token', res.data.token)
+//         }
+//       })
+//     }
+//   }
+// })
 
 export default router

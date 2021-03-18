@@ -65,7 +65,10 @@ export default {
   mounted() {
     this.getTemplateList(this.$store.state.currentUserID)
   },
-
+  beforeDestroy() {
+    this.loadingInstance.close()
+  },
+  destroyed() {},
   methods: {
     //从数据库获取该人的模板信息，包括模板的个数、ID，根据个数、ID生成相应的可点击的模板、点击后进入设计界面
     //当前正在修改的模板ID进入session、在修改时把session中的模板ID、用户ID作为参数与数据库交互

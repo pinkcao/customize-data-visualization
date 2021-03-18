@@ -114,7 +114,7 @@ export default {
         url: this.$url.getComponentTabData,
         method: 'get'
       }).then(res => {
-        if (res.status == 200) {
+        if (res) {
           for (let i = 0; i < res.data.length; i++) {
             // console.log(res.data[i].className)
             for (let j = 0; j < res.data[i].showData.length; j++) {

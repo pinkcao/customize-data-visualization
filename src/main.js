@@ -21,6 +21,36 @@ Vue.use(less)
 Vue.component('vue-drag-resize', VueDragResize)
 Vue.component('vue-drag-resize-rotate', VueDragResizeRotate)
 Vue.config.productionTip = false
+axios.defaults.withCredentials = true
+axios.interceptors.request.use(config => {
+  if (window.localStorage.getItem('Auth-Token')) {
+    config.headers['Authorization'] = window.localStorage.getItem('Auth-Token')
+  }
+  return config
+})
+
+axios.interceptors.response.use(
+  response => {
+    //拦截响应，做统一处理
+    // console.log(response)
+    return response
+  },
+  error => {
+    if (error.response) {
+      // console.log(error.response)
+      switch (error.response.status) {
+        case 401:
+          window.localStorage.removeItem('Auth-Token')
+          // console.log(router.currentRoute.path)
+          if (router.currentRoute.path != '/login') {
+            router.push('/')
+            alert('令牌过期，请先登录')
+          }
+      }
+    }
+  }
+)
+
 Vue.prototype.$axios = axios
 Vue.prototype.$url = url
 

@@ -7,8 +7,8 @@
 </template>
 
 <script>
-//这是把mock导入，别删
-import mockBus from '@mock/mockBus.js'
+// //这是把mock导入，别删
+// import mockBus from '@mock/mockBus.js'
 
 export default {
   name: 'testLayout',

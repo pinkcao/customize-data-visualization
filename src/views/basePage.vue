@@ -88,8 +88,6 @@ import graphCol from '../components/colComponents/graphCol/graphCol.vue'
 import pageSet from '../components/colComponents/pageSet/pageSet.vue'
 import componentSet from '../components/colComponents/componentSet/componentSet.vue'
 import mainCanvas from '../components/colComponents/mainCanvas/mainCanvas.vue'
-// import mockData from '../mock/mockData.js'
-// import url from '@mock/mockAPI.js'
 
 export default {
   components: {
@@ -176,6 +174,10 @@ export default {
 
   beforeCreate() {},
   created() {},
+  beforeDestroy() {
+    this.loadingInstance.close()
+  },
+  destroyed() {},
   mounted() {
     this.$store.commit('initScreenFlags')
     this.initScreenDef()
@@ -187,7 +189,7 @@ export default {
       fullscreen: true,
       spinner: 'el-icon-loading',
       background: 'rgba(0, 0, 0, 0.8)',
-      text: '正在加载中'
+      text: '加载中'
     })
     // this.$axios({
     //   url: 'http://localhost:8080/testListMapJson',
@@ -256,8 +258,9 @@ export default {
           userID: this.$store.state.currentUserID
         }
       }).then(res => {
-        console.log(res.data)
-        this.$store.commit('initBackgroundStyle', res.data)
+        if (res) {
+          this.$store.commit('initBackgroundStyle', res.data)
+        }
       })
     },
     initScreenDef() {
@@ -269,8 +272,7 @@ export default {
           userID: this.$store.state.currentUserID
         }
       }).then(res => {
-        if (res.status == 200) {
-          // console.log(res.data)
+        if (res) {
           this.$store.commit('initScreenDef', res.data)
         }
       })
@@ -284,8 +286,7 @@ export default {
           userID: this.$store.state.currentUserID
         }
       }).then(res => {
-        if (res.status == 200) {
-          console.log(res.data)
+        if (res) {
           this.$store.commit('initScreenStretch', res.data)
         }
       })

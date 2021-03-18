@@ -89,6 +89,10 @@ export default {
   },
   props: ['componentName'],
   created() {},
+  beforeDestroy() {
+    this.loadingInstance.close()
+  },
+  destroyed() {},
   mounted() {
     this.loadingInstance = this.$loading({
       fullscreen: true,

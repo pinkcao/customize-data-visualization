@@ -54,7 +54,19 @@ export default {
     // let sha1 = require('js-sha1')
     // console.log(sha1('test'))
     // this.testjson()
+    // this.$axios({
+    //   url: url.userLogin,
+    //   method: 'post',
+    //   data: {
+    //   }
+    // }).then(res => {
+    //   console.log(res)
+    // })
   },
+  beforeDestroy() {
+    this.loadingInstance.close()
+  },
+  destroyed() {},
 
   methods: {
     testjson() {
@@ -105,6 +117,7 @@ export default {
         }
       }).then(res => {
         if (res.data.loginStatus == true) {
+          window.localStorage.setItem('Auth-Token', res.data.token)
           console.log(res.data)
           this.$store.commit('changeCurrentUserID', res.data.userID)
           // console.log('登录成功')

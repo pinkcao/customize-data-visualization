@@ -115,6 +115,10 @@ export default {
   computed: {},
   created() {},
   mounted() {},
+  beforeDestroy() {
+    this.loadingInstance.close()
+  },
+  destroyed() {},
 
   methods: {
     onSubmit(formName) {

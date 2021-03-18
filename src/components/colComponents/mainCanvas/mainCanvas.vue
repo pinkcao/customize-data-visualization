@@ -197,7 +197,6 @@ export default {
             data: { active: false }
           })
         }
-        console.log('冒泡到这了，很不幸')
       }
     },
     //获取组件列表，维护
@@ -549,7 +548,6 @@ export default {
             }
           })
         )
-        console.log(this.objList[i])
         this.objList[i].mount()
       }
       //初始化activeComponent列表，用此列表维护每个组件的active值
