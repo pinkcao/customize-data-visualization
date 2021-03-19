@@ -127,8 +127,25 @@ export default {
     },
     //销毁当前组件，实际不销毁，只是不渲染，组件仍在内存，在mainCanvas组件中的objList中存储，可以调用mount()方法再次挂载
     destroyComponent() {
-      this.disabled = false
-      this.$emit('destroyComponent', this.index)
+      this.$confirm('此操作将删除该组件, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        .then(() => {
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          })
+          this.disabled = false
+          this.$emit('destroyComponent', this.index)
+        })
+        .catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          })
+        })
     },
     //调整当前组件基础属性
     resize(newRect) {
