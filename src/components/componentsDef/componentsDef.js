@@ -168,6 +168,7 @@ export default {
   },
   beforeDestroy() {
     this.removeInterval()
+    this.$off()
   },
   destroyed() {
     // console.log('test')
