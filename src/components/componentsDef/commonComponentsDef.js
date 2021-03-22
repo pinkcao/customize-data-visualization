@@ -90,6 +90,10 @@ export default {
   mounted() {
     // console.log(this)
   },
+  beforeDestroy() {
+    this.removeInterval()
+    this.$off()
+  },
   methods: {
     // 更新当前组件基础属性
     updateComponentList() {
