@@ -91,7 +91,7 @@ export default {
     // console.log(this)
   },
   beforeDestroy() {
-    this.removeInterval()
+    // this.removeInterval()
     this.$off()
   },
   methods: {

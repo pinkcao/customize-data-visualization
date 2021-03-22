@@ -70,6 +70,8 @@ export default {
       selectedObjects: [],
       composer: null,
       stats: null,
+      gui: null,
+      animationFrame: null,
       originX: 0,
       originY: 0
     }
@@ -86,6 +88,7 @@ export default {
     this.resetParams()
     window.removeEventListener('click', this.onMouseClick, false) //这里是选中box的监听
     window.removeEventListener('resize', this.onWindowResize, false) //这里是resize整个窗口的监听
+    window.cancelAnimationFrame(this.animationFrame)
   },
 
   methods: {
@@ -99,7 +102,7 @@ export default {
       // this.initloader(0, 0, 0)
       this.initComposer()
       this.initStats()
-      this.initGui()
+      // this.initGui()
       // this.initEcharts();
       // this.effectFXAA = new ShaderPass(THREE.FXAAShader );
       // this.effectFXAA.uniforms[ 'resolution' ].value.set( 1 / window.innerWidth, 1 / window.innerHeight );
@@ -130,6 +133,7 @@ export default {
       // this.renderer.context = null
       this.renderer.domElement = null
       this.renderer = null
+      this.gui = null
       console.log('all stuffs reset')
     },
 
@@ -233,13 +237,13 @@ export default {
         this.name = ''
         this.ID = ''
       })()
-      var gui = new dat.GUI()
-      gui.domElement.style = 'position:absolute;top:0px;right:0px;height:600px'
-      gui
+      this.gui = new dat.GUI()
+      this.gui.domElement.style = 'position:absolute;top:0px;right:0px;height:600px'
+      this.gui
         .add(this.options, 'name')
         .name('名称：')
         .listen()
-      gui
+      this.gui
         .add(this.options, 'ID')
         .name('ID：')
         .listen()
@@ -252,7 +256,7 @@ export default {
     },
 
     animate() {
-      requestAnimationFrame(this.animate)
+      this.animationFrame = requestAnimationFrame(this.animate)
       this.render()
       this.composer.render()
       this.update()
