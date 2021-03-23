@@ -74,7 +74,9 @@ export default {
       gui: null,
       animationFrame: null,
       originX: 0,
-      originY: 0
+      originY: 0,
+
+      atomicArr: []
     }
   },
   computed: {},
@@ -190,13 +192,35 @@ export default {
       // this.loader = new FBXLoader()
       this.loader = new GLTFLoader()
       this.loader.load(
-        '/viking_room/scene.gltf',
+        // '/zelda/scene.gltf',
+        'lantern/Lantern.gltf',
         object => {
           console.log(object)
+          console.log(object.scene)
+          console.log(object.scene.children[0].children.length)
+          // console.log(object.scene.children[0].children[0])
+          // console.log(object.scene.children[0].children[1])
+          // console.log(object.scene.children[0].children[2])
           // object.scale.multiplyScalar(1) // 缩放模型大小
           // object.position.set(x, y, z)
           // this.scene.add(object)
-          this.scene.add(object.scene)
+          // this.scene.add(object.scene)
+          // this.scene.add(object.scene.children[0])
+          //大概能成，当然只是大概
+          this.DFS(object.scene, this.atomicArr)
+          // for (let i = 0; i < object.scene.children[0].children.length; i++) {
+          //   // console.log(object.scene.children[0].children[i])
+          //   this.atomicArr.push(object.scene.children[0].children[i])
+          // }
+
+          // this.scene.add(this)
+          for (let i = 0; i < this.atomicArr.length; i++) {
+            this.scene.add(this.atomicArr[i])
+          }
+          // this.scene.remove()
+          // for (let i = 0; i < this.atomicArr.length; i++) {
+          //   this.scene.remove(this.atomicArr[i])
+          // }
         },
         onprogress,
         function(err) {
@@ -281,6 +305,7 @@ export default {
     },
 
     onMouseClick(event) {
+      //why? 我当时为什么这么写的?
       this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1
       this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1
 
@@ -295,21 +320,33 @@ export default {
             */
         for (var i = 0; i < intersects.length; i++) {
           // if (intersects[i].object.parent.parent != null) {
-          if (intersects[i].object.name.substr(0, 4) == 'mesh') {
-            // this.options.name = intersects[i].object.parent.parent.name
-            // this.options.ID = intersects[i].object.parent.parent.ID
-            this.selectedObjects.pop()
-            this.selectedObjects.push(intersects[i].object.parent.parent)
-            console.log(this.outlinePass)
-            this.outlinePass.selectedObjects = this.selectedObjects //给选中的线条和物体加发光特效
-            break
-          }
+          // if (intersects[i].object.name.substr(0, 4) == 'mesh') {
+          // this.options.name = intersects[i].object.parent.parent.name
+          // this.options.ID = intersects[i].object.parent.parent.ID
+          this.selectedObjects.pop()
+          this.selectedObjects.push(intersects[i].object)
+          console.log(this.outlinePass)
+          this.outlinePass.selectedObjects = this.selectedObjects //给选中的线条和物体加发光特效
+          // break
+          // }
           // }
         }
       }
     },
     returnToBase() {
       this.$router.push({ path: '/basePage' })
+    },
+    DFS(node, nodeList) {
+      if (node) {
+        if (node.children.length == 0) {
+          nodeList.push(node)
+        }
+        let children = node.children
+        for (var i = 0; i < children.length; i++) {
+          this.DFS(children[i], nodeList)
+        }
+      }
+      return nodeList
     }
   }
 }
