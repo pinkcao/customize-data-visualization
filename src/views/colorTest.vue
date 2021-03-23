@@ -41,6 +41,7 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader'
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 // import { FXAAShader } from "three/examples/jsm/shaders/FXAAShader.js";
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js'
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
@@ -98,8 +99,8 @@ export default {
       this.initLight()
       this.initRenderer()
       this.initControls()
-      this.initGeometry()
-      // this.initloader(0, 0, 0)
+      // this.initGeometry()
+      this.initloader(0, 0, 0)
       this.initComposer()
       this.initStats()
       // this.initGui()
@@ -186,13 +187,16 @@ export default {
       this.scene.add(this.mesh)
     },
     initloader(x, y, z) {
-      this.loader = new FBXLoader()
+      // this.loader = new FBXLoader()
+      this.loader = new GLTFLoader()
       this.loader.load(
-        '/static/testbox3.FBX',
+        '/viking_room/scene.gltf',
         object => {
-          object.scale.multiplyScalar(1) // 缩放模型大小
-          object.position.set(x, y, z)
-          this.scene.add(object)
+          console.log(object)
+          // object.scale.multiplyScalar(1) // 缩放模型大小
+          // object.position.set(x, y, z)
+          // this.scene.add(object)
+          this.scene.add(object.scene)
         },
         onprogress,
         function(err) {
@@ -290,17 +294,17 @@ export default {
             这段是找box的算法
             */
         for (var i = 0; i < intersects.length; i++) {
-          if (intersects[i].object.parent.parent != null) {
-            if (intersects[i].object.parent.parent.name.substr(0, 4) == 'cbox') {
-              this.options.name = intersects[i].object.parent.parent.name
-              this.options.ID = intersects[i].object.parent.parent.ID
-              this.selectedObjects.pop()
-              this.selectedObjects.push(intersects[i].object.parent.parent)
-              console.log(this.outlinePass)
-              this.outlinePass.selectedObjects = this.selectedObjects //给选中的线条和物体加发光特效
-              break
-            }
+          // if (intersects[i].object.parent.parent != null) {
+          if (intersects[i].object.name.substr(0, 4) == 'mesh') {
+            // this.options.name = intersects[i].object.parent.parent.name
+            // this.options.ID = intersects[i].object.parent.parent.ID
+            this.selectedObjects.pop()
+            this.selectedObjects.push(intersects[i].object.parent.parent)
+            console.log(this.outlinePass)
+            this.outlinePass.selectedObjects = this.selectedObjects //给选中的线条和物体加发光特效
+            break
           }
+          // }
         }
       }
     },
