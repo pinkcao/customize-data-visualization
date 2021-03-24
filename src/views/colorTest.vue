@@ -30,7 +30,7 @@
       <div style="background-color: #555555; width: 100%; height: 100%"></div>
     </vue-drag-resize-rotate>
   </div> -->
-  <div class="container" id="container">
+  <div class="container" id="container" ref="container">
     <div class="back-button">
       <el-button icon="el-icon-close" @click="returnToBase" circle></el-button>
     </div>
@@ -83,7 +83,7 @@ export default {
   },
   computed: {
     container: function() {
-      return document.getElementById('container')
+      return this.$refs.container
     }
   },
   created() {},
@@ -100,7 +100,7 @@ export default {
     window.cancelAnimationFrame(this.animationFrame)
   },
 
-  //I have to announce the reason of using document.getElementById('container').getBoundingClientRect().width/height is that the fucking
+  //I have to announce the reason of using this.$refs.container.getBoundingClientRect().width/height is that the fucking
   //computing property is not capable of the circumstance
   methods: {
     init() {
@@ -116,7 +116,7 @@ export default {
       // this.initGui()
       // this.initEcharts();
       // this.effectFXAA = new ShaderPass(THREE.FXAAShader );
-      // this.effectFXAA.uniforms[ 'resolution' ].value.set( 1 / document.getElementById('container').getBoundingClientRect().width, 1 / document.getElementById('container').getBoundingClientRect().height );
+      // this.effectFXAA.uniforms[ 'resolution' ].value.set( 1 / this.$refs.container.getBoundingClientRect().width, 1 / this.$refs.container.getBoundingClientRect().height );
       // this.effectFXAA.renderToScreen = true;
       // this.composer.addPass( this.effectFXAA );
     },
@@ -134,8 +134,8 @@ export default {
     initcamera() {
       this.camera = new THREE.PerspectiveCamera(
         65,
-        document.getElementById('container').getBoundingClientRect().width /
-          document.getElementById('container').getBoundingClientRect().height,
+        this.$refs.container.getBoundingClientRect().width /
+          this.$refs.container.getBoundingClientRect().height,
         0.1,
         10000
       )
@@ -161,13 +161,13 @@ export default {
       })
       this.renderer.shadowMap.enabled = true
       this.renderer.setSize(
-        document.getElementById('container').getBoundingClientRect().width,
-        document.getElementById('container').getBoundingClientRect().height
+        this.$refs.container.getBoundingClientRect().width,
+        this.$refs.container.getBoundingClientRect().height
       )
       this.renderer.setClearColor(0xffaaaa, 1.0)
       // document.body.appendChild(this.renderer.domElement)
       this.renderer.domElement.style = 'width:100%; height:100%'
-      document.getElementById('container').appendChild(this.renderer.domElement)
+      this.$refs.container.appendChild(this.renderer.domElement)
     },
     initControls() {
       this.controls = new OrbitControls(this.camera, this.renderer.domElement)
@@ -234,15 +234,15 @@ export default {
       this.fxaaPass = new ShaderPass(FXAAShader)
       const pixelRatio = this.renderer.getPixelRatio()
       this.fxaaPass.material.uniforms['resolution'].value.x =
-        1 / (document.getElementById('container').getBoundingClientRect().width * pixelRatio)
+        1 / (this.$refs.container.getBoundingClientRect().width * pixelRatio)
       this.fxaaPass.material.uniforms['resolution'].value.y =
-        1 / (document.getElementById('container').getBoundingClientRect().height * pixelRatio)
+        1 / (this.$refs.container.getBoundingClientRect().height * pixelRatio)
       this.composer.addPass(renderPass)
       this.composer.addPass(this.fxaaPass)
       this.outlinePass = new OutlinePass(
         new THREE.Vector2(
-          document.getElementById('container').getBoundingClientRect().width,
-          document.getElementById('container').getBoundingClientRect().height
+          this.$refs.container.getBoundingClientRect().width,
+          this.$refs.container.getBoundingClientRect().height
         ),
         this.scene,
         this.camera
@@ -264,7 +264,7 @@ export default {
       this.stats.domElement.style.top = '0px'
       console.log(this.stats)
       // document.body.appendChild(this.stats.domElement)
-      document.getElementById('container').appendChild(this.stats.domElement)
+      this.$refs.container.appendChild(this.stats.domElement)
     },
 
     initGui() {
@@ -304,20 +304,20 @@ export default {
 
     onWindowResize() {
       this.camera.aspect =
-        document.getElementById('container').getBoundingClientRect().width /
-        document.getElementById('container').getBoundingClientRect().height
+        this.$refs.container.getBoundingClientRect().width /
+        this.$refs.container.getBoundingClientRect().height
       this.camera.updateProjectionMatrix()
       console.log(
-        document.getElementById('container').getBoundingClientRect().width,
-        document.getElementById('container').getBoundingClientRect().height
+        this.$refs.container.getBoundingClientRect().width,
+        this.$refs.container.getBoundingClientRect().height
       )
       console.log(
-        document.getElementById('container').getBoundingClientRect().width,
-        document.getElementById('container').getBoundingClientRect().height
+        this.$refs.container.getBoundingClientRect().width,
+        this.$refs.container.getBoundingClientRect().height
       )
       this.renderer.setSize(
-        document.getElementById('container').getBoundingClientRect().width,
-        document.getElementById('container').getBoundingClientRect().height
+        this.$refs.container.getBoundingClientRect().width,
+        this.$refs.container.getBoundingClientRect().height
       )
 
       this.render()
@@ -325,8 +325,8 @@ export default {
 
     onMouseClick(event) {
       //why -1 +1? 我当时为什么这么写的?
-      this.mouse.x = (event.clientX / document.getElementById('container').getBoundingClientRect().width) * 2 - 1
-      this.mouse.y = -(event.clientY / document.getElementById('container').getBoundingClientRect().height) * 2 + 1
+      this.mouse.x = (event.clientX / this.$refs.container.getBoundingClientRect().width) * 2 - 1
+      this.mouse.y = -(event.clientY / this.$refs.container.getBoundingClientRect().height) * 2 + 1
 
       this.raycaster.setFromCamera(this.mouse, this.camera)
 
