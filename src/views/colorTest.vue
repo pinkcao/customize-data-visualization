@@ -30,7 +30,7 @@
       <div style="background-color: #555555; width: 100%; height: 100%"></div>
     </vue-drag-resize-rotate>
   </div> -->
-  <div id="container">
+  <div class="container" id="container">
     <div class="back-button">
       <el-button icon="el-icon-close" @click="returnToBase" circle></el-button>
     </div>
@@ -81,7 +81,11 @@ export default {
       atomicArr: []
     }
   },
-  computed: {},
+  computed: {
+    container: function() {
+      return document.getElementById('container')
+    }
+  },
   created() {},
   mounted() {
     this.init()
@@ -96,21 +100,23 @@ export default {
     window.cancelAnimationFrame(this.animationFrame)
   },
 
+  //I have to announce the reason of using document.getElementById('container').getBoundingClientRect().width/height is that the fucking
+  //computing property is not capable of the circumstance
   methods: {
     init() {
       this.initcamera()
+      this.initRenderer()
       this.initScene()
       this.initLight()
-      this.initRenderer()
       this.initControls()
-      // this.initGeometry()
       this.initloader(0, 0, 0)
       this.initComposer()
       this.initStats()
+
       // this.initGui()
       // this.initEcharts();
       // this.effectFXAA = new ShaderPass(THREE.FXAAShader );
-      // this.effectFXAA.uniforms[ 'resolution' ].value.set( 1 / window.innerWidth, 1 / window.innerHeight );
+      // this.effectFXAA.uniforms[ 'resolution' ].value.set( 1 / document.getElementById('container').getBoundingClientRect().width, 1 / document.getElementById('container').getBoundingClientRect().height );
       // this.effectFXAA.renderToScreen = true;
       // this.composer.addPass( this.effectFXAA );
     },
@@ -126,7 +132,13 @@ export default {
     },
 
     initcamera() {
-      this.camera = new THREE.PerspectiveCamera(65, window.innerWidth / window.innerHeight, 0.1, 10000)
+      this.camera = new THREE.PerspectiveCamera(
+        65,
+        document.getElementById('container').getBoundingClientRect().width /
+          document.getElementById('container').getBoundingClientRect().height,
+        0.1,
+        10000
+      )
       this.camera.position.set(0, 50, 100)
     },
 
@@ -148,7 +160,10 @@ export default {
         antialias: true
       })
       this.renderer.shadowMap.enabled = true
-      this.renderer.setSize(window.innerWidth - 15, window.innerHeight - 20)
+      this.renderer.setSize(
+        document.getElementById('container').getBoundingClientRect().width,
+        document.getElementById('container').getBoundingClientRect().height
+      )
       this.renderer.setClearColor(0xffaaaa, 1.0)
       // document.body.appendChild(this.renderer.domElement)
       this.renderer.domElement.style = 'width:100%; height:100%'
@@ -218,12 +233,17 @@ export default {
       let renderPass = new RenderPass(this.scene, this.camera)
       this.fxaaPass = new ShaderPass(FXAAShader)
       const pixelRatio = this.renderer.getPixelRatio()
-      this.fxaaPass.material.uniforms['resolution'].value.x = 1 / (window.innerWidth * pixelRatio)
-      this.fxaaPass.material.uniforms['resolution'].value.y = 1 / (window.innerHeight * pixelRatio)
+      this.fxaaPass.material.uniforms['resolution'].value.x =
+        1 / (document.getElementById('container').getBoundingClientRect().width * pixelRatio)
+      this.fxaaPass.material.uniforms['resolution'].value.y =
+        1 / (document.getElementById('container').getBoundingClientRect().height * pixelRatio)
       this.composer.addPass(renderPass)
       this.composer.addPass(this.fxaaPass)
       this.outlinePass = new OutlinePass(
-        new THREE.Vector2(window.innerWidth, window.innerHeight),
+        new THREE.Vector2(
+          document.getElementById('container').getBoundingClientRect().width,
+          document.getElementById('container').getBoundingClientRect().height
+        ),
         this.scene,
         this.camera
       )
@@ -283,18 +303,30 @@ export default {
     },
 
     onWindowResize() {
-      this.camera.aspect = window.innerWidth / window.innerHeight
+      this.camera.aspect =
+        document.getElementById('container').getBoundingClientRect().width /
+        document.getElementById('container').getBoundingClientRect().height
       this.camera.updateProjectionMatrix()
-
-      this.renderer.setSize(window.innerWidth, window.innerHeight)
+      console.log(
+        document.getElementById('container').getBoundingClientRect().width,
+        document.getElementById('container').getBoundingClientRect().height
+      )
+      console.log(
+        document.getElementById('container').getBoundingClientRect().width,
+        document.getElementById('container').getBoundingClientRect().height
+      )
+      this.renderer.setSize(
+        document.getElementById('container').getBoundingClientRect().width,
+        document.getElementById('container').getBoundingClientRect().height
+      )
 
       this.render()
     },
 
     onMouseClick(event) {
-      //why? 我当时为什么这么写的?
-      this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1
-      this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1
+      //why -1 +1? 我当时为什么这么写的?
+      this.mouse.x = (event.clientX / document.getElementById('container').getBoundingClientRect().width) * 2 - 1
+      this.mouse.y = -(event.clientY / document.getElementById('container').getBoundingClientRect().height) * 2 + 1
 
       this.raycaster.setFromCamera(this.mouse, this.camera)
 
@@ -363,9 +395,9 @@ export default {
 </script>
 
 <style>
-.testbox {
-  width: 200px;
-  height: 200px;
+.container {
+  width: 100%;
+  height: 100%;
 }
 
 .back-button {
