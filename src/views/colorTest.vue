@@ -42,12 +42,12 @@ import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
-// import { FXAAShader } from "three/examples/jsm/shaders/FXAAShader.js";
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js'
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
 import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass.js'
-// import { CopyShader } from "three/examples/jsm/shaders/CopyShader.js";
-// import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass.js";
+import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js'
+import { CopyShader } from 'three/examples/jsm/shaders/CopyShader.js'
+import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader.js'
 import Stats from 'three/examples/jsm/libs/stats.module.js'
 import dat from 'three/examples/js/libs/dat.gui.min.js'
 export default {
@@ -65,6 +65,8 @@ export default {
       objects: [],
       effectFXAA: null,
       outlinePass: null,
+      pixelRatio: null,
+      fxaaPass: null,
       loader: null,
       mouse: new THREE.Vector2(),
       raycaster: new THREE.Raycaster(),
@@ -114,23 +116,6 @@ export default {
     },
 
     resetParams() {
-      // this.camera = null
-      // this.scene = null
-      // this.renderer = null
-      // this.mesh = null
-      // this.light = null
-      // this.controls = null
-      // this.options = null
-      // this.group = null
-      // this.objects = []
-      // this.effectFXAA = null
-      // this.outlinePass = null
-      // this.loader = null
-      // this.selectedObjects = []
-      // this.composer = null
-      // this.stats = null
-      // this.originX = 0
-      // this.originY = 0
       this.renderer.dispose()
       this.renderer.forceContextLoss()
       // this.renderer.context = null
@@ -142,19 +127,19 @@ export default {
 
     initcamera() {
       this.camera = new THREE.PerspectiveCamera(65, window.innerWidth / window.innerHeight, 0.1, 10000)
-      this.camera.position.set(0, 500, 1000)
+      this.camera.position.set(0, 50, 100)
     },
 
     initScene() {
       this.scene = new THREE.Scene()
     },
     initLight() {
-      var directionalLight = new THREE.DirectionalLight(0xffffff, 0.3) //模拟远处类似太阳的光源
+      var directionalLight = new THREE.DirectionalLight(0xffffff, 0.3) //平行光源
       directionalLight.color.setHSL(0.1, 1, 0.95)
       directionalLight.position.set(0, 200, 0).normalize()
       this.scene.add(directionalLight)
 
-      var ambient = new THREE.AmbientLight(0xffffff, 1) //AmbientLight,影响整个场景的光源
+      var ambient = new THREE.AmbientLight(0xffffff, 1) //环境光源，提供基础亮度
       ambient.position.set(0, 0, 0)
       this.scene.add(ambient)
     },
@@ -230,24 +215,26 @@ export default {
     },
     initComposer() {
       this.composer = new EffectComposer(this.renderer)
-      var renderPass = new RenderPass(this.scene, this.camera)
+      let renderPass = new RenderPass(this.scene, this.camera)
+      this.fxaaPass = new ShaderPass(FXAAShader)
+      const pixelRatio = this.renderer.getPixelRatio()
+      this.fxaaPass.material.uniforms['resolution'].value.x = 1 / (window.innerWidth * pixelRatio)
+      this.fxaaPass.material.uniforms['resolution'].value.y = 1 / (window.innerHeight * pixelRatio)
       this.composer.addPass(renderPass)
+      this.composer.addPass(this.fxaaPass)
       this.outlinePass = new OutlinePass(
         new THREE.Vector2(window.innerWidth, window.innerHeight),
         this.scene,
         this.camera
       )
-      this.outlinePass.edgeStrength = 5 //包围线浓度
-      this.outlinePass.edgeGlow = 2 //边缘线范围
-      this.outlinePass.edgeThickness = 2 //边缘线浓度
+      this.outlinePass.edgeStrength = 3 //包围线浓度
+      this.outlinePass.edgeGlow = 1 //边缘线范围
+      this.outlinePass.edgeThickness = 1 //边缘线浓度
       this.outlinePass.pulsePeriod = 2 //包围线闪烁频率
       this.outlinePass.visibleEdgeColor.set('#00ffff') //包围线颜色
       this.outlinePass.hiddenEdgeColor.set('#190a05') //被遮挡的边界线颜色
       this.outlinePass.renderToScreen = true
       this.composer.addPass(this.outlinePass)
-      /*
-          可以加抗锯齿，但由于一些未知的原因没加成
-          */
     },
 
     initStats() {
@@ -313,24 +300,37 @@ export default {
 
       var intersects = this.raycaster.intersectObjects(this.scene.children, true)
 
+      //当选中了确切的物体时
       if (intersects.length > 0) {
         console.log(intersects)
         /*
             这段是找box的算法
             */
-        for (var i = 0; i < intersects.length; i++) {
-          // if (intersects[i].object.parent.parent != null) {
-          // if (intersects[i].object.name.substr(0, 4) == 'mesh') {
-          // this.options.name = intersects[i].object.parent.parent.name
-          // this.options.ID = intersects[i].object.parent.parent.ID
-          this.selectedObjects.pop()
-          this.selectedObjects.push(intersects[i].object)
-          console.log(this.outlinePass)
-          this.outlinePass.selectedObjects = this.selectedObjects //给选中的线条和物体加发光特效
-          // break
-          // }
-          // }
+        // for (var i = 0; i < intersects.length; i++) {
+        //   // if (intersects[i].object.parent.parent != null) {
+        //   // if (intersects[i].object.name.substr(0, 4) == 'mesh') {
+        //   // this.options.name = intersects[i].object.parent.parent.name
+        //   // this.options.ID = intersects[i].object.parent.parent.ID
+        //   this.selectedObjects.pop()
+        //   this.selectedObjects.push(intersects[i].object)
+        //   console.log(this.outlinePass)
+        //   this.outlinePass.selectedObjects = this.selectedObjects //给选中的线条和物体加发光特效
+        //   // break
+        //   // }
+        //   // }
+        // }
+        // this.selectedObjects.pop()
+        if (this.selectedObjects.indexOf(intersects[0].object) < 0) {
+          this.selectedObjects.push(intersects[0].object)
         }
+        console.log(this.selectedObjects)
+        this.outlinePass.selectedObjects = this.selectedObjects
+      }
+
+      if (intersects.length == 0) {
+        console.log('nothing selected')
+        this.selectedObjects = []
+        this.outlinePass.selectedObjects = this.selectedObjects
       }
     },
     returnToBase() {
@@ -348,6 +348,16 @@ export default {
       }
       return nodeList
     }
+    // meshNotInArray(mesh, meshArr) {
+    //   for (let i = 0; i < meshArr.length; i++) {
+    //     // console.log(mesh.uuid)
+    //     // console.log(meshArr[i].uuid)
+    //     if (mesh.uuid == meshArr[i].uuid) {
+    //       return false
+    //     }
+    //   }
+    //   return true
+    // }
   }
 }
 </script>
