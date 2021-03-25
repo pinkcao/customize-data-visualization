@@ -4,7 +4,10 @@
       <el-button icon="el-icon-close" @click.stop.prevent="returnToBase" circle></el-button>
     </div>
     <div class="compose-button">
-      <el-button @click.stop.prevent="composeMesh" circle></el-button>
+      <el-button @click.stop.prevent="composeMesh">绑定</el-button>
+    </div>
+    <div class="discompose-button">
+      <el-button @click.stop.prevent="discomposeGroup">解绑</el-button>
     </div>
   </div>
 </template>
@@ -293,12 +296,11 @@ export default {
       if (intersects.length > 0) {
         console.log(intersects)
         let tempStore = intersects[0].object
+        //推回至最上层的父结点，选中最上层的这个父结点
         while (tempStore.parent.type != 'Scene') {
           tempStore = tempStore.parent
         }
         if (this.selectedObjects.indexOf(tempStore) < 0) {
-          // if (intersects.) {
-          // }
           this.selectedObjects.push(tempStore)
         }
         console.log(this.selectedObjects)
@@ -314,32 +316,68 @@ export default {
     returnToBase() {
       this.$router.push({ path: '/basePage' })
     },
+    //深度遍历树，把所有叶子结点添加入数组中
     DFS(node, nodeList) {
+      // console.log(node)
       if (node) {
         if (node.children.length == 0) {
           nodeList.push(node)
+          // console.log(nodeList)
         }
-        let children = node.children
-        for (var i = 0; i < children.length; i++) {
-          this.DFS(children[i], nodeList)
+        if (node.children.length > 0) {
+          let children = node.children
+          for (var i = 0; i < children.length; i++) {
+            this.DFS(children[i], nodeList)
+          }
         }
       }
       return nodeList
     },
+    /**
+     * 把mesh组合成group
+     */
     composeMesh() {
       console.log(this.selectedObjects)
       //如果被选中物体有2个及以上
       if (this.selectedObjects.length > 1) {
+        //新建一个group
         let tempGroup = new THREE.Group()
+        //从场景中删除所有被选中的物体，将被删除的物体添加入组中
         for (let i = 0; i < this.selectedObjects.length; i++) {
           this.scene.remove(this.selectedObjects[i])
           tempGroup.add(this.selectedObjects[i])
         }
-        this.selectedObjects = []
-        console.log(this.selectedObjects.length)
+        //把tempGroup添加入groupArr中，加入场景中
         this.groupArr.push(tempGroup)
         this.scene.add(this.groupArr[this.groupArr.length - 1])
+        //把选中数组清空，边框特效清空
+        this.selectedObjects = []
+        this.outlinePass.selectedObjects = this.selectedObjects
         console.log(this.scene.children)
+      }
+    },
+    /**
+     * 把group中的所有元素全部解绑为mesh
+     */
+    discomposeGroup() {
+      console.log(this.selectedObjects)
+      console.log(this.groupArr.indexOf(this.selectedObjects[0]))
+      //如果当前仅选中了一个物体，并且该物体有子元素
+      if (this.selectedObjects.length == 1 && this.selectedObjects[0].children.length > 0) {
+        //那么这个可以被认为是group，将它从groupArr中剔除，从场景中删除
+        this.groupArr.splice(this.groupArr.indexOf(this.selectedObjects[0]), 1)
+        this.scene.remove(this.selectedObjects[0])
+        //新建变量tempAtomicArr,DFS这个物体结点，把它所有叶子结点遍历添加入tempAtomicArr
+        let tempAtomicArr = []
+        this.DFS(this.selectedObjects[0], tempAtomicArr)
+        console.log(tempAtomicArr)
+        //把它所有的叶子结点添加入场景中
+        for (let i = 0; i < tempAtomicArr.length; i++) {
+          this.scene.add(tempAtomicArr[i])
+        }
+        //清空当前选中的物体，清空边框特效
+        this.selectedObjects = []
+        this.outlinePass.selectedObjects = this.selectedObjects
       }
     }
     // meshNotInArray(mesh, meshArr) {
@@ -371,5 +409,11 @@ export default {
   z-index: 20000;
   position: absolute;
   left: 500px;
+}
+
+.discompose-button {
+  z-index: 20000;
+  position: absolute;
+  left: 700px;
 }
 </style>
