@@ -172,7 +172,7 @@ export default {
       this.loader = new GLTFLoader()
       this.loader.load(
         // '/zelda/scene.gltf',
-        'lantern/Lantern.gltf',
+        'flight_helmet/FlightHelmet.gltf',
         object => {
           console.log(object)
           console.log(object.scene)
