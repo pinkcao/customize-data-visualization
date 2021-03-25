@@ -1,43 +1,19 @@
 <template>
-  <!-- <div> -->
-  <!-- <el-button style="float: right" icon="el-icon-close" @click="returnToBase" circle></el-button>
-    <div style="display: flex; flex-direction: row; flex-wrap: wrap">
-      <div class="testbox" v-for="(item, index) in colorSet" :style="item[0]" :key="index" @click="test(item)">
-        <span style="font-size: 16px" :style="item[1]">测试色彩测试色彩</span>
-      </div>
-      <div ref="chart"></div>
-    </div> -->
-  <!-- <el-image :src="imgurl" :fit="'fill'"></el-image> -->
-  <!-- </div> -->
-  <!-- <div :style="backgroundStyle" v-if="disabled">
-    <vue-drag-resize-rotate
-      :isActive="active"
-      :preventActiveBehavior="preventActiveBehavior"
-      :w="width"
-      :h="height"
-      :x="left"
-      :y="top"
-      :z="zindex"
-      :deg="style.deg"
-      @resizing="resize"
-      @dragging="resize"
-      :parentLimitation="parentLimitation"
-      :isDraggable="draggable"
-      :isResizable="resizable"
-      :isRotatable="true"
-      @rotating="testconsole"
-    >
-      <div style="background-color: #555555; width: 100%; height: 100%"></div>
-    </vue-drag-resize-rotate>
-  </div> -->
   <div class="container" id="container" ref="container">
     <div class="back-button">
-      <el-button icon="el-icon-close" @click="returnToBase" circle></el-button>
+      <el-button icon="el-icon-close" @click.stop.prevent="returnToBase" circle></el-button>
+    </div>
+    <div class="compose-button">
+      <el-button @click.stop.prevent="composeMesh" circle></el-button>
     </div>
   </div>
 </template>
 
 <script>
+/*
+3.25  10:08 组合做完了，当然也只是大概
+
+*/
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader'
@@ -78,7 +54,8 @@ export default {
       originX: 0,
       originY: 0,
 
-      atomicArr: []
+      atomicArr: [],
+      groupArr: []
     }
   },
   computed: {
@@ -134,8 +111,7 @@ export default {
     initcamera() {
       this.camera = new THREE.PerspectiveCamera(
         65,
-        this.$refs.container.getBoundingClientRect().width /
-          this.$refs.container.getBoundingClientRect().height,
+        this.$refs.container.getBoundingClientRect().width / this.$refs.container.getBoundingClientRect().height,
         0.1,
         10000
       )
@@ -198,29 +174,11 @@ export default {
           console.log(object)
           console.log(object.scene)
           console.log(object.scene.children[0].children.length)
-          // console.log(object.scene.children[0].children[0])
-          // console.log(object.scene.children[0].children[1])
-          // console.log(object.scene.children[0].children[2])
-          // object.scale.multiplyScalar(1) // 缩放模型大小
-          // object.position.set(x, y, z)
-          // this.scene.add(object)
-          // this.scene.add(object.scene)
-          // this.scene.add(object.scene.children[0])
           //大概能成，当然只是大概
           this.DFS(object.scene, this.atomicArr)
-          // for (let i = 0; i < object.scene.children[0].children.length; i++) {
-          //   // console.log(object.scene.children[0].children[i])
-          //   this.atomicArr.push(object.scene.children[0].children[i])
-          // }
-
-          // this.scene.add(this)
           for (let i = 0; i < this.atomicArr.length; i++) {
             this.scene.add(this.atomicArr[i])
           }
-          // this.scene.remove()
-          // for (let i = 0; i < this.atomicArr.length; i++) {
-          //   this.scene.remove(this.atomicArr[i])
-          // }
         },
         onprogress,
         function(err) {
@@ -304,8 +262,7 @@ export default {
 
     onWindowResize() {
       this.camera.aspect =
-        this.$refs.container.getBoundingClientRect().width /
-        this.$refs.container.getBoundingClientRect().height
+        this.$refs.container.getBoundingClientRect().width / this.$refs.container.getBoundingClientRect().height
       this.camera.updateProjectionMatrix()
       console.log(
         this.$refs.container.getBoundingClientRect().width,
@@ -335,25 +292,14 @@ export default {
       //当选中了确切的物体时
       if (intersects.length > 0) {
         console.log(intersects)
-        /*
-            这段是找box的算法
-            */
-        // for (var i = 0; i < intersects.length; i++) {
-        //   // if (intersects[i].object.parent.parent != null) {
-        //   // if (intersects[i].object.name.substr(0, 4) == 'mesh') {
-        //   // this.options.name = intersects[i].object.parent.parent.name
-        //   // this.options.ID = intersects[i].object.parent.parent.ID
-        //   this.selectedObjects.pop()
-        //   this.selectedObjects.push(intersects[i].object)
-        //   console.log(this.outlinePass)
-        //   this.outlinePass.selectedObjects = this.selectedObjects //给选中的线条和物体加发光特效
-        //   // break
-        //   // }
-        //   // }
-        // }
-        // this.selectedObjects.pop()
-        if (this.selectedObjects.indexOf(intersects[0].object) < 0) {
-          this.selectedObjects.push(intersects[0].object)
+        let tempStore = intersects[0].object
+        while (tempStore.parent.type != 'Scene') {
+          tempStore = tempStore.parent
+        }
+        if (this.selectedObjects.indexOf(tempStore) < 0) {
+          // if (intersects.) {
+          // }
+          this.selectedObjects.push(tempStore)
         }
         console.log(this.selectedObjects)
         this.outlinePass.selectedObjects = this.selectedObjects
@@ -379,6 +325,22 @@ export default {
         }
       }
       return nodeList
+    },
+    composeMesh() {
+      console.log(this.selectedObjects)
+      //如果被选中物体有2个及以上
+      if (this.selectedObjects.length > 1) {
+        let tempGroup = new THREE.Group()
+        for (let i = 0; i < this.selectedObjects.length; i++) {
+          this.scene.remove(this.selectedObjects[i])
+          tempGroup.add(this.selectedObjects[i])
+        }
+        this.selectedObjects = []
+        console.log(this.selectedObjects.length)
+        this.groupArr.push(tempGroup)
+        this.scene.add(this.groupArr[this.groupArr.length - 1])
+        console.log(this.scene.children)
+      }
     }
     // meshNotInArray(mesh, meshArr) {
     //   for (let i = 0; i < meshArr.length; i++) {
@@ -403,5 +365,11 @@ export default {
 .back-button {
   z-index: 20000;
   position: absolute;
+}
+
+.compose-button {
+  z-index: 20000;
+  position: absolute;
+  left: 500px;
 }
 </style>
