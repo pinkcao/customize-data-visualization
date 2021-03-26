@@ -85,6 +85,7 @@ export default {
     this.resetParams()
     window.removeEventListener('click', this.onMouseClick, false) //这里是选中box的监听
     window.removeEventListener('resize', this.onWindowResize, false) //这里是resize整个窗口的监听
+    window.removeEventListener('dblclick', this.activateWorkflow, false)
     window.cancelAnimationFrame(this.animationFrame)
   },
   watch: {
@@ -422,8 +423,8 @@ export default {
         while (tempStore.parent.type != 'Scene') {
           tempStore = tempStore.parent
         }
+        this.dbclickSelectedObjects.pop()
         if (this.dbclickSelectedObjects.indexOf(tempStore) < 0) {
-          this.dbclickSelectedObjects.pop()
           this.dbclickSelectedObjects.push(tempStore)
         }
         console.log('double clicked')
