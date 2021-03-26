@@ -6,6 +6,9 @@
     <div class="discompose-button">
       <el-button @click.stop.prevent="discomposeGroup">解绑</el-button>
     </div>
+    <div class="load-button">
+      <el-button @click.stop.prevent="animate">渲染</el-button>
+    </div>
   </div>
 </template>
 
@@ -71,7 +74,7 @@ export default {
   created() {},
   mounted() {
     this.init()
-    this.animate()
+    // this.animate()
     // window.addEventListener('click', this.onMouseClick, false) //这里是选中box的监听
     // window.addEventListener('resize', this.onWindowResize, false) //这里是resize整个窗口的监听
     // window.addEventListener('dblclick', this.activateWorkflow, false)
@@ -113,12 +116,12 @@ export default {
   //computing property is not capable of the circumstance
   methods: {
     init() {
-      this.initcamera()
-      this.initRenderer()
       this.initScene()
+      this.initRenderer()
+      this.initcamera()
       this.initLight()
+      this.initloader()
       this.initControls()
-      this.initloader(0, 0, 0)
       this.initComposer()
       this.initStats()
     },
@@ -189,12 +192,11 @@ export default {
       this.mesh = new THREE.Mesh(geometry, material)
       this.scene.add(this.mesh)
     },
-    initloader(x, y, z) {
-      // this.loader = new FBXLoader()
+    initloader() {
       this.loader = new GLTFLoader()
       this.loader.load(
         // '/zelda/scene.gltf',
-        'lantern/Lantern.gltf',
+        '/lantern/Lantern.gltf',
         object => {
           console.log(object)
           console.log(object.scene)
@@ -250,35 +252,16 @@ export default {
       // document.body.appendChild(this.stats.domElement)
       this.$refs.container.appendChild(this.stats.domElement)
     },
-
-    initGui() {
-      this.options = new (function() {
-        this.name = ''
-        this.ID = ''
-      })()
-      this.gui = new dat.GUI()
-      this.gui.domElement.style = 'position:absolute;top:0px;right:0px;height:600px'
-      this.gui
-        .add(this.options, 'name')
-        .name('名称：')
-        .listen()
-      this.gui
-        .add(this.options, 'ID')
-        .name('ID：')
-        .listen()
-      // gui.add(options, 'test3').name("test3：").listen();
-      // gui.add(options, 'test4').name("test4：").listen();//全部listen，可能性能开销有点大?
-    },
     update() {
       this.controls.update()
       this.stats.update()
     },
 
     animate() {
-      this.animationFrame = requestAnimationFrame(this.animate)
+      // this.animationFrame = window.requestAnimationFrame(this.animate)
       this.render()
-      this.composer.render()
       this.update()
+      this.composer.render()
       // console.log(this.camera);
     },
 
@@ -458,5 +441,11 @@ export default {
   z-index: 20000;
   position: absolute;
   left: 200px;
+}
+
+.load-button {
+  z-index: 20000;
+  position: absolute;
+  left: 300px;
 }
 </style>

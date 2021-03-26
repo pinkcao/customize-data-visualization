@@ -192,7 +192,7 @@ export default {
       text: '加载中'
     })
     // this.$axios({
-    //   url: 'http://localhost:8080/testListMapJson',
+    //   url: 'http://localhost:8080/api/template/deleteAllDisabledTemplate',
     //   method: 'post',
     //   data: {}
     // }).then(res => {

@@ -40,12 +40,12 @@ const routes = [
     component: () => import(/* webpackChunkName: "preview" */ '../views/preview.vue')
     // component: preview
   },
-  {
-    path: '/colorTest',
-    name: 'colorTest',
-    component: () => import(/* webpackChunkName: "colorTest" */ '../views/colorTest.vue')
-    // component: colorTest
-  },
+  // {
+  //   path: '/colorTest',
+  //   name: 'colorTest',
+  //   component: () => import(/* webpackChunkName: "colorTest" */ '../views/colorTest.vue')
+  //   // component: colorTest
+  // },
   {
     path: '/login',
     name: 'login',

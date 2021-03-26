@@ -41,8 +41,8 @@ export default {
     componentList: {
       get() {
         // return this.$store.state.componentList
-        let tempArr = this.$store.state.componentList
-        console.log(tempArr)
+        let tempArr = JSON.parse(JSON.stringify(this.$store.state.componentList))
+        // console.log(tempArr)
         return tempArr.sort(this.compare('zindex'))
       },
       set(value) {
