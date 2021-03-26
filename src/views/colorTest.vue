@@ -13,10 +13,6 @@
 </template>
 
 <script>
-/*
-3.25  10:08 组合做完了，当然也只是大概
-
-*/
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader'
@@ -48,8 +44,10 @@ export default {
       fxaaPass: null,
       loader: null,
       mouse: new THREE.Vector2(),
+      dbmouse: new THREE.Vector2(),
       raycaster: new THREE.Raycaster(),
       selectedObjects: [],
+      dbclickSelectedObjects: [],
       composer: null,
       stats: null,
       gui: null,
@@ -58,7 +56,16 @@ export default {
       originY: 0,
 
       atomicArr: [],
-      groupArr: []
+      groupArr: [],
+
+      // workflowArr: [
+      //   [0, 2, 0],
+      //   [1, 0, 0],
+      //   [0, 0, 3]
+      // ]
+      workflowArr: [2, 1, 3],
+      workflowEnd: 0,
+      workflowCount: 0
     }
   },
   computed: {
@@ -72,12 +79,32 @@ export default {
     this.animate()
     window.addEventListener('click', this.onMouseClick, false) //这里是选中box的监听
     window.addEventListener('resize', this.onWindowResize, false) //这里是resize整个窗口的监听
+    window.addEventListener('dblclick', this.activateWorkflow, false)
   },
   beforeDestroy() {
     this.resetParams()
     window.removeEventListener('click', this.onMouseClick, false) //这里是选中box的监听
     window.removeEventListener('resize', this.onWindowResize, false) //这里是resize整个窗口的监听
     window.cancelAnimationFrame(this.animationFrame)
+  },
+  watch: {
+    workflowCount: function(newVal, oldVal) {
+      switch (this.dbclickSelectedObjects[0].workflowArr[newVal - 1]) {
+        case 1:
+          this.functionA()
+          break
+        case 2:
+          this.functionB()
+          break
+        case 3:
+          this.functionC()
+          break
+      }
+      if (newVal > this.dbclickSelectedObjects[0].workflowArr.length) {
+        this.workflowCount = 0
+        this.workflowEnd = 0
+      }
+    }
   },
 
   //I have to announce the reason of using this.$refs.container.getBoundingClientRect().width/height is that the fucking
@@ -92,13 +119,6 @@ export default {
       this.initloader(0, 0, 0)
       this.initComposer()
       this.initStats()
-
-      // this.initGui()
-      // this.initEcharts();
-      // this.effectFXAA = new ShaderPass(THREE.FXAAShader );
-      // this.effectFXAA.uniforms[ 'resolution' ].value.set( 1 / this.$refs.container.getBoundingClientRect().width, 1 / this.$refs.container.getBoundingClientRect().height );
-      // this.effectFXAA.renderToScreen = true;
-      // this.composer.addPass( this.effectFXAA );
     },
 
     resetParams() {
@@ -118,7 +138,7 @@ export default {
         0.1,
         10000
       )
-      this.camera.position.set(0, 50, 100)
+      this.camera.position.set(0, 5, 10)
     },
 
     initScene() {
@@ -131,7 +151,7 @@ export default {
       this.scene.add(directionalLight)
 
       var ambient = new THREE.AmbientLight(0xffffff, 1) //环境光源，提供基础亮度
-      ambient.position.set(0, 0, 0)
+      ambient.position.set(100, 100, 100)
       this.scene.add(ambient)
     },
     initRenderer() {
@@ -180,6 +200,7 @@ export default {
           //大概能成，当然只是大概
           this.DFS(object.scene, this.atomicArr)
           for (let i = 0; i < this.atomicArr.length; i++) {
+            this.atomicArr[i].workflowArr = this.workflowArr
             this.scene.add(this.atomicArr[i])
           }
         },
@@ -267,14 +288,6 @@ export default {
       this.camera.aspect =
         this.$refs.container.getBoundingClientRect().width / this.$refs.container.getBoundingClientRect().height
       this.camera.updateProjectionMatrix()
-      console.log(
-        this.$refs.container.getBoundingClientRect().width,
-        this.$refs.container.getBoundingClientRect().height
-      )
-      console.log(
-        this.$refs.container.getBoundingClientRect().width,
-        this.$refs.container.getBoundingClientRect().height
-      )
       this.renderer.setSize(
         this.$refs.container.getBoundingClientRect().width,
         this.$refs.container.getBoundingClientRect().height
@@ -285,6 +298,7 @@ export default {
 
     onMouseClick(event) {
       //why -1 +1? 我当时为什么这么写的?
+      //合理猜测是为了使其指向鼠标指针的左上一个像素
       this.mouse.x = (event.clientX / this.$refs.container.getBoundingClientRect().width) * 2 - 1
       this.mouse.y = -(event.clientY / this.$refs.container.getBoundingClientRect().height) * 2 + 1
 
@@ -379,17 +393,47 @@ export default {
         this.selectedObjects = []
         this.outlinePass.selectedObjects = this.selectedObjects
       }
+    },
+    functionA() {
+      console.log('now is functionA working')
+      this.workflowCount += 1
+    },
+    functionB() {
+      console.log('now is functionB working')
+      this.workflowCount += 1
+    },
+    functionC() {
+      console.log('now is functionC working')
+      this.workflowCount += 1
+    },
+    //双击激活工作流
+    activateWorkflow(event) {
+      this.dbmouse.x = (event.clientX / this.$refs.container.getBoundingClientRect().width) * 2 - 1
+      this.dbmouse.y = -(event.clientY / this.$refs.container.getBoundingClientRect().height) * 2 + 1
+
+      this.raycaster.setFromCamera(this.dbmouse, this.camera)
+
+      var intersects = this.raycaster.intersectObjects(this.scene.children, true)
+
+      //当双击了确切的物体时
+      if (intersects.length > 0) {
+        let tempStore = intersects[0].object
+        //推回至最上层的父结点，选中最上层的这个父结点
+        while (tempStore.parent.type != 'Scene') {
+          tempStore = tempStore.parent
+        }
+        if (this.dbclickSelectedObjects.indexOf(tempStore) < 0) {
+          this.dbclickSelectedObjects.pop()
+          this.dbclickSelectedObjects.push(tempStore)
+        }
+        console.log('double clicked')
+        console.log(this.dbclickSelectedObjects)
+      }
+      if (this.dbclickSelectedObjects.length > 0) {
+        this.workflowEnd = this.dbclickSelectedObjects[0].workflowArr.length
+        this.workflowCount += 1
+      }
     }
-    // meshNotInArray(mesh, meshArr) {
-    //   for (let i = 0; i < meshArr.length; i++) {
-    //     // console.log(mesh.uuid)
-    //     // console.log(meshArr[i].uuid)
-    //     if (mesh.uuid == meshArr[i].uuid) {
-    //       return false
-    //     }
-    //   }
-    //   return true
-    // }
   }
 }
 </script>
