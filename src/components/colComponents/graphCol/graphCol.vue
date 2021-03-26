@@ -40,7 +40,10 @@ export default {
     //当前的componentList
     componentList: {
       get() {
-        return this.$store.state.componentList
+        // return this.$store.state.componentList
+        let tempArr = this.$store.state.componentList
+        console.log(tempArr)
+        return tempArr.sort(this.compare('zindex'))
       },
       set(value) {
         //图层列的显示顺序
@@ -81,6 +84,19 @@ export default {
         index: componentIndex
       }
       this.$store.commit('updateActiveComponent', args)
+    },
+    compare: function(prop) {
+      return function(obj1, obj2) {
+        var val1 = obj1[prop]
+        var val2 = obj2[prop]
+        if (val1 < val2) {
+          return -1
+        } else if (val1 > val2) {
+          return 1
+        } else {
+          return 0
+        }
+      }
     }
   }
 }

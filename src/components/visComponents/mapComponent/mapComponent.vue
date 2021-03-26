@@ -1,40 +1,44 @@
 <template>
-  <div v-if="disabled" ref="testref" @keydown.delete="destroyComponent" tabindex="0">
-    <vue-drag-resize
+  <div v-if="!disabled" ref="testref" @keydown.delete="destroyComponent" tabindex="0">
+    <vue-drag-resize-rotate
       :isActive="active"
       :preventActiveBehavior="preventActiveBehavior"
       :w="width"
       :h="height"
       :x="left"
       :y="top"
+      :deg="deg"
       :z="zindex"
+      :isDraggable="draggable"
+      :isResizable="resizable"
+      :isRotatable="rotatable"
       @resizing="resize"
       @dragging="resize"
+      @rotating="rotate"
       @resizestop="updateComponentList"
       @dragstop="updateComponentList"
+      @rotatestop="updateComponentList"
       :parentScaleX="parentScaleX"
       :parentScaleY="parentScaleY"
       :parentW="parentW"
       :parentH="parentH"
       :parentLimitation="parentLimitation"
-      :isDraggable="draggable"
-      :isResizable="resizable"
       @activated="activate"
       @deactivated="onDeactivated"
     >
-      <div style="background-color: #ffffff; width: 100%; height: 100%">
+      <div style="width: 100%; height: 100%">
         <v-map></v-map>
       </div>
-    </vue-drag-resize>
+    </vue-drag-resize-rotate>
   </div>
 </template>
 
 <script>
 import vMap from './map.vue'
-import componentsDef from '@components/componentsDef/componentsDef.js'
+import commonComponentsDef from '@components/componentsDef/commonComponentsDef.js'
 
 export default {
-  extends: componentsDef,
+  extends: commonComponentsDef,
   name: 'mapComponent',
   components: {
     vMap
@@ -47,20 +51,52 @@ export default {
       name: 'mapComponent',
       active: false,
       disabled: false,
-      width: 300,
-      height: 300,
-      top: 100,
-      left: 100,
+      width: 200,
+      height: 200,
+      top: 0,
+      left: 0,
       parentLimitation: true,
       draggable: true,
       resizable: true,
+      rotatable: false,
       index: 0,
       zindex: 0,
       mode: 'design',
       flag: false,
-      title: '',
-      subTitle: '',
-      dataSource: []
+      title: '模型',
+      subTitle: 'fake data',
+      dataSource: {
+        data: [
+          ['department', '2018', '2019'],
+          ['finance', 43.3, 85.8],
+          ['humanResource', 83.1, 73.4],
+          ['sales', 86.4, 65.2],
+          ['product', 72.4, 53.9],
+          ['qualityAssurance', 55.1, 66.5]
+        ],
+        dataSourceOptions: [
+          {
+            value: 'APISource',
+            label: 'API数据源'
+          },
+          {
+            value: 'otherSource',
+            label: 'unknown'
+          }
+        ],
+        dataSourceType: '',
+        APISwitch: false,
+        APIURL: '',
+        APIMethod: '',
+        APIInterval: 10000,
+        APIHeader: '',
+        IntervalID: 0 //用于存储setInterval的ID，便于clearInterval
+      },
+      style: {
+        opacity: 1,
+        legendvis: true,
+        titlevis: true
+      }
     }
   },
   props: {},
@@ -70,15 +106,7 @@ export default {
   mounted() {
     this.flag = true
   },
-  methods: {
-    onDeactivated() {
-      this.$refs.testref.blur()
-    },
-    activate() {
-      this.$emit('updateActiveStatus', this.index)
-      this.$refs.testref.focus()
-    }
-  }
+  methods: {}
 }
 </script>
 

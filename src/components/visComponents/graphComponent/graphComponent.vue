@@ -58,7 +58,7 @@ export default {
       //这些相当于是基础设置属性
       //如果挂载时未重新设定那么就取默认值
       preventActiveBehavior: false,
-      name: 'compA',
+      name: 'graphComponent',
       active: false,
       disabled: false,
       width: 200,
