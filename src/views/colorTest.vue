@@ -77,15 +77,21 @@ export default {
   mounted() {
     this.init()
     this.animate()
-    window.addEventListener('click', this.onMouseClick, false) //这里是选中box的监听
-    window.addEventListener('resize', this.onWindowResize, false) //这里是resize整个窗口的监听
-    window.addEventListener('dblclick', this.activateWorkflow, false)
+    // window.addEventListener('click', this.onMouseClick, false) //这里是选中box的监听
+    // window.addEventListener('resize', this.onWindowResize, false) //这里是resize整个窗口的监听
+    // window.addEventListener('dblclick', this.activateWorkflow, false)
+    this.$refs.container.addEventListener('click', this.onMouseClick, false) //这里是选中box的监听
+    this.$refs.container.addEventListener('resize', this.onWindowResize, false) //这里是resize整个窗口的监听
+    this.$refs.container.addEventListener('dblclick', this.activateWorkflow, false)
   },
   beforeDestroy() {
     this.resetParams()
-    window.removeEventListener('click', this.onMouseClick, false) //这里是选中box的监听
-    window.removeEventListener('resize', this.onWindowResize, false) //这里是resize整个窗口的监听
-    window.removeEventListener('dblclick', this.activateWorkflow, false)
+    // window.removeEventListener('click', this.onMouseClick, false) //这里是选中box的监听
+    // window.removeEventListener('resize', this.onWindowResize, false) //这里是resize整个窗口的监听
+    // window.removeEventListener('dblclick', this.activateWorkflow, false)
+    this.$refs.container.removeEventListener('click', this.onMouseClick, false) //这里是选中box的监听
+    this.$refs.container.removeEventListener('resize', this.onWindowResize, false) //这里是resize整个窗口的监听
+    this.$refs.container.removeEventListener('dblclick', this.activateWorkflow, false)
     window.cancelAnimationFrame(this.animationFrame)
   },
   watch: {
@@ -298,10 +304,10 @@ export default {
     },
 
     onMouseClick(event) {
-      //why -1 +1? 我当时为什么这么写的?
-      //合理猜测是为了使其指向鼠标指针的左上一个像素
-      this.mouse.x = (event.clientX / this.$refs.container.getBoundingClientRect().width) * 2 - 1
-      this.mouse.y = -(event.clientY / this.$refs.container.getBoundingClientRect().height) * 2 + 1
+      console.log(event.offsetX)
+      console.log(this.$refs.container.getBoundingClientRect())
+      this.mouse.x = (event.offsetX / (this.$refs.container.getBoundingClientRect().width * (1 / 0.3))) * 2 - 1
+      this.mouse.y = -(event.offsetY / (this.$refs.container.getBoundingClientRect().height * (1 / 0.3))) * 2 + 1
 
       this.raycaster.setFromCamera(this.mouse, this.camera)
 
@@ -328,25 +334,45 @@ export default {
         this.outlinePass.selectedObjects = this.selectedObjects
       }
     },
-    returnToBase() {
-      this.$router.push({ path: '/basePage' })
+    functionA() {
+      console.log('now is functionA working')
+      this.workflowCount += 1
     },
-    //深度遍历树，把所有叶子结点添加入数组中
-    DFS(node, nodeList) {
-      // console.log(node)
-      if (node) {
-        if (node.children.length == 0) {
-          nodeList.push(node)
-          // console.log(nodeList)
+    functionB() {
+      console.log('now is functionB working')
+      this.workflowCount += 1
+    },
+    functionC() {
+      console.log('now is functionC working')
+      this.workflowCount += 1
+    },
+    //双击激活工作流
+    activateWorkflow(event) {
+      this.dbmouse.x = (event.offsetX / (this.$refs.container.getBoundingClientRect().width * (1 / 0.3))) * 2 - 1
+      this.dbmouse.y = -(event.offsetY / (this.$refs.container.getBoundingClientRect().height * (1 / 0.3))) * 2 + 1
+
+      this.raycaster.setFromCamera(this.dbmouse, this.camera)
+
+      var intersects = this.raycaster.intersectObjects(this.scene.children, true)
+
+      //当双击了确切的物体时
+      this.dbclickSelectedObjects.pop()
+      if (intersects.length > 0) {
+        let tempStore = intersects[0].object
+        //推回至最上层的父结点，选中最上层的这个父结点
+        while (tempStore.parent.type != 'Scene') {
+          tempStore = tempStore.parent
         }
-        if (node.children.length > 0) {
-          let children = node.children
-          for (var i = 0; i < children.length; i++) {
-            this.DFS(children[i], nodeList)
-          }
+        if (this.dbclickSelectedObjects.indexOf(tempStore) < 0) {
+          this.dbclickSelectedObjects.push(tempStore)
         }
+        console.log('double clicked')
+        console.log(this.dbclickSelectedObjects)
       }
-      return nodeList
+      if (this.dbclickSelectedObjects.length > 0) {
+        this.workflowEnd = this.dbclickSelectedObjects[0].workflowArr.length
+        this.workflowCount += 1
+      }
     },
     /**
      * 把mesh组合成group
@@ -395,45 +421,25 @@ export default {
         this.outlinePass.selectedObjects = this.selectedObjects
       }
     },
-    functionA() {
-      console.log('now is functionA working')
-      this.workflowCount += 1
+    returnToBase() {
+      this.$router.push({ path: '/basePage' })
     },
-    functionB() {
-      console.log('now is functionB working')
-      this.workflowCount += 1
-    },
-    functionC() {
-      console.log('now is functionC working')
-      this.workflowCount += 1
-    },
-    //双击激活工作流
-    activateWorkflow(event) {
-      this.dbmouse.x = (event.clientX / this.$refs.container.getBoundingClientRect().width) * 2 - 1
-      this.dbmouse.y = -(event.clientY / this.$refs.container.getBoundingClientRect().height) * 2 + 1
-
-      this.raycaster.setFromCamera(this.dbmouse, this.camera)
-
-      var intersects = this.raycaster.intersectObjects(this.scene.children, true)
-
-      //当双击了确切的物体时
-      if (intersects.length > 0) {
-        let tempStore = intersects[0].object
-        //推回至最上层的父结点，选中最上层的这个父结点
-        while (tempStore.parent.type != 'Scene') {
-          tempStore = tempStore.parent
+    //深度遍历树，把所有叶子结点添加入数组中
+    DFS(node, nodeList) {
+      // console.log(node)
+      if (node) {
+        if (node.children.length == 0) {
+          nodeList.push(node)
+          // console.log(nodeList)
         }
-        this.dbclickSelectedObjects.pop()
-        if (this.dbclickSelectedObjects.indexOf(tempStore) < 0) {
-          this.dbclickSelectedObjects.push(tempStore)
+        if (node.children.length > 0) {
+          let children = node.children
+          for (var i = 0; i < children.length; i++) {
+            this.DFS(children[i], nodeList)
+          }
         }
-        console.log('double clicked')
-        console.log(this.dbclickSelectedObjects)
       }
-      if (this.dbclickSelectedObjects.length > 0) {
-        this.workflowEnd = this.dbclickSelectedObjects[0].workflowArr.length
-        this.workflowCount += 1
-      }
+      return nodeList
     }
   }
 }
@@ -443,6 +449,7 @@ export default {
 .container {
   width: 100%;
   height: 100%;
+  transform: scale(0.3);
 }
 
 .back-button {
