@@ -40,12 +40,12 @@ const routes = [
     component: () => import(/* webpackChunkName: "preview" */ '../views/preview.vue')
     // component: preview
   },
-  // {
-  //   path: '/colorTest',
-  //   name: 'colorTest',
-  //   component: () => import(/* webpackChunkName: "colorTest" */ '../views/colorTest.vue')
-  //   // component: colorTest
-  // },
+  {
+    path: '/colorTest',
+    name: 'colorTest',
+    component: () => import(/* webpackChunkName: "colorTest" */ '../views/colorTest.vue')
+    // component: colorTest
+  },
   {
     path: '/login',
     name: 'login',
@@ -63,6 +63,11 @@ const routes = [
     name: 'register',
     component: () => import(/* webpackChunkName: "register" */ '../views/register.vue')
     // component: register
+  },
+  {
+    path: '/mountThreeTest',
+    name: 'mountThreeTest',
+    component: () => import(/* webpackChunkName: "mountThreeTest" */ '../views/mountThreeTest.vue')
   }
 ]
 

@@ -7,7 +7,7 @@
       <el-button @click.stop.prevent="discomposeGroup">解绑</el-button>
     </div>
     <div class="load-button">
-      <el-button @click.stop.prevent="animate">渲染</el-button>
+      <el-button @click.stop.prevent="initloader">加mesh</el-button>
     </div>
   </div>
 </template>
@@ -22,7 +22,6 @@ import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass.js'
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js'
 import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader.js'
 import Stats from 'three/examples/jsm/libs/stats.module.js'
-import dat from 'three/examples/js/libs/dat.gui.min.js'
 export default {
   name: 'vMap',
   data() {
@@ -66,14 +65,36 @@ export default {
       workflowCount: 0
     }
   },
-  computed: {
-    container: function() {
-      return this.$refs.container
-    }
-  },
+  // computed: {
+  //   container: function() {
+  //     return this.$refs.container
+  //   }
+  // },
   created() {},
   mounted() {
+    // this.scene = new THREE.Scene()
+    // this.camera = new THREE.PerspectiveCamera(
+    //   65,
+    //   this.$refs.container.getBoundingClientRect().width / this.$refs.container.getBoundingClientRect().height,
+    //   0.1,
+    //   10000
+    // )
+    // this.camera.position.set(5, 50, 100)
+    // this.renderer = new THREE.WebGLRenderer()
+    // this.renderer.setSize(
+    //   this.$refs.container.getBoundingClientRect().width,
+    //   this.$refs.container.getBoundingClientRect().height
+    // )
+    // this.$refs.container.appendChild(this.renderer.domElement)
+    // let geometry = new THREE.BoxGeometry(50, 50, 50)
+    // let material = new THREE.MeshNormalMaterial()
+    // this.mesh = new THREE.Mesh(geometry, material)
+    // this.scene.add(this.mesh)
+    // console.log(this.animate)
+    // this.testAnimate()
     this.init()
+    this.animate()
+    // window.cancelAnimationFrame(this.animationFrame)
     // this.animate()
     // window.addEventListener('click', this.onMouseClick, false) //这里是选中box的监听
     // window.addEventListener('resize', this.onWindowResize, false) //这里是resize整个窗口的监听
@@ -117,10 +138,11 @@ export default {
   methods: {
     init() {
       this.initScene()
-      this.initRenderer()
       this.initcamera()
+      this.initRenderer()
+      // this.initGeometry()
       this.initLight()
-      this.initloader()
+      // this.initloader()
       this.initControls()
       this.initComposer()
       this.initStats()
@@ -132,7 +154,6 @@ export default {
       // this.renderer.context = null
       this.renderer.domElement = null
       this.renderer = null
-      this.gui = null
       console.log('all stuffs reset')
     },
 
@@ -163,6 +184,7 @@ export default {
       this.renderer = new THREE.WebGLRenderer({
         antialias: true
       })
+      // this.resetParams()
       this.renderer.shadowMap.enabled = true
       this.renderer.setSize(
         this.$refs.container.getBoundingClientRect().width,
@@ -258,10 +280,11 @@ export default {
     },
 
     animate() {
-      // this.animationFrame = window.requestAnimationFrame(this.animate)
       this.render()
+      this.animationFrame = window.requestAnimationFrame(this.animate)
+      // console.log(this.scene)
       this.update()
-      this.composer.render()
+      // this.composer.render()
       // console.log(this.camera);
     },
 
@@ -282,6 +305,7 @@ export default {
     },
 
     onMouseClick(event) {
+      console.log(this.scene)
       console.log(event.offsetX)
       console.log(this.$refs.container.getBoundingClientRect())
       this.mouse.x = (event.offsetX / (this.$refs.container.getBoundingClientRect().width * (1 / 1))) * 2 - 1
@@ -309,7 +333,7 @@ export default {
       if (intersects.length == 0) {
         console.log('nothing selected')
         this.selectedObjects = []
-        this.outlinePass.selectedObjects = this.selectedObjects
+        this.outlinePass.selectedObjects = []
       }
     },
     functionA() {
@@ -371,7 +395,7 @@ export default {
         this.scene.add(this.groupArr[this.groupArr.length - 1])
         //把选中数组清空，边框特效清空
         this.selectedObjects = []
-        this.outlinePass.selectedObjects = this.selectedObjects
+        this.outlinePass.selectedObjects = []
         console.log(this.scene.children)
       }
     },
@@ -415,6 +439,11 @@ export default {
         }
       }
       return nodeList
+    },
+    testAnimate() {
+      this.animationFrame = requestAnimationFrame(this.testAnimate)
+      this.renderer.render(this.scene, this.camera)
+      // console.log('test')
     }
   }
 }

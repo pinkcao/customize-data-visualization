@@ -31,7 +31,7 @@
           <div title="预览" class="icon-box-right" @click="routeToPreview">
             <i :style="iconstyle" class="el-icon-s-platform"></i>
           </div>
-          <div title="快照" class="icon-box-right">
+          <div title="快照" class="icon-box-right" @click="routeToMountThreeTest">
             <i :style="iconstyle" class="el-icon-camera"></i>
           </div>
         </div>
@@ -365,6 +365,9 @@ export default {
     },
     routeToTemplateSelect() {
       this.$router.push({ path: '/templateSelect' })
+    },
+    routeToMountThreeTest() {
+      this.$router.push({ path: '/mountThreeTest' })
     }
   }
 }
