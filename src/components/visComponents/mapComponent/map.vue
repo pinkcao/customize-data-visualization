@@ -7,7 +7,7 @@
       <el-button @click.stop.prevent="discomposeGroup">解绑</el-button>
     </div>
     <div class="load-button">
-      <el-button @click.stop.prevent="initloader">加mesh</el-button>
+      <el-button @click.stop.prevent="initGeometry">加mesh</el-button>
     </div>
   </div>
 </template>
@@ -26,12 +26,13 @@ export default {
   name: 'vMap',
   data() {
     return {
-      camera: null,
-      scene: null,
-      renderer: null,
-      mesh: null,
-      light: null,
-      controls: null,
+      //vue中，如果将scene、camera等放在data中会造成不必要的性能开销
+      // camera: null,
+      // scene: null,
+      // renderer: null,
+      // mesh: null,
+      // light: null,
+      // controls: null,
       options: null,
       group: null,
       objects: [],
@@ -72,7 +73,13 @@ export default {
   // },
   created() {},
   mounted() {
-    // this.scene = new THREE.Scene()
+    this.camera = null
+    this.scene = null
+    this.renderer = null
+    this.mesh = null
+    this.light = null
+    this.controls = null
+    // this.scene = new HREE.Scene()
     // this.camera = new THREE.PerspectiveCamera(
     //   65,
     //   this.$refs.container.getBoundingClientRect().width / this.$refs.container.getBoundingClientRect().height,
@@ -107,7 +114,7 @@ export default {
     this.resetParams()
     // window.removeEventListener('click', this.onMouseClick, false) //这里是选中box的监听
     // window.removeEventListener('resize', this.onWindowResize, false) //这里是resize整个窗口的监听
-    // window.removeEventListener('dblclick', this.activateWorkflow, false)
+    window.removeEventListener('dblclick', this.activateWorkflow, false)
     this.$refs.container.removeEventListener('click', this.onMouseClick, true) //这里是选中box的监听
     this.$refs.container.removeEventListener('resize', this.onWindowResize, false) //这里是resize整个窗口的监听
     this.$refs.container.removeEventListener('dblclick', this.activateWorkflow, false)
@@ -213,6 +220,8 @@ export default {
       let material = new THREE.MeshNormalMaterial()
       this.mesh = new THREE.Mesh(geometry, material)
       this.scene.add(this.mesh)
+      window.cancelAnimationFrame(this.animationFrame)
+      this.animationFrame = window.requestAnimationFrame(this.animate)
     },
     initloader() {
       this.loader = new GLTFLoader()
@@ -283,8 +292,9 @@ export default {
       this.render()
       this.animationFrame = window.requestAnimationFrame(this.animate)
       // console.log(this.scene)
+      // console.log('wtf?')
       this.update()
-      // this.composer.render()
+      this.composer.render()
       // console.log(this.camera);
     },
 
