@@ -158,11 +158,8 @@ export default {
     this.controls = null
     this.init()
     this.animate()
-    console.log(this.scene)
-    console.log(this.camera)
-    console.log(this.renderer)
     this.$refs.container.addEventListener('click', this.onMouseClick, true) //这里是选中box的监听
-    this.$refs.container.addEventListener('resize', this.onWindowResize, false) //这里是resize整个窗口的监听
+    // this.$refs.container.addEventListener('resize', this.onWindowResize, false) //这里是resize整个窗口的监听
     this.$refs.container.addEventListener('dblclick', this.activateWorkflow, false)
   },
   beforeDestroy() {
@@ -172,7 +169,7 @@ export default {
     // window.removeEventListener('resize', this.onWindowResize, false) //这里是resize整个窗口的监听
     // window.removeEventListener('dblclick', this.activateWorkflow, false)
     this.$refs.container.removeEventListener('click', this.onMouseClick, true) //这里是选中box的监听
-    this.$refs.container.removeEventListener('resize', this.onWindowResize, false) //这里是resize整个窗口的监听
+    // this.$refs.container.removeEventListener('resize', this.onWindowResize, false) //这里是resize整个窗口的监听
     this.$refs.container.removeEventListener('dblclick', this.activateWorkflow, false)
   },
   watch: {
@@ -349,7 +346,6 @@ export default {
       this.camera.aspect = this.width / this.height
       this.camera.updateProjectionMatrix()
       this.renderer.setSize(this.width, this.height)
-
       this.render()
     },
 
@@ -493,6 +489,40 @@ export default {
       this.animationFrame = requestAnimationFrame(this.testAnimate)
       this.renderer.render(this.scene, this.camera)
       // console.log('test')
+    },
+    updateComponentList() {
+      if (this.mode == 'design') {
+        // console.log(this.index)
+        // console.log(this.$store.state.currentTemplateID)
+        this.$axios({
+          url: this.$url.adjustComponent,
+          method: 'post',
+          data: {
+            templateID: this.$store.state.currentTemplateID,
+            deg: this.deg,
+            index: this.index,
+            width: this.width,
+            height: this.height,
+            top: this.top,
+            left: this.left
+          }
+        }).then(res => {
+          if (res) {
+            if (res.status == 200) {
+              for (let i = 0; i < res.data.resultSet.length; i++) {
+                res.data.resultSet[i].dataSource.data = JSON.parse(res.data.resultSet[i].dataSource.data)
+                res.data.resultSet[i].dataSource.dataSourceOptions = JSON.parse(
+                  res.data.resultSet[i].dataSource.dataSourceOptions
+                )
+              }
+              console.log(res.data.resultSet)
+              this.onWindowResize()
+              this.$store.commit('initComponentList', res.data.resultSet)
+              this.$store.commit('resizeUpdateActiveComponent')
+            }
+          }
+        })
+      }
     }
   }
 }
