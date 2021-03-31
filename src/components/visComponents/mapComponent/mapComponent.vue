@@ -26,7 +26,7 @@
       @activated="activate"
       @deactivated="onDeactivated"
     >
-      <div class="container" id="container" ref="container">
+      <div class="container" id="container" ref="container" @click="onMouseClick" @dblclick="activateWorkflow">
         <div class="compose-button">
           <el-button @click.stop.prevent="composeMesh">绑定</el-button>
         </div>
@@ -34,7 +34,7 @@
           <el-button @click.stop.prevent="discomposeGroup">解绑</el-button>
         </div>
         <div class="load-button">
-          <el-button @click.stop.prevent="initGeometry">加mesh</el-button>
+          <el-button @click.stop.prevent="exportGLTF">导出</el-button>
         </div>
       </div>
     </vue-drag-resize-rotate>
@@ -50,6 +50,7 @@ import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
 import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass.js'
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js'
 import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader.js'
+import { GLTFExporter } from 'three/examples/jsm/exporters/GLTFExporter.js'
 import Stats from 'three/examples/jsm/libs/stats.module.js'
 import commonComponentsDef from '@components/componentsDef/commonComponentsDef.js'
 
@@ -118,7 +119,8 @@ export default {
       outlinePass: null,
       pixelRatio: null,
       fxaaPass: null,
-      loader: null,
+      loader: new GLTFLoader(),
+      exporter: new GLTFExporter(),
       mouse: new THREE.Vector2(),
       dbmouse: new THREE.Vector2(),
       raycaster: new THREE.Raycaster(),
@@ -158,9 +160,9 @@ export default {
     this.controls = null
     this.init()
     this.animate()
-    this.$refs.container.addEventListener('click', this.onMouseClick, true) //这里是选中box的监听
+    // this.$refs.container.addEventListener('click', this.onMouseClick, true) //这里是选中box的监听
     // this.$refs.container.addEventListener('resize', this.onWindowResize, false) //这里是resize整个窗口的监听
-    this.$refs.container.addEventListener('dblclick', this.activateWorkflow, false)
+    // this.$refs.container.addEventListener('dblclick', this.activateWorkflow, false)
   },
   beforeDestroy() {
     window.cancelAnimationFrame(this.animationFrame)
@@ -168,9 +170,9 @@ export default {
     // window.removeEventListener('click', this.onMouseClick, false) //这里是选中box的监听
     // window.removeEventListener('resize', this.onWindowResize, false) //这里是resize整个窗口的监听
     // window.removeEventListener('dblclick', this.activateWorkflow, false)
-    this.$refs.container.removeEventListener('click', this.onMouseClick, true) //这里是选中box的监听
+    // this.$refs.container.removeEventListener('click', this.onMouseClick, true) //这里是选中box的监听
     // this.$refs.container.removeEventListener('resize', this.onWindowResize, false) //这里是resize整个窗口的监听
-    this.$refs.container.removeEventListener('dblclick', this.activateWorkflow, false)
+    // this.$refs.container.removeEventListener('dblclick', this.activateWorkflow, false)
   },
   watch: {
     workflowCount: function(newVal, oldVal) {
@@ -194,11 +196,11 @@ export default {
   methods: {
     init() {
       this.initScene()
-      this.initcamera()
+      this.initCamera()
       this.initRenderer()
       // this.initGeometry()
       this.initLight()
-      this.initloader()
+      this.initLoader()
       this.initControls()
       this.initComposer()
       this.initStats()
@@ -213,9 +215,9 @@ export default {
       console.log('all stuffs reset')
     },
 
-    initcamera() {
+    initCamera() {
       this.camera = new THREE.PerspectiveCamera(65, this.width / this.height, 0.1, 10000)
-      this.camera.position.set(5, 50, 100)
+      this.camera.position.set(5, 5, 10)
     },
 
     initScene() {
@@ -243,6 +245,9 @@ export default {
       this.renderer.setSize(this.width, this.height)
       console.log(this.renderer.getSize(new THREE.Vector2()))
       this.renderer.setClearColor(0xffaaaa, 1.0)
+      // below two lines makes the FPS goes really low
+      // this.renderer.gammaOutput = true
+      // this.renderer.gammaFactor = 2.2
       // document.body.appendChild(this.renderer.domElement)
       // this.renderer.domElement.style = 'width:100%; height:100%'
       this.$refs.container.appendChild(this.renderer.domElement)
@@ -268,11 +273,11 @@ export default {
       window.cancelAnimationFrame(this.animationFrame)
       this.animationFrame = window.requestAnimationFrame(this.animate)
     },
-    initloader() {
-      this.loader = new GLTFLoader()
+    initLoader() {
       this.loader.load(
         // '/zelda/scene.gltf',
-        '/lantern/Lantern.gltf',
+        // '/lantern/Lantern.gltf',
+        '/flight_helmet/FlightHelmet.gltf',
         object => {
           console.log(object)
           console.log(object.scene)
@@ -289,6 +294,13 @@ export default {
           console.log(err)
         }
       )
+    },
+    exportGLTF() {
+      this.exporter.parse(this.scene, function(gltf) {
+        //这里需要一个下载gltf，或者是上传gltf至服务器的方法
+        console.log(gltf)
+        // downloadJSON(gltf)
+      })
     },
     initComposer() {
       this.composer = new EffectComposer(this.renderer)
