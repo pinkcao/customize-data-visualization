@@ -694,7 +694,9 @@ export default {
     },
     //朴素的两点间距离公式
     calculLength(x1, x2, y1, y2) {
-      return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2))
+      // console.log(Math.hypot(x1 - x2, y1 - y2))
+      // console.log(Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2)))
+      return Math.hypot(x1 - x2, y1 - y2)
     },
     //余弦定理求角度
     calculrawDegA(a, b, c) {
