@@ -132,7 +132,8 @@ export default {
       animationFrame: null,
       originX: 0,
       originY: 0,
-
+      directionalLight: null,
+      ambientLight: null,
       atomicArr: [],
       groupArr: [],
 
@@ -156,7 +157,7 @@ export default {
     this.scene = null
     this.renderer = null
     this.mesh = null
-    this.light = null
+    this.light = []
     this.controls = null
     this.init()
     this.animate()
@@ -176,7 +177,7 @@ export default {
   },
   watch: {
     workflowCount: function(newVal, oldVal) {
-      switch (this.dbclickSelectedObjects[0].workflowArr[newVal - 1]) {
+      switch (this.dbclickSelectedObjects[0].userData.workflowArr[newVal - 1]) {
         case 1:
           this.functionA()
           break
@@ -187,7 +188,7 @@ export default {
           this.functionC()
           break
       }
-      if (newVal > this.dbclickSelectedObjects[0].workflowArr.length) {
+      if (newVal > this.dbclickSelectedObjects[0].userData.workflowArr.length) {
         this.workflowCount = 0
         this.workflowEnd = 0
       }
@@ -224,14 +225,25 @@ export default {
       this.scene = new THREE.Scene()
     },
     initLight() {
-      var directionalLight = new THREE.DirectionalLight(0xffffff, 0.3) //平行光源
+      let directionalLight = new THREE.DirectionalLight(0xffffff, 0.3) //平行光源
       directionalLight.color.setHSL(0.1, 1, 0.95)
       directionalLight.position.set(0, 200, 0).normalize()
-      this.scene.add(directionalLight)
+      this.light.push(directionalLight)
 
-      var ambient = new THREE.AmbientLight(0xffffff, 1) //环境光源，提供基础亮度
+      let ambient = new THREE.AmbientLight(0xffffff, 1) //环境光源，提供基础亮度
       ambient.position.set(100, 100, 100)
-      this.scene.add(ambient)
+      this.light.push(ambient)
+      this.addLight()
+    },
+    removeLight() {
+      for (let i = 0; i < this.light.length; i++) {
+        this.scene.remove(this.light[i])
+      }
+    },
+    addLight() {
+      for (let i = 0; i < this.light.length; i++) {
+        this.scene.add(this.light[i])
+      }
     },
     initRenderer() {
       this.renderer = new THREE.WebGLRenderer({
@@ -278,6 +290,7 @@ export default {
         // '/zelda/scene.gltf',
         // '/lantern/Lantern.gltf',
         '/flight_helmet/FlightHelmet.gltf',
+        // '/exportTest.gltf',
         object => {
           console.log(object)
           console.log(object.scene)
@@ -285,7 +298,7 @@ export default {
           //大概能成，当然只是大概
           this.DFS(object.scene, this.atomicArr)
           for (let i = 0; i < this.atomicArr.length; i++) {
-            this.atomicArr[i].workflowArr = this.workflowArr
+            this.atomicArr[i].userData.workflowArr = this.workflowArr
             this.scene.add(this.atomicArr[i])
           }
         },
@@ -295,12 +308,48 @@ export default {
         }
       )
     },
+    save(blob, filename) {
+      var link = document.createElement('a')
+      link.style.display = 'none'
+      link.href = URL.createObjectURL(blob)
+      link.download = filename || 'data.json'
+      link.click()
+    },
+    saveString(text, filename) {
+      this.save(new Blob([text], { type: 'text/plain' }), filename)
+    },
+    // OnExportGLTF() {
+    //   var exporter = new THREE.GLTFExporter()
+    //   exporter.parse(scene3D, result => {
+    //     saveString(JSON.stringify(result), `exportTest.gltf`)
+    //   })
+    // },
     exportGLTF() {
-      this.exporter.parse(this.scene, function(gltf) {
-        //这里需要一个下载gltf，或者是上传gltf至服务器的方法
-        console.log(gltf)
-        // downloadJSON(gltf)
-      })
+      let exportOptions = {
+        includeCustomExtensions: true
+      }
+      this.removeLight()
+      this.exporter.parse(
+        this.scene,
+        result => {
+          console.log(result)
+          this.saveString(JSON.stringify(result), `exportTest.gltf`)
+          this.addLight()
+        },
+        exportOptions
+      )
+      // this.exporter.parse(this.scene, function(result) {
+      //   //这里需要一个下载gltf，或者是上传gltf至服务器的方法
+      //   console.log(result)
+      //   // downloadJSON(gltf)
+      //   let link = document.createElement('a')
+      //   link.style.display = 'none'
+      //   document.body.appendChild(link)
+      //   link.href = URL.createObjectURL(new Blob([JSON.stringify(result)], { type: 'text/plain' }))
+      //   link.click()
+      //   document.body.removeChild(link)
+      //   this.addLight()
+      // })
     },
     initComposer() {
       this.composer = new EffectComposer(this.renderer)
@@ -429,7 +478,7 @@ export default {
         console.log(this.dbclickSelectedObjects)
       }
       if (this.dbclickSelectedObjects.length > 0) {
-        this.workflowEnd = this.dbclickSelectedObjects[0].workflowArr.length
+        this.workflowEnd = this.dbclickSelectedObjects[0].userData.workflowArr.length
         this.workflowCount += 1
       }
     },
