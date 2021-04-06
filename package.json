@@ -20,7 +20,8 @@
     "vuex": "^3.4.0",
     "vuedraggable": "^2.24.1",
     "js-sha1": "^0.6.0",
-    "three": "0.126.1"
+    "three": "0.126.1",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",

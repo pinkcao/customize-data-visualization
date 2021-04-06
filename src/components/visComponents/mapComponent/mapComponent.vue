@@ -53,6 +53,7 @@ import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader.js'
 import { GLTFExporter } from 'three/examples/jsm/exporters/GLTFExporter.js'
 import Stats from 'three/examples/jsm/libs/stats.module.js'
 import commonComponentsDef from '@components/componentsDef/commonComponentsDef.js'
+import { v4 as uuidv4 } from 'uuid'
 
 export default {
   extends: commonComponentsDef,
@@ -144,7 +145,9 @@ export default {
       // ]
       workflowArr: [2, 1, 3],
       workflowEnd: 0,
-      workflowCount: 0
+      workflowCount: 0,
+
+      groupMap: new Map()
     }
   },
   props: {},
@@ -161,6 +164,7 @@ export default {
     this.controls = null
     this.init()
     this.animate()
+    // console.log(uuidv4())
     // this.$refs.container.addEventListener('click', this.onMouseClick, true) //这里是选中box的监听
     // this.$refs.container.addEventListener('resize', this.onWindowResize, false) //这里是resize整个窗口的监听
     // this.$refs.container.addEventListener('dblclick', this.activateWorkflow, false)
@@ -286,27 +290,85 @@ export default {
       this.animationFrame = window.requestAnimationFrame(this.animate)
     },
     initLoader() {
-      this.loader.load(
-        // '/zelda/scene.gltf',
-        // '/lantern/Lantern.gltf',
-        '/flight_helmet/FlightHelmet.gltf',
-        // '/exportTest.gltf',
-        object => {
-          console.log(object)
-          console.log(object.scene)
-          console.log(object.scene.children[0].children.length)
-          //大概能成，当然只是大概
-          this.DFS(object.scene, this.atomicArr)
-          for (let i = 0; i < this.atomicArr.length; i++) {
-            this.atomicArr[i].userData.workflowArr = this.workflowArr
-            this.scene.add(this.atomicArr[i])
+      //在design时全部mesh，在preview时带group
+      if (this.mode == 'design') {
+        this.loader.load(
+          // '/zelda/scene.gltf',
+          // '/lantern/Lantern.gltf',
+          '/flight_helmet/FlightHelmet.gltf',
+          // '/exportTest.gltf',
+          object => {
+            console.log(object)
+            console.log(object.scene)
+            console.log(object.scene.children[0].children.length)
+            this.DFS(object.scene, this.atomicArr)
+            for (let i = 0; i < this.atomicArr.length; i++) {
+              this.atomicArr[i].userData.workflowArr = this.workflowArr
+              if (this.atomicArr[i].userData.uuid == undefined) {
+                this.atomicArr[i].userData.uuid = -1
+              }
+              this.scene.add(this.atomicArr[i])
+            }
+            let tempuuidSet = new Set()
+            //初始化groupmap
+            //把所有uuid丢进set里
+            for (let i = 0; i < this.atomicArr.length; i++) {
+              tempuuidSet.add(this.atomicArr[i].userData.uuid)
+            }
+            //经过去重的uuid创建为map
+            tempuuidSet.delete(-1)
+            for (let i of tempuuidSet) {
+              this.groupMap.set(i, [])
+            }
+            for (let i = 0; i < this.atomicArr.length; i++) {
+              if (this.atomicArr[i].userData.uuid != -1) {
+                this.groupMap.get(this.atomicArr[i].userData.uuid).push(this.atomicArr[i])
+              }
+            }
+          },
+          onprogress,
+          function(err) {
+            console.log(err)
           }
-        },
-        onprogress,
-        function(err) {
-          console.log(err)
-        }
-      )
+        )
+      }
+      if (this.mode == 'preview') {
+        this.loader.load(
+          // '/zelda/scene.gltf',
+          // '/lantern/Lantern.gltf',
+          // '/flight_helmet/FlightHelmet.gltf',
+          '/exportTest.gltf',
+          object => {
+            console.log(object)
+            console.log(object.scene)
+            console.log(object.scene.children.length)
+            this.DFS(object.scene, this.atomicArr)
+            for (let i = 0; i < this.atomicArr.length; i++) {
+              this.scene.add(this.atomicArr[i])
+            }
+            let tempuuidSet = new Set()
+            //初始化groupmap
+            //把所有uuid丢进set里
+            for (let i = 0; i < this.atomicArr.length; i++) {
+              tempuuidSet.add(this.atomicArr[i].userData.uuid)
+            }
+            //经过去重的uuid创建为map
+            tempuuidSet.delete(-1)
+            for (let i of tempuuidSet) {
+              this.groupMap.set(i, [])
+            }
+            for (let i = 0; i < this.atomicArr.length; i++) {
+              if (this.atomicArr[i].userData.uuid != -1) {
+                this.groupMap.get(this.atomicArr[i].userData.uuid).push(this.atomicArr[i])
+              }
+            }
+          },
+          onprogress,
+          function(err) {
+            console.log(err)
+          }
+        )
+      }
     },
     save(blob, filename) {
       var link = document.createElement('a')
@@ -325,6 +387,13 @@ export default {
     //   })
     // },
     exportGLTF() {
+      let exportArr = []
+      for (let i = 0; i < this.atomicArr.length; i++) {
+        exportArr.push(this.atomicArr[i])
+      }
+      for (let i = 0; i < this.groupArr.length; i++) {
+        exportArr.push(this.groupArr[i])
+      }
       let exportOptions = {
         includeCustomExtensions: true
       }
@@ -426,11 +495,34 @@ export default {
         console.log(intersects)
         let tempStore = intersects[0].object
         //推回至最上层的父结点，选中最上层的这个父结点
-        while (tempStore.parent.type != 'Scene') {
-          tempStore = tempStore.parent
+        // while (tempStore.parent.type != 'Scene') {
+        //   tempStore = tempStore.parent
+        // }
+        let tempuuid = tempStore.userData.uuid
+        //选中的物体uuid == -1时
+        if (tempuuid == -1) {
+          //如果当前未选中该物体
+          if (this.selectedObjects.indexOf(tempStore) < 0) {
+            // let tempGroupArr = this.groupMap.get(tempuuid)
+            this.selectedObjects.push(tempStore)
+          }
         }
-        if (this.selectedObjects.indexOf(tempStore) < 0) {
-          this.selectedObjects.push(tempStore)
+        if (tempuuid != -1) {
+          //如果当前未选中该物体
+          if (this.selectedObjects.indexOf(tempStore) < 0) {
+            let tempGroupArr = this.groupMap.get(tempuuid)
+            for (let i = 0; i < tempGroupArr.length; i++) {
+              this.selectedObjects.push(tempGroupArr[i])
+            }
+          }
+          //如果当前已选中该物体
+          else if (this.selectedObjects.indexOf(tempStore) >= 0) {
+            let tempGroupArr = this.groupMap.get(tempuuid)
+            this.selectedObjects.splice(this.selectedObjects.indexOf(tempStore), 1)
+            for (let i = 0; i < tempGroupArr.length; i++) {
+              this.selectedObjects.push(tempGroupArr[i])
+            }
+          }
         }
         console.log(this.selectedObjects)
         this.outlinePass.selectedObjects = this.selectedObjects
@@ -483,7 +575,7 @@ export default {
       }
     },
     /**
-     * 把mesh组合成group
+     * 把需要组合的mesh的userData.uuid赋为同一值，通过该值将所有的mesh联系起来
      */
     composeMesh() {
       console.log(this.selectedObjects)
@@ -492,42 +584,68 @@ export default {
         //新建一个group
         let tempGroup = new THREE.Group()
         //从场景中删除所有被选中的物体，将被删除的物体添加入组中
+        //2021.4.6，不再删除场景中被选中的物体，转而将被选中的物体设置uuid，作为compose的结果
+        let tempuuid = uuidv4()
+        let tempGroupArr = []
+        //浅拷贝一份当前选中的东西的引用,并且把uuid赋给每个selectedObject，解绑时把uuid赋为-1
         for (let i = 0; i < this.selectedObjects.length; i++) {
-          this.scene.remove(this.selectedObjects[i])
-          tempGroup.add(this.selectedObjects[i])
+          tempGroupArr.push(this.selectedObjects[i])
+          this.selectedObjects[i].userData.uuid = tempuuid
         }
+        //在map中添加当前tempGroupArr，方便查找
+        this.groupMap.set(tempuuid, tempGroupArr)
+        // for (let i = 0; i < this.selectedObjects.length; i++) {
+        //   this.atomicArr.splice(this.atomicArr.indexOf(this.selectedObjects[i]), 1)
+        //   this.scene.remove(this.selectedObjects[i])
+        //   tempGroup.add(this.selectedObjects[i])
+        // }
         //把tempGroup添加入groupArr中，加入场景中
-        this.groupArr.push(tempGroup)
-        this.scene.add(this.groupArr[this.groupArr.length - 1])
+        // this.groupArr.push(tempGroup)
+        // this.scene.add(this.groupArr[this.groupArr.length - 1])
         //把选中数组清空，边框特效清空
         this.selectedObjects = []
         this.outlinePass.selectedObjects = []
-        console.log(this.scene.children)
+        // console.log(this.scene.children)
+        // console.log(this.atomicArr)
+        // console.log([this.atomicArr, ...this.groupArr])
       }
     },
     /**
-     * 把group中的所有元素全部解绑为mesh
+     * mesh.userData.uuid 值赋为-1，解绑
      */
     discomposeGroup() {
-      console.log(this.selectedObjects)
-      console.log(this.groupArr.indexOf(this.selectedObjects[0]))
-      //如果当前仅选中了一个物体，并且该物体有子元素
-      if (this.selectedObjects.length == 1 && this.selectedObjects[0].children.length > 0) {
-        //那么这个可以被认为是group，将它从groupArr中剔除，从场景中删除
-        this.groupArr.splice(this.groupArr.indexOf(this.selectedObjects[0]), 1)
-        this.scene.remove(this.selectedObjects[0])
-        //新建变量tempAtomicArr,DFS这个物体结点，把它所有叶子结点遍历添加入tempAtomicArr
-        let tempAtomicArr = []
-        this.DFS(this.selectedObjects[0], tempAtomicArr)
-        console.log(tempAtomicArr)
-        //把它所有的叶子结点添加入场景中
-        for (let i = 0; i < tempAtomicArr.length; i++) {
-          this.scene.add(tempAtomicArr[i])
+      //当选中的mesh是>=2个时才有删除必要
+      if (this.selectedObjects.length > 1) {
+        let tempSet = new Set()
+        for (let i = 0; i < this.selectedObjects.length; i++) {
+          tempSet.add(this.selectedObjects[i].userData.uuid)
+          this.selectedObjects[i].userData.uuid = -1
         }
-        //清空当前选中的物体，清空边框特效
-        this.selectedObjects = []
-        this.outlinePass.selectedObjects = this.selectedObjects
+        for (let arruuid of tempSet) {
+          this.groupMap.delete(arruuid)
+        }
       }
+      // console.log(this.selectedObjects)
+      // console.log(this.groupArr.indexOf(this.selectedObjects[0]))
+      //如果当前仅选中了一个物体，并且该物体有子元素
+      // if (this.selectedObjects.length == 1 && this.selectedObjects[0].children.length > 0) {
+      //   //那么这个可以被认为是group，将它从groupArr中剔除，从场景中删除
+      //   this.groupArr.splice(this.groupArr.indexOf(this.selectedObjects[0]), 1)
+      //   this.scene.remove(this.selectedObjects[0])
+      //   //新建变量tempAtomicArr,DFS这个物体结点，把它所有叶子结点遍历添加入tempAtomicArr
+      //   let tempAtomicArr = []
+      //   this.DFS(this.selectedObjects[0], tempAtomicArr)
+      //   this.DFS(this.selectedObjects[0], this.atomicArr)
+      //   console.log(tempAtomicArr)
+      //   console.log(this.atomicArr)
+      //   //把它所有的叶子结点添加入场景中
+      //   for (let i = 0; i < tempAtomicArr.length; i++) {
+      //     this.scene.add(tempAtomicArr[i])
+      //   }
+      //   //清空当前选中的物体，清空边框特效
+      // }
+      this.selectedObjects = []
+      this.outlinePass.selectedObjects = []
     },
     //深度遍历树，把所有叶子结点添加入数组中
     DFS(node, nodeList) {
