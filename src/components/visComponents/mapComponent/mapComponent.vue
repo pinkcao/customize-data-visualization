@@ -222,19 +222,19 @@ export default {
 
     initCamera() {
       this.camera = new THREE.PerspectiveCamera(65, this.width / this.height, 0.1, 10000)
-      this.camera.position.set(5, 5, 10)
+      this.camera.position.set(5, 5, 30)
     },
 
     initScene() {
       this.scene = new THREE.Scene()
     },
     initLight() {
-      let directionalLight = new THREE.DirectionalLight(0xffffff, 0.3) //平行光源
+      let directionalLight = new THREE.DirectionalLight(0xffffff, 2) //平行光源
       directionalLight.color.setHSL(0.1, 1, 0.95)
-      directionalLight.position.set(0, 200, 0).normalize()
+      directionalLight.position.set(0, 200, 200).normalize()
       this.light.push(directionalLight)
 
-      let ambient = new THREE.AmbientLight(0xffffff, 1) //环境光源，提供基础亮度
+      let ambient = new THREE.AmbientLight(0xffffff, 1.5) //环境光源，提供基础亮度
       ambient.position.set(100, 100, 100)
       this.light.push(ambient)
       this.addLight()
@@ -289,6 +289,7 @@ export default {
       window.cancelAnimationFrame(this.animationFrame)
       this.animationFrame = window.requestAnimationFrame(this.animate)
     },
+    //加载所有玩意
     initLoader() {
       //在design时全部mesh，在preview时带group
       if (this.mode == 'design') {
@@ -407,18 +408,6 @@ export default {
         },
         exportOptions
       )
-      // this.exporter.parse(this.scene, function(result) {
-      //   //这里需要一个下载gltf，或者是上传gltf至服务器的方法
-      //   console.log(result)
-      //   // downloadJSON(gltf)
-      //   let link = document.createElement('a')
-      //   link.style.display = 'none'
-      //   document.body.appendChild(link)
-      //   link.href = URL.createObjectURL(new Blob([JSON.stringify(result)], { type: 'text/plain' }))
-      //   link.click()
-      //   document.body.removeChild(link)
-      //   this.addLight()
-      // })
     },
     initComposer() {
       this.composer = new EffectComposer(this.renderer)
