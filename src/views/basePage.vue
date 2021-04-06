@@ -243,6 +243,8 @@ export default {
   },
   watch: {
     '$store.state.screenDefFlag': function(newval) {
+      console.log('?')
+      console.log(this.$store.state.screenDefFlag)
       if (newval == true) {
         this.updateColData()
       }
@@ -254,8 +256,8 @@ export default {
         url: this.$url.getBackgroundStyle,
         method: 'get',
         params: {
-          templateID: this.$store.state.currentTemplateID,
-          userID: this.$store.state.currentUserID
+          templateID: window.localStorage.getItem('templateID'),
+          userID: window.localStorage.getItem('userID')
         }
       }).then(res => {
         if (res) {
@@ -266,16 +268,19 @@ export default {
       })
     },
     initScreenDef() {
+      console.log(this.$store.state.currentTemplateID)
+      console.log(this.$store.state.currentUserID)
       this.$axios({
         url: this.$url.getScreenDef,
         method: 'get',
         params: {
-          templateID: this.$store.state.currentTemplateID,
-          userID: this.$store.state.currentUserID
+          templateID: window.localStorage.getItem('templateID'),
+          userID: window.localStorage.getItem('userID')
         }
       }).then(res => {
         if (res) {
           if (res.status == 200) {
+            console.log(res.data)
             this.$store.commit('initScreenDef', res.data)
           }
         }
@@ -286,8 +291,8 @@ export default {
         url: this.$url.getScreenStretch,
         method: 'get',
         params: {
-          templateID: this.$store.state.currentTemplateID,
-          userID: this.$store.state.currentUserID
+          templateID: window.localStorage.getItem('templateID'),
+          userID: window.localStorage.getItem('userID')
         }
       }).then(res => {
         if (res) {

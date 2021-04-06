@@ -220,14 +220,18 @@ export default {
       console.log('all stuffs reset')
     },
 
+    //初始化透视摄像机，此外还有正交摄像机
+    //那是不是甚至可以模拟摄像机，比如说在环境中加入n个摄像机，每个摄像机有其vector3坐标，然后lookat某个点，然后双击后切换到该摄像机看到的事件？
     initCamera() {
       this.camera = new THREE.PerspectiveCamera(65, this.width / this.height, 0.1, 10000)
       this.camera.position.set(5, 5, 30)
     },
 
+    //初始化scene
     initScene() {
       this.scene = new THREE.Scene()
     },
+    //初始化光照
     initLight() {
       let directionalLight = new THREE.DirectionalLight(0xffffff, 2) //平行光源
       directionalLight.color.setHSL(0.1, 1, 0.95)
@@ -666,7 +670,7 @@ export default {
           url: this.$url.adjustComponent,
           method: 'post',
           data: {
-            templateID: this.$store.state.currentTemplateID,
+            templateID: window.localStorage.getItem('templateID'),
             deg: this.deg,
             index: this.index,
             width: this.width,

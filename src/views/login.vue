@@ -121,6 +121,7 @@ export default {
             window.localStorage.setItem('Auth-Token', res.data.token)
             console.log(res.data)
             this.$store.commit('changeCurrentUserID', res.data.userID)
+            window.localStorage.setItem('userID', res.data.userID)
             // console.log('登录成功')
             this.loadingInstance.close()
             this.$router.push('/templateSelect')

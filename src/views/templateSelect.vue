@@ -63,7 +63,7 @@ export default {
   computed: {},
   created() {},
   mounted() {
-    this.getTemplateList(this.$store.state.currentUserID)
+    this.getTemplateList(window.localStorage.getItem('userID'))
   },
   beforeDestroy() {
     this.loadingInstance.close()
@@ -72,9 +72,10 @@ export default {
   methods: {
     //从数据库获取该人的模板信息，包括模板的个数、ID，根据个数、ID生成相应的可点击的模板、点击后进入设计界面
     //当前正在修改的模板ID进入session、在修改时把session中的模板ID、用户ID作为参数与数据库交互
-    clickTemplate(item) {
+    clickTemplate(templateID) {
       // console.log(item)
-      this.$store.commit('changeCurrentTemplateID', item)
+      this.$store.commit('changeCurrentTemplateID', templateID)
+      window.localStorage.setItem('templateID', templateID)
       this.$router.push('/basePage')
     },
     getTemplateList() {
@@ -88,7 +89,7 @@ export default {
         url: this.$url.getTemplateList,
         method: 'get',
         params: {
-          userID: this.$store.state.currentUserID
+          userID: window.localStorage.getItem('userID')
         }
       }).then(res => {
         // console.log(res.data)
@@ -115,7 +116,7 @@ export default {
         url: this.$url.appendTemplate,
         method: 'post',
         data: {
-          userID: this.$store.state.currentUserID
+          userID: window.localStorage.getItem('userID')
         }
       }).then(res => {
         if (res.status == 200) {
@@ -145,7 +146,7 @@ export default {
             url: this.$url.spliceTemplate,
             method: 'post',
             data: {
-              userID: this.$store.state.currentUserID,
+              userID: window.localStorage.getItem('userID'),
               templateID: templateID
             }
           }).then(res => {

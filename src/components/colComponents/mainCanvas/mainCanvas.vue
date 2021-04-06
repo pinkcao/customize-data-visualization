@@ -205,7 +205,7 @@ export default {
         url: this.$url.getComponentList,
         method: 'get',
         params: {
-          templateID: this.$store.state.currentTemplateID
+          templateID: window.localStorage.getItem('templateID')
         }
       }).then(res => {
         if (res.status == 200) {
@@ -299,7 +299,7 @@ export default {
                     method: 'post',
                     data: {
                       index: index,
-                      templateID: that.$store.state.currentTemplateID
+                      templateID: window.localStorage.getItem('templateID')
                     }
                   })
                   .then(res => {
@@ -341,7 +341,7 @@ export default {
                             url: that.$url.updateComponentBasicStatus,
                             method: 'post',
                             data: {
-                              templateID: that.$store.state.currentTemplateID,
+                              templateID: window.localStorage.getItem('templateID'),
                               index: mnt.component_instance.index,
                               dataSource: tempDataSource,
                               // width: newVal[i].width,
@@ -391,7 +391,7 @@ export default {
           method: 'post',
           //不用testobj是因为在testObj中重定向了store，会造成"Converting circular structure to JSON"的问题
           data: {
-            templateID: this.$store.state.currentTemplateID,
+            templateID: window.localStorage.getItem('templateID'),
             index: this.componentList.length,
             zindex: this.componentList.length,
             disabled: false,
@@ -480,7 +480,7 @@ export default {
                     method: 'post',
                     data: {
                       index: index,
-                      templateID: that.$store.state.currentTemplateID
+                      templateID: window.localStorage.getItem('templateID')
                     }
                   })
                   .then(res => {
@@ -522,7 +522,7 @@ export default {
                             url: that.$url.updateComponentBasicStatus,
                             method: 'post',
                             data: {
-                              templateID: that.$store.state.currentTemplateID,
+                              templateID: window.localStorage.getItem('templateID'),
                               index: mnt.component_instance.index,
                               dataSource: tempDataSource,
                               // width: newVal[i].width,

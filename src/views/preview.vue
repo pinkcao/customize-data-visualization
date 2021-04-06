@@ -119,8 +119,8 @@ export default {
         url: url.getBackgroundStyle,
         method: 'get',
         params: {
-          templateID: this.$store.state.currentTemplateID,
-          userID: this.$store.state.currentUserID
+          templateID: window.localStorage.getItem('templateID'),
+          userID: window.localStorage.getItem('userID')
         }
       }).then(res => {
         if (res) {
@@ -138,8 +138,8 @@ export default {
         url: url.getScreenStretch,
         method: 'get',
         params: {
-          templateID: this.$store.state.currentTemplateID,
-          userID: this.$store.state.currentUserID
+          templateID: window.localStorage.getItem('templateID'),
+          userID: window.localStorage.getItem('userID')
         }
       }).then(res => {
         if (res) {
@@ -157,8 +157,8 @@ export default {
         url: url.getScreenDef,
         method: 'get',
         params: {
-          templateID: this.$store.state.currentTemplateID,
-          userID: this.$store.state.currentUserID
+          templateID: window.localStorage.getItem('templateID'),
+          userID: window.localStorage.getItem('userID')
         }
       }).then(res => {
         if (res) {
@@ -236,7 +236,7 @@ export default {
         url: url.getComponentList,
         method: 'get',
         params: {
-          templateID: this.$store.state.currentTemplateID
+          templateID: window.localStorage.getItem('templateID')
         }
       }).then(res => {
         for (let i = 0; i < res.data.resultSet.length; i++) {

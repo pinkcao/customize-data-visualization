@@ -274,13 +274,16 @@ export default new Vuex.Store({
       // this.updateParentScale()
     },
     updateParentScale(state) {
-      //使用当前屏幕的宽度来计算目前的画布所应有的Scale
-      let currentWidth = window.screen.width
-      currentWidth -= state.currentColWidth
-      let newScale = currentWidth / state.screenDef[0].value
-      state.parentScale = newScale
-      state.parentScaleX = newScale
-      state.parentScaleY = newScale
+      console.log(state.screenDef)
+      if (state.screenDef != []) {
+        //使用当前屏幕的宽度来计算目前的画布所应有的Scale
+        let currentWidth = window.screen.width
+        currentWidth -= state.currentColWidth
+        let newScale = currentWidth / state.screenDef[0].value
+        state.parentScale = newScale
+        state.parentScaleX = newScale
+        state.parentScaleY = newScale
+      }
       // state.currentColWidth = 0
       // for (let i = 0; i < data.length; i++) {
       //   currentWidth = currentWidth - data[i]

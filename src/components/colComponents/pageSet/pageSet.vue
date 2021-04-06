@@ -198,7 +198,7 @@ export default {
           data: {
             backgroundColor: this.backgroundColor,
             backgroundImage: this.backgroundImage,
-            templateID: this.$store.state.currentTemplateID
+            templateID: window.localStorage.getItem('templateID')
           }
         }).then(res => {
           if (res) {
@@ -223,7 +223,7 @@ export default {
           data: {
             backgroundColor: this.defaultBackgroundColor,
             backgroundImage: this.backgroundImage,
-            templateID: this.$store.state.currentTemplateID
+            templateID: window.localStorage.getItem('templateID')
           }
         }).then(res => {
           if (res) {
@@ -303,8 +303,8 @@ export default {
         data: {
           // screenStretch: screenStretch,
           screenStretch: stretch,
-          templateID: this.$store.state.currentTemplateID,
-          userID: this.$store.state.currentUserID
+          templateID: window.localStorage.getItem('templateID'),
+          userID: window.localStorage.getItem('userID')
         }
       }).then(res => {
         if (res) {

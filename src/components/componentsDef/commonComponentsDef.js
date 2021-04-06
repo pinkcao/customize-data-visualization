@@ -104,7 +104,7 @@ export default {
           url: url.adjustComponent,
           method: 'post',
           data: {
-            templateID: this.$store.state.currentTemplateID,
+            templateID: window.localStorage.getItem('templateID'),
             deg: this.deg,
             index: this.index,
             width: this.width,
