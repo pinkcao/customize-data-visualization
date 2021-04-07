@@ -173,7 +173,7 @@ export default new Vuex.Store({
       for (let i = 0; i < componentList.length; i++) {
         state.componentActive[componentList[i].index] = { active: componentList[i].active }
       }
-      // console.log(state.componentActive)
+      console.log(state.componentActive)
     },
     //设置所有组件为不活跃，设置被选中组件为活跃
     updateActiveComponent(state, args) {
@@ -206,8 +206,12 @@ export default new Vuex.Store({
     },
     //设置所有组件为不活跃
     setActiveComponentFalse(state) {
+      // console.log(state.componentActive)
+      // console.log(state.componentActive)
       for (let i = 0; i < state.componentActive.length; i++) {
-        state.componentActive[i].active = false
+        if (state.componentActive[i] != undefined) {
+          state.componentActive[i].active = false
+        }
       }
       state.pageAndComponentFlag = true
       state.activeComponentIndex = -1

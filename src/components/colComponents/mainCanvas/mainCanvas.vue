@@ -210,7 +210,7 @@ export default {
       }).then(res => {
         if (res.status == 200) {
           for (let i = 0; i < res.data.resultSet.length; i++) {
-            // console.log(res.data.resultSet[i].dataSource)
+            console.log(res.data.resultSet[i].dataSource)
             if (
               res.data.resultSet[i].dataSource != null &&
               res.data.resultSet[i].dataSource.data != null &&
@@ -428,6 +428,7 @@ export default {
           this.componentList = res.data.resultSet
           this.$store.commit('initComponentList', this.componentList)
           this.$store.commit('initActiveComponent', this.componentList)
+          console.log(this.componentList)
           this.loadingInstance.close()
         })
         this.$store.commit('changeComponentNameToCanvas', '')

@@ -57,6 +57,10 @@ import { GLTFExporter } from 'three/examples/jsm/exporters/GLTFExporter.js'
 import Stats from 'three/examples/jsm/libs/stats.module.js'
 import commonComponentsDef from '@components/componentsDef/commonComponentsDef.js'
 import { v4 as uuidv4 } from 'uuid'
+import ResourceTracker from '@/common/core/dispose.js'
+
+let resMgr = new ResourceTracker()
+const track = resMgr.track.bind(resMgr)
 
 export default {
   extends: commonComponentsDef,
@@ -140,7 +144,12 @@ export default {
       ambientLight: null,
       atomicArr: [],
       groupArr: [],
-
+      camera: null,
+      scene: null,
+      renderer: null,
+      mesh: null,
+      light: [],
+      controls: null,
       // workflowArr: [
       //   [0, 2, 0],
       //   [1, 0, 0],
@@ -159,12 +168,13 @@ export default {
   created() {},
   mounted() {
     this.flag = true
-    this.camera = null
-    this.scene = null
-    this.renderer = null
-    this.mesh = null
-    this.light = []
-    this.controls = null
+    console.log(this.index)
+    // this.camera = null
+    // this.scene = null
+    // this.renderer = null
+    // this.mesh = null
+    // this.light = []
+    // this.controls = null
     this.init()
     if (this.renderer != null && this.$refs.container != null) {
       this.animate()
@@ -174,11 +184,18 @@ export default {
     // this.$refs.container.addEventListener('dblclick', this.activateWorkflow, false)
   },
   beforeDestroy() {
-    window.cancelAnimationFrame(this.animationFrame)
     this.resetParams()
+    console.log(this.renderer)
+    console.log(this.scene)
+    console.log(this)
     // this.$refs.container.removeEventListener('click', this.onMouseClick, true) //这里是选中box的监听
     // this.$refs.container.removeEventListener('resize', this.onWindowResize, false) //这里是resize整个窗口的监听
     // this.$refs.container.removeEventListener('dblclick', this.activateWorkflow, false)
+  },
+  destroyed() {
+    console.log('destroyed')
+    console.log(this.atomicArr)
+    console.log(this.loader)
   },
   watch: {
     workflowCount: function(newVal, oldVal) {
@@ -209,17 +226,32 @@ export default {
       this.initLoader()
       this.initControls()
       this.initComposer()
-      if (this.mode == 'design') {
-        this.initStats()
-      }
+      // if (this.mode == 'design') {
+      this.initStats()
+      // }
     },
 
     resetParams() {
+      this.scene.clear()
+      resMgr && resMgr.dispose()
       this.renderer.dispose()
       this.renderer.forceContextLoss()
-      // this.renderer.context = null
-      this.renderer.domElement = null
-      this.renderer = null
+      this.renderer.content = null
+      window.cancelAnimationFrame(this.animationFrame)
+      this.atomicArr = null
+      this.light = null
+      this.lodaer = null
+      // this.light
+      // let gl = this.renderer.domElement.getcontext('webgl')
+      // gl && gl.getExtension('WEBGL_lose_context').loseContext()
+      // this.renderer.domElement = null
+      // this.renderer = null
+      // this.camera = null
+      // for (let i = 0; i < this.atomicArr.length; i++) {
+      //   this.scene.remove(this.atomicArr[i])
+      //   }
+      // this.scene.remove()
+      console.log(this.renderer.info)
       console.log('all stuffs reset')
     },
 
@@ -236,12 +268,12 @@ export default {
     },
     //初始化光照
     initLight() {
-      let directionalLight = new THREE.DirectionalLight(0xffffff, 2) //平行光源
+      let directionalLight = track(new THREE.DirectionalLight(0xffffff, 2)) //平行光源
       directionalLight.color.setHSL(0.1, 1, 0.95)
       directionalLight.position.set(0, 200, 200).normalize()
       this.light.push(directionalLight)
 
-      let ambient = new THREE.AmbientLight(0xffffff, 1.5) //环境光源，提供基础亮度
+      let ambient = track(new THREE.AmbientLight(0xffffff, 1.5)) //环境光源，提供基础亮度
       ambient.position.set(100, 100, 100)
       this.light.push(ambient)
       this.addLight()
@@ -257,36 +289,36 @@ export default {
       }
     },
     initRenderer() {
-      if (this.$refs.container != undefined) {
-        this.renderer = new THREE.WebGLRenderer({
-          antialias: true
-        })
-        // this.resetParams()
-        this.renderer.shadowMap.enabled = true
-        console.log(this.renderer.getSize(new THREE.Vector2()))
-        // console.log(this.$refs.container.getBoundingClientRect().width)
-        // console.log(this.$refs.container.getBoundingClientRect().height)
-        this.renderer.setSize(this.width, this.height)
-        console.log(this.renderer.getSize(new THREE.Vector2()))
-        this.renderer.setClearColor(0xffaaaa, 1.0)
-        // below two lines makes the FPS goes really low
-        // this.renderer.gammaOutput = true
-        // this.renderer.gammaFactor = 2.2
-        console.log(this.$refs.container)
-        this.$refs.container.appendChild(this.renderer.domElement)
-      }
+      // if (this.$refs.container != undefined) {
+      this.renderer = new THREE.WebGLRenderer({
+        antialias: true
+      })
+      // this.resetParams()
+      this.renderer.shadowMap.enabled = true
+      console.log(this.renderer.getSize(new THREE.Vector2()))
+      // console.log(this.$refs.container.getBoundingClientRect().width)
+      // console.log(this.$refs.container.getBoundingClientRect().height)
+      this.renderer.setSize(this.width, this.height)
+      console.log(this.renderer.getSize(new THREE.Vector2()))
+      this.renderer.setClearColor(0xffaaaa, 1.0)
+      // below two lines makes the FPS goes really low
+      // this.renderer.gammaOutput = true
+      // this.renderer.gammaFactor = 2.2
+      console.log(this.$refs.container)
+      this.$refs.container.appendChild(this.renderer.domElement)
+      // }
     },
     initControls() {
-      if (this.renderer != null) {
-        this.controls = new OrbitControls(this.camera, this.renderer.domElement)
-        this.controls.enableDamping = true // an animation loop is required when either damping or auto-rotation are enabled
-        this.controls.dampingFactor = 0.2 //惯性旋转，默认0.25
-        this.controls.screenSpacePanning = false
-        this.controls.minDistance = 1
-        this.controls.maxDistance = 1500
-        this.controls.maxPolarAngle = Math.PI / 2
-        //控制垂直旋转的角度
-      }
+      // if (this.renderer != null) {
+      this.controls = new OrbitControls(this.camera, this.renderer.domElement)
+      this.controls.enableDamping = true // an animation loop is required when either damping or auto-rotation are enabled
+      this.controls.dampingFactor = 0.2 //惯性旋转，默认0.25
+      this.controls.screenSpacePanning = false
+      this.controls.minDistance = 1
+      this.controls.maxDistance = 1500
+      this.controls.maxPolarAngle = Math.PI / 2
+      //控制垂直旋转的角度
+      // }
     },
     initGeometry() {
       let geometry = new THREE.BoxGeometry(5, 5, 5)
@@ -315,6 +347,7 @@ export default {
               if (this.atomicArr[i].userData.uuid == undefined) {
                 this.atomicArr[i].userData.uuid = -1
               }
+              this.atomicArr[i] = track(this.atomicArr[i])
               this.scene.add(this.atomicArr[i])
             }
             let tempuuidSet = new Set()
@@ -352,6 +385,7 @@ export default {
             console.log(object.scene.children.length)
             this.DFS(object.scene, this.atomicArr)
             for (let i = 0; i < this.atomicArr.length; i++) {
+              this.atomicArr[i] = track(this.atomicArr[i])
               this.scene.add(this.atomicArr[i])
             }
             let tempuuidSet = new Set()
@@ -417,42 +451,42 @@ export default {
       )
     },
     initComposer() {
-      if (this.renderer != null) {
-        this.composer = new EffectComposer(this.renderer)
-        let renderPass = new RenderPass(this.scene, this.camera)
-        this.fxaaPass = new ShaderPass(FXAAShader)
-        const pixelRatio = this.renderer.getPixelRatio()
-        this.fxaaPass.material.uniforms['resolution'].value.x = 1 / (this.width * pixelRatio)
-        this.fxaaPass.material.uniforms['resolution'].value.y = 1 / (this.height * pixelRatio)
-        this.composer.addPass(renderPass)
-        this.composer.addPass(this.fxaaPass)
-        this.outlinePass = new OutlinePass(new THREE.Vector2(this.width, this.height), this.scene, this.camera)
-        this.outlinePass.edgeStrength = 3 //包围线浓度
-        this.outlinePass.edgeGlow = 1 //边缘线范围
-        this.outlinePass.edgeThickness = 1 //边缘线浓度
-        this.outlinePass.pulsePeriod = 2 //包围线闪烁频率
-        this.outlinePass.visibleEdgeColor.set('#00ffff') //包围线颜色
-        this.outlinePass.hiddenEdgeColor.set('#190a05') //被遮挡的边界线颜色
-        this.outlinePass.renderToScreen = true
-        this.composer.addPass(this.outlinePass)
-      }
+      // if (this.renderer != null) {
+      this.composer = new EffectComposer(this.renderer)
+      let renderPass = new RenderPass(this.scene, this.camera)
+      this.fxaaPass = new ShaderPass(FXAAShader)
+      const pixelRatio = this.renderer.getPixelRatio()
+      this.fxaaPass.material.uniforms['resolution'].value.x = 1 / (this.width * pixelRatio)
+      this.fxaaPass.material.uniforms['resolution'].value.y = 1 / (this.height * pixelRatio)
+      this.composer.addPass(renderPass)
+      this.composer.addPass(this.fxaaPass)
+      this.outlinePass = new OutlinePass(new THREE.Vector2(this.width, this.height), this.scene, this.camera)
+      this.outlinePass.edgeStrength = 3 //包围线浓度
+      this.outlinePass.edgeGlow = 1 //边缘线范围
+      this.outlinePass.edgeThickness = 1 //边缘线浓度
+      this.outlinePass.pulsePeriod = 2 //包围线闪烁频率
+      this.outlinePass.visibleEdgeColor.set('#00ffff') //包围线颜色
+      this.outlinePass.hiddenEdgeColor.set('#190a05') //被遮挡的边界线颜色
+      this.outlinePass.renderToScreen = true
+      this.composer.addPass(this.outlinePass)
+      // }
     },
 
     initStats() {
-      if (this.$refs.container != undefined) {
-        this.stats = new Stats()
-        this.stats.domElement.style.position = 'absolute'
-        this.stats.domElement.style.left = '0px'
-        this.stats.domElement.style.top = '0px'
-        // document.body.appendChild(this.stats.domElement)
-        this.$refs.container.appendChild(this.stats.domElement)
-      }
+      // if (this.$refs.container != undefined) {
+      this.stats = new Stats()
+      this.stats.domElement.style.position = 'absolute'
+      this.stats.domElement.style.left = '0px'
+      this.stats.domElement.style.top = '0px'
+      // document.body.appendChild(this.stats.domElement)
+      this.$refs.container.appendChild(this.stats.domElement)
+      // }
     },
     update() {
       this.controls.update()
-      if (this.mode == 'design') {
-        this.stats.update()
-      }
+      // if (this.mode == 'design') {
+      this.stats.update()
+      // }
     },
 
     animate() {
