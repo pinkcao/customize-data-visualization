@@ -210,10 +210,17 @@ export default {
       }).then(res => {
         if (res.status == 200) {
           for (let i = 0; i < res.data.resultSet.length; i++) {
-            res.data.resultSet[i].dataSource.data = JSON.parse(res.data.resultSet[i].dataSource.data)
-            res.data.resultSet[i].dataSource.dataSourceOptions = JSON.parse(
-              res.data.resultSet[i].dataSource.dataSourceOptions
-            )
+            // console.log(res.data.resultSet[i].dataSource)
+            if (
+              res.data.resultSet[i].dataSource != null &&
+              res.data.resultSet[i].dataSource.data != null &&
+              res.data.resultSet[i].dataSource.dataSourceOptions != null
+            ) {
+              res.data.resultSet[i].dataSource.data = JSON.parse(res.data.resultSet[i].dataSource.data)
+              res.data.resultSet[i].dataSource.dataSourceOptions = JSON.parse(
+                res.data.resultSet[i].dataSource.dataSourceOptions
+              )
+            }
           }
           this.componentList = res.data.resultSet
           console.log(this.componentList)

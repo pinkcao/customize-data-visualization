@@ -47,8 +47,8 @@ export default {
       },
       //当前组件样式
       style: {
-        opacity: 1,
-        titlepos: ''
+        // opacity: 1,
+        // titlepos: ''
         // legendvis: true,
         // titlevis: true
       }

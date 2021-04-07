@@ -27,14 +27,17 @@
       @deactivated="onDeactivated"
     >
       <div class="container" id="container" ref="container" @click="onMouseClick" @dblclick="activateWorkflow">
-        <div class="compose-button">
+        <div v-if="mode == 'design'" class="compose-button">
           <el-button @click.stop.prevent="composeMesh">绑定</el-button>
         </div>
-        <div class="discompose-button">
+        <div v-if="mode == 'design'" class="discompose-button">
           <el-button @click.stop.prevent="discomposeGroup">解绑</el-button>
         </div>
-        <div class="load-button">
+        <div v-if="mode == 'design'" class="load-button">
           <el-button @click.stop.prevent="exportGLTF">导出</el-button>
+        </div>
+        <div v-if="mode == 'design'" class="workflow-button">
+          <el-button @click.stop.prevent="bindWorkflow">绑定工作流</el-button>
         </div>
       </div>
     </vue-drag-resize-rotate>
@@ -67,8 +70,8 @@ export default {
       name: 'mapComponent',
       active: false,
       disabled: false,
-      width: 200,
-      height: 200,
+      width: 500,
+      height: 500,
       top: 0,
       left: 0,
       parentLimitation: true,
@@ -82,36 +85,36 @@ export default {
       title: '模型',
       subTitle: 'fake data',
       dataSource: {
-        data: [
-          ['department', '2018', '2019'],
-          ['finance', 43.3, 85.8],
-          ['humanResource', 83.1, 73.4],
-          ['sales', 86.4, 65.2],
-          ['product', 72.4, 53.9],
-          ['qualityAssurance', 55.1, 66.5]
-        ],
-        dataSourceOptions: [
-          {
-            value: 'APISource',
-            label: 'API数据源'
-          },
-          {
-            value: 'otherSource',
-            label: 'unknown'
-          }
-        ],
-        dataSourceType: '',
-        APISwitch: false,
-        APIURL: '',
-        APIMethod: '',
-        APIInterval: 10000,
-        APIHeader: '',
-        IntervalID: 0 //用于存储setInterval的ID，便于clearInterval
+        // data: [
+        //   ['department', '2018', '2019'],
+        //   ['finance', 43.3, 85.8],
+        //   ['humanResource', 83.1, 73.4],
+        //   ['sales', 86.4, 65.2],
+        //   ['product', 72.4, 53.9],
+        //   ['qualityAssurance', 55.1, 66.5]
+        // ],
+        // dataSourceOptions: [
+        //   {
+        //     value: 'APISource',
+        //     label: 'API数据源'
+        //   },
+        //   {
+        //     value: 'otherSource',
+        //     label: 'unknown'
+        //   }
+        // ],
+        // dataSourceType: '',
+        APISwitch: false
+        // APIURL: '',
+        // APIMethod: '',
+        // APIInterval: 10000,
+        // APIHeader: '',
+        // IntervalID: 0 //用于存储setInterval的ID，便于clearInterval
       },
       style: {
-        opacity: 1,
-        legendvis: true,
-        titlevis: true
+        // opacity: 1,
+        // legendvis: true,
+        // titlevis: true
       },
       options: null,
       group: null,
@@ -163,8 +166,9 @@ export default {
     this.light = []
     this.controls = null
     this.init()
-    this.animate()
-    // console.log(uuidv4())
+    if (this.renderer != null && this.$refs.container != null) {
+      this.animate()
+    }
     // this.$refs.container.addEventListener('click', this.onMouseClick, true) //这里是选中box的监听
     // this.$refs.container.addEventListener('resize', this.onWindowResize, false) //这里是resize整个窗口的监听
     // this.$refs.container.addEventListener('dblclick', this.activateWorkflow, false)
@@ -172,9 +176,6 @@ export default {
   beforeDestroy() {
     window.cancelAnimationFrame(this.animationFrame)
     this.resetParams()
-    // window.removeEventListener('click', this.onMouseClick, false) //这里是选中box的监听
-    // window.removeEventListener('resize', this.onWindowResize, false) //这里是resize整个窗口的监听
-    // window.removeEventListener('dblclick', this.activateWorkflow, false)
     // this.$refs.container.removeEventListener('click', this.onMouseClick, true) //这里是选中box的监听
     // this.$refs.container.removeEventListener('resize', this.onWindowResize, false) //这里是resize整个窗口的监听
     // this.$refs.container.removeEventListener('dblclick', this.activateWorkflow, false)
@@ -208,7 +209,9 @@ export default {
       this.initLoader()
       this.initControls()
       this.initComposer()
-      this.initStats()
+      if (this.mode == 'design') {
+        this.initStats()
+      }
     },
 
     resetParams() {
@@ -254,36 +257,36 @@ export default {
       }
     },
     initRenderer() {
-      this.renderer = new THREE.WebGLRenderer({
-        antialias: true
-      })
-      // this.resetParams()
-      this.renderer.shadowMap.enabled = true
-      console.log(this.renderer.getSize(new THREE.Vector2()))
-      // console.log(this.$refs.container.getBoundingClientRect().width)
-      // console.log(this.$refs.container.getBoundingClientRect().height)
-      this.renderer.setSize(this.width, this.height)
-      console.log(this.renderer.getSize(new THREE.Vector2()))
-      this.renderer.setClearColor(0xffaaaa, 1.0)
-      // below two lines makes the FPS goes really low
-      // this.renderer.gammaOutput = true
-      // this.renderer.gammaFactor = 2.2
-      // document.body.appendChild(this.renderer.domElement)
-      // this.renderer.domElement.style = 'width:100%; height:100%'
-      this.$refs.container.appendChild(this.renderer.domElement)
+      if (this.$refs.container != undefined) {
+        this.renderer = new THREE.WebGLRenderer({
+          antialias: true
+        })
+        // this.resetParams()
+        this.renderer.shadowMap.enabled = true
+        console.log(this.renderer.getSize(new THREE.Vector2()))
+        // console.log(this.$refs.container.getBoundingClientRect().width)
+        // console.log(this.$refs.container.getBoundingClientRect().height)
+        this.renderer.setSize(this.width, this.height)
+        console.log(this.renderer.getSize(new THREE.Vector2()))
+        this.renderer.setClearColor(0xffaaaa, 1.0)
+        // below two lines makes the FPS goes really low
+        // this.renderer.gammaOutput = true
+        // this.renderer.gammaFactor = 2.2
+        console.log(this.$refs.container)
+        this.$refs.container.appendChild(this.renderer.domElement)
+      }
     },
     initControls() {
-      this.controls = new OrbitControls(this.camera, this.renderer.domElement)
-      this.controls.enableDamping = true // an animation loop is required when either damping or auto-rotation are enabled
-      this.controls.dampingFactor = 0.2 //惯性旋转，默认0.25
-
-      this.controls.screenSpacePanning = false
-
-      this.controls.minDistance = 1
-      this.controls.maxDistance = 1500
-
-      this.controls.maxPolarAngle = Math.PI / 2
-      //控制垂直旋转的角度
+      if (this.renderer != null) {
+        this.controls = new OrbitControls(this.camera, this.renderer.domElement)
+        this.controls.enableDamping = true // an animation loop is required when either damping or auto-rotation are enabled
+        this.controls.dampingFactor = 0.2 //惯性旋转，默认0.25
+        this.controls.screenSpacePanning = false
+        this.controls.minDistance = 1
+        this.controls.maxDistance = 1500
+        this.controls.maxPolarAngle = Math.PI / 2
+        //控制垂直旋转的角度
+      }
     },
     initGeometry() {
       let geometry = new THREE.BoxGeometry(5, 5, 5)
@@ -308,7 +311,7 @@ export default {
             console.log(object.scene.children[0].children.length)
             this.DFS(object.scene, this.atomicArr)
             for (let i = 0; i < this.atomicArr.length; i++) {
-              this.atomicArr[i].userData.workflowArr = this.workflowArr
+              // this.atomicArr[i].userData.workflowArr = this.workflowArr
               if (this.atomicArr[i].userData.uuid == undefined) {
                 this.atomicArr[i].userData.uuid = -1
               }
@@ -414,37 +417,42 @@ export default {
       )
     },
     initComposer() {
-      this.composer = new EffectComposer(this.renderer)
-      let renderPass = new RenderPass(this.scene, this.camera)
-      this.fxaaPass = new ShaderPass(FXAAShader)
-      const pixelRatio = this.renderer.getPixelRatio()
-      this.fxaaPass.material.uniforms['resolution'].value.x = 1 / (this.width * pixelRatio)
-      this.fxaaPass.material.uniforms['resolution'].value.y = 1 / (this.height * pixelRatio)
-      this.composer.addPass(renderPass)
-      this.composer.addPass(this.fxaaPass)
-      this.outlinePass = new OutlinePass(new THREE.Vector2(this.width, this.height), this.scene, this.camera)
-      this.outlinePass.edgeStrength = 3 //包围线浓度
-      this.outlinePass.edgeGlow = 1 //边缘线范围
-      this.outlinePass.edgeThickness = 1 //边缘线浓度
-      this.outlinePass.pulsePeriod = 2 //包围线闪烁频率
-      this.outlinePass.visibleEdgeColor.set('#00ffff') //包围线颜色
-      this.outlinePass.hiddenEdgeColor.set('#190a05') //被遮挡的边界线颜色
-      this.outlinePass.renderToScreen = true
-      this.composer.addPass(this.outlinePass)
+      if (this.renderer != null) {
+        this.composer = new EffectComposer(this.renderer)
+        let renderPass = new RenderPass(this.scene, this.camera)
+        this.fxaaPass = new ShaderPass(FXAAShader)
+        const pixelRatio = this.renderer.getPixelRatio()
+        this.fxaaPass.material.uniforms['resolution'].value.x = 1 / (this.width * pixelRatio)
+        this.fxaaPass.material.uniforms['resolution'].value.y = 1 / (this.height * pixelRatio)
+        this.composer.addPass(renderPass)
+        this.composer.addPass(this.fxaaPass)
+        this.outlinePass = new OutlinePass(new THREE.Vector2(this.width, this.height), this.scene, this.camera)
+        this.outlinePass.edgeStrength = 3 //包围线浓度
+        this.outlinePass.edgeGlow = 1 //边缘线范围
+        this.outlinePass.edgeThickness = 1 //边缘线浓度
+        this.outlinePass.pulsePeriod = 2 //包围线闪烁频率
+        this.outlinePass.visibleEdgeColor.set('#00ffff') //包围线颜色
+        this.outlinePass.hiddenEdgeColor.set('#190a05') //被遮挡的边界线颜色
+        this.outlinePass.renderToScreen = true
+        this.composer.addPass(this.outlinePass)
+      }
     },
 
     initStats() {
-      this.stats = new Stats()
-      this.stats.domElement.style.position = 'absolute'
-      this.stats.domElement.style.left = '0px'
-      this.stats.domElement.style.top = '0px'
-      console.log(this.stats)
-      // document.body.appendChild(this.stats.domElement)
-      this.$refs.container.appendChild(this.stats.domElement)
+      if (this.$refs.container != undefined) {
+        this.stats = new Stats()
+        this.stats.domElement.style.position = 'absolute'
+        this.stats.domElement.style.left = '0px'
+        this.stats.domElement.style.top = '0px'
+        // document.body.appendChild(this.stats.domElement)
+        this.$refs.container.appendChild(this.stats.domElement)
+      }
     },
     update() {
       this.controls.update()
-      this.stats.update()
+      if (this.mode == 'design') {
+        this.stats.update()
+      }
     },
 
     animate() {
@@ -553,9 +561,9 @@ export default {
       if (intersects.length > 0) {
         let tempStore = intersects[0].object
         //推回至最上层的父结点，选中最上层的这个父结点
-        while (tempStore.parent.type != 'Scene') {
-          tempStore = tempStore.parent
-        }
+        // while (tempStore.parent.type != 'Scene') {
+        //   tempStore = tempStore.parent
+        // }
         if (this.dbclickSelectedObjects.indexOf(tempStore) < 0) {
           this.dbclickSelectedObjects.push(tempStore)
         }
@@ -563,8 +571,12 @@ export default {
         console.log(this.dbclickSelectedObjects)
       }
       if (this.dbclickSelectedObjects.length > 0) {
-        this.workflowEnd = this.dbclickSelectedObjects[0].userData.workflowArr.length
-        this.workflowCount += 1
+        if (this.dbclickSelectedObjects[0].userData.workflowArr != undefined) {
+          if (this.dbclickSelectedObjects[0].userData.workflowArr.length > 0) {
+            this.workflowEnd = this.dbclickSelectedObjects[0].userData.workflowArr.length
+            this.workflowCount += 1
+          }
+        }
       }
     },
     /**
@@ -695,6 +707,15 @@ export default {
           }
         })
       }
+    },
+    bindWorkflow() {
+      console.log(this.selectedObjects)
+      //如果当前有选中东西，那么将把工作流绑给当前选中的所有东西，覆盖原有工作流
+      if (this.selectedObjects.length > 0) {
+        for (let i = 0; i < this.selectedObjects.length; i++) {
+          this.selectedObjects[i].userData.workflowArr = this.workflowArr
+        }
+      }
     }
   }
 }
@@ -727,5 +748,11 @@ export default {
   z-index: 20000;
   position: absolute;
   left: 300px;
+}
+
+.workflow-button {
+  z-index: 20000;
+  position: absolute;
+  left: 400px;
 }
 </style>
