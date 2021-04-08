@@ -127,8 +127,6 @@ export default {
       outlinePass: null,
       pixelRatio: null,
       fxaaPass: null,
-      loader: new GLTFLoader(),
-      exporter: new GLTFExporter(),
       mouse: new THREE.Vector2(),
       dbmouse: new THREE.Vector2(),
       raycaster: new THREE.Raycaster(),
@@ -144,12 +142,16 @@ export default {
       ambientLight: null,
       atomicArr: [],
       groupArr: [],
-      camera: null,
-      scene: null,
-      renderer: null,
-      mesh: null,
-      light: [],
-      controls: null,
+
+      // exporter: new GLTFExporter(),
+      // loader: new GLTFLoader(),
+      // camera: null,
+      // scene: null,
+      // renderer: null,
+      // mesh: null,
+      // light: [],
+      // controls: null,
+
       // workflowArr: [
       //   [0, 2, 0],
       //   [1, 0, 0],
@@ -169,12 +171,14 @@ export default {
   mounted() {
     this.flag = true
     console.log(this.index)
-    // this.camera = null
-    // this.scene = null
-    // this.renderer = null
-    // this.mesh = null
-    // this.light = []
-    // this.controls = null
+    this.camera = null
+    this.scene = null
+    this.renderer = null
+    this.mesh = null
+    this.light = []
+    this.controls = null
+    // this.loader = null
+    // this.exporter = null
     this.init()
     if (this.renderer != null && this.$refs.container != null) {
       this.animate()
@@ -195,7 +199,7 @@ export default {
   destroyed() {
     console.log('destroyed')
     console.log(this.atomicArr)
-    console.log(this.loader)
+    // console.log(this.loader)
   },
   watch: {
     workflowCount: function(newVal, oldVal) {
@@ -238,9 +242,19 @@ export default {
       this.renderer.forceContextLoss()
       this.renderer.content = null
       window.cancelAnimationFrame(this.animationFrame)
+      console.log(this.atomicArr.length)
+      for (let i = 0; i < this.atomicArr.length; i++) {
+        this.atomicArr[i].geometry.dispose()
+        this.atomicArr[i].material.dispose()
+        console.log(this.atomicArr[i])
+        // this.atomicArr[i].
+        // this.atomicArr[i].dispose()
+      }
+      this.controls.dispose()
+      this.controls = null
       this.atomicArr = null
       this.light = null
-      this.lodaer = null
+      this.loader = null
       // this.light
       // let gl = this.renderer.domElement.getcontext('webgl')
       // gl && gl.getExtension('WEBGL_lose_context').loseContext()
@@ -330,9 +344,10 @@ export default {
     },
     //加载所有玩意
     initLoader() {
+      let loader = new GLTFLoader()
       //在design时全部mesh，在preview时带group
       if (this.mode == 'design') {
-        this.loader.load(
+        loader.load(
           // '/zelda/scene.gltf',
           // '/lantern/Lantern.gltf',
           '/flight_helmet/FlightHelmet.gltf',
@@ -374,7 +389,7 @@ export default {
         )
       }
       if (this.mode == 'preview') {
-        this.loader.load(
+        loader.load(
           // '/zelda/scene.gltf',
           // '/lantern/Lantern.gltf',
           // '/flight_helmet/FlightHelmet.gltf',
@@ -411,6 +426,7 @@ export default {
           }
         )
       }
+      loader = null
     },
     save(blob, filename) {
       var link = document.createElement('a')
@@ -422,13 +438,8 @@ export default {
     saveString(text, filename) {
       this.save(new Blob([text], { type: 'text/plain' }), filename)
     },
-    // OnExportGLTF() {
-    //   var exporter = new THREE.GLTFExporter()
-    //   exporter.parse(scene3D, result => {
-    //     saveString(JSON.stringify(result), `exportTest.gltf`)
-    //   })
-    // },
     exportGLTF() {
+      let exporter = new GLTFExporter()
       let exportArr = []
       for (let i = 0; i < this.atomicArr.length; i++) {
         exportArr.push(this.atomicArr[i])
@@ -440,7 +451,7 @@ export default {
         includeCustomExtensions: true
       }
       this.removeLight()
-      this.exporter.parse(
+      exporter.parse(
         this.scene,
         result => {
           console.log(result)
@@ -449,6 +460,7 @@ export default {
         },
         exportOptions
       )
+      exporter = null
     },
     initComposer() {
       // if (this.renderer != null) {
