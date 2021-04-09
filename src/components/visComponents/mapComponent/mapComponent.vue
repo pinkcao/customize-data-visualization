@@ -57,10 +57,10 @@ import { GLTFExporter } from 'three/examples/jsm/exporters/GLTFExporter.js'
 import Stats from 'three/examples/jsm/libs/stats.module.js'
 import commonComponentsDef from '@components/componentsDef/commonComponentsDef.js'
 import { v4 as uuidv4 } from 'uuid'
-import ResourceTracker from '@/common/core/dispose.js'
+// import ResourceTracker from '@/common/core/dispose.js'
 
-let resMgr = new ResourceTracker()
-const track = resMgr.track.bind(resMgr)
+// let resMgr = new ResourceTracker()
+// const track = resMgr.track.bind(resMgr)
 
 export default {
   extends: commonComponentsDef,
@@ -174,7 +174,6 @@ export default {
     this.camera = null
     this.scene = null
     this.renderer = null
-    this.mesh = null
     this.light = []
     this.controls = null
     // this.loader = null
@@ -197,8 +196,8 @@ export default {
     // this.$refs.container.removeEventListener('dblclick', this.activateWorkflow, false)
   },
   destroyed() {
-    console.log('destroyed')
-    console.log(this.atomicArr)
+    // console.log('destroyed')
+    // console.log(this.atomicArr)
     // console.log(this.loader)
   },
   watch: {
@@ -225,9 +224,9 @@ export default {
       this.initScene()
       this.initCamera()
       this.initRenderer()
-      // this.initGeometry()
+      this.initGeometry()
       this.initLight()
-      this.initLoader()
+      // this.initLoader()
       this.initControls()
       this.initComposer()
       // if (this.mode == 'design') {
@@ -236,23 +235,43 @@ export default {
     },
 
     resetParams() {
-      this.scene.clear()
-      resMgr && resMgr.dispose()
+      window.cancelAnimationFrame(this.animationFrame)
+      console.log(this.scene)
+      // resMgr && resMgr.dispose()
       this.renderer.dispose()
       this.renderer.forceContextLoss()
       this.renderer.content = null
-      window.cancelAnimationFrame(this.animationFrame)
+      console.log(this.renderer)
+      this.renderer = null
       console.log(this.atomicArr.length)
       for (let i = 0; i < this.atomicArr.length; i++) {
+        console.log(this.atomicArr[i].geometry)
         this.atomicArr[i].geometry.dispose()
+        console.log(this.atomicArr[i].geometry)
         this.atomicArr[i].material.dispose()
+        // this.atomicArr[i].dispose()
         console.log(this.atomicArr[i])
         // this.atomicArr[i].
         // this.atomicArr[i].dispose()
       }
+      this.scene.clear()
       this.controls.dispose()
+      // for (let i = this.composer.passes.length - 1; i >= 0; i--) {
+      //   console.log(this.composer.passes[i])
+      //   // this.composer.passes[i].dispose()
+      //   this.composer.removePass(this.composer.passes[i])
+      // }
+      this.composer.removePass(this.outlinePass)
+      // this.composer.removePass(this.ShaderPass)
+      this.outlinePass.dispose()
+      // this.ShaderPass.dispose()
+      this.composer = null
+      // this.composer.dispose()
+      // this.composer = null
       this.controls = null
       this.atomicArr = null
+      this.groupMap = null
+      console.log(this.groupMap)
       this.light = null
       this.loader = null
       // this.light
@@ -265,7 +284,7 @@ export default {
       //   this.scene.remove(this.atomicArr[i])
       //   }
       // this.scene.remove()
-      console.log(this.renderer.info)
+      // console.log(this.renderer.info)
       console.log('all stuffs reset')
     },
 
@@ -282,12 +301,14 @@ export default {
     },
     //初始化光照
     initLight() {
-      let directionalLight = track(new THREE.DirectionalLight(0xffffff, 2)) //平行光源
+      // let directionalLight = track(new THREE.DirectionalLight(0xffffff, 2)) //平行光源
+      let directionalLight = new THREE.DirectionalLight(0xffffff, 2)
       directionalLight.color.setHSL(0.1, 1, 0.95)
       directionalLight.position.set(0, 200, 200).normalize()
       this.light.push(directionalLight)
 
-      let ambient = track(new THREE.AmbientLight(0xffffff, 1.5)) //环境光源，提供基础亮度
+      // let ambient = track(new THREE.AmbientLight(0xffffff, 1.5)) //环境光源，提供基础亮度
+      let ambient = new THREE.AmbientLight(0xffffff, 1.5)
       ambient.position.set(100, 100, 100)
       this.light.push(ambient)
       this.addLight()
@@ -337,8 +358,9 @@ export default {
     initGeometry() {
       let geometry = new THREE.BoxGeometry(5, 5, 5)
       let material = new THREE.MeshNormalMaterial()
-      this.mesh = new THREE.Mesh(geometry, material)
-      this.scene.add(this.mesh)
+      let mesh = new THREE.Mesh(geometry, material)
+      this.atomicArr.push(mesh)
+      this.scene.add(mesh)
       window.cancelAnimationFrame(this.animationFrame)
       this.animationFrame = window.requestAnimationFrame(this.animate)
     },
@@ -362,7 +384,7 @@ export default {
               if (this.atomicArr[i].userData.uuid == undefined) {
                 this.atomicArr[i].userData.uuid = -1
               }
-              this.atomicArr[i] = track(this.atomicArr[i])
+              // this.atomicArr[i] = track(this.atomicArr[i])
               this.scene.add(this.atomicArr[i])
             }
             let tempuuidSet = new Set()
@@ -381,6 +403,9 @@ export default {
                 this.groupMap.get(this.atomicArr[i].userData.uuid).push(this.atomicArr[i])
               }
             }
+            object.parser.cache.removeAll()
+            object.parser = null
+            object = null
           },
           onprogress,
           function(err) {
@@ -400,7 +425,7 @@ export default {
             console.log(object.scene.children.length)
             this.DFS(object.scene, this.atomicArr)
             for (let i = 0; i < this.atomicArr.length; i++) {
-              this.atomicArr[i] = track(this.atomicArr[i])
+              // this.atomicArr[i] = track(this.atomicArr[i])
               this.scene.add(this.atomicArr[i])
             }
             let tempuuidSet = new Set()
@@ -419,6 +444,9 @@ export default {
                 this.groupMap.get(this.atomicArr[i].userData.uuid).push(this.atomicArr[i])
               }
             }
+            object.parser.cache.removeAll()
+            object.parser = null
+            object = null
           },
           onprogress,
           function(err) {
@@ -426,7 +454,8 @@ export default {
           }
         )
       }
-      loader = null
+      console.log(loader)
+      // loader = null
     },
     save(blob, filename) {
       var link = document.createElement('a')
