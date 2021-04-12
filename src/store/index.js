@@ -203,7 +203,7 @@ export default new Vuex.Store({
     },
     //设置所有组件为不活跃，设置被选中组件为活跃
     resetComponentActiveFlag(state, bool) {
-      state.componentActiveFlag = false
+      state.componentActiveFlag = bool
     },
     //当每个组件的基础属性变化时被调用，更新当前组件，响应至componentSet
     resizeUpdateActiveComponent(state) {
