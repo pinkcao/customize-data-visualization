@@ -184,6 +184,7 @@ export default new Vuex.Store({
       state.componentActive[index].active = true
       state.pageAndComponentFlag = false
       state.activeComponentIndex = index
+      state.componentActiveFlag = true
       for (let i = 0; i < state.componentList.length; i++) {
         if (state.componentList[i].index == index) {
           state.currentComponent = state.componentList[i]
