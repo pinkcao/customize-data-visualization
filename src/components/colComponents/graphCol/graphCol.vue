@@ -6,9 +6,15 @@
     <div style="width: 100%: scroll-y: auto">
       <vuedraggable style="width: 100%; display: flex; justify-content: center" v-model="componentList">
         <transition-group>
-          <div v-for="item in componentList" v-show="item.ifshow" :key="item.zindex" class="item">
-            componentIndex:{{ item.index }}<br />
-            compName:{{ item.name }}
+          <div
+            v-for="item in componentList"
+            v-show="!item.disabled"
+            :key="item.zindex"
+            class="item"
+            @click="activateComponent(item.index)"
+          >
+            组件序号:{{ item.index }}<br />
+            组件名:{{ item.name }}
           </div>
         </transition-group>
       </vuedraggable>
@@ -34,7 +40,10 @@ export default {
     //当前的componentList
     componentList: {
       get() {
-        return this.$store.state.componentList
+        // return this.$store.state.componentList
+        let tempArr = JSON.parse(JSON.stringify(this.$store.state.componentList))
+        // console.log(tempArr)
+        return tempArr.sort(this.compare('zindex'))
       },
       set(value) {
         //图层列的显示顺序
@@ -69,12 +78,33 @@ export default {
   created() {},
   mounted() {},
 
-  methods: {}
+  methods: {
+    activateComponent(componentIndex) {
+      let args = {
+        index: componentIndex
+      }
+      this.$store.commit('updateActiveComponent', args)
+    },
+    compare: function(prop) {
+      return function(obj1, obj2) {
+        var val1 = obj1[prop]
+        var val2 = obj2[prop]
+        if (val1 < val2) {
+          return -1
+        } else if (val1 > val2) {
+          return 1
+        } else {
+          return 0
+        }
+      }
+    }
+  }
 }
 </script>
 
 <style scoped lang="less">
 @titleboxpadding: 10px;
+@itemColor: #00474f;
 
 .title-box-graph {
   width: 100%;
@@ -92,8 +122,13 @@ span {
 .item {
   width: 100%;
   height: 80px;
-  background-color: #2c075c;
+  background-color: @itemColor;
   color: #ffffff;
   margin-top: 2px;
+}
+
+.item:hover {
+  cursor: pointer;
+  background-color: @itemColor + @highlight;
 }
 </style>
