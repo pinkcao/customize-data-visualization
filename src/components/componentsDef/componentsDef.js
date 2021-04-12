@@ -163,16 +163,12 @@ export default {
       }
     }
   },
-  mounted() {
-    // console.log(this.dataSource)
-  },
+  mounted() {},
   beforeDestroy() {
     this.removeInterval()
     this.$off()
   },
-  destroyed() {
-    // console.log('test')
-  },
+  destroyed() {},
   methods: {
     //更新当前组件基础属性
     updateComponentList() {

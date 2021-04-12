@@ -252,11 +252,12 @@ export default {
           )
         }
         this.componentList = res.data.resultSet
-        this.mountTest()
+        this.mountComponent()
         this.loadingDetail.components = true
       })
     },
-    mountTest() {
+    //挂载组件
+    mountComponent() {
       let currentData = this.componentList
       let that = this
       for (let i = 0; i < currentData.length; i++) {

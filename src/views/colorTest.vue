@@ -269,8 +269,6 @@ export default {
         .add(this.options, 'ID')
         .name('ID：')
         .listen()
-      // gui.add(options, 'test3').name("test3：").listen();
-      // gui.add(options, 'test4').name("test4：").listen();//全部listen，可能性能开销有点大?
     },
     update() {
       this.controls.update()

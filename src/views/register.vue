@@ -48,7 +48,6 @@
 
 <script>
 import sha1 from 'js-sha1'
-import Schema from 'async-validator'
 
 export default {
   name: 'login',

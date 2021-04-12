@@ -31,7 +31,7 @@
                       v-for="(data3, index3) in data2.componentDetailList"
                       :key="index3"
                       draggable="true"
-                      @dragstart="dragstarttest(data3.componentName)"
+                      @dragstart="dragstarts(data3.componentName)"
                     >
                       <div style="width: 100%; height: 20px; background-color: #212326">
                         <span style="color: #dddddd">{{ data3.title }}</span>
@@ -95,16 +95,6 @@ export default {
   created() {},
   mounted() {
     this.getTabPaneData()
-    //下面这段是测试传入sql语句，后端执行的代码
-    // this.$axios({
-    //   url: 'http://localhost:8080/testsql',
-    //   method: 'post',
-    //   params: {
-    //     sql: 'select * from componentdetail'
-    //   }
-    // }).then(res => {
-    //   console.log(res)
-    // })
   },
 
   methods: {
@@ -135,12 +125,9 @@ export default {
     /*
         将拖拽元素name更新至vuex，全局保存。
       */
-    dragstarttest(name) {
+    dragstarts(name) {
       this.$store.commit('changeComponentNameToCanvas', name)
       // console.log(this.$store.state.componentNameToCanvas)
-    },
-    dragendtest() {
-      // console.log('dragends')
     }
   }
 }

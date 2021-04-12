@@ -10,13 +10,10 @@
           <el-tabs :tab-position="'left'">
             <el-tab-pane label="组1">
               <div class="template-container">
-                <!-- <el-row :gutter="10">
-                  <el-col :span="6"> -->
                 <div @click="appendTemplate" class="plus-box">
                   <i style="font-size: 40px" class="el-icon-plus"></i>
                 </div>
-                <!-- </el-col>
-                  <el-col v-for="item in templateList" v-show="!item.disabled" :key="item.templateID" :span="6"> -->
+
                 <div
                   v-for="item in templateList"
                   v-show="!item.disabled"
@@ -38,8 +35,6 @@
                     <span style="margin-left: 10px; font-size:10px">模板ID:{{ item.templateID }} </span>
                   </div>
                 </div>
-                <!-- </el-col>
-                </el-row> -->
               </div>
             </el-tab-pane>
             <el-tab-pane label="组2"></el-tab-pane>
@@ -190,12 +185,8 @@ export default {
 }
 
 .main-select-pane.title-box {
-  // width: 80%;
-  // height: 20%;
   flex-grow: 1;
   background-color: #0d0f12;
-  // margin: 10px;
-  // border: 5px solid @cyan-10;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -203,11 +194,7 @@ export default {
 }
 
 .main-select-pane.content-box {
-  // border: 5px solid @cyan-10;
   display: inline;
-  // flex-direction: row;
-  // width: 100%;
-  // height: 80%;
   flex-grow: 4;
   background-color: #010101;
   margin: 0px;
@@ -220,7 +207,6 @@ export default {
   height: @boxheight;
   width: @boxwidth;
   background-color: @cyan-10;
-  // border-radius: 5px;
   border: 2px solid black;
   margin: 5px;
 }
@@ -231,7 +217,6 @@ export default {
   background-color: #aaaaaa;
   margin: 5px;
   border: 1px dashed black;
-  // border-radius: 5px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -256,7 +241,6 @@ export default {
   align-items: center;
   justify-content: center;
   box-shadow: 1px 1px 1px #333333;
-  // border-radius: 5px;
 }
 
 .inactive-box {
@@ -295,7 +279,6 @@ export default {
 .el-tabs__content {
   height: 100%;
   background-color: #191b22;
-  // overflow-y: scroll;
 }
 
 .el-tabs--left,
@@ -342,8 +325,4 @@ export default {
 .el-tabs--border-card > .el-tabs__header {
   border: 0px;
 }
-
-// .el-tabs__item is-left is-active {
-//   background-color: #999999;
-// }
 </style>

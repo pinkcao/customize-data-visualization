@@ -157,55 +157,6 @@ export default {
       background: 'rgba(0, 0, 0, 0.8)',
       text: '加载中'
     })
-    // this.$axios({
-    //   url: 'http://localhost:8080/api/template/deleteAllDisabledTemplate',
-    //   method: 'post',
-    //   data: {}
-    // }).then(res => {
-    //   console.log(res.data)
-    // })
-
-    // let testObj = [
-    //   {
-    //     zindex: 2,
-    //     height: 500,
-    //     width: 500,
-    //     style: {
-    //       deg: 20,
-    //       legendvis: true
-    //     },
-    //     dataSource: {
-    //       data: [
-    //         [0, 0, 0],
-    //         [0, 0, 0]
-    //       ],
-    //       url: 'what the hell?'
-    //     }
-    //   },
-    //   {
-    //     zindex: 2,
-    //     height: 500,
-    //     width: 500,
-    //     style: {
-    //       deg: 20,
-    //       legendvis: true
-    //     },
-    //     dataSource: {
-    //       data: [
-    //         [0, 0, 0],
-    //         [0, 0, 0]
-    //       ],
-    //       url: 'what the hell?'
-    //     }
-    //   }
-    // ]
-    // this.$axios({
-    //   url: 'http://localhost:8080//testGetListMapJson',
-    //   method: 'post',
-    //   data: testObj
-    // }).then(res => {
-    //   console.log(res)
-    // })
   },
   watch: {
     '$store.state.screenDefFlag': function(newval) {
@@ -268,10 +219,6 @@ export default {
         }
       })
     },
-    // timerAccumulation() {
-    //   this.loadingTimer += 10
-    //   // console.log(this.loadingTimer)
-    // },
     findFalse(bool) {
       return bool == false
     },
