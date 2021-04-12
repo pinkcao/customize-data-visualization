@@ -89,7 +89,7 @@ export default {
         url: this.$url.getTemplateList,
         method: 'post',
         data: {
-          userID: window.localStorage.getItem('userID')
+          userID: this.$store.state.currentUserID
         }
       }).then(res => {
         // console.log(res.data)
@@ -116,7 +116,7 @@ export default {
         url: this.$url.appendTemplate,
         method: 'post',
         data: {
-          userID: window.localStorage.getItem('userID')
+          userID: this.$store.state.currentUserID
         }
       }).then(res => {
         if (res.status == 200) {
@@ -146,7 +146,7 @@ export default {
             url: this.$url.spliceTemplate,
             method: 'post',
             data: {
-              userID: window.localStorage.getItem('userID'),
+              userID: this.$store.state.currentUserID,
               templateID: templateID
             }
           }).then(res => {
