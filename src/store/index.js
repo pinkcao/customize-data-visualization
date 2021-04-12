@@ -35,7 +35,8 @@ export default new Vuex.Store({
     },
 
     currentUserID: -1,
-    currentTemplateID: -1
+    currentTemplateID: -1,
+    componentActiveFlag: false
   },
   mutations: {
     changeCurrentTemplateID(state, templateID) {
@@ -190,6 +191,9 @@ export default new Vuex.Store({
           state.currentComponent = state.componentList[i]
         }
       }
+    },
+    resetComponentActiveFlag(state, bool) {
+      state.componentActiveFlag = bool
     },
     //当每个组件的基础属性变化时被调用，更新当前组件，响应至componentSet
     resizeUpdateActiveComponent(state) {

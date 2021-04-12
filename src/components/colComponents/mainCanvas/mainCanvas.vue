@@ -119,6 +119,24 @@ export default {
       },
       deep: true
     },
+    '$store.state.componentActiveFlag': {
+      handler(newval) {
+        if (newval) {
+          let tempActiveComponent = this.$store.state.componentActive
+          for (let i = 0; i < tempActiveComponent.length; i++) {
+            for (let j = 0; j < this.objList.length; j++) {
+              if (this.componentList[j].index == i) {
+                // console.log(tempActiveComponent[i].active)
+                this.objList[j].set({
+                  data: { active: tempActiveComponent[i].active }
+                })
+              }
+            }
+          }
+          this.$store.commit('resetComponentActiveFlag', false)
+        }
+      }
+    },
     mountComponentssFlag: {
       handler(newVal) {
         if (newVal == true) {
