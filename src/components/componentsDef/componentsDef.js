@@ -211,7 +211,7 @@ export default {
     },
     //销毁当前组件，实际不销毁，只是不渲染，组件仍在内存，在mainCanvas组件中的objList中存储，可以调用mount()方法再次挂载
     destroyComponent() {
-      this.$confirm('此操作将删除该组件, 是否继续?', '提示', {
+      this.$confirm('此操作将永久删除该组件, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
