@@ -71,18 +71,6 @@
 </template>
 
 <script>
-import echarts from 'echarts'
-import * as THREE from 'three'
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
-import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader'
-// import { FXAAShader } from "three/examples/jsm/shaders/FXAAShader.js";
-import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js'
-import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
-import { OutlinePass } from 'three/examples/jsm/postprocessing/OutlinePass.js'
-// import { CopyShader } from "three/examples/jsm/shaders/CopyShader.js";
-// import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass.js";
-import Stats from 'three/examples/jsm/libs/stats.module.js'
-import dat from 'three/examples/js/libs/dat.gui.min.js'
 import componentCol from '../components/colComponents/componentCol/componentCol.vue'
 import graphCol from '../components/colComponents/graphCol/graphCol.vue'
 import pageSet from '../components/colComponents/pageSet/pageSet.vue'
@@ -100,29 +88,6 @@ export default {
   name: 'basePage',
   data() {
     return {
-      /*
-          这一块都是three.js的变量，用于渲染场景，获取点击拾取后的数据
-          */
-      camera: null,
-      scene: null,
-      renderer: null,
-      mesh: null,
-      light: null,
-      controls: null,
-      options: null,
-      group: null,
-      objects: [],
-      effectFXAA: null,
-      outlinePass: null,
-      loader: null,
-      mouse: new THREE.Vector2(),
-      raycaster: new THREE.Raycaster(),
-      selectedObjects: [],
-      composer: null,
-      stats: null,
-      originX: 0,
-      originY: 0,
-
       graphColActive: true,
       compColActive: true,
       pageColActive: true,

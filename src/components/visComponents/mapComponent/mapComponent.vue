@@ -92,37 +92,9 @@ export default {
       title: '模型',
       subTitle: 'fake data',
       dataSource: {
-        // data: [
-        //   ['department', '2018', '2019'],
-        //   ['finance', 43.3, 85.8],
-        //   ['humanResource', 83.1, 73.4],
-        //   ['sales', 86.4, 65.2],
-        //   ['product', 72.4, 53.9],
-        //   ['qualityAssurance', 55.1, 66.5]
-        // ],
-        // dataSourceOptions: [
-        //   {
-        //     value: 'APISource',
-        //     label: 'API数据源'
-        //   },
-        //   {
-        //     value: 'otherSource',
-        //     label: 'unknown'
-        //   }
-        // ],
-        // dataSourceType: '',
         APISwitch: false
-        // APIURL: '',
-        // APIMethod: '',
-        // APIInterval: 10000,
-        // APIHeader: '',
-        // IntervalID: 0 //用于存储setInterval的ID，便于clearInterval
       },
-      style: {
-        // opacity: 1,
-        // legendvis: true,
-        // titlevis: true
-      },
+      style: {},
       options: null,
       group: null,
       objects: [],
@@ -580,7 +552,6 @@ export default {
         if (tempuuid != -1) {
           //如果当前未选中该物体
           if (this.selectedObjects.indexOf(tempStore) < 0) {
-            console.log('未选中')
             let tempGroupArr = this.groupMap.get(tempuuid)
             for (let i = 0; i < tempGroupArr.length; i++) {
               this.selectedObjects.push(tempGroupArr[i])
@@ -588,12 +559,6 @@ export default {
           }
           //如果当前已选中该物体
           else if (this.selectedObjects.indexOf(tempStore) >= 0) {
-            console.log('已选中')
-            // let tempGroupArr = this.groupMap.get(tempuuid)
-            // this.selectedObjects.splice(this.selectedObjects.indexOf(tempStore), 1)
-            // for (let i = 0; i < tempGroupArr.length; i++) {
-            //   this.selectedObjects.push(tempGroupArr[i])
-            // }
           }
         }
         console.log(this.selectedObjects)
