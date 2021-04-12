@@ -39,9 +39,9 @@
         <div v-if="mode == 'design'" class="workflow-button">
           <el-button @click.stop.prevent="bindWorkflow">绑定工作流</el-button>
         </div>
-        <div class="cancelAnimation-button">
+        <!-- <div class="cancelAnimation-button">
           <el-button @click.stop.prevent="cancelAnimation">停止渲染</el-button>
-        </div>
+        </div> -->
       </div>
     </vue-drag-resize-rotate>
   </div>
