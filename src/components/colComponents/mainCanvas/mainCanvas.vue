@@ -311,15 +311,26 @@ export default {
                   })
                   .then(res => {
                     if (res.status == 200) {
-                      for (let i = 0; i < res.data.resultSet.length; i++) {
-                        res.data.resultSet[i].dataSource.data = JSON.parse(res.data.resultSet[i].dataSource.data)
-                        res.data.resultSet[i].dataSource.dataSourceOptions = JSON.parse(
-                          res.data.resultSet[i].dataSource.dataSourceOptions
-                        )
+                      if (res.data.resultSet) {
+                        for (let i = 0; i < res.data.resultSet.length; i++) {
+                          res.data.resultSet[i].dataSource.data = JSON.parse(res.data.resultSet[i].dataSource.data)
+                          res.data.resultSet[i].dataSource.dataSourceOptions = JSON.parse(
+                            res.data.resultSet[i].dataSource.dataSourceOptions
+                          )
+                        }
+                        that.componentList = res.data.resultSet
+                        that.$store.commit('initComponentList', res.data.resultSet)
+                        console.log(that.componentList)
+                      } else {
+                        that.componentList = []
+                        that.$store.commit('initComponentList', [])
                       }
-                      that.$store.commit('initComponentList', res.data.resultSet)
-                      that.componentList = res.data.resultSet
-                      console.log(that.componentList)
+                      for (let i = 0; i < that.objList.length; i++) {
+                        if (that.objList[i].component_instance.index === index) {
+                          that.objList[i].destroy()
+                          that.objList.splice(i, 1)
+                        }
+                      }
                     }
                   })
               }
@@ -493,15 +504,26 @@ export default {
                   })
                   .then(res => {
                     if (res.status == 200) {
-                      for (let i = 0; i < res.data.resultSet.length; i++) {
-                        res.data.resultSet[i].dataSource.data = JSON.parse(res.data.resultSet[i].dataSource.data)
-                        res.data.resultSet[i].dataSource.dataSourceOptions = JSON.parse(
-                          res.data.resultSet[i].dataSource.dataSourceOptions
-                        )
+                      if (res.data.resultSet) {
+                        for (let i = 0; i < res.data.resultSet.length; i++) {
+                          res.data.resultSet[i].dataSource.data = JSON.parse(res.data.resultSet[i].dataSource.data)
+                          res.data.resultSet[i].dataSource.dataSourceOptions = JSON.parse(
+                            res.data.resultSet[i].dataSource.dataSourceOptions
+                          )
+                        }
+                        that.componentList = res.data.resultSet
+                        that.$store.commit('initComponentList', res.data.resultSet)
+                        console.log(that.componentList)
+                      } else {
+                        that.componentList = []
+                        that.$store.commit('initComponentList', [])
                       }
-                      that.componentList = res.data.resultSet
-                      that.$store.commit('initComponentList', res.data.resultSet)
-                      console.log(that.componentList)
+                      for (let i = 0; i < that.objList.length; i++) {
+                        if (that.objList[i].component_instance.index === index) {
+                          that.objList[i].destroy()
+                          that.objList.splice(i, 1)
+                        }
+                      }
                     }
                   })
               }
