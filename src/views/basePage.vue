@@ -179,6 +179,7 @@ export default {
   },
   destroyed() {},
   mounted() {
+    this.$store.commit('resetReloadFlag')
     this.$store.commit('initScreenFlags')
     this.initScreenDef()
     this.initScreenStretch()
@@ -363,6 +364,7 @@ export default {
       event.preventDefault()
     },
     routeToPreview() {
+      this.$store.commit('changeReloadFlag', true)
       this.$router.push({ path: '/preview' })
     },
     routeToColorTest() {

@@ -39,6 +39,9 @@
         <div v-if="mode == 'design'" class="workflow-button">
           <el-button @click.stop.prevent="bindWorkflow">绑定工作流</el-button>
         </div>
+        <div class="cancelAnimation-button">
+          <el-button @click.stop.prevent="cancelAnimation">停止渲染</el-button>
+        </div>
       </div>
     </vue-drag-resize-rotate>
   </div>
@@ -224,9 +227,9 @@ export default {
       this.initScene()
       this.initCamera()
       this.initRenderer()
-      this.initGeometry()
+      // this.initGeometry()
       this.initLight()
-      // this.initLoader()
+      this.initLoader()
       this.initControls()
       this.initComposer()
       // if (this.mode == 'design') {
@@ -235,15 +238,9 @@ export default {
     },
 
     resetParams() {
+      // console.log(this.animationFrame)
       window.cancelAnimationFrame(this.animationFrame)
-      console.log(this.scene)
-      // resMgr && resMgr.dispose()
-      this.renderer.dispose()
-      this.renderer.forceContextLoss()
-      this.renderer.content = null
-      console.log(this.renderer)
-      this.renderer = null
-      console.log(this.atomicArr.length)
+      // console.log(this.animationFrame)
       for (let i = 0; i < this.atomicArr.length; i++) {
         console.log(this.atomicArr[i].geometry)
         this.atomicArr[i].geometry.dispose()
@@ -255,6 +252,15 @@ export default {
         // this.atomicArr[i].dispose()
       }
       this.scene.clear()
+      console.log(this.scene)
+      // resMgr && resMgr.dispose()
+      this.renderer.dispose()
+      this.renderer.forceContextLoss()
+      this.renderer.content = null
+      console.log(this.renderer)
+      console.log(this.renderer.getContext())
+      // this.renderer = null
+      console.log(this.atomicArr.length)
       this.controls.dispose()
       // for (let i = this.composer.passes.length - 1; i >= 0; i--) {
       //   console.log(this.composer.passes[i])
@@ -265,10 +271,6 @@ export default {
       // this.composer.removePass(this.ShaderPass)
       this.outlinePass.dispose()
       // this.ShaderPass.dispose()
-      this.composer = null
-      // this.composer.dispose()
-      // this.composer = null
-      this.controls = null
       this.atomicArr = null
       this.groupMap = null
       console.log(this.groupMap)
@@ -330,15 +332,12 @@ export default {
       })
       // this.resetParams()
       this.renderer.shadowMap.enabled = true
-      console.log(this.renderer.getSize(new THREE.Vector2()))
+      // console.log(this.renderer.getSize(new THREE.Vector2()))
       // console.log(this.$refs.container.getBoundingClientRect().width)
       // console.log(this.$refs.container.getBoundingClientRect().height)
       this.renderer.setSize(this.width, this.height)
-      console.log(this.renderer.getSize(new THREE.Vector2()))
+      // console.log(this.renderer.getSize(new THREE.Vector2()))
       this.renderer.setClearColor(0xffaaaa, 1.0)
-      // below two lines makes the FPS goes really low
-      // this.renderer.gammaOutput = true
-      // this.renderer.gammaFactor = 2.2
       console.log(this.$refs.container)
       this.$refs.container.appendChild(this.renderer.domElement)
       // }
@@ -361,8 +360,8 @@ export default {
       let mesh = new THREE.Mesh(geometry, material)
       this.atomicArr.push(mesh)
       this.scene.add(mesh)
-      window.cancelAnimationFrame(this.animationFrame)
-      this.animationFrame = window.requestAnimationFrame(this.animate)
+      // window.cancelAnimationFrame(this.animationFrame)
+      // this.animationFrame = window.requestAnimationFrame(this.animate)
     },
     //加载所有玩意
     initLoader() {
@@ -531,20 +530,15 @@ export default {
     },
 
     animate() {
-      this.render()
       this.animationFrame = window.requestAnimationFrame(this.animate)
-      // console.log(this.renderer.info)
-      // console.log(this.renderer.getSize(new THREE.Vector2()))
-      // console.log(this.scene)
-      // console.log('wtf?')
+      // console.log(this.animationFrame)
+      this.render()
       this.update()
       this.composer.render()
-      // console.log(this.camera);
+      // console.log(this.mode)
     },
 
     render() {
-      // console.log(this.scene)
-      // console.log(this.camera)
       this.renderer.render(this.scene, this.camera)
     },
 
@@ -586,6 +580,7 @@ export default {
         if (tempuuid != -1) {
           //如果当前未选中该物体
           if (this.selectedObjects.indexOf(tempStore) < 0) {
+            console.log('未选中')
             let tempGroupArr = this.groupMap.get(tempuuid)
             for (let i = 0; i < tempGroupArr.length; i++) {
               this.selectedObjects.push(tempGroupArr[i])
@@ -593,11 +588,12 @@ export default {
           }
           //如果当前已选中该物体
           else if (this.selectedObjects.indexOf(tempStore) >= 0) {
-            let tempGroupArr = this.groupMap.get(tempuuid)
-            this.selectedObjects.splice(this.selectedObjects.indexOf(tempStore), 1)
-            for (let i = 0; i < tempGroupArr.length; i++) {
-              this.selectedObjects.push(tempGroupArr[i])
-            }
+            console.log('已选中')
+            // let tempGroupArr = this.groupMap.get(tempuuid)
+            // this.selectedObjects.splice(this.selectedObjects.indexOf(tempStore), 1)
+            // for (let i = 0; i < tempGroupArr.length; i++) {
+            //   this.selectedObjects.push(tempGroupArr[i])
+            // }
           }
         }
         console.log(this.selectedObjects)
@@ -791,6 +787,20 @@ export default {
           this.selectedObjects[i].userData.workflowArr = this.workflowArr
         }
       }
+    },
+    cancelAnimation() {
+      window.cancelAnimationFrame(this.animationFrame)
+      console.log('canceled?')
+      console.log(this.renderer)
+      this.renderer.dispose()
+      this.renderer.forceContextLoss()
+      console.log(this.renderer)
+      console.log(this.renderer.getContext())
+      console.log(this.renderer.info.programs.length)
+      for (let i = 0; i < this.renderer.info.programs.length; i++) {
+        this.renderer.info.programs[i].destroy()
+      }
+      // this.renderer = null
     }
   }
 }
@@ -829,5 +839,11 @@ export default {
   z-index: 20000;
   position: absolute;
   left: 400px;
+}
+
+.cancelAnimation-button {
+  z-index: 20000;
+  position: absolute;
+  left: 500px;
 }
 </style>
