@@ -39,6 +39,20 @@
         <div v-if="mode == 'design'" class="workflow-button">
           <el-button @click.stop.prevent="bindWorkflow">绑定工作流</el-button>
         </div>
+        <div v-if="loadModelFlag" :style="progressStyle">
+          <!-- <div :style="progressStyle"> -->
+          <el-progress
+            :width="progressWidth"
+            :text-inside="true"
+            :show-text="true"
+            :stroke-linecap="'square'"
+            :stroke-width="8"
+            :percentage="loadedDataPercentage"
+            type="circle"
+            ref="progressBar"
+            :format="progressFormat"
+          ></el-progress>
+        </div>
         <!-- <div class="cancelAnimation-button">
           <el-button @click.stop.prevent="cancelAnimation">停止渲染</el-button>
         </div> -->
@@ -60,7 +74,6 @@ import { GLTFExporter } from 'three/examples/jsm/exporters/GLTFExporter.js'
 import Stats from 'three/examples/jsm/libs/stats.module.js'
 import commonComponentsDef from '@components/componentsDef/commonComponentsDef.js'
 import { v4 as uuidv4 } from 'uuid'
-// import ResourceTracker from '@/common/core/dispose.js'
 
 // let resMgr = new ResourceTracker()
 // const track = resMgr.track.bind(resMgr)
@@ -126,21 +139,38 @@ export default {
       // mesh: null,
       // light: [],
       // controls: null,
-
-      // workflowArr: [
-      //   [0, 2, 0],
-      //   [1, 0, 0],
-      //   [0, 0, 3]
-      // ]
       workflowArr: [2, 1, 3],
       workflowEnd: 0,
       workflowCount: 0,
 
-      groupMap: new Map()
+      groupMap: new Map(),
+
+      loadedDataPercentage: 0,
+      loadModelFlag: true,
+      progressWidth: 200
+      // progressColor: [
+      //   { color: '#f56c6c', percentage: 20 },
+      //   { color: '#e6a23c', percentage: 40 },
+      //   { color: '#5cb87a', percentage: 60 },
+      //   { color: '#1989fa', percentage: 80 },
+      //   { color: '#6f7ad3', percentage: 100 }
+      // ]
     }
   },
   props: {},
-  computed: {},
+  computed: {
+    progressStyle: function() {
+      return {
+        position: 'absolute',
+        left: this.width / 2 - this.progressWidth / 2 + 'px',
+        top: this.height / 2 - this.progressWidth / 2 + 'px',
+        // width: this.width / 4 + 'px',
+        // height: 200 + 'px',
+        'z-index': 20001,
+        'transform-origin': '50% 50%'
+      }
+    }
+  },
 
   created() {},
   mounted() {
@@ -157,6 +187,7 @@ export default {
     if (this.renderer != null && this.$refs.container != null) {
       this.animate()
     }
+    // console.log()
     // this.$refs.container.addEventListener('click', this.onMouseClick, true) //这里是选中box的监听
     // this.$refs.container.addEventListener('resize', this.onWindowResize, false) //这里是resize整个窗口的监听
     // this.$refs.container.addEventListener('dblclick', this.activateWorkflow, false)
@@ -231,42 +262,22 @@ export default {
       this.renderer.content = null
       console.log(this.renderer)
       console.log(this.renderer.getContext())
-      // this.renderer = null
       console.log(this.atomicArr.length)
       this.controls.dispose()
-      // for (let i = this.composer.passes.length - 1; i >= 0; i--) {
-      //   console.log(this.composer.passes[i])
-      //   // this.composer.passes[i].dispose()
-      //   this.composer.removePass(this.composer.passes[i])
-      // }
       this.composer.removePass(this.outlinePass)
-      // this.composer.removePass(this.ShaderPass)
       this.outlinePass.dispose()
-      // this.ShaderPass.dispose()
       this.atomicArr = null
       this.groupMap = null
       console.log(this.groupMap)
       this.light = null
       this.loader = null
-      // this.light
-      // let gl = this.renderer.domElement.getcontext('webgl')
-      // gl && gl.getExtension('WEBGL_lose_context').loseContext()
-      // this.renderer.domElement = null
-      // this.renderer = null
-      // this.camera = null
-      // for (let i = 0; i < this.atomicArr.length; i++) {
-      //   this.scene.remove(this.atomicArr[i])
-      //   }
-      // this.scene.remove()
-      // console.log(this.renderer.info)
       console.log('all stuffs reset')
     },
-
     //初始化透视摄像机，此外还有正交摄像机
     //那是不是甚至可以模拟摄像机，比如说在环境中加入n个摄像机，每个摄像机有其vector3坐标，然后lookat某个点，然后双击后切换到该摄像机看到的事件？
     initCamera() {
-      this.camera = new THREE.PerspectiveCamera(65, this.width / this.height, 0.1, 10000)
-      this.camera.position.set(5, 5, 30)
+      this.camera = new THREE.PerspectiveCamera(65, this.width / this.height, 0.1, 100)
+      this.camera.position.set(-1, 1, 1)
     },
 
     //初始化scene
@@ -337,6 +348,7 @@ export default {
     },
     //加载所有玩意
     initLoader() {
+      let that = this
       let loader = new GLTFLoader()
       //在design时全部mesh，在preview时带group
       if (this.mode == 'design') {
@@ -377,8 +389,11 @@ export default {
             object.parser.cache.removeAll()
             object.parser = null
             object = null
+            that.loadModelFlag = false
           },
-          onprogress,
+          xhr => {
+            this.loadedDataPercentage = Math.ceil((xhr.loaded / xhr.total) * 100)
+          },
           function(err) {
             console.log(err)
           }
@@ -418,8 +433,11 @@ export default {
             object.parser.cache.removeAll()
             object.parser = null
             object = null
+            that.loadModelFlag = false
           },
-          onprogress,
+          xhr => {
+            this.loadedDataPercentage = Math.ceil((xhr.loaded / xhr.total) * 100)
+          },
           function(err) {
             console.log(err)
           }
@@ -766,6 +784,9 @@ export default {
         this.renderer.info.programs[i].destroy()
       }
       // this.renderer = null
+    },
+    progressFormat(percentage) {
+      return percentage === 100 ? '加载完成' : `${percentage}%`
     }
   }
 }
