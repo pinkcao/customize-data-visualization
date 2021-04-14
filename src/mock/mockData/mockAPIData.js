@@ -14,7 +14,11 @@ const year = ['2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019', '2
 // ]
 
 // let testJsonData = generateData(Math.floor(Math.random() * 4 + 1), Math.floor(Math.random() * 7 + 1))
-
+/**
+ * 用于生成Data
+ * @param:
+ * @returns:
+ */
 function generateData(scaleX, scaleY) {
   //result to return
   let jsonData = []

@@ -168,6 +168,11 @@ export default {
     }
   },
   methods: {
+    /**
+     * 从接口读取存储的背景样式，初始化背景样式
+     * @param:
+     * @returns:
+     */
     initBackgroundStyle() {
       this.$axios({
         url: this.$url.getBackgroundStyle,
@@ -184,6 +189,11 @@ export default {
         }
       })
     },
+    /**
+     * 从接口读取分辨率，初始化分辨率设置
+     * @param:
+     * @returns:
+     */
     initScreenDef() {
       console.log(this.$store.state.currentTemplateID)
       console.log(this.$store.state.currentUserID)
@@ -203,6 +213,11 @@ export default {
         }
       })
     },
+    /**
+     * 从接口读取缩放方式，初始化缩放方式
+     * @param:
+     * @returns:
+     */
     initScreenStretch() {
       this.$axios({
         url: this.$url.getScreenStretch,
@@ -219,16 +234,29 @@ export default {
         }
       })
     },
+    /**
+     * 判断boolean值
+     * @param: boolean
+     * @returns:
+     */
     findFalse(bool) {
       return bool == false
     },
-    //初始化当前loadingStatus
+    /**
+     * 初始化当前加载状态
+     * @param:
+     * @returns:
+     */
     initLoadingStatus() {
       for (let i = 0; i < this.loadingStatus.length; i++) {
         this.loadingStatus[i] = false
       }
     },
-    //更改当前loadingStatus
+    /**
+     * 更改当前loadingStatus
+     * @param:
+     * @returns:
+     */
     changeLoadingStatus(data) {
       this.loadingStatus[data] = true
       if (this.loadingStatus.find(this.findFalse) == undefined) {
@@ -241,6 +269,11 @@ export default {
         }, 500)
       }
     },
+    /**
+     * 更新当前的列数据，用于计算目前的parentScale
+     * @param:
+     * @returns:
+     */
     updateColData() {
       let ColData = []
       //el-main的padding-left+padding-right
@@ -257,34 +290,76 @@ export default {
       this.$store.commit('updateCurrentColWidth', ColData)
       this.$store.commit('updateParentScale')
     },
+    /**
+     * 修改graphCol的活跃状态
+     * @param:
+     * @returns:
+     */
     graphclicktest() {
       this.graphColActive = !this.graphColActive
       this.updateColData()
     },
-
+    /**
+     * 修改compCol的活跃状态
+     * @param:
+     * @returns:
+     */
     compclicktest() {
       this.compColActive = !this.compColActive
       this.updateColData()
     },
-
+    /**
+     * 修改pageCol的活跃状态
+     * @param:
+     * @returns:
+     */
     pageclicktest() {
       this.pageColActive = !this.pageColActive
       this.updateColData()
     },
 
+    /**
+     * 允许拖拽
+     * @param: event
+     * @returns:
+     */
     allowdrag(event) {
       event.preventDefault()
     },
+
+    /**
+     * 路由至预览页面
+     * @param:
+     * @returns:
+     */
     routeToPreview() {
       this.$store.commit('changeReloadFlag', true)
       this.$router.push({ path: '/preview' })
     },
+
+    /**
+     * 路由至测试页面，写为colorTest，实际上什么都测
+     * @param:
+     * @returns:
+     */
     routeToColorTest() {
       this.$router.push({ path: '/colorTest' })
     },
+
+    /**
+     * 路由至选择模板页面
+     * @param:
+     * @returns:
+     */
     routeToTemplateSelect() {
       this.$router.push({ path: '/templateSelect' })
     },
+
+    /**
+     * 路由至测试挂载页面，也是测试用
+     * @param:
+     * @returns:
+     */
     routeToMountThreeTest() {
       this.$router.push({ path: '/mountThreeTest' })
     }

@@ -3,13 +3,6 @@ import Router from 'vue-router'
 import store from '../store/index.js'
 import axios from 'axios'
 import url from '@mock/mockAPI.js'
-// import notFound from '../views/notFound.vue'
-// import basePage from '../views/basePage.vue'
-// import preview from '../views/preview.vue'
-// import colorTest from '../views/colorTest.vue'
-// import login from '../views/login.vue'
-// import templateSelect from '../views/templateSelect.vue'
-// import register from '../views/register.vue'
 
 Vue.use(Router)
 

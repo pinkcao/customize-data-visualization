@@ -65,14 +65,22 @@ export default {
   },
   destroyed() {},
   methods: {
-    //从数据库获取该人的模板信息，包括模板的个数、ID，根据个数、ID生成相应的可点击的模板、点击后进入设计界面
-    //当前正在修改的模板ID进入session、在修改时把session中的模板ID、用户ID作为参数与数据库交互
+    /**
+     * 点击模板时调用，路由至设计页面
+     * @param: int
+     * @returns:
+     */
     clickTemplate(templateID) {
       // console.log(item)
       this.$store.commit('changeCurrentTemplateID', templateID)
       window.localStorage.setItem('templateID', templateID)
       this.$router.push('/basePage')
     },
+    /**
+     * 获取templateList
+     * @param:
+     * @returns:
+     */
     getTemplateList() {
       this.loadingInstance = this.$loading({
         fullscreen: true,
@@ -100,6 +108,11 @@ export default {
         }
       })
     },
+    /**
+     * 添加模板
+     * @param:
+     * @returns:
+     */
     appendTemplate() {
       this.loadingInstance = this.$loading({
         fullscreen: true,
@@ -123,6 +136,11 @@ export default {
         }
       })
     },
+    /**
+     * 删除模板
+     * @param:
+     * @returns:
+     */
     spliceTemplate(templateID) {
       let message = '确定删除吗'
       this.$confirm(message, '提示', {

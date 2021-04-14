@@ -1,3 +1,4 @@
+<!-- temporarily deprecated -->
 <template>
   <div class="container" id="container" ref="container">
     <div class="compose-button">

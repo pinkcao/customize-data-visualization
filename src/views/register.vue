@@ -122,6 +122,11 @@ export default {
   destroyed() {},
 
   methods: {
+    /**
+     * 注册
+     * @param: String
+     * @returns:
+     */
     onSubmit(formName) {
       this.loadingInstance = this.$loading({
         fullscreen: true,
@@ -166,6 +171,11 @@ export default {
         }
       })
     },
+    /**
+     * 路由至登录界面
+     * @param:
+     * @returns:
+     */
     routeToLogin() {
       this.$router.push('/login')
     }

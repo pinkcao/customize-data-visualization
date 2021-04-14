@@ -1,11 +1,3 @@
-// import mockBase from './mockData/mockBase.js'
-// import mockScreen from './mockData/mockScreen.js'
-
-// export default {
-//   mockBase,
-//   mockScreen
-// }
-
 import { importToMap } from '../common/core/loader.js'
 
 export const mockSource = importToMap(require.context('./mockData', true, /\.js$/))

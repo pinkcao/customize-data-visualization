@@ -56,6 +56,11 @@ export default {
   destroyed() {},
 
   methods: {
+    /**
+     * 登录
+     * @param:
+     * @returns:
+     */
     onSubmit() {
       this.loadingInstance = this.$loading({
         fullscreen: true,

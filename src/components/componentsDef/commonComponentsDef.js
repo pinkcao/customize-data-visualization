@@ -95,7 +95,11 @@ export default {
     this.$off()
   },
   methods: {
-    // 更新当前组件基础属性
+    /**
+     * 更新当前组件基础属性
+     * @param:
+     * @returns: Array
+     */
     updateComponentList() {
       if (this.mode == 'design') {
         this.$axios({
@@ -127,7 +131,11 @@ export default {
         })
       }
     },
-    //销毁当前组件，实际不销毁，只是不渲染，组件仍在内存，在mainCanvas组件中的objList中存储，可以调用mount()方法再次挂载
+    /**
+     * 修改为永久销毁组件
+     * @param:
+     * @returns:
+     */
     destroyComponent() {
       this.$confirm('此操作将永久删除该组件, 是否继续?', '提示', {
         confirmButtonText: '确定',
@@ -149,24 +157,40 @@ export default {
           })
         })
     },
-    //调整当前组件基础属性
+    /**
+     * 调整当前组件基础属性
+     * @param: Object
+     * @returns:
+     */
     resize(newRect) {
       this.width = newRect.width
       this.height = newRect.height
       this.top = newRect.top
       this.left = newRect.left
     },
-    //由active转为inactive,失去焦点
+    /**
+     * 由active转为inactive,失去焦点
+     * @param:
+     * @returns:
+     */
     onDeactivated() {
       this.$refs.testref.blur()
     },
-    //由inactive转至active,获得焦点
+    /**
+     * 由inactive转至active,获得焦点
+     * @param:
+     * @returns:
+     */
     activate() {
       this.$emit('updateActiveStatus', this.index)
       this.$refs.testref.focus()
     },
+    /**
+     * 旋转时调用
+     * @param: int
+     * @returns:
+     */
     rotate(deg) {
-      // console.log(deg)
       this.deg = deg
     }
   }

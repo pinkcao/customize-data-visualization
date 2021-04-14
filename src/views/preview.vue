@@ -120,6 +120,11 @@ export default {
   },
 
   methods: {
+    /**
+     * 初始化背景样式
+     * @param:
+     * @returns:
+     */
     getBackgroundStyle() {
       this.$axios({
         url: url.getBackgroundStyle,
@@ -138,7 +143,12 @@ export default {
         }
       })
     },
-    //获取缩放设置
+
+    /**
+     * 初始化缩放设置
+     * @param:
+     * @returns:
+     */
     getScreenStretch() {
       this.$axios({
         url: url.getScreenStretch,
@@ -157,7 +167,12 @@ export default {
         }
       })
     },
-    //获取屏幕设置
+
+    /**
+     * 初始化分辨率设置
+     * @param:
+     * @returns:
+     */
     getScreenDef() {
       this.$axios({
         url: url.getScreenDef,
@@ -176,6 +191,12 @@ export default {
         }
       })
     },
+
+    /**
+     * 自适应屏幕宽高
+     * @param:
+     * @returns:
+     */
     resize() {
       let designWindowWidth = this.screenDef[0].value
       let designWindowHeight = this.screenDef[1].value
@@ -234,9 +255,21 @@ export default {
           break
       }
     },
+
+    /**
+     * 路由至设计页面
+     * @param:
+     * @returns:
+     */
     returnToBase() {
       this.$router.push({ path: '/basePage' })
     },
+
+    /**
+     * 获取所有组件
+     * @param:
+     * @returns: Array
+     */
     getComponentList() {
       this.$axios({
         url: url.getComponentList,
@@ -256,7 +289,11 @@ export default {
         this.loadingDetail.components = true
       })
     },
-    //挂载组件
+    /**
+     * 挂载所有读取到的组件
+     * @param:
+     * @returns:
+     */
     mountComponent() {
       let currentData = this.componentList
       let that = this

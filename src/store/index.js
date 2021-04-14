@@ -286,6 +286,7 @@ export default new Vuex.Store({
       }
       // this.updateParentScale()
     },
+    //更新全局的规模
     updateParentScale(state) {
       console.log(state.screenDef)
       if (state.screenDef != []) {

@@ -219,6 +219,11 @@ export default {
     }
   },
   methods: {
+    /**
+     * 当组件被挂载时统一调用初始化方法
+     * @param:
+     * @returns:
+     */
     init() {
       this.initScene()
       this.initCamera()
@@ -228,11 +233,14 @@ export default {
       this.initLoader()
       this.initControls()
       this.initComposer()
-      // if (this.mode == 'design') {
       this.initStats()
-      // }
     },
 
+    /**
+     * 在beforeDestroy时调用，销毁各类Mesh
+     * @param:
+     * @returns:
+     */
     resetParams() {
       // console.log(this.animationFrame)
       window.cancelAnimationFrame(this.animationFrame)
@@ -266,18 +274,30 @@ export default {
       this.loader = null
       console.log('all stuffs reset')
     },
-    //初始化透视摄像机，此外还有正交摄像机
     //那是不是甚至可以模拟摄像机，比如说在环境中加入n个摄像机，每个摄像机有其vector3坐标，然后lookat某个点，然后双击后切换到该摄像机看到的事件？
+    /**
+     * 初始化透视摄像机，此外还有正交摄像机
+     * @param:
+     * @returns:
+     */
     initCamera() {
       this.camera = new THREE.PerspectiveCamera(65, this.width / this.height, 0.1, 100)
       this.camera.position.set(-1, 1, 1)
     },
 
-    //初始化scene
+    /**
+     * 初始化Scene
+     * @param:
+     * @returns:
+     */
     initScene() {
       this.scene = new THREE.Scene()
     },
-    //初始化光照
+    /**
+     * 初始化光源，包括平行光源与环境光源
+     * @param:
+     * @returns:
+     */
     initLight() {
       // let directionalLight = track(new THREE.DirectionalLight(0xffffff, 2)) //平行光源
       let directionalLight = new THREE.DirectionalLight(0xffffff, 2)
@@ -291,16 +311,32 @@ export default {
       this.light.push(ambient)
       this.addLight()
     },
+    /**
+     * 移除所有光源
+     * @param:
+     * @returns:
+     */
     removeLight() {
       for (let i = 0; i < this.light.length; i++) {
         this.scene.remove(this.light[i])
       }
     },
+    /**
+     * 将所有光源添加至Scene
+     * @param:
+     * @returns:
+     */
     addLight() {
       for (let i = 0; i < this.light.length; i++) {
         this.scene.add(this.light[i])
       }
     },
+    /**
+     * 初始化渲染器
+     * 切换路由时因未知原因导致renderer无法释放内存
+     * @param:
+     * @returns:
+     */
     initRenderer() {
       // if (this.$refs.container != undefined) {
       this.renderer = new THREE.WebGLRenderer({
@@ -318,6 +354,11 @@ export default {
       this.$refs.container.appendChild(this.renderer.domElement)
       // }
     },
+    /**
+     * 初始化控制器，主要用于控制camera
+     * @param:
+     * @returns:
+     */
     initControls() {
       // if (this.renderer != null) {
       this.controls = new OrbitControls(this.camera, this.renderer.domElement)
@@ -330,6 +371,11 @@ export default {
       //控制垂直旋转的角度
       // }
     },
+    /**
+     * 测试方法，创建一个box
+     * @param:
+     * @returns:
+     */
     initGeometry() {
       let geometry = new THREE.BoxGeometry(5, 5, 5)
       let material = new THREE.MeshNormalMaterial()
@@ -339,7 +385,11 @@ export default {
       // window.cancelAnimationFrame(this.animationFrame)
       // this.animationFrame = window.requestAnimationFrame(this.animate)
     },
-    //加载所有玩意
+    /**
+     * 初始化一个GLTFLoader并加载.gltf模型
+     * @param:
+     * @returns:
+     */
     initLoader() {
       let that = this
       let loader = new GLTFLoader()
@@ -439,6 +489,12 @@ export default {
       console.log(loader)
       // loader = null
     },
+
+    /**
+     * 将修正完的模型导出
+     * @param:
+     * @returns:
+     */
     save(blob, filename) {
       var link = document.createElement('a')
       link.style.display = 'none'
@@ -473,6 +529,11 @@ export default {
       )
       exporter = null
     },
+    /**
+     * 初始化后期处理效果，包括了外边框与反锯齿
+     * @param:
+     * @returns:
+     */
     initComposer() {
       // if (this.renderer != null) {
       this.composer = new EffectComposer(this.renderer)
@@ -494,7 +555,11 @@ export default {
       this.composer.addPass(this.outlinePass)
       // }
     },
-
+    /**
+     * 初始化性能面板，用于查看当前渲染帧率，渲染每一帧耗时，占用的内存大小
+     * @param:
+     * @returns:
+     */
     initStats() {
       // if (this.$refs.container != undefined) {
       this.stats = new Stats()
@@ -505,33 +570,55 @@ export default {
       this.$refs.container.appendChild(this.stats.domElement)
       // }
     },
+
+    /**
+     * 更新controls与stats
+     * @param:
+     * @returns:
+     */
     update() {
       this.controls.update()
       // if (this.mode == 'design') {
       this.stats.update()
       // }
     },
-
+    /**
+     * 以每秒60帧的速率进行渲染，将渲染的ID记录于this.animationFrame中，该项用于取消渲染
+     * @param:
+     * @returns:
+     */
     animate() {
       this.animationFrame = window.requestAnimationFrame(this.animate)
       // console.log(this.animationFrame)
       this.render()
       this.update()
-      this.composer.render()
       // console.log(this.mode)
     },
-
+    /**
+     * 让渲染器与后期效果处理器渲染一帧
+     * @param:
+     * @returns:
+     */
     render() {
       this.renderer.render(this.scene, this.camera)
+      this.composer.render()
     },
-
+    /**
+     * 被调用时调整camera的尺寸与renderer渲染的尺寸范围
+     * @param:
+     * @returns:
+     */
     onWindowResize() {
       this.camera.aspect = this.width / this.height
       this.camera.updateProjectionMatrix()
       this.renderer.setSize(this.width, this.height)
       this.render()
     },
-
+    /**
+     * 当鼠标在画布上点击时调用
+     * @param: event
+     * @returns:
+     */
     onMouseClick(event) {
       console.log(this.scene)
       console.log(event.offsetX)
@@ -582,19 +669,38 @@ export default {
         this.outlinePass.selectedObjects = []
       }
     },
+    /**
+     * 工作流中的A
+     * @param:
+     * @returns:
+     */
     functionA() {
       console.log('now is functionA working')
       this.workflowCount += 1
     },
+    /**
+     * 工作流中的B
+     * @param:
+     * @returns:
+     */
     functionB() {
       console.log('now is functionB working')
       this.workflowCount += 1
     },
+    /**
+     * 工作流中的C
+     * @param:
+     * @returns:
+     */
     functionC() {
       console.log('now is functionC working')
       this.workflowCount += 1
     },
-    //双击激活工作流
+    /**
+     * 鼠标双击触发被选中的mesh已被绑定的工作流
+     * @param:event
+     * @returns:
+     */
     activateWorkflow(event) {
       this.dbmouse.x = (event.offsetX / (this.width * (1 / 1))) * 2 - 1
       this.dbmouse.y = -(event.offsetY / (this.height * (1 / 1))) * 2 + 1
@@ -627,7 +733,9 @@ export default {
       }
     },
     /**
-     * 把需要组合的mesh的userData.uuid赋为同一值，通过该值将所有的mesh联系起来
+     * 把需要组合的mesh的userData.uuid赋为同一值，通过该值将所有的mesh联系起来，此处的uuid是 组的唯一标识符
+     * @param:
+     * @returns:
      */
     composeMesh() {
       console.log(this.selectedObjects)
@@ -664,6 +772,8 @@ export default {
     },
     /**
      * mesh.userData.uuid 值赋为-1，解绑
+     * @param:
+     * @returns:
      */
     discomposeGroup() {
       //当选中的mesh是>=2个时才有删除必要
@@ -699,7 +809,13 @@ export default {
       this.selectedObjects = []
       this.outlinePass.selectedObjects = []
     },
-    //深度遍历树，把所有叶子结点添加入数组中
+    /**
+     * 深度遍历树，把所有叶子结点添加入数组中
+     * 要注意的是，常规情况下three.js已经提供了traverse方法来遍历一个Object3D中的所有children，可以通过该方法将所有children的引用添加入一个Array中
+     * 但此处自己写了深度遍历方法是为了以后支持一些特殊的扩展，方便改写。
+     * @param: Object,Array
+     * @returns: Array
+     */
     DFS(node, nodeList) {
       // console.log(node)
       if (node) {
@@ -716,11 +832,20 @@ export default {
       }
       return nodeList
     },
+    /**
+     * 测试用渲染方法
+     * @param:
+     * @returns:
+     */
     testAnimate() {
       this.animationFrame = requestAnimationFrame(this.testAnimate)
       this.renderer.render(this.scene, this.camera)
-      // console.log('test')
     },
+    /**
+     * 更新当前组件基础属性
+     * @param:
+     * @returns: Array
+     */
     updateComponentList() {
       if (this.mode == 'design') {
         // console.log(this.index)
@@ -755,6 +880,11 @@ export default {
         })
       }
     },
+    /**
+     * 模拟绑定工作流
+     * @param:
+     * @returns:
+     */
     bindWorkflow() {
       console.log(this.selectedObjects)
       //如果当前有选中东西，那么将把工作流绑给当前选中的所有东西，覆盖原有工作流
@@ -764,6 +894,11 @@ export default {
         }
       }
     },
+    /**
+     * 测试取消渲染
+     * @param:
+     * @returns:
+     */
     cancelAnimation() {
       window.cancelAnimationFrame(this.animationFrame)
       console.log('canceled?')
@@ -778,6 +913,11 @@ export default {
       }
       // this.renderer = null
     },
+    /**
+     * 用于显示加载进度
+     * @param:
+     * @returns:
+     */
     progressFormat(percentage) {
       return percentage === 100 ? '加载完成' : `${percentage}%`
     }

@@ -1,3 +1,6 @@
+/**
+ * 所有的接口
+ */
 export default {
   getComponentTabData: 'http://localhost:8080/api/componentCol/getComponentTabData', //finished
   getComponentList: 'http://localhost:8080/api/component/getComponent', // it's fucking finished
