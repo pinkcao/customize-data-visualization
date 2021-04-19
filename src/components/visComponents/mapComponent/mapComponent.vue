@@ -39,6 +39,9 @@
         <div v-if="mode == 'design'" class="workflow-button">
           <el-button @click.stop.prevent="bindWorkflow">绑定工作流</el-button>
         </div>
+        <div class="dispose-button">
+          <el-button @click.stop.prevent="disposeAllMesh">dispose</el-button>
+        </div>
         <div v-if="loadModelFlag" :style="progressStyle">
           <!-- <div :style="progressStyle"> -->
           <el-progress
@@ -174,7 +177,7 @@ export default {
     this.renderer = null
     this.light = []
     this.controls = null
-    // this.loader = null
+    this.loader = new GLTFLoader()
     // this.exporter = null
     this.init()
     if (this.renderer != null && this.$refs.container != null) {
@@ -244,29 +247,15 @@ export default {
     resetParams() {
       // console.log(this.animationFrame)
       window.cancelAnimationFrame(this.animationFrame)
-      // console.log(this.animationFrame)
-      for (let i = 0; i < this.atomicArr.length; i++) {
-        console.log(this.atomicArr[i].geometry)
-        this.atomicArr[i].geometry.dispose()
-        console.log(this.atomicArr[i].geometry)
-        this.atomicArr[i].material.dispose()
-        // this.atomicArr[i].dispose()
-        console.log(this.atomicArr[i])
-        // this.atomicArr[i].
-        // this.atomicArr[i].dispose()
-      }
-      this.scene.clear()
-      console.log(this.scene)
-      // resMgr && resMgr.dispose()
+      //dispose all current meshes
+      this.disposeAllMesh()
       this.renderer.dispose()
       this.renderer.forceContextLoss()
       this.renderer.content = null
-      console.log(this.renderer)
-      console.log(this.renderer.getContext())
-      console.log(this.atomicArr.length)
+      this.renderer = null
       this.controls.dispose()
-      this.composer.removePass(this.outlinePass)
       this.outlinePass.dispose()
+      this.composer.removePass(this.outlinePass)
       this.atomicArr = null
       this.groupMap = null
       console.log(this.groupMap)
@@ -392,10 +381,8 @@ export default {
      */
     initLoader() {
       let that = this
-      let loader = new GLTFLoader()
-      //在design时全部mesh，在preview时带group
       if (this.mode == 'design') {
-        loader.load(
+        this.loader.load(
           // '/zelda/scene.gltf',
           // '/lantern/Lantern.gltf',
           '/flight_helmet/FlightHelmet.gltf',
@@ -406,11 +393,10 @@ export default {
             console.log(object.scene.children[0].children.length)
             this.DFS(object.scene, this.atomicArr)
             for (let i = 0; i < this.atomicArr.length; i++) {
-              // this.atomicArr[i].userData.workflowArr = this.workflowArr
+              this.atomicArr[i].userData.workflowArr = [3, 1, 2]
               if (this.atomicArr[i].userData.uuid == undefined) {
                 this.atomicArr[i].userData.uuid = -1
               }
-              // this.atomicArr[i] = track(this.atomicArr[i])
               this.scene.add(this.atomicArr[i])
             }
             let tempuuidSet = new Set()
@@ -443,7 +429,7 @@ export default {
         )
       }
       if (this.mode == 'preview') {
-        loader.load(
+        this.loader.load(
           // '/zelda/scene.gltf',
           // '/lantern/Lantern.gltf',
           // '/flight_helmet/FlightHelmet.gltf',
@@ -454,7 +440,6 @@ export default {
             console.log(object.scene.children.length)
             this.DFS(object.scene, this.atomicArr)
             for (let i = 0; i < this.atomicArr.length; i++) {
-              // this.atomicArr[i] = track(this.atomicArr[i])
               this.scene.add(this.atomicArr[i])
             }
             let tempuuidSet = new Set()
@@ -486,8 +471,6 @@ export default {
           }
         )
       }
-      console.log(loader)
-      // loader = null
     },
 
     /**
@@ -920,6 +903,42 @@ export default {
      */
     progressFormat(percentage) {
       return percentage === 100 ? '加载完成' : `${percentage}%`
+    },
+    /**
+     * 用于销毁mesh
+     * @param:
+     * @returns:
+     */
+    disposeMesh(parent, child) {
+      if (child.children.length) {
+        const arr = child.children.filter(x => x)
+        arr.forEach(a => {
+          this.disposeMesh(child, a)
+        })
+      }
+      if (child instanceof THREE.Mesh || child instanceof THREE.Line) {
+        if (child.material.map) child.material.map.dispose()
+        child.material.dispose()
+        child.geometry.dispose()
+      } else if (child.material) {
+        child.material.dispose()
+      }
+      child.remove()
+      parent.remove(child)
+    },
+    /**
+     * 用于销毁场景中所有mesh
+     * @param:
+     * @returns:
+     */
+    disposeAllMesh() {
+      console.log(this.renderer.info)
+      for (let i = 0; i < this.atomicArr.length; i++) {
+        this.disposeMesh(this.scene, this.atomicArr[i])
+      }
+      this.atomicArr = null
+      this.atomicArr = []
+      console.log(this.renderer.info)
     }
   }
 }
@@ -964,5 +983,11 @@ export default {
   z-index: 20000;
   position: absolute;
   left: 500px;
+}
+
+.dispose-button {
+  z-index: 20000;
+  position: absolute;
+  left: 600px;
 }
 </style>
