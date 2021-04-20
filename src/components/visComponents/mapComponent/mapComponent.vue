@@ -249,21 +249,26 @@ export default {
       window.cancelAnimationFrame(this.animationFrame)
       //dispose all current meshes
       this.disposeAllMesh()
+      //dispose renderer
       this.renderer.dispose()
       this.renderer.forceContextLoss()
       this.renderer.content = null
       this.renderer = null
-      this.controls.dispose()
-      this.outlinePass.dispose()
+      //dispose composer
       this.composer.removePass(this.outlinePass)
-      this.atomicArr = null
+      this.outlinePass.dispose()
+      this.composer.removePass(this.fxaaPass)
+      this.fxaaPass.dispose()
+      //dispose controls
+      this.controls.dispose()
+      this.controls = null
+      //取消引用
       this.groupMap = null
-      console.log(this.groupMap)
+      this.removeLight()
       this.light = null
       this.loader = null
       console.log('all stuffs reset')
     },
-    //那是不是甚至可以模拟摄像机，比如说在环境中加入n个摄像机，每个摄像机有其vector3坐标，然后lookat某个点，然后双击后切换到该摄像机看到的事件？
     /**
      * 初始化透视摄像机，此外还有正交摄像机
      * @param:
