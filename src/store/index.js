@@ -36,18 +36,18 @@ export default new Vuex.Store({
     },
 
     currentUserID: -1,
-    currentTemplateID: -1,
-    reloadFlag: false
+    currentTemplateID: -1
+    // reloadFlag: false
   },
   mutations: {
-    changeReloadFlag(state, reloadFlag) {
-      if (reloadFlag) {
-        state.reloadFlag = reloadFlag
-      }
-    },
-    resetReloadFlag(state) {
-      state.reloadFlag = false
-    },
+    // changeReloadFlag(state, reloadFlag) {
+    //   if (reloadFlag) {
+    //     state.reloadFlag = reloadFlag
+    //   }
+    // },
+    // resetReloadFlag(state) {
+    //   state.reloadFlag = false
+    // },
     changeCurrentTemplateID(state, templateID) {
       if (templateID >= 0) {
         state.currentTemplateID = templateID

@@ -328,13 +328,15 @@ export default {
     },
 
     /**
-     * 路由至预览页面
+     * 新建标签页，并路由至预览页面
      * @param:
      * @returns:
      */
     routeToPreview() {
-      this.$store.commit('changeReloadFlag', true)
-      this.$router.push({ path: '/preview' })
+      const { href } = this.$router.resolve({
+        path: '/preview'
+      })
+      window.open(href, '_blank')
     },
 
     /**

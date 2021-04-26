@@ -9,8 +9,6 @@
 <script>
 //通过该方法传字符串获取组件，使组件名与组件对应
 import { getComponent } from '@components/visComponents/comMap.js'
-//由于在预览界面不会对子组件再进行操作，因此仅只引入mount方法，不保存整个Mount对象
-import { mount } from 'vue-mount'
 import Mount from 'vue-mount'
 import url from '@mock/mockAPI.js'
 
@@ -95,11 +93,11 @@ export default {
   destroyed() {},
   mounted() {
     // location.reload()
-    if (this.$store.state.reloadFlag === true) {
-      location.reload()
-      console.log('reloadflag changed')
-      this.$store.commit('changeReloadFlag', false)
-    }
+    // if (this.$store.state.reloadFlag === true) {
+    //   location.reload()
+    //   console.log('reloadflag changed')
+    //   this.$store.commit('changeReloadFlag', false)
+    // }
     this.loadingInstance = this.$loading({
       fullscreen: true,
       spinner: 'el-icon-loading',

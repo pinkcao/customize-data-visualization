@@ -31,5 +31,6 @@ module.exports = {
   // <div
   //   className=""
   //   style={{}} >
-  jsxBracketSameLine: false
+  jsxBracketSameLine: false,
+  endOfLine: 'auto'
 }

@@ -258,7 +258,6 @@ export default {
       this.composer.removePass(this.outlinePass)
       this.outlinePass.dispose()
       this.composer.removePass(this.fxaaPass)
-      this.fxaaPass.dispose()
       //dispose controls
       this.controls.dispose()
       this.controls = null

@@ -22,7 +22,8 @@ module.exports = {
     //     asyncArrow: 'never'
     //   }
     // ],
-    semi: 'off'
+    semi: 'off',
+    endOfLine: 0
   },
   parserOptions: {
     parser: 'babel-eslint'
