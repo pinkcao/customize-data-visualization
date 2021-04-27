@@ -1,5 +1,8 @@
 <template>
-  <div>404了，你自己想想办法，我不想提供方法带你出去，等我想带你出去再写</div>
+  <div>
+    <span>404嘞</span>
+    <el-button @click="routeToBase">返回登录页</el-button>
+  </div>
 </template>
 
 <script>
@@ -13,7 +16,11 @@ export default {
   created() {},
   mounted() {},
 
-  methods: {}
+  methods: {
+    routeToBase() {
+      this.$router.push({ path: '/' })
+    }
+  }
 }
 </script>
 

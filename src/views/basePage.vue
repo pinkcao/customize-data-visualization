@@ -208,7 +208,7 @@ export default {
   },
   watch: {
     '$store.state.screenDefFlag': function(newval) {
-      console.log('?')
+      // console.log('?')
       console.log(this.$store.state.screenDefFlag)
       if (newval == true) {
         this.updateColData()
@@ -383,7 +383,6 @@ export default {
     allowdrag(event) {
       event.preventDefault()
     },
-
     /**
      * 新建标签页，并路由至预览页面
      * @param:
