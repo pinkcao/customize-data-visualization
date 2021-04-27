@@ -1,9 +1,5 @@
 <template>
-  <div class="preview-wrapper" :style="currentStyle" ref="preview">
-    <div :style="buttonBoxStyle">
-      <el-button style="float: right" icon="el-icon-close" @click="returnToBase" circle></el-button>
-    </div>
-  </div>
+  <div class="preview-wrapper" :style="currentStyle" ref="preview"></div>
 </template>
 
 <script>
@@ -253,16 +249,6 @@ export default {
           break
       }
     },
-
-    /**
-     * 路由至设计页面
-     * @param:
-     * @returns:
-     */
-    returnToBase() {
-      this.$router.push({ path: '/basePage' })
-    },
-
     /**
      * 获取所有组件
      * @param:

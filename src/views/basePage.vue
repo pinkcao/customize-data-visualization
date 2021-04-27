@@ -4,35 +4,32 @@
       <el-header height="50px">
         <!-- button set -->
         <div class="head-box-back">
-          <div title="后退" class="back-icon-wrapper" @click="routeToTemplateSelect">
+          <div title="后退" class="back-icon-wrapper" @click="pageRoute('/templateSelect')">
             <i class="el-icon-back"></i>
           </div>
         </div>
         <div class="head-box-left">
-          <div title="图层" @click="graphclicktest" :class="graphisshown">
-            <i :style="iconstyle" class="el-icon-picture"></i>
-          </div>
-          <div title="组件库" @click="compclicktest" :class="compisshown">
-            <i :style="iconstyle" class="el-icon-box"></i>
-          </div>
-          <div title="页面设置" @click="pageclicktest" :class="pageisshown">
-            <i :style="iconstyle" class="el-icon-setting"></i>
+          <div
+            v-for="(item, i) in leftButtonSet"
+            :key="i"
+            :title="item.title"
+            :class="leftButtonClass(item.clickParam)"
+            @click="colClick(item.clickParam)"
+          >
+            <i :style="item.iconStyle" :class="item.iconClass"> </i>
           </div>
         </div>
 
         <!-- right button set -->
         <div class="head-box-right">
-          <div title="帮助" class="icon-box-right" @click="routeToColorTest">
-            <i :style="iconstyle" class="el-icon-s-order"></i>
-          </div>
-          <div title="发布" class="icon-box-right">
-            <i :style="iconstyle" class="el-icon-s-promotion"></i>
-          </div>
-          <div title="预览" class="icon-box-right" @click="routeToPreview">
-            <i :style="iconstyle" class="el-icon-s-platform"></i>
-          </div>
-          <div title="快照" class="icon-box-right" @click="routeToMountThreeTest">
-            <i :style="iconstyle" class="el-icon-camera"></i>
+          <div
+            v-for="(item, i) in rightButtonSet"
+            :key="i"
+            :title="item.title"
+            :class="item.divClass"
+            @click="pageRoute(item.routeDest)"
+          >
+            <i :style="item.iconStyle" :class="item.iconClass"></i>
           </div>
         </div>
       </el-header>
@@ -108,7 +105,59 @@ export default {
       loadingStatus: [false, false],
       loadingInstance: null,
       loadingIntervalID: 0,
-      loadingTimer: 0
+      loadingTimer: 0,
+
+      leftButtonSet: [
+        {
+          title: '图层',
+          clickParam: 'graphCol',
+          iconStyle: 'color: aliceblue;',
+          iconClass: 'el-icon-picture'
+        },
+        {
+          title: '组件库',
+          clickParam: 'compCol',
+          iconStyle: 'color: aliceblue;',
+          iconClass: 'el-icon-box'
+        },
+        {
+          title: '页面设置',
+          clickParam: 'pageCol',
+          iconStyle: 'color: aliceblue;',
+          iconClass: 'el-icon-setting'
+        }
+      ],
+
+      rightButtonSet: [
+        {
+          title: '帮助',
+          divClass: 'icon-box-right',
+          routeDest: '/colorTest',
+          iconStyle: 'color: aliceblue;',
+          iconClass: 'el-icon-s-order'
+        },
+        {
+          title: '发布',
+          divClass: 'icon-box-right',
+          routeDest: '/preview',
+          iconStyle: 'color: aliceblue;',
+          iconClass: 'el-icon-s-promotion'
+        },
+        {
+          title: '预览',
+          divClass: 'icon-box-right',
+          routeDest: '/preview',
+          iconStyle: 'color: aliceblue;',
+          iconClass: 'el-icon-s-platform'
+        },
+        {
+          title: '快照',
+          divClass: 'icon-box-right',
+          routeDest: '/mountThreeTest',
+          iconStyle: 'color: aliceblue;',
+          iconClass: 'el-icon-camera'
+        }
+      ]
     }
   },
   computed: {
@@ -167,6 +216,22 @@ export default {
     }
   },
   methods: {
+    /**
+     * 控制左侧Buttons的样式
+     * @param: String
+     * @returns: CSS
+     */
+    leftButtonClass(clickParam) {
+      if (clickParam === 'graphCol') {
+        return this.graphisshown
+      } else if (clickParam === 'compCol') {
+        return this.compisshown
+      } else if (clickParam === 'pageCol') {
+        return this.pageisshown
+      } else {
+        return null
+      }
+    },
     /**
      * 从接口读取存储的背景样式，初始化背景样式
      * @param:
@@ -290,33 +355,26 @@ export default {
       this.$store.commit('updateParentScale')
     },
     /**
-     * 修改graphCol的活跃状态
-     * @param:
+     * 修改graphCol、compCol、pageCol的活跃状态
+     * @param: String
      * @returns:
      */
-    graphclicktest() {
-      this.graphColActive = !this.graphColActive
-      this.updateColData()
+    colClick(clickParam) {
+      switch (clickParam) {
+        case 'graphCol':
+          this.graphColActive = !this.graphColActive
+          break
+        case 'compCol':
+          this.compColActive = !this.compColActive
+          break
+        case 'pageCol':
+          this.pageColActive = !this.pageColActive
+          break
+        default:
+          this.updateColData()
+          break
+      }
     },
-    /**
-     * 修改compCol的活跃状态
-     * @param:
-     * @returns:
-     */
-    compclicktest() {
-      this.compColActive = !this.compColActive
-      this.updateColData()
-    },
-    /**
-     * 修改pageCol的活跃状态
-     * @param:
-     * @returns:
-     */
-    pageclicktest() {
-      this.pageColActive = !this.pageColActive
-      this.updateColData()
-    },
-
     /**
      * 允许拖拽
      * @param: event
@@ -331,38 +389,15 @@ export default {
      * @param:
      * @returns:
      */
-    routeToPreview() {
-      const { href } = this.$router.resolve({
-        path: '/preview'
-      })
-      window.open(href, '_blank')
-    },
-
-    /**
-     * 路由至测试页面，写为colorTest，实际上什么都测
-     * @param:
-     * @returns:
-     */
-    routeToColorTest() {
-      this.$router.push({ path: '/colorTest' })
-    },
-
-    /**
-     * 路由至选择模板页面
-     * @param:
-     * @returns:
-     */
-    routeToTemplateSelect() {
-      this.$router.push({ path: '/templateSelect' })
-    },
-
-    /**
-     * 路由至测试挂载页面，也是测试用
-     * @param:
-     * @returns:
-     */
-    routeToMountThreeTest() {
-      this.$router.push({ path: '/mountThreeTest' })
+    pageRoute(routeUrl) {
+      if (routeUrl === '/preview') {
+        const { href } = this.$router.resolve({
+          path: '/preview'
+        })
+        window.open(href, '_blank')
+      } else {
+        this.$router.push({ path: routeUrl })
+      }
     }
   }
 }
