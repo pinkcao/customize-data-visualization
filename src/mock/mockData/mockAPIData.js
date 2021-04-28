@@ -19,6 +19,7 @@ const year = ['2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019', '2
  * @param:
  * @returns:
  */
+
 function generateData(scaleX, scaleY) {
   //result to return
   let jsonData = []
@@ -41,16 +42,11 @@ function generateData(scaleX, scaleY) {
   }
 
   return jsonData
-  // let jsonData = []
-  // let firstRow = []
-  // for (let i = 0; i < scaleX; i++) {
-  //   let rowData = []
-
-  // }
 }
 
 export default {
   testJsonData: Mock.mock(url.testJsonData, 'post', () => {
+    console.log('holyshit')
     return generateData(Math.floor(Math.random() * 4 + 2), Math.floor(Math.random() * 6 + 2))
   })
 }

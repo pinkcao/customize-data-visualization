@@ -328,8 +328,9 @@ export default {
         // if (this.loadingTimer / 2 > 100) {
         //   alert('当前延时为: ' + this.loadingTimer / 2 + 'ms，使用体验将受到影响')
         // }
-        setTimeout(() => {
+        let timeoutID = setTimeout(() => {
           this.loadingInstance.close()
+          clearTimeout(timeoutID)
         }, 500)
       }
     },

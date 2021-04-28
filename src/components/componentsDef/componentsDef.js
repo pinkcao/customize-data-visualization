@@ -99,12 +99,12 @@ export default {
       handler(newVal) {
         this.removeInterval()
         this.dataSource.IntervalID = ''
-        // console.log('APIMethod updated，Interval cleared')
+        console.log('APIMethod updated，Interval cleared')
         // console.log(this.dataSource.APISwitch == true && this.dataSource.IntervalID == '')
         if (this.dataSource.APISwitch == true && this.dataSource.IntervalID == '') {
           this.dataSource.IntervalID = setInterval(this.fetchDataFromAPI, this.dataSource.APIInterval)
           // console.log(this.dataSource.APISwitch == true && this.dataSource.IntervalID == '')
-          // console.log('Interval set')
+          console.log('Interval set')
         }
       }
     },
@@ -113,19 +113,19 @@ export default {
       handler(newVal) {
         this.removeInterval()
         this.dataSource.IntervalID = ''
-        // console.log('APIInterval updated，Interval cleared')
+        console.log('APIInterval updated，Interval cleared')
         // console.log(this.dataSource.APISwitch == true && this.dataSource.IntervalID == '')
         if (this.dataSource.APISwitch == true && this.dataSource.IntervalID == '') {
           this.dataSource.IntervalID = setInterval(this.fetchDataFromAPI, this.dataSource.APIInterval)
-          // console.log(this.dataSource.APISwitch == true && this.dataSource.IntervalID == '')
-          // console.log('Interval set')
+          console.log(this.dataSource.APISwitch == true && this.dataSource.IntervalID == '')
+          console.log('Interval set')
         }
       }
     },
     'dataSource.APISwitch': function(newVal) {
       // console.log(newVal)
       if (newVal == false) {
-        // console.log('APISwitch off，Interval cleared')
+        console.log('APISwitch off，Interval cleared')
         this.removeInterval()
         this.dataSource.IntervalID = ''
       }
@@ -318,19 +318,37 @@ export default {
         } catch (error) {
           // console.log(error)
         }
-        this.$axios({
-          url: this.dataSource.APIURL,
-          method: this.dataSource.APIMethod,
-          headers: currentHeader,
-          data: {}
-        }).then(res => {
-          if (res) {
-            if (res.status == 200) {
-              this.dataSource.data = res.data
-              // console.log(res.data)
+        // console.log(this.dataSource.APIURL)
+        // console.log(this.dataSource.APIMethod)
+        // console.log(currentHeader)
+        if (currentHeader === null) {
+          this.$axios({
+            url: this.dataSource.APIURL,
+            method: this.dataSource.APIMethod,
+            // headers: currentHeader,
+            data: {}
+          }).then(res => {
+            if (res) {
+              if (res.status == 200) {
+                this.dataSource.data = res.data
+                // console.log(res.data)
+              }
             }
-          }
-        })
+          })
+        } else if (currentHeader != null) {
+          this.$axios({
+            url: this.dataSource.APIURL,
+            method: this.dataSource.APIMethod,
+            headers: currentHeader,
+            data: {}
+          }).then(res => {
+            if (res) {
+              if (res.status == 200) {
+                this.dataSource.data = res.data
+              }
+            }
+          })
+        }
       }
     },
     /**
