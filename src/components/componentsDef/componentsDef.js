@@ -201,8 +201,8 @@ export default {
                 )
               }
               console.log(res.data.resultSet)
-              this.$store.commit('initComponentList', res.data.resultSet)
-              this.$store.commit('resizeUpdateActiveComponent')
+              this.$store.commit('component/initComponentList', res.data.resultSet)
+              this.$store.commit('component/resizeUpdateActiveComponent')
             }
           }
           // console.log(res.data.resultSet)

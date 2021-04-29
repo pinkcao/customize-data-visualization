@@ -85,6 +85,15 @@ const mutations = {
         break
     }
   },
+  updatePageValue(state, data) {
+    for (let i = 0; i < state.screenDef.length; i++) {
+      if (state.screenDef[i].index == data.index) {
+        state.screenDef[i].value = data.value
+        break
+      }
+    }
+    // console.log(state.screenDef)
+  },
   //更新当前页面规模,
   updateCurrentColWidth(state, data) {
     state.currentColWidth = 0

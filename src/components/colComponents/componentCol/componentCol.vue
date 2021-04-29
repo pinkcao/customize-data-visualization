@@ -126,7 +126,7 @@ export default {
         将拖拽元素name更新至vuex，全局保存。
       */
     dragstarts(name) {
-      this.$store.commit('changeComponentNameToCanvas', name)
+      this.$store.commit('component/changeComponentNameToCanvas', name)
       // console.log(this.$store.state.componentNameToCanvas)
     }
   }

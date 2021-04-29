@@ -349,7 +349,7 @@ export default {
   },
   computed: {
     currentComponentIndex: function() {
-      return this.$store.state.activeComponentIndex
+      return this.$store.state.component.activeComponentIndex
     },
     componentSetWrapperStyle: function() {
       let tempStyle = {}
@@ -371,7 +371,7 @@ export default {
   },
   watch: {
     //默认不渲染，只有当vuex中的currentComponent被赋值后渲染
-    '$store.state.currentComponent': {
+    '$store.state.component.currentComponent': {
       handler(newval) {
         this.currentComponent = newval
         //由于往往是个json对象，所以将其转为JSON字符串，显示为静态JSON数据让用户直接可以修改
@@ -401,19 +401,19 @@ export default {
     //当值变化，将值转为json对象后传至vuex更新组件
     updateDataSource() {
       this.currentComponent.dataSource.data = JSON.parse(this.componentDataSourceData)
-      this.$store.commit('updateDataSource', this.currentComponent.dataSource)
+      this.$store.commit('component/updateDataSource', this.currentComponent.dataSource)
     },
     //更新所有的样式
     updateStyle() {
-      this.$store.commit('updateStyle', this.currentComponent.style)
+      this.$store.commit('component/updateStyle', this.currentComponent.style)
     },
     //更新标题
     updateTitle() {
-      this.$store.commit('updateTitle', this.currentComponent.title)
+      this.$store.commit('component/updateTitle', this.currentComponent.title)
     },
     //更新副标题
     updateSubTitle() {
-      this.$store.commit('updateSubTitle', this.currentComponent.subTitle)
+      this.$store.commit('component/updateSubTitle', this.currentComponent.subTitle)
     },
     //基础属性变更时触发
     componentBaseStatusOnChange() {
@@ -429,7 +429,7 @@ export default {
         url: this.$url.adjustComponent,
         method: 'post',
         data: {
-          templateID: this.$store.state.currentTemplateID,
+          templateID: window.localStorage.getItem('templateID'),
           deg: this.currentComponent.deg,
           index: this.currentComponent.index,
           width: this.currentComponent.width,
@@ -442,11 +442,11 @@ export default {
         }
       })
 
-      this.$store.commit('updateComponentStatus', currentComponentBaseStatus)
+      this.$store.commit('component/updateComponentStatus', currentComponentBaseStatus)
     },
     //更改数据源
     dataSourceChange() {
-      this.$store.commit('updateDataSource', this.currentComponent.dataSource)
+      this.$store.commit('component/updateDataSource', this.currentComponent.dataSource)
     },
     updateDialogDataSource() {
       this.currentComponent.dataSource.data = JSON.parse(this.componentDataSourceData)
@@ -455,7 +455,7 @@ export default {
       this.currentComponent.dataSource.APIMethod = this.currentComponentDataSourceDetail.currentComponentAPIMethod
       this.currentComponent.dataSource.APIInterval = this.currentComponentDataSourceDetail.currentComponentAPIInterval
       this.currentComponent.dataSource.APIHeader = this.currentComponentDataSourceDetail.currentComponentAPIHeader
-      this.$store.commit('updateDataSource', this.currentComponent.dataSource)
+      this.$store.commit('component/updateDataSource', this.currentComponent.dataSource)
       this.dialogFormVisible = false
     }
   }

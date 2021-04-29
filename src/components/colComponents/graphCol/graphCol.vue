@@ -40,12 +40,12 @@ export default {
     //当前的componentList
     componentList: {
       get() {
-        let tempArr = JSON.parse(JSON.stringify(this.$store.state.componentList))
+        let tempArr = JSON.parse(JSON.stringify(this.$store.state.component.componentList))
         return tempArr.sort(this.compare('zindex'))
       },
       set(value) {
         //图层列的显示顺序
-        this.$store.commit('updateAllZindexAsc', value)
+        this.$store.commit('component/updateAllZindexAsc', value)
         // this.$store.commit('updateAllZindexDsc', value)
       }
     },
@@ -81,7 +81,7 @@ export default {
       let args = {
         index: componentIndex
       }
-      this.$store.commit('updateActiveComponent', args)
+      this.$store.commit('component/updateActiveComponent', args)
     },
     compare: function(prop) {
       return function(obj1, obj2) {

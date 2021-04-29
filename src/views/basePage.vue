@@ -162,7 +162,7 @@ export default {
   },
   computed: {
     pageAndComponentFlag: function() {
-      return this.$store.state.pageAndComponentFlag
+      return this.$store.state.component.pageAndComponentFlag
     },
     graphisshown: function() {
       return {
@@ -259,8 +259,6 @@ export default {
      * @returns:
      */
     initScreenDef() {
-      console.log(this.$store.state.currentTemplateID)
-      console.log(this.$store.state.currentUserID)
       this.$axios({
         url: this.$url.getScreenDef,
         method: 'get',

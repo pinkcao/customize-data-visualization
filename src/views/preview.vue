@@ -88,12 +88,6 @@ export default {
   },
   destroyed() {},
   mounted() {
-    // location.reload()
-    // if (this.$store.state.reloadFlag === true) {
-    //   location.reload()
-    //   console.log('reloadflag changed')
-    //   this.$store.commit('changeReloadFlag', false)
-    // }
     this.loadingInstance = this.$loading({
       fullscreen: true,
       spinner: 'el-icon-loading',

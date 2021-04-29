@@ -32,7 +32,7 @@ export default {
   },
   watch: {
     //监听vuex中的componentList属性，如果有更改则覆盖当前objList的z-index值
-    '$store.state.componentList': {
+    '$store.state.component.componentList': {
       handler(newval) {
         let compList = newval
         console.log(newval)
@@ -119,10 +119,10 @@ export default {
       },
       deep: true
     },
-    '$store.state.componentActiveFlag': {
+    '$store.state.component.componentActiveFlag': {
       handler(newval) {
         if (newval) {
-          let tempActiveComponent = this.$store.state.componentActive
+          let tempActiveComponent = this.$store.state.component.componentActive
           for (let i = 0; i < tempActiveComponent.length; i++) {
             for (let j = 0; j < this.objList.length; j++) {
               if (this.componentList[j].index == i) {
@@ -133,7 +133,7 @@ export default {
               }
             }
           }
-          this.$store.commit('resetComponentActiveFlag', false)
+          this.$store.commit('component/resetComponentActiveFlag', false)
         }
       }
     },
@@ -161,7 +161,7 @@ export default {
     dataForTrans: function() {
       let tempComponentList = JSON.parse(JSON.stringify(this.componentList)) // 深拷贝当前tempList
       for (let i = 0; i < tempComponentList.length; i++) {
-        tempComponentList[i].templateID = this.$store.state.currentTemplateID
+        tempComponentList[i].templateID = window.localStorage.getItem('templateID')
         tempComponentList[i].dataSource.data = JSON.stringify(tempComponentList[i].dataSource.data)
         tempComponentList[i].dataSource.dataSourceOptions = JSON.stringify(
           tempComponentList[i].dataSource.dataSourceOptions
@@ -184,14 +184,14 @@ export default {
           width: this.$store.state.template.screenDef[0].value + 'px',
           height: this.$store.state.template.screenDef[1].value + 'px',
           position: this.$store.state.template.position,
-          transform: `scale(${this.$store.template.state.parentScale}) translate(0px, 0px)`
+          transform: `scale(${this.$store.state.template.parentScale}) translate(0px, 0px)`
         }
       }
     },
     cancelFocus(event) {
       // console.log(event)
       if (event.target == this.$refs.target) {
-        this.$store.commit('setActiveComponentFalse')
+        this.$store.commit('component/setActiveComponentFalse')
         for (let i = 0; i < this.objList.length; i++) {
           this.objList[i].set({
             data: { active: false }
@@ -224,9 +224,8 @@ export default {
           }
           this.componentList = res.data.resultSet
           console.log(this.componentList)
-          this.$store.commit('initComponentList', res.data.resultSet)
+          this.$store.commit('component/initComponentList', res.data.resultSet)
           this.mountComponent()
-          console.log('heelll')
           this.$emit('changeLoadingStatus', 0)
         }
       })
@@ -235,7 +234,7 @@ export default {
     appendComponentList(event) {
       // console.log(event)
       //判断当前拖拽组件是否为空
-      if (this.$store.state.componentNameToCanvas != '') {
+      if (this.$store.state.component.componentNameToCanvas != '') {
         //保存当前this至that
         let that = this
         //基础数据
@@ -260,7 +259,7 @@ export default {
           index: finalindex,
           zindex: finalindex,
           disabled: false,
-          name: this.$store.state.componentNameToCanvas,
+          name: this.$store.state.component.componentNameToCanvas,
           //用于指向当前鼠标指针在canvas中的位置
           left: event.offsetX,
           top: event.offsetY,
@@ -274,7 +273,7 @@ export default {
         }
         //push入objList，保存每个Mount对象，便于维护，并且通过objList中的对象直接影响每个组件
         this.objList.push(
-          new Mount(getComponent(this.$store.state.componentNameToCanvas), {
+          new Mount(getComponent(this.$store.state.component.componentNameToCanvas), {
             target: this.$refs.target,
             mode: 'append',
             props: {},
@@ -287,7 +286,7 @@ export default {
                   index: args[0]
                   // componentList: that.componentList
                 }
-                that.$store.commit('updateActiveComponent', params)
+                that.$store.commit('component/updateActiveComponent', params)
               },
               //删除当前组件
               destroyComponent(...args) {
@@ -311,11 +310,11 @@ export default {
                           )
                         }
                         that.componentList = res.data.resultSet
-                        that.$store.commit('initComponentList', res.data.resultSet)
+                        that.$store.commit('component/initComponentList', res.data.resultSet)
                         console.log(that.componentList)
                       } else {
                         that.componentList = []
-                        that.$store.commit('initComponentList', [])
+                        that.$store.commit('component/initComponentList', [])
                       }
                       for (let i = 0; i < that.objList.length; i++) {
                         if (that.objList[i].component_instance.index === index) {
@@ -329,10 +328,10 @@ export default {
             },
             watch: {
               //对于每个组件，均共同监视componentList，如果更新的componentIndex为自己的Index，那么更新数据源、基础属性并传至后端
-              '$store.state.componentList': {
+              '$store.state.component.componentList': {
                 deep: true,
                 handler(newVal, oldval, vm, mnt) {
-                  if (that.$store.state.activeComponentIndex == mnt.component_instance.index) {
+                  if (that.$store.state.component.activeComponentIndex == mnt.component_instance.index) {
                     for (let i = 0; i < newVal.length; i++) {
                       if (newVal[i].index == mnt.component_instance.index) {
                         mnt.component_instance.dataSource = newVal[i].dataSource
@@ -405,7 +404,7 @@ export default {
             index: this.componentList.length,
             zindex: this.componentList.length,
             disabled: false,
-            name: this.$store.state.componentNameToCanvas,
+            name: this.$store.state.component.componentNameToCanvas,
             width: that.objList[this.objList.length - 1].component_instance.width,
             height: that.objList[this.objList.length - 1].component_instance.height,
             top: event.offsetY,
@@ -429,12 +428,12 @@ export default {
             )
           }
           this.componentList = res.data.resultSet
-          this.$store.commit('initComponentList', this.componentList)
-          this.$store.commit('initActiveComponent', this.componentList)
+          this.$store.commit('component/initComponentList', this.componentList)
+          this.$store.commit('component/initActiveComponent', this.componentList)
           console.log(this.componentList)
           this.loadingInstance.close()
         })
-        this.$store.commit('changeComponentNameToCanvas', '')
+        this.$store.commit('component/changeComponentNameToCanvas', '')
       }
     },
     //把初始所有在组件列表的组件挂载在当前div上
@@ -479,7 +478,7 @@ export default {
                   index: args[0]
                   // componentList: that.componentList
                 }
-                that.$store.commit('updateActiveComponent', params)
+                that.$store.commit('component/updateActiveComponent', params)
               },
               //调用销毁方法，只是逻辑删除，并且如果需要可以再次mount，对象存在了objList中
               //事实上把disabled值改了就行
@@ -504,11 +503,11 @@ export default {
                           )
                         }
                         that.componentList = res.data.resultSet
-                        that.$store.commit('initComponentList', res.data.resultSet)
+                        that.$store.commit('component/initComponentList', res.data.resultSet)
                         console.log(that.componentList)
                       } else {
                         that.componentList = []
-                        that.$store.commit('initComponentList', [])
+                        that.$store.commit('component/initComponentList', [])
                       }
                       for (let i = 0; i < that.objList.length; i++) {
                         if (that.objList[i].component_instance.index === index) {
@@ -522,10 +521,10 @@ export default {
             },
             watch: {
               //当vuex的componentList更新后，更新该组件的dataSource值，并提交至后端
-              '$store.state.componentList': {
+              '$store.state.component.componentList': {
                 deep: true,
                 handler(newVal, oldval, vm, mnt) {
-                  if (that.$store.state.activeComponentIndex == mnt.component_instance.index) {
+                  if (that.$store.state.component.activeComponentIndex == mnt.component_instance.index) {
                     for (let i = 0; i < newVal.length; i++) {
                       if (newVal[i].index == mnt.component_instance.index) {
                         mnt.component_instance.dataSource = newVal[i].dataSource
@@ -573,7 +572,7 @@ export default {
         this.objList[i].mount()
       }
       //初始化activeComponent列表，用此列表维护每个组件的active值
-      this.$store.commit('initActiveComponent', this.componentList)
+      this.$store.commit('component/initActiveComponent', this.componentList)
     }
   }
 }

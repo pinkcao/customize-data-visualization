@@ -71,8 +71,6 @@ export default {
      * @returns:
      */
     clickTemplate(templateID) {
-      // console.log(item)
-      this.$store.commit('changeCurrentTemplateID', templateID)
       window.localStorage.setItem('templateID', templateID)
       this.$router.push('/basePage')
     },
