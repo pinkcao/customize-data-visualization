@@ -59,7 +59,7 @@ export default {
     //X缩放比
     parentScaleX: function() {
       if (this.mode == 'design') {
-        return this.$store.state.parentScaleX
+        return this.$store.state.template.parentScaleX
       } else {
         return 1
       }
@@ -67,7 +67,7 @@ export default {
     //Y缩放比
     parentScaleY: function() {
       if (this.mode == 'design') {
-        return this.$store.state.parentScaleY
+        return this.$store.state.template.parentScaleY
       } else {
         return 1
       }
@@ -75,14 +75,14 @@ export default {
     //父元素宽
     parentW: function() {
       if (this.mode == 'design') {
-        return this.$store.state.screenDef[0].value
+        return this.$store.state.template.screenDef[0].value
       } else {
       }
     },
     //父元素高
     parentH: function() {
       if (this.mode == 'design') {
-        return this.$store.state.screenDef[1].value
+        return this.$store.state.template.screenDef[1].value
       } else {
       }
     }

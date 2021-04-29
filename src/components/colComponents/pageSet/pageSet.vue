@@ -109,29 +109,29 @@ export default {
     //全屏缩放
     allStretch: function() {
       return {
-        'stretch-button-show': this.$store.state.allStretch,
-        'stretch-button-hide': !this.$store.state.allStretch
+        'stretch-button-show': this.$store.state.template.allStretch,
+        'stretch-button-hide': !this.$store.state.template.allStretch
       }
     },
     //x轴缩放
     xStretch: function() {
       return {
-        'stretch-button-show': this.$store.state.xStretch,
-        'stretch-button-hide': !this.$store.state.xStretch
+        'stretch-button-show': this.$store.state.template.xStretch,
+        'stretch-button-hide': !this.$store.state.template.xStretch
       }
     },
     //y轴缩放
     yStretch: function() {
       return {
-        'stretch-button-show': this.$store.state.yStretch,
-        'stretch-button-hide': !this.$store.state.yStretch
+        'stretch-button-show': this.$store.state.template.yStretch,
+        'stretch-button-hide': !this.$store.state.template.yStretch
       }
     },
     //不缩放
     noStretch: function() {
       return {
-        'stretch-button-show': this.$store.state.noStretch,
-        'stretch-button-hide': !this.$store.state.noStretch
+        'stretch-button-show': this.$store.state.template.noStretch,
+        'stretch-button-hide': !this.$store.state.template.noStretch
       }
     },
     currentComponentIndex: function() {
@@ -167,13 +167,13 @@ export default {
     this.initBackgroundStyle()
   },
   watch: {
-    '$store.state.screenDefFlag': function(newval) {
+    '$store.state.template.screenDefFlag': function(newval) {
       // console.log(newval)
       if (newval == true) {
         this.initCol()
       }
     },
-    '$store.state.backgroundStyleFlag': function(newval) {
+    '$store.state.template.backgroundStyleFlag': function(newval) {
       if (newval) {
         this.initBackgroundStyle()
       }
@@ -181,20 +181,15 @@ export default {
   },
   methods: {
     updateBackgroundStyle() {
-      if (this.$store.state.backgroundStyleFlag == true) {
+      if (this.$store.state.template.backgroundStyleFlag == true) {
         let tempBackgroundStyle = {
           backgroundColor: this.backgroundColor,
           backgroundImage: this.backgroundImage
         }
-        this.$store.commit('updateBackgroundStyle', tempBackgroundStyle)
+        this.$store.commit('template/updateBackgroundStyle', tempBackgroundStyle)
         this.$axios({
           url: this.$url.updateBackgroundStyle,
           method: 'post',
-          // data: { //frontend
-          //   backgroundStyle: tempBackgroundStyle,
-          //   templateID: this.$store.state.currentTemplateID,
-          //   userID: this.$store.state.currentUserID
-          // }
           data: {
             backgroundColor: this.backgroundColor,
             backgroundImage: this.backgroundImage,
@@ -210,13 +205,13 @@ export default {
       }
     },
     updateBackgroundStyleToDefault() {
-      if (this.$store.state.backgroundStyleFlag == true) {
+      if (this.$store.state.template.backgroundStyleFlag == true) {
         this.backgroundColor = this.defaultBackgroundColor
         let tempBackgroundStyle = {
           backgroundColor: this.defaultBackgroundColor,
           backgroundImage: this.backgroundImage
         }
-        this.$store.commit('updateBackgroundStyle', tempBackgroundStyle)
+        this.$store.commit('template/updateBackgroundStyle', tempBackgroundStyle)
         this.$axios({
           url: this.$url.updateBackgroundStyle,
           method: 'post',
@@ -235,18 +230,18 @@ export default {
       }
     },
     initBackgroundStyle() {
-      this.backgroundColor = this.$store.state.backgroundStyle.backgroundColor
-      this.backgroundImage = this.$store.state.backgroundStyle.backgroundImage
+      this.backgroundColor = this.$store.state.template.backgroundStyle.backgroundColor
+      this.backgroundImage = this.$store.state.template.backgroundStyle.backgroundImage
       this.backgroundStyleFlag = true
     },
     //初始化页面设置
     initPageDef() {
-      if (this.$store.state.screenDefFlag == true) {
+      if (this.$store.state.template.screenDefFlag == true) {
         this.initCol()
       }
     },
     initCol() {
-      this.screenDef = this.$store.state.screenDef
+      this.screenDef = this.$store.state.template.screenDef
     },
     //更新当前页面设置
     onChange(index) {
@@ -257,27 +252,16 @@ export default {
             index: index,
             value: this.screenDef[i].value
           }
-          this.$store.commit('updatePageValue', data)
-          this.$store.commit('updateParentScale')
+          this.$store.commit('template/updatePageValue', data)
+          this.$store.commit('template/updateParentScale')
         }
       }
-      // this.$axios({
-      //   url: this.$url.updateScreenDef,
-      //   method: 'post',
-      //   data: {
-      //     screenDef: this.$store.state.screenDef,
-      //     templateID: this.$store.state.currentTemplateID,
-      //     userID: this.$store.state.currentUserID
-      //   }
-      // }).then(res => {
-      //   console.log(res.data)
-      // })
-      console.log(this.$store.state.screenDef)
+      console.log(this.$store.state.template.screenDef)
       this.$axios({
         url: this.$url.updateScreenDef,
         method: 'post',
         data: {
-          screenDef: this.$store.state.screenDef
+          screenDef: this.$store.state.template.screenDef
         }
       }).then(res => {
         if (res) {
@@ -289,12 +273,12 @@ export default {
     },
     //更新当前缩放模式
     updateStretch(stretch) {
-      this.$store.commit('updateStretch', stretch)
+      this.$store.commit('template/updateStretch', stretch)
       let screenStretch = {
-        allStretch: this.$store.state.allStretch,
-        yStretch: this.$store.state.yStretch,
-        xStretch: this.$store.state.xStretch,
-        noStretch: this.$store.state.noStretch
+        allStretch: this.$store.state.template.allStretch,
+        yStretch: this.$store.state.template.yStretch,
+        xStretch: this.$store.state.template.xStretch,
+        noStretch: this.$store.state.template.noStretch
       }
 
       this.$axios({

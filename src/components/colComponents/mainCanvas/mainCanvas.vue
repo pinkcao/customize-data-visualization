@@ -57,16 +57,16 @@ export default {
       },
       deep: true
     },
-    '$store.state.screenDef': {
+    '$store.state.template.screenDef': {
       handler(newval) {
         if (this.mountComponentssFlag) {
           // let picurl = this.$store.state.backgroundStyle.backgroundImage
           this.canvasStyle = {
-            width: this.$store.state.screenDef[0].value + 'px',
-            height: this.$store.state.screenDef[1].value + 'px',
-            position: this.$store.state.position,
-            transform: `scale(${this.$store.state.parentScale}) translate(0px, 0px)`,
-            backgroundColor: this.$store.state.backgroundStyle.backgroundColor,
+            width: this.$store.state.template.screenDef[0].value + 'px',
+            height: this.$store.state.template.screenDef[1].value + 'px',
+            position: this.$store.state.template.position,
+            transform: `scale(${this.$store.state.template.parentScale}) translate(0px, 0px)`,
+            backgroundColor: this.$store.state.template.backgroundStyle.backgroundColor,
             backgroundImage: `url(${this.backgroundImageUrl})`,
             transformOrigin: this.mainCanvasBackgroundStyle.transformOrigin,
             marginTop: this.mainCanvasBackgroundStyle.marginTop,
@@ -78,16 +78,16 @@ export default {
       },
       deep: true
     },
-    '$store.state.parentScale': {
+    '$store.state.template.parentScale': {
       handler(newval) {
         if (this.mountComponentssFlag) {
           // let picurl = this.$store.state.backgroundStyle.backgroundImage
           this.canvasStyle = {
-            width: this.$store.state.screenDef[0].value + 'px',
-            height: this.$store.state.screenDef[1].value + 'px',
-            position: this.$store.state.position,
-            transform: `scale(${this.$store.state.parentScale}) translate(0px, 0px)`,
-            backgroundColor: this.$store.state.backgroundStyle.backgroundColor,
+            width: this.$store.state.template.screenDef[0].value + 'px',
+            height: this.$store.state.template.screenDef[1].value + 'px',
+            position: this.$store.state.template.position,
+            transform: `scale(${this.$store.state.template.parentScale}) translate(0px, 0px)`,
+            backgroundColor: this.$store.state.template.backgroundStyle.backgroundColor,
             backgroundImage: `url(${this.backgroundImageUrl})`,
             transformOrigin: this.mainCanvasBackgroundStyle.transformOrigin,
             marginTop: this.mainCanvasBackgroundStyle.marginTop,
@@ -98,15 +98,15 @@ export default {
         }
       }
     },
-    '$store.state.backgroundStyle': {
+    '$store.state.template.backgroundStyle': {
       handler(newval) {
         if (this.mountComponentssFlag) {
           this.canvasStyle = {
-            width: this.$store.state.screenDef[0].value + 'px',
-            height: this.$store.state.screenDef[1].value + 'px',
-            position: this.$store.state.position,
-            transform: `scale(${this.$store.state.parentScale}) translate(0px, 0px)`,
-            backgroundColor: this.$store.state.backgroundStyle.backgroundColor,
+            width: this.$store.state.template.screenDef[0].value + 'px',
+            height: this.$store.state.template.screenDef[1].value + 'px',
+            position: this.$store.state.template.position,
+            transform: `scale(${this.$store.state.template.parentScale}) translate(0px, 0px)`,
+            backgroundColor: this.$store.state.template.backgroundStyle.backgroundColor,
             backgroundImage: `url(${this.backgroundImageUrl})`,
             transformOrigin: this.mainCanvasBackgroundStyle.transformOrigin,
             marginTop: this.mainCanvasBackgroundStyle.marginTop,
@@ -147,14 +147,14 @@ export default {
   },
   computed: {
     mountComponentssFlag: function() {
-      if (this.$store.state.screenDefFlag == true && this.$store.state.backgroundStyleFlag == true) {
+      if (this.$store.state.template.screenDefFlag == true && this.$store.state.template.backgroundStyleFlag == true) {
         return true
       }
       return false
     },
     backgroundImageUrl: function() {
       if (this.mountComponentssFlag) {
-        return this.$store.state.backgroundStyle.backgroundImage
+        return this.$store.state.template.backgroundStyle.backgroundImage
       }
       return ''
     },
@@ -179,12 +179,12 @@ export default {
   methods: {
     //取消所有焦点
     initCanvasStyle() {
-      if (this.$store.state.screenDefFlag == true) {
+      if (this.$store.state.template.screenDefFlag == true) {
         this.canvasStyle = {
-          width: this.$store.state.screenDef[0].value + 'px',
-          height: this.$store.state.screenDef[1].value + 'px',
-          position: this.$store.state.position,
-          transform: `scale(${this.$store.state.parentScale}) translate(0px, 0px)`
+          width: this.$store.state.template.screenDef[0].value + 'px',
+          height: this.$store.state.template.screenDef[1].value + 'px',
+          position: this.$store.state.template.position,
+          transform: `scale(${this.$store.template.state.parentScale}) translate(0px, 0px)`
         }
       }
     },
@@ -226,6 +226,7 @@ export default {
           console.log(this.componentList)
           this.$store.commit('initComponentList', res.data.resultSet)
           this.mountComponent()
+          console.log('heelll')
           this.$emit('changeLoadingStatus', 0)
         }
       })

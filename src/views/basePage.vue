@@ -193,7 +193,7 @@ export default {
   },
   destroyed() {},
   mounted() {
-    this.$store.commit('initScreenFlags')
+    this.$store.commit('template/initScreenFlags')
     this.initScreenDef()
     this.initScreenStretch()
     this.initBackgroundStyle()
@@ -207,9 +207,9 @@ export default {
     })
   },
   watch: {
-    '$store.state.screenDefFlag': function(newval) {
+    '$store.state.template.screenDefFlag': function(newval) {
       // console.log('?')
-      console.log(this.$store.state.screenDefFlag)
+      console.log(this.$store.state.template.screenDefFlag)
       if (newval == true) {
         this.updateColData()
       }
@@ -248,7 +248,7 @@ export default {
       }).then(res => {
         if (res) {
           if (res.status == 200) {
-            this.$store.commit('initBackgroundStyle', res.data)
+            this.$store.commit('template/initBackgroundStyle', res.data)
           }
         }
       })
@@ -272,7 +272,7 @@ export default {
         if (res) {
           if (res.status == 200) {
             console.log(res.data)
-            this.$store.commit('initScreenDef', res.data)
+            this.$store.commit('template/initScreenDef', res.data)
           }
         }
       })
@@ -293,7 +293,7 @@ export default {
       }).then(res => {
         if (res) {
           if (res.status == 200) {
-            this.$store.commit('initScreenStretch', res.data)
+            this.$store.commit('template/initScreenStretch', res.data)
           }
         }
       })
@@ -323,6 +323,7 @@ export default {
      */
     changeLoadingStatus(data) {
       this.loadingStatus[data] = true
+      console.log(data)
       if (this.loadingStatus.find(this.findFalse) == undefined) {
         // clearInterval(this.loadingIntervalID)
         // if (this.loadingTimer / 2 > 100) {
@@ -352,8 +353,8 @@ export default {
       if (this.pageColActive == true) {
         ColData.push(parseInt(this.pagefullwidth.substring(0, this.pagefullwidth.length - 2)))
       }
-      this.$store.commit('updateCurrentColWidth', ColData)
-      this.$store.commit('updateParentScale')
+      this.$store.commit('template/updateCurrentColWidth', ColData)
+      this.$store.commit('template/updateParentScale')
     },
     /**
      * 修改graphCol、compCol、pageCol的活跃状态
