@@ -53,7 +53,6 @@
             :percentage="loadedDataPercentage"
             type="circle"
             ref="progressBar"
-            :format="progressFormat"
           ></el-progress>
         </div>
         <!-- <div class="cancelAnimation-button">
@@ -387,7 +386,6 @@ export default {
       let that = this
       if (this.mode == 'design') {
         this.loader.load(
-          // '/zelda/scene.gltf',
           // '/lantern/Lantern.gltf',
           '/flight_helmet/FlightHelmet.gltf',
           // '/exportTest.gltf',
@@ -425,6 +423,7 @@ export default {
             that.loadModelFlag = false
           },
           xhr => {
+            console.log(xhr)
             this.loadedDataPercentage = Math.ceil((xhr.loaded / xhr.total) * 100)
           },
           function(err) {
@@ -434,7 +433,6 @@ export default {
       }
       if (this.mode == 'preview') {
         this.loader.load(
-          // '/zelda/scene.gltf',
           // '/lantern/Lantern.gltf',
           // '/flight_helmet/FlightHelmet.gltf',
           '/exportTest.gltf',
@@ -899,14 +897,6 @@ export default {
         this.renderer.info.programs[i].destroy()
       }
       // this.renderer = null
-    },
-    /**
-     * 用于显示加载进度
-     * @param:
-     * @returns:
-     */
-    progressFormat(percentage) {
-      return percentage === 100 ? '加载完成' : `${percentage}%`
     },
     /**
      * 用于销毁mesh
