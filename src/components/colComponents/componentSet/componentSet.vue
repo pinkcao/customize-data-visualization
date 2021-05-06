@@ -155,7 +155,7 @@
               style="width: 150px"
               size="mini"
               v-model="currentComponent.title"
-              @change="updateTitle"
+              @change="componentBaseStatusOnChange"
             ></el-input>
           </div>
 
@@ -167,7 +167,7 @@
               :style="inputStyle"
               size="mini"
               v-model="currentComponent.subTitle"
-              @change="updateSubTitle"
+              @change="componentBaseStatusOnChange"
             ></el-input>
           </div>
 
@@ -407,14 +407,6 @@ export default {
     updateStyle() {
       this.$store.commit('component/updateStyle', this.currentComponent.style)
     },
-    //更新标题
-    updateTitle() {
-      this.$store.commit('component/updateTitle', this.currentComponent.title)
-    },
-    //更新副标题
-    updateSubTitle() {
-      this.$store.commit('component/updateSubTitle', this.currentComponent.subTitle)
-    },
     //基础属性变更时触发
     componentBaseStatusOnChange() {
       let currentComponentBaseStatus = {
@@ -422,27 +414,11 @@ export default {
         height: this.currentComponent.height,
         left: this.currentComponent.left,
         top: this.currentComponent.top,
-        deg: this.currentComponent.deg
+        deg: this.currentComponent.deg,
+        title: this.currentComponent.title,
+        subTitle: this.currentComponent.subTitle
       }
-      console.log(this.currentComponent)
-      this.$axios({
-        url: this.$url.adjustComponent,
-        method: 'post',
-        data: {
-          templateID: window.localStorage.getItem('templateID'),
-          deg: this.currentComponent.deg,
-          index: this.currentComponent.index,
-          width: this.currentComponent.width,
-          height: this.currentComponent.height,
-          top: this.currentComponent.top,
-          left: this.currentComponent.left
-        }
-      }).then(res => {
-        if (res.status == 200) {
-        }
-      })
-
-      this.$store.commit('component/updateComponentStatus', currentComponentBaseStatus)
+      this.$store.commit('component/updateComponentByKey', currentComponentBaseStatus)
     },
     //更改数据源
     dataSourceChange() {

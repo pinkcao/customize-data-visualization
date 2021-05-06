@@ -1,4 +1,7 @@
 //initial state
+import axios from 'axios'
+import url from '@mock/mockAPI'
+
 const state = () => ({
   componentNameToCanvas: '',
   componentActive: [],
@@ -40,24 +43,6 @@ const mutations = {
       }
     }
   },
-  //更新当前组件标题
-  updateTitle(state, title) {
-    for (let i = 0; i < state.componentList.length; i++) {
-      if (state.componentList[i].index == state.activeComponentIndex) {
-        state.componentList[i].title = title
-        break
-      }
-    }
-  },
-  //更新当前组件副标题
-  updateSubTitle(state, subTitle) {
-    for (let i = 0; i < state.componentList.length; i++) {
-      if (state.componentList[i].index == state.activeComponentIndex) {
-        state.componentList[i].subTitle = subTitle
-        break
-      }
-    }
-  },
   //仅更新组件基础属性
   updateComponentStatus(state, currentComponentBaseStatus) {
     for (let i = 0; i < state.componentList.length; i++) {
@@ -89,6 +74,10 @@ const mutations = {
     // let componentList = args.componentList
     let index = args.index
     for (let i = 0; i < state.componentList.length; i++) {
+      state.componentList[i].active = false
+      if (index === state.componentList[i].index) {
+        state.componentList[i].active = true
+      }
       state.componentActive[state.componentList[i].index] = { active: false }
     }
     state.componentActive[index].active = true
@@ -167,6 +156,19 @@ const mutations = {
     }).then(res => {
       // console.log(res.data.resultSet)
     })
+  },
+  updateComponentByKey(state, partOfComponent) {
+    console.log(partOfComponent)
+    let index = partOfComponent.index
+    for (let i = 0; i < state.componentList.length; i++) {
+      if (state.componentList[i].index === index) {
+        for (let key in partOfComponent) {
+          state.componentList[i][key] = partOfComponent[key]
+        }
+        break
+      }
+    }
+    console.log(state.componentList)
   }
 }
 

@@ -31,24 +31,32 @@ export default {
     }
   },
   watch: {
-    //监听vuex中的componentList属性，如果有更改则覆盖当前objList的z-index值
     '$store.state.component.componentList': {
       handler(newval) {
         let compList = newval
-        console.log(newval)
+        // console.log(newval)
         for (let i = 0; i < this.objList.length; i++) {
           for (let j = 0; j < compList.length; j++) {
             //必须是this.objList[i].component_instance获取当前VueComponent实体
-            if (this.objList[i].component_instance.index == compList[j].index) {
-              this.objList[i].set({
-                data: {
-                  zindex: compList[j].zindex,
-                  width: compList[j].width,
-                  height: compList[j].height,
-                  top: compList[j].top,
-                  left: compList[j].left,
-                  deg: compList[j].deg,
-                  disabled: compList[j].disabled
+            if (this.objList[i].component_instance.index === compList[j].index) {
+              //深拷贝，并且将可变的data、dataSourceOptions转为String
+              let dataObj = JSON.parse(JSON.stringify(compList[j]))
+              dataObj.dataSource.data = JSON.stringify(dataObj.dataSource.data)
+              dataObj.dataSource.dataSourceOptions = JSON.stringify(dataObj.dataSource.dataSourceOptions)
+              for (let key in compList[j]) {
+                this.objList[i].set({
+                  data: {
+                    [key]: compList[j][key]
+                  }
+                })
+              }
+              this.$axios({
+                url: this.$url.updateComponentBasicStatus,
+                method: 'post',
+                data: dataObj
+              }).then(res => {
+                if (res.data.status == 200) {
+                  //can do something but won't matter
                 }
               })
             }
@@ -210,7 +218,7 @@ export default {
       }).then(res => {
         if (res.status == 200) {
           for (let i = 0; i < res.data.resultSet.length; i++) {
-            console.log(res.data.resultSet[i].dataSource)
+            // console.log(res.data.resultSet[i].dataSource)
             if (
               res.data.resultSet[i].dataSource != null &&
               res.data.resultSet[i].dataSource.data != null &&
@@ -242,6 +250,7 @@ export default {
         let tempzindex = 0
         let finalindex = 0
         console.log(this.componentList.length)
+        //前端同时计算一次index与zindex最大值
         if (this.componentList.length > 0) {
           for (let i = 0; i < this.componentList.length; i++) {
             if (tempindex < this.componentList[i].index) {
@@ -255,7 +264,8 @@ export default {
         } else {
           finalindex = 0
         }
-        let testObj = {
+        //创建数据对象
+        let dataObj = {
           index: finalindex,
           zindex: finalindex,
           disabled: false,
@@ -277,7 +287,7 @@ export default {
             target: this.$refs.target,
             mode: 'append',
             props: {},
-            data: testObj,
+            data: dataObj,
             on: {
               //更新active状态
               //active状态不需要更新至数据库，因为最终active状态一定是false，仅在vuex中实时更新active状态并更改objList中对象的active状态
@@ -326,54 +336,7 @@ export default {
                   })
               }
             },
-            watch: {
-              //对于每个组件，均共同监视componentList，如果更新的componentIndex为自己的Index，那么更新数据源、基础属性并传至后端
-              '$store.state.component.componentList': {
-                deep: true,
-                handler(newVal, oldval, vm, mnt) {
-                  if (that.$store.state.component.activeComponentIndex == mnt.component_instance.index) {
-                    for (let i = 0; i < newVal.length; i++) {
-                      if (newVal[i].index == mnt.component_instance.index) {
-                        mnt.component_instance.dataSource = newVal[i].dataSource
-                        // mnt.component_instance.width = newVal[i].width
-                        // mnt.component_instance.height = newVal[i].height
-                        // mnt.component_instance.left = newVal[i].left
-                        // mnt.component_instance.top = newVal[i].top
-                        mnt.component_instance.title = newVal[i].title
-                        mnt.component_instance.subTitle = newVal[i].subTitle
-                        mnt.component_instance.style = newVal[i].style
-                        let tempDataSource = JSON.parse(JSON.stringify(newVal[i].dataSource))
-                        tempDataSource.data = JSON.stringify(tempDataSource.data)
-                        tempDataSource.dataSourceOptions = JSON.stringify(tempDataSource.dataSourceOptions)
-                        that
-                          .$axios({
-                            url: that.$url.updateComponentBasicStatus,
-                            method: 'post',
-                            data: {
-                              templateID: window.localStorage.getItem('templateID'),
-                              index: mnt.component_instance.index,
-                              dataSource: tempDataSource,
-                              // width: newVal[i].width,
-                              // height: newVal[i].height,
-                              // left: newVal[i].left,
-                              // top: newVal[i].top,
-                              title: newVal[i].title,
-                              subTitle: newVal[i].subTitle,
-                              style: newVal[i].style
-                            }
-                          })
-                          .then(res => {
-                            if (res.data.status == 200) {
-                              //do something
-                            }
-                          })
-                        break
-                      }
-                    }
-                  }
-                }
-              }
-            }
+            watch: {}
           })
         )
         this.loadingInstance = this.$loading({
@@ -398,7 +361,6 @@ export default {
         this.$axios({
           url: that.$url.appendComponentList,
           method: 'post',
-          //不用testobj是因为在testObj中重定向了store，会造成"Converting circular structure to JSON"的问题
           data: {
             templateID: window.localStorage.getItem('templateID'),
             index: this.componentList.length,
@@ -442,46 +404,30 @@ export default {
       console.log(this.componentList)
       let that = this
       for (let i = 0; i < currentData.length; i++) {
+        let dataObj = {}
+        for (let key in currentData[i]) {
+          dataObj[key] = currentData[i][key]
+        }
+        dataObj.target = that.$refs.target
+        dataObj.mode = 'design'
+        dataObj.$store = that.$store
         this.objList.push(
           new Mount(getComponent(currentData[i].name), {
             //挂载的目标
             target: this.$refs.target,
             //挂载的方式，因为是n个组件，所以append
             mode: 'append',
-            data: {
-              index: currentData[i].index,
-              zindex: currentData[i].index,
-              target: that.$refs.target,
-              disabled: currentData[i].disabled,
-              width: currentData[i].width,
-              height: currentData[i].height,
-              top: currentData[i].top,
-              left: currentData[i].left,
-              deg: currentData[i].deg,
-              name: currentData[i].name,
-              draggable: currentData[i].draggable,
-              resizable: currentData[i].resizable,
-              parentLimitation: currentData[i].parentLimitation,
-              dataSource: currentData[i].dataSource,
-              mode: 'design',
-              // active: currentData[i].active,
-              title: currentData[i].title,
-              subTitle: currentData[i].subTitle,
-              style: currentData[i].style,
-              $store: this.$store
-              //重新挂载后无法访问到全局的this.$store,需要对$store重定向
-            },
+            data: dataObj,
             on: {
               //绑的事件侦听器，用于侦听当前的active情况
               updateActiveStatus(...args) {
                 let params = {
-                  index: args[0]
-                  // componentList: that.componentList
+                  index: args[0],
+                  active: true
                 }
                 that.$store.commit('component/updateActiveComponent', params)
               },
-              //调用销毁方法，只是逻辑删除，并且如果需要可以再次mount，对象存在了objList中
-              //事实上把disabled值改了就行
+              //调用销毁方法
               destroyComponent(...args) {
                 let index = args[0]
                 that
@@ -519,54 +465,7 @@ export default {
                   })
               }
             },
-            watch: {
-              //当vuex的componentList更新后，更新该组件的dataSource值，并提交至后端
-              '$store.state.component.componentList': {
-                deep: true,
-                handler(newVal, oldval, vm, mnt) {
-                  if (that.$store.state.component.activeComponentIndex == mnt.component_instance.index) {
-                    for (let i = 0; i < newVal.length; i++) {
-                      if (newVal[i].index == mnt.component_instance.index) {
-                        mnt.component_instance.dataSource = newVal[i].dataSource
-                        // mnt.component_instance.width = newVal[i].width
-                        // mnt.component_instance.height = newVal[i].height
-                        // mnt.component_instance.left = newVal[i].left
-                        // mnt.component_instance.top = newVal[i].top
-                        mnt.component_instance.style = newVal[i].style
-                        mnt.component_instance.title = newVal[i].title
-                        mnt.component_instance.subTitle = newVal[i].subTitle
-                        let tempDataSource = JSON.parse(JSON.stringify(newVal[i].dataSource))
-                        tempDataSource.data = JSON.stringify(tempDataSource.data)
-                        tempDataSource.dataSourceOptions = JSON.stringify(tempDataSource.dataSourceOptions)
-                        that
-                          .$axios({
-                            url: that.$url.updateComponentBasicStatus,
-                            method: 'post',
-                            data: {
-                              templateID: window.localStorage.getItem('templateID'),
-                              index: mnt.component_instance.index,
-                              dataSource: tempDataSource,
-                              // width: newVal[i].width,
-                              // height: newVal[i].height,
-                              // left: newVal[i].left,
-                              // top: newVal[i].top,
-                              title: newVal[i].title,
-                              subTitle: newVal[i].subTitle,
-                              style: newVal[i].style
-                            }
-                          })
-                          .then(res => {
-                            if (res.data.status == 200) {
-                              //can do something but won't matter
-                            }
-                          })
-                        break
-                      }
-                    }
-                  }
-                }
-              }
-            }
+            watch: {}
           })
         )
         this.objList[i].mount()

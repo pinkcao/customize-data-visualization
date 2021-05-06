@@ -1,5 +1,3 @@
-import url from '@mock/mockAPI.js'
-
 export default {
   data() {
     return {
@@ -58,38 +56,22 @@ export default {
   computed: {
     //X缩放比
     parentScaleX: function() {
-      if (this.mode == 'design') {
-        return this.$store.state.template.parentScaleX
-      } else {
-        return 1
-      }
+      return this.mode === 'design' ? this.$store.state.template.parentScaleX : 1
     },
     //Y缩放比
     parentScaleY: function() {
-      if (this.mode == 'design') {
-        return this.$store.state.template.parentScaleY
-      } else {
-        return 1
-      }
+      return this.mode === 'design' ? this.$store.state.template.parentScaleY : 1
     },
     //父元素宽
     parentW: function() {
-      if (this.mode == 'design') {
-        return this.$store.state.template.screenDef[0].value
-      } else {
-      }
+      return this.mode === 'design' ? this.$store.state.template.screenDef[0].value : 0
     },
     //父元素高
     parentH: function() {
-      if (this.mode == 'design') {
-        return this.$store.state.template.screenDef[1].value
-      } else {
-      }
+      return this.mode === 'design' ? this.$store.state.template.screenDef[1].value : 0
     }
   },
-  mounted() {
-    // console.log(this)
-  },
+  mounted() {},
   beforeDestroy() {
     // this.removeInterval()
     this.$off()
@@ -98,37 +80,19 @@ export default {
     /**
      * 更新当前组件基础属性
      * @param:
-     * @returns: Array
+     * @returns:
      */
     updateComponentList() {
       if (this.mode == 'design') {
-        this.$axios({
-          url: url.adjustComponent,
-          method: 'post',
-          data: {
-            templateID: window.localStorage.getItem('templateID'),
-            deg: this.deg,
-            index: this.index,
-            width: this.width,
-            height: this.height,
-            top: this.top,
-            left: this.left
-          }
-        }).then(res => {
-          if (res) {
-            if (res.status == 200) {
-              for (let i = 0; i < res.data.resultSet.length; i++) {
-                res.data.resultSet[i].dataSource.data = JSON.parse(res.data.resultSet[i].dataSource.data)
-                res.data.resultSet[i].dataSource.dataSourceOptions = JSON.parse(
-                  res.data.resultSet[i].dataSource.dataSourceOptions
-                )
-              }
-              console.log(res.data.resultSet)
-              this.$store.commit('component/initComponentList', res.data.resultSet)
-              this.$store.commit('component/resizeUpdateActiveComponent')
-            }
-          }
-        })
+        let dataObj = {
+          index: this.index,
+          deg: this.deg,
+          width: this.width,
+          height: this.height,
+          top: this.top,
+          left: this.left
+        }
+        this.$store.commit('component/updateComponentByKey', dataObj)
       }
     },
     /**
