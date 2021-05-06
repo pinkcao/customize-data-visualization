@@ -43,20 +43,6 @@ const mutations = {
       }
     }
   },
-  //仅更新组件基础属性
-  updateComponentStatus(state, currentComponentBaseStatus) {
-    for (let i = 0; i < state.componentList.length; i++) {
-      if (state.componentList[i].index == state.activeComponentIndex) {
-        state.componentList[i].width = currentComponentBaseStatus.width
-        state.componentList[i].height = currentComponentBaseStatus.height
-        state.componentList[i].left = currentComponentBaseStatus.left
-        state.componentList[i].top = currentComponentBaseStatus.top
-        state.componentList[i].deg = currentComponentBaseStatus.deg
-        // console.log(state.componentList[i])
-        break
-      }
-    }
-  },
   //初始化组件列表
   initComponentList(state, componentList) {
     state.componentList = componentList
@@ -158,7 +144,6 @@ const mutations = {
     })
   },
   updateComponentByKey(state, partOfComponent) {
-    console.log(partOfComponent)
     let index = partOfComponent.index
     for (let i = 0; i < state.componentList.length; i++) {
       if (state.componentList[i].index === index) {
@@ -168,7 +153,6 @@ const mutations = {
         break
       }
     }
-    console.log(state.componentList)
   }
 }
 

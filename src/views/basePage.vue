@@ -165,24 +165,15 @@ export default {
       return this.$store.state.component.pageAndComponentFlag
     },
     graphisshown: function() {
-      return {
-        'icon-box-left': this.graphColActive,
-        'icon-box-left-hide': !this.graphColActive
-      }
+      return this.graphColActive === true ? 'icon-box-left' : 'icon-box-left-hide'
     },
 
     compisshown: function() {
-      return {
-        'icon-box-left': this.compColActive,
-        'icon-box-left-hide': !this.compColActive
-      }
+      return this.compColActive === true ? 'icon-box-left' : 'icon-box-left-hide'
     },
 
     pageisshown: function() {
-      return {
-        'icon-box-left': this.pageColActive,
-        'icon-box-left-hide': !this.pageColActive
-      }
+      return this.pageColActive === true ? 'icon-box-left' : 'icon-box-left-hide'
     }
   },
 
