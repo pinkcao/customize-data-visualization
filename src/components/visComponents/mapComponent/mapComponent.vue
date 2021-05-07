@@ -365,6 +365,7 @@ export default {
     },
     /**
      * 测试方法，创建一个box
+     * 如果需要提升性能做测试，最好是采用共用材质的方式。
      * @param:
      * @returns:
      */
@@ -379,6 +380,7 @@ export default {
     },
     /**
      * 初始化一个GLTFLoader并加载.gltf模型
+     * 我们必须了解，当前读取的是public文件夹下的模型，如果要读服务器上的模型，把地址改了即可，会有一个XHR，直接读取
      * @param:
      * @returns:
      */

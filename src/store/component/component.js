@@ -9,7 +9,8 @@ const state = () => ({
   pageAndComponentFlag: true,
   activeComponentIndex: -1,
   currentComponent: [],
-  componentActiveFlag: false
+  componentActiveFlag: false,
+  updateZindexFlag: false
 })
 
 // getters
@@ -53,7 +54,6 @@ const mutations = {
     for (let i = 0; i < componentList.length; i++) {
       state.componentActive[componentList[i].index] = { active: componentList[i].active }
     }
-    console.log(state.componentActive)
   },
   //设置所有组件为不活跃，设置被选中组件为活跃
   updateActiveComponent(state, args) {
@@ -106,25 +106,10 @@ const mutations = {
     for (let i = 0; i < state.componentList.length; i++) {
       state.componentList[i].zindex = i
     }
-    console.log(componentList)
-    let tempComponentList = JSON.parse(JSON.stringify(componentList))
-    for (let i = 0; i < tempComponentList.length; i++) {
-      // console.log(tempComponentList[i].dataSource.data)
-      tempComponentList[i].dataSource.data = JSON.stringify(tempComponentList[i].dataSource.data)
-      tempComponentList[i].dataSource.dataSourceOptions = JSON.stringify(
-        tempComponentList[i].dataSource.dataSourceOptions
-      )
-    }
-    axios({
-      url: url.updateZindexComponentList,
-      method: 'post',
-      data: {
-        componentList: tempComponentList
-        // templateID: state.currentTemplateID
-      }
-    }).then(res => {
-      console.log(res.data.resultSet)
-    })
+    state.updateZindexFlag = true
+  },
+  setUpdateZindexFlag(state, bool) {
+    state.updateZindexFlag = bool
   },
   //传入排序后数组，给排序后数组的z-index重排序，降序
   updateAllZindexDsc(state, componentList) {

@@ -34,31 +34,63 @@ export default {
     '$store.state.component.componentList': {
       handler(newval) {
         let compList = newval
-        // console.log(newval)
-        for (let i = 0; i < this.objList.length; i++) {
-          for (let j = 0; j < compList.length; j++) {
-            //必须是this.objList[i].component_instance获取当前VueComponent实体
-            if (this.objList[i].component_instance.index === compList[j].index) {
-              //深拷贝，并且将可变的data、dataSourceOptions转为String
-              let dataObj = JSON.parse(JSON.stringify(compList[j]))
-              dataObj.dataSource.data = JSON.stringify(dataObj.dataSource.data)
-              dataObj.dataSource.dataSourceOptions = JSON.stringify(dataObj.dataSource.dataSourceOptions)
-              for (let key in compList[j]) {
-                this.objList[i].set({
-                  data: {
-                    [key]: compList[j][key]
+        if (this.$store.state.component.updateZindexFlag === true) {
+          for (let i = 0; i < this.objList.length; i++) {
+            for (let j = 0; j < compList.length; j++) {
+              //必须是this.objList[i].component_instance获取当前VueComponent实体
+              if (this.objList[i].component_instance.index === compList[j].index) {
+                //深拷贝，并且将可变的data、dataSourceOptions转为String
+                let dataObj = JSON.parse(JSON.stringify(compList[j]))
+                dataObj.dataSource.data = JSON.stringify(dataObj.dataSource.data)
+                dataObj.dataSource.dataSourceOptions = JSON.stringify(dataObj.dataSource.dataSourceOptions)
+                for (let key in compList[j]) {
+                  this.objList[i].set({
+                    data: {
+                      [key]: compList[j][key]
+                    }
+                  })
+                }
+                this.$axios({
+                  url: this.$url.updateComponentBasicStatus,
+                  method: 'post',
+                  data: dataObj
+                }).then(res => {
+                  if (res.data.status == 200) {
+                    //can do something but won't matter
                   }
                 })
               }
-              this.$axios({
-                url: this.$url.updateComponentBasicStatus,
-                method: 'post',
-                data: dataObj
-              }).then(res => {
-                if (res.data.status == 200) {
-                  //can do something but won't matter
+            }
+          }
+          this.$store.commit('component/setUpdateZindexFlag', false)
+        } else {
+          for (let i = 0; i < this.objList.length; i++) {
+            if (this.$store.state.component.activeComponentIndex === this.objList[i].component_instance.index) {
+              for (let j = 0; j < compList.length; j++) {
+                if (this.objList[i].component_instance.index === compList[j].index) {
+                  let dataObj = JSON.parse(JSON.stringify(compList[j]))
+                  dataObj.dataSource.data = JSON.stringify(dataObj.dataSource.data)
+                  dataObj.dataSource.dataSourceOptions = JSON.stringify(dataObj.dataSource.dataSourceOptions)
+                  for (let key in compList[j]) {
+                    this.objList[i].set({
+                      data: {
+                        [key]: compList[j][key]
+                      }
+                    })
+                  }
+                  this.$axios({
+                    url: this.$url.updateComponentBasicStatus,
+                    method: 'post',
+                    data: dataObj
+                  }).then(res => {
+                    if (res.data.status == 200) {
+                      //can do something but won't matter
+                    }
+                  })
+                  break
                 }
-              })
+              }
+              break
             }
           }
         }
@@ -185,7 +217,6 @@ export default {
     // this.getComponentList()
   },
   methods: {
-    //取消所有焦点
     initCanvasStyle() {
       if (this.$store.state.template.screenDefFlag == true) {
         this.canvasStyle = {
@@ -196,6 +227,7 @@ export default {
         }
       }
     },
+    //取消所有焦点
     cancelFocus(event) {
       // console.log(event)
       if (event.target == this.$refs.target) {
@@ -408,6 +440,7 @@ export default {
         for (let key in currentData[i]) {
           dataObj[key] = currentData[i][key]
         }
+        dataObj.active = false
         dataObj.target = that.$refs.target
         dataObj.mode = 'design'
         dataObj.$store = that.$store
