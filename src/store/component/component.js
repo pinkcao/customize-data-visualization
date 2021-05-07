@@ -13,7 +13,14 @@ const state = () => ({
 const getters = {}
 
 // actions
-const actions = {}
+const actions = {
+  changeComponentNameToCanvas({ commit }, args) {
+    commit('changeComponentNameToCanvas', args)
+  },
+  updateDataSource({ commit }, args) {
+    commit('updateDataSource', args)
+  }
+}
 
 // mutations
 const mutations = {

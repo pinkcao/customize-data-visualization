@@ -430,7 +430,7 @@ export default {
           console.log(this.componentList)
           this.loadingInstance.close()
         })
-        this.$store.commit('component/changeComponentNameToCanvas', '')
+        this.$store.dispatch('component/changeComponentNameToCanvas', '')
       }
     },
     //把初始所有在组件列表的组件挂载在当前div上
