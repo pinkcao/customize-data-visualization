@@ -1,10 +1,6 @@
 //initial state
-import axios from 'axios'
-import url from '@mock/mockAPI'
-
 const state = () => ({
   componentNameToCanvas: '',
-  componentActive: [],
   componentList: [],
   pageAndComponentFlag: true,
   activeComponentIndex: -1,
@@ -29,7 +25,6 @@ const mutations = {
     for (let i = 0; i < state.componentList.length; i++) {
       if (state.componentList[i].index == state.activeComponentIndex) {
         state.componentList[i].dataSource = dataSource
-        // console.log(state.componentList[i].dataSource.dataSourceType)
         break
       }
     }
@@ -39,7 +34,6 @@ const mutations = {
     for (let i = 0; i < state.componentList.length; i++) {
       if (state.componentList[i].index == state.activeComponentIndex) {
         state.componentList[i].style = style
-        // console.log(state.componentList[i].style)
         break
       }
     }
@@ -49,24 +43,17 @@ const mutations = {
     state.componentList = componentList
     // console.log(state.componentList)
   },
-  //初始化活跃组件列表
-  initActiveComponent(state, componentList) {
-    for (let i = 0; i < componentList.length; i++) {
-      state.componentActive[componentList[i].index] = { active: componentList[i].active }
-    }
-  },
   //设置所有组件为不活跃，设置被选中组件为活跃
   updateActiveComponent(state, args) {
     // let componentList = args.componentList
     let index = args.index
+    console.log(index)
     for (let i = 0; i < state.componentList.length; i++) {
       state.componentList[i].active = false
       if (index === state.componentList[i].index) {
         state.componentList[i].active = true
       }
-      state.componentActive[state.componentList[i].index] = { active: false }
     }
-    state.componentActive[index].active = true
     state.pageAndComponentFlag = false
     state.activeComponentIndex = index
     state.componentActiveFlag = true
@@ -90,12 +77,8 @@ const mutations = {
   },
   //设置所有组件为不活跃
   setActiveComponentFalse(state) {
-    // console.log(state.componentActive)
-    // console.log(state.componentActive)
-    for (let i = 0; i < state.componentActive.length; i++) {
-      if (state.componentActive[i] != undefined) {
-        state.componentActive[i].active = false
-      }
+    for (let i = 0; i < state.componentList.length; i++) {
+      state.componentList[i].active = false
     }
     state.pageAndComponentFlag = true
     state.activeComponentIndex = -1
@@ -117,16 +100,7 @@ const mutations = {
     for (let i = 0; i < state.componentList.length; i++) {
       state.componentList[i].zindex = 100000 - i
     }
-    axios({
-      url: url.updateZindexComponentList,
-      method: 'post',
-      data: {
-        componentList: componentList,
-        templateID: state.currentTemplateID
-      }
-    }).then(res => {
-      // console.log(res.data.resultSet)
-    })
+    state.updateZindexFlag = true
   },
   updateComponentByKey(state, partOfComponent) {
     let index = partOfComponent.index

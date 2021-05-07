@@ -200,7 +200,7 @@ export default {
   watch: {
     '$store.state.template.screenDefFlag': function(newval) {
       // console.log('?')
-      console.log(this.$store.state.template.screenDefFlag)
+      // console.log(this.$store.state.template.screenDefFlag)
       if (newval == true) {
         this.updateColData()
       }
@@ -260,7 +260,7 @@ export default {
       }).then(res => {
         if (res) {
           if (res.status == 200) {
-            console.log(res.data)
+            // console.log(res.data)
             this.$store.commit('template/initScreenDef', res.data)
           }
         }

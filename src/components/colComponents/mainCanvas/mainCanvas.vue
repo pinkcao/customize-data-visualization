@@ -31,9 +31,12 @@ export default {
     }
   },
   watch: {
+    //这里是类似一个总线，组件所有需要更新的地方全部在这里一并更新
+    //当更新的是组件的zindex时，那么将会把所有的组件全部更新一遍，发送n个请求，如果是仅更新单一组件，则发送1个请求，对象为当前激活组件
     '$store.state.component.componentList': {
       handler(newval) {
         let compList = newval
+        //如果是更新的zindex，那么对所有组件全部更新，发送n个请求
         if (this.$store.state.component.updateZindexFlag === true) {
           for (let i = 0; i < this.objList.length; i++) {
             for (let j = 0; j < compList.length; j++) {
@@ -63,7 +66,24 @@ export default {
             }
           }
           this.$store.commit('component/setUpdateZindexFlag', false)
+        } else if (this.$store.state.component.componentActiveFlag === true) {
+          //如果更新的是active状态，那就只更新所有组件的active状态，无请求
+          for (let i = 0; i < this.objList.length; i++) {
+            for (let j = 0; j < compList.length; j++) {
+              if (this.objList[i].component_instance.index === compList[j].index) {
+                for (let key in compList[j]) {
+                  this.objList[i].set({
+                    data: {
+                      [key]: compList[j][key]
+                    }
+                  })
+                }
+              }
+            }
+          }
+          this.$store.commit('component/resetComponentActiveFlag', false)
         } else {
+          //如果是缩放之类的，仅对单组件更新的，那就是更新该组件的属性，发送1个请求
           for (let i = 0; i < this.objList.length; i++) {
             if (this.$store.state.component.activeComponentIndex === this.objList[i].component_instance.index) {
               for (let j = 0; j < compList.length; j++) {
@@ -159,24 +179,6 @@ export default {
       },
       deep: true
     },
-    '$store.state.component.componentActiveFlag': {
-      handler(newval) {
-        if (newval) {
-          let tempActiveComponent = this.$store.state.component.componentActive
-          for (let i = 0; i < tempActiveComponent.length; i++) {
-            for (let j = 0; j < this.objList.length; j++) {
-              if (this.componentList[j].index == i) {
-                // console.log(tempActiveComponent[i].active)
-                this.objList[j].set({
-                  data: { active: tempActiveComponent[i].active }
-                })
-              }
-            }
-          }
-          this.$store.commit('component/resetComponentActiveFlag', false)
-        }
-      }
-    },
     mountComponentssFlag: {
       handler(newVal) {
         if (newVal == true) {
@@ -261,9 +263,10 @@ export default {
                 res.data.resultSet[i].dataSource.dataSourceOptions
               )
             }
+            res.data.resultSet[i].active = false
           }
           this.componentList = res.data.resultSet
-          console.log(this.componentList)
+          // console.log(this.componentList)
           this.$store.commit('component/initComponentList', res.data.resultSet)
           this.mountComponent()
           this.$emit('changeLoadingStatus', 0)
@@ -423,7 +426,7 @@ export default {
           }
           this.componentList = res.data.resultSet
           this.$store.commit('component/initComponentList', this.componentList)
-          this.$store.commit('component/initActiveComponent', this.componentList)
+          // this.$store.commit('component/initActiveComponent', this.componentList)
           console.log(this.componentList)
           this.loadingInstance.close()
         })
@@ -433,7 +436,7 @@ export default {
     //把初始所有在组件列表的组件挂载在当前div上
     mountComponent() {
       let currentData = this.componentList
-      console.log(this.componentList)
+      // console.log(this.componentList)
       let that = this
       for (let i = 0; i < currentData.length; i++) {
         let dataObj = {}
@@ -504,7 +507,7 @@ export default {
         this.objList[i].mount()
       }
       //初始化activeComponent列表，用此列表维护每个组件的active值
-      this.$store.commit('component/initActiveComponent', this.componentList)
+      // this.$store.commit('component/initActiveComponent', this.componentList)
     }
   }
 }

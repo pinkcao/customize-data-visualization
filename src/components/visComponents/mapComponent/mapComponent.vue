@@ -342,7 +342,7 @@ export default {
       this.renderer.setSize(this.width, this.height)
       // console.log(this.renderer.getSize(new THREE.Vector2()))
       this.renderer.setClearColor(0xffaaaa, 1.0)
-      console.log(this.$refs.container)
+      // console.log(this.$refs.container)
       this.$refs.container.appendChild(this.renderer.domElement)
       // }
     },
@@ -392,9 +392,9 @@ export default {
           '/flight_helmet/FlightHelmet.gltf',
           // '/exportTest.gltf',
           object => {
-            console.log(object)
-            console.log(object.scene)
-            console.log(object.scene.children[0].children.length)
+            // console.log(object)
+            // console.log(object.scene)
+            // console.log(object.scene.children[0].children.length)
             this.DFS(object.scene, this.atomicArr)
             for (let i = 0; i < this.atomicArr.length; i++) {
               this.atomicArr[i].userData.workflowArr = [3, 1, 2]
@@ -425,7 +425,7 @@ export default {
             that.loadModelFlag = false
           },
           xhr => {
-            console.log(xhr)
+            // console.log(xhr)
             this.loadedDataPercentage = Math.ceil((xhr.loaded / xhr.total) * 100)
           },
           function(err) {
