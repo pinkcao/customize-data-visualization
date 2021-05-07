@@ -829,45 +829,6 @@ export default {
       this.renderer.render(this.scene, this.camera)
     },
     /**
-     * 更新当前组件基础属性
-     * @param:
-     * @returns: Array
-     */
-    updateComponentList() {
-      if (this.mode == 'design') {
-        // console.log(this.index)
-        // console.log(this.$store.state.currentTemplateID)
-        this.$axios({
-          url: this.$url.adjustComponent,
-          method: 'post',
-          data: {
-            templateID: window.localStorage.getItem('templateID'),
-            deg: this.deg,
-            index: this.index,
-            width: this.width,
-            height: this.height,
-            top: this.top,
-            left: this.left
-          }
-        }).then(res => {
-          if (res) {
-            if (res.status == 200) {
-              for (let i = 0; i < res.data.resultSet.length; i++) {
-                res.data.resultSet[i].dataSource.data = JSON.parse(res.data.resultSet[i].dataSource.data)
-                res.data.resultSet[i].dataSource.dataSourceOptions = JSON.parse(
-                  res.data.resultSet[i].dataSource.dataSourceOptions
-                )
-              }
-              console.log(res.data.resultSet)
-              this.onWindowResize()
-              this.$store.commit('initComponentList', res.data.resultSet)
-              this.$store.commit('resizeUpdateActiveComponent')
-            }
-          }
-        })
-      }
-    },
-    /**
      * 模拟绑定工作流
      * @param:
      * @returns:

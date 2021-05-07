@@ -25,7 +25,35 @@ const state = () => ({
 const getters = {}
 
 // actions
-const actions = {}
+const actions = {
+  initScreenFlags({ commit }) {
+    commit('initScreenFlags')
+  },
+  initScreenDef({ commit }, args) {
+    commit('initScreenDef', args)
+  },
+  initScreenStretch({ commit }, args) {
+    commit('initScreenStretch', args)
+  },
+  initBackgroundStyle({ commit }, args) {
+    commit('initBackgroundStyle', args)
+  },
+  updateBackgroundStyle({ commit }, args) {
+    commit('updateBackgroundStyle', args)
+  },
+  updateStretch({ commit }, args) {
+    commit('updateStretch', args)
+  },
+  updatePageValue({ commit }, args) {
+    commit('updatePageValue', args)
+  },
+  updateCurrentColWidth({ commit }, args) {
+    commit('updateCurrentColWidth', args)
+  },
+  updateParentScale({ commit }) {
+    commit('updateParentScale')
+  }
+}
 
 // mutations
 const mutations = {

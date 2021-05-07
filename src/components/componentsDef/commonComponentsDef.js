@@ -92,7 +92,7 @@ export default {
           top: this.top,
           left: this.left
         }
-        this.$store.commit('component/updateComponentByKey', dataObj)
+        this.$store.dispatch('component/updateComponentByKey', dataObj)
       }
     },
     /**

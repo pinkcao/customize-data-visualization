@@ -19,6 +19,37 @@ const actions = {
   },
   updateDataSource({ commit }, args) {
     commit('updateDataSource', args)
+  },
+  updateStyle({ commit }, args) {
+    commit('updateStyle', args)
+  },
+  initComponentList({ commit }, args) {
+    commit('initComponentList', args)
+  },
+  updateActiveComponent({ commit }, args) {
+    commit('updateActiveComponent', args)
+  },
+  resetComponentActiveFlag({ commit }, args) {
+    commit('resetComponentActiveFlag', args)
+  },
+  resizeUpdateActiveComponent({ commit }) {
+    commit('resizeUpdateActiveComponent')
+  },
+  setActiveComponentFalse({ commit }) {
+    commit('setActiveComponentFalse')
+  },
+  updateAllZindexAsc({ commit }, args) {
+    commit('updateAllZindexAsc', args)
+  },
+  setUpdateZindexFlag({ commit }, args) {
+    commit('setUpdateZindexFlag', args)
+  },
+  //传入排序后数组，给排序后数组的z-index重排序，降序
+  updateAllZindexDsc({ commit }, args) {
+    commit('updateAllZindexDsc', args)
+  },
+  updateComponentByKey({ commit }, args) {
+    commit('updateComponentByKey', args)
   }
 }
 

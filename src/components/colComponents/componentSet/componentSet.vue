@@ -401,11 +401,11 @@ export default {
     //当值变化，将值转为json对象后传至vuex更新组件
     updateDataSource() {
       this.currentComponent.dataSource.data = JSON.parse(this.componentDataSourceData)
-      this.$store.commit('component/updateDataSource', this.currentComponent.dataSource)
+      this.$store.dispatch('component/updateDataSource', this.currentComponent.dataSource)
     },
     //更新所有的样式
     updateStyle() {
-      this.$store.commit('component/updateStyle', this.currentComponent.style)
+      this.$store.dispatch('component/updateStyle', this.currentComponent.style)
     },
     //基础属性变更时触发
     componentBaseStatusOnChange() {
@@ -418,11 +418,11 @@ export default {
         title: this.currentComponent.title,
         subTitle: this.currentComponent.subTitle
       }
-      this.$store.commit('component/updateComponentByKey', currentComponentBaseStatus)
+      this.$store.dispatch('component/updateComponentByKey', currentComponentBaseStatus)
     },
     //更改数据源
     dataSourceChange() {
-      this.$store.commit('component/updateDataSource', this.currentComponent.dataSource)
+      this.$store.dispatch('component/updateDataSource', this.currentComponent.dataSource)
     },
     updateDialogDataSource() {
       this.currentComponent.dataSource.data = JSON.parse(this.componentDataSourceData)
@@ -431,7 +431,7 @@ export default {
       this.currentComponent.dataSource.APIMethod = this.currentComponentDataSourceDetail.currentComponentAPIMethod
       this.currentComponent.dataSource.APIInterval = this.currentComponentDataSourceDetail.currentComponentAPIInterval
       this.currentComponent.dataSource.APIHeader = this.currentComponentDataSourceDetail.currentComponentAPIHeader
-      this.$store.commit('component/updateDataSource', this.currentComponent.dataSource)
+      this.$store.dispatch('component/updateDataSource', this.currentComponent.dataSource)
       this.dialogFormVisible = false
     }
   }

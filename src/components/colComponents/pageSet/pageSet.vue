@@ -186,7 +186,7 @@ export default {
           backgroundColor: this.backgroundColor,
           backgroundImage: this.backgroundImage
         }
-        this.$store.commit('template/updateBackgroundStyle', tempBackgroundStyle)
+        this.$store.dispatch('template/updateBackgroundStyle', tempBackgroundStyle)
         this.$axios({
           url: this.$url.updateBackgroundStyle,
           method: 'post',
@@ -211,7 +211,7 @@ export default {
           backgroundColor: this.defaultBackgroundColor,
           backgroundImage: this.backgroundImage
         }
-        this.$store.commit('template/updateBackgroundStyle', tempBackgroundStyle)
+        this.$store.dispatch('template/updateBackgroundStyle', tempBackgroundStyle)
         this.$axios({
           url: this.$url.updateBackgroundStyle,
           method: 'post',
@@ -252,8 +252,8 @@ export default {
             index: index,
             value: this.screenDef[i].value
           }
-          this.$store.commit('template/updatePageValue', data)
-          this.$store.commit('template/updateParentScale')
+          this.$store.dispatch('template/updatePageValue', data)
+          this.$store.dispatch('template/updateParentScale')
         }
       }
       console.log(this.$store.state.template.screenDef)
@@ -273,7 +273,7 @@ export default {
     },
     //更新当前缩放模式
     updateStretch(stretch) {
-      this.$store.commit('template/updateStretch', stretch)
+      this.$store.dispatch('template/updateStretch', stretch)
       let screenStretch = {
         allStretch: this.$store.state.template.allStretch,
         yStretch: this.$store.state.template.yStretch,

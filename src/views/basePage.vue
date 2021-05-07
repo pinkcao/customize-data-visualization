@@ -184,7 +184,7 @@ export default {
   },
   destroyed() {},
   mounted() {
-    this.$store.commit('template/initScreenFlags')
+    this.$store.dispatch('template/initScreenFlags')
     this.initScreenDef()
     this.initScreenStretch()
     this.initBackgroundStyle()
@@ -239,7 +239,7 @@ export default {
       }).then(res => {
         if (res) {
           if (res.status == 200) {
-            this.$store.commit('template/initBackgroundStyle', res.data)
+            this.$store.dispatch('template/initBackgroundStyle', res.data)
           }
         }
       })
@@ -261,7 +261,7 @@ export default {
         if (res) {
           if (res.status == 200) {
             // console.log(res.data)
-            this.$store.commit('template/initScreenDef', res.data)
+            this.$store.dispatch('template/initScreenDef', res.data)
           }
         }
       })
@@ -282,7 +282,7 @@ export default {
       }).then(res => {
         if (res) {
           if (res.status == 200) {
-            this.$store.commit('template/initScreenStretch', res.data)
+            this.$store.dispatch('template/initScreenStretch', res.data)
           }
         }
       })
@@ -342,8 +342,8 @@ export default {
       if (this.pageColActive == true) {
         ColData.push(parseInt(this.pagefullwidth.substring(0, this.pagefullwidth.length - 2)))
       }
-      this.$store.commit('template/updateCurrentColWidth', ColData)
-      this.$store.commit('template/updateParentScale')
+      this.$store.dispatch('template/updateCurrentColWidth', ColData)
+      this.$store.dispatch('template/updateParentScale')
     },
     /**
      * 修改graphCol、compCol、pageCol的活跃状态

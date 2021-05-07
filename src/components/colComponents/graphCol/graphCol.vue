@@ -45,8 +45,8 @@ export default {
       },
       set(value) {
         //图层列的显示顺序
-        this.$store.commit('component/updateAllZindexAsc', value)
-        // this.$store.commit('updateAllZindexDsc', value)
+        this.$store.dispatch('component/updateAllZindexAsc', value)
+        // this.$store.dispatch('updateAllZindexDsc', value)
       }
     },
     graphColWrapperStyle: function() {
@@ -81,7 +81,7 @@ export default {
       let args = {
         index: componentIndex
       }
-      this.$store.commit('component/updateActiveComponent', args)
+      this.$store.dispatch('component/updateActiveComponent', args)
     },
     compare: function(prop) {
       return function(obj1, obj2) {

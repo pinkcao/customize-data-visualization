@@ -65,7 +65,7 @@ export default {
               }
             }
           }
-          this.$store.commit('component/setUpdateZindexFlag', false)
+          this.$store.dispatch('component/setUpdateZindexFlag', false)
         } else if (this.$store.state.component.componentActiveFlag === true) {
           //如果更新的是active状态，那就只更新所有组件的active状态，无请求
           for (let i = 0; i < this.objList.length; i++) {
@@ -81,7 +81,7 @@ export default {
               }
             }
           }
-          this.$store.commit('component/resetComponentActiveFlag', false)
+          this.$store.dispatch('component/resetComponentActiveFlag', false)
         } else {
           //如果是缩放之类的，仅对单组件更新的，那就是更新该组件的属性，发送1个请求
           for (let i = 0; i < this.objList.length; i++) {
@@ -233,7 +233,7 @@ export default {
     cancelFocus(event) {
       // console.log(event)
       if (event.target == this.$refs.target) {
-        this.$store.commit('component/setActiveComponentFalse')
+        this.$store.dispatch('component/setActiveComponentFalse')
         for (let i = 0; i < this.objList.length; i++) {
           this.objList[i].set({
             data: { active: false }
@@ -267,7 +267,7 @@ export default {
           }
           this.componentList = res.data.resultSet
           // console.log(this.componentList)
-          this.$store.commit('component/initComponentList', res.data.resultSet)
+          this.$store.dispatch('component/initComponentList', res.data.resultSet)
           this.mountComponent()
           this.$emit('changeLoadingStatus', 0)
         }
@@ -331,7 +331,7 @@ export default {
                   index: args[0]
                   // componentList: that.componentList
                 }
-                that.$store.commit('component/updateActiveComponent', params)
+                that.$store.dispatch('component/updateActiveComponent', params)
               },
               //删除当前组件
               destroyComponent(...args) {
@@ -355,11 +355,11 @@ export default {
                           )
                         }
                         that.componentList = res.data.resultSet
-                        that.$store.commit('component/initComponentList', res.data.resultSet)
+                        that.$store.dispatch('component/initComponentList', res.data.resultSet)
                         console.log(that.componentList)
                       } else {
                         that.componentList = []
-                        that.$store.commit('component/initComponentList', [])
+                        that.$store.dispatch('component/initComponentList', [])
                       }
                       for (let i = 0; i < that.objList.length; i++) {
                         if (that.objList[i].component_instance.index === index) {
@@ -425,8 +425,8 @@ export default {
             )
           }
           this.componentList = res.data.resultSet
-          this.$store.commit('component/initComponentList', this.componentList)
-          // this.$store.commit('component/initActiveComponent', this.componentList)
+          this.$store.dispatch('component/initComponentList', this.componentList)
+          // this.$store.dispatch('component/initActiveComponent', this.componentList)
           console.log(this.componentList)
           this.loadingInstance.close()
         })
@@ -461,7 +461,7 @@ export default {
                   index: args[0],
                   active: true
                 }
-                that.$store.commit('component/updateActiveComponent', params)
+                that.$store.dispatch('component/updateActiveComponent', params)
               },
               //调用销毁方法
               destroyComponent(...args) {
@@ -485,11 +485,11 @@ export default {
                           )
                         }
                         that.componentList = res.data.resultSet
-                        that.$store.commit('component/initComponentList', res.data.resultSet)
+                        that.$store.dispatch('component/initComponentList', res.data.resultSet)
                         console.log(that.componentList)
                       } else {
                         that.componentList = []
-                        that.$store.commit('component/initComponentList', [])
+                        that.$store.dispatch('component/initComponentList', [])
                       }
                       for (let i = 0; i < that.objList.length; i++) {
                         if (that.objList[i].component_instance.index === index) {
@@ -507,7 +507,7 @@ export default {
         this.objList[i].mount()
       }
       //初始化activeComponent列表，用此列表维护每个组件的active值
-      // this.$store.commit('component/initActiveComponent', this.componentList)
+      // this.$store.dispatch('component/initActiveComponent', this.componentList)
     }
   }
 }
