@@ -483,7 +483,7 @@ export default {
      * @returns:
      */
     save(blob, filename) {
-      var link = document.createElement('a')
+      let link = document.createElement('a')
       link.style.display = 'none'
       link.href = URL.createObjectURL(blob)
       link.download = filename || 'data.json'
@@ -615,7 +615,7 @@ export default {
 
       this.raycaster.setFromCamera(this.mouse, this.camera)
 
-      var intersects = this.raycaster.intersectObjects(this.scene.children, true)
+      let intersects = this.raycaster.intersectObjects(this.scene.children, true)
 
       //当选中了确切的物体时
       if (intersects.length > 0) {
@@ -694,7 +694,7 @@ export default {
 
       this.raycaster.setFromCamera(this.dbmouse, this.camera)
 
-      var intersects = this.raycaster.intersectObjects(this.scene.children, true)
+      let intersects = this.raycaster.intersectObjects(this.scene.children, true)
 
       //当双击了确切的物体时
       this.dbclickSelectedObjects.pop()
@@ -812,7 +812,7 @@ export default {
         }
         if (node.children.length > 0) {
           let children = node.children
-          for (var i = 0; i < children.length; i++) {
+          for (let i = 0; i < children.length; i++) {
             this.DFS(children[i], nodeList)
           }
         }

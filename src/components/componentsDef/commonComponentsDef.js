@@ -93,6 +93,9 @@ export default {
           left: this.left
         }
         this.$store.dispatch('component/updateComponentByKey', dataObj)
+        if (this.onWindowResize != null) {
+          this.onWindowResize()
+        }
       }
     },
     /**

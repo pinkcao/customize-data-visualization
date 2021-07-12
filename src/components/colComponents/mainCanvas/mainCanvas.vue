@@ -325,7 +325,6 @@ export default {
             data: dataObj,
             on: {
               //更新active状态
-              //active状态不需要更新至数据库，因为最终active状态一定是false，仅在vuex中实时更新active状态并更改objList中对象的active状态
               updateActiveStatus(...args) {
                 let params = {
                   index: args[0]
@@ -443,7 +442,6 @@ export default {
         for (let key in currentData[i]) {
           dataObj[key] = currentData[i][key]
         }
-        dataObj.active = false
         dataObj.target = that.$refs.target
         dataObj.mode = 'design'
         dataObj.$store = that.$store
@@ -451,7 +449,7 @@ export default {
           new Mount(getComponent(currentData[i].name), {
             //挂载的目标
             target: this.$refs.target,
-            //挂载的方式，因为是n个组件，所以append
+            //挂载的方式，因为是新增而非重新添加根节点
             mode: 'append',
             data: dataObj,
             on: {

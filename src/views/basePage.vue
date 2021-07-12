@@ -354,15 +354,17 @@ export default {
       switch (clickParam) {
         case 'graphCol':
           this.graphColActive = !this.graphColActive
+          this.updateColData()
           break
         case 'compCol':
           this.compColActive = !this.compColActive
+          this.updateColData()
           break
         case 'pageCol':
           this.pageColActive = !this.pageColActive
+          this.updateColData()
           break
         default:
-          this.updateColData()
           break
       }
     },
